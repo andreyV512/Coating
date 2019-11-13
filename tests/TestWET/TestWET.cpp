@@ -71,6 +71,15 @@ template<class O, class P>struct proc
 	std::cout << typeid(alist).name() << std::endl;\
 }
 
+template<class T>struct no_IDB_SEP
+{
+	static const bool value = true;
+};
+template<class W>struct no_IDB_SEP<WET::Couple<W, TGetMinMaxInfo>>
+{
+	static const bool value = false;
+};
+
 int main()
 {
 	//int p = 0;
@@ -106,5 +115,9 @@ int main()
 		std::cout << "-------------------------------------" << std::endl;
 	std::cout << typeid(listDel).name() << std::endl;
 
+
+	std::cout << "----------oooooo---------------------------" << std::endl;
+	typedef typename VL::EraseAllParam<listsAll, no_IDB_SEP>::Result only_buttons_list;
+	std::cout << typeid(only_buttons_list).name() << std::endl;
 }
 
