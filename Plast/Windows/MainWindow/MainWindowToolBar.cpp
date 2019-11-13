@@ -1,6 +1,7 @@
 #include "MainWindowToolBar.h"
 #include "Resource.h"
 #include "window_tool/InitToolBar.hpp"
+#include "tools_debug/DebugMess.h"
 
 namespace
 {
@@ -13,22 +14,31 @@ namespace
 };
 
 	KEY(IDB_CycleBtn, L"F4 Цикл")
-	KEY(IDB_Reset, L"Esc Стор")
-	KEY(IDB_QueryBtn, L"F4 Тест")
+		KEY(IDB_Reset, L"Esc Стор")
+		KEY(IDB_QueryBtn, L"F4 Тест")
 #undef KEY
-#define BUTTON_KEY(ID)ButtonToolbar<ID, Key<ID> >				  
-		typedef Vlst<
-		SeparatorToolbar<0>
-		, BUTTON_KEY(IDB_CycleBtn)
-		, BUTTON_KEY(IDB_Reset)
-		, BUTTON_KEY(IDB_QueryBtn)
-		, SeparatorToolbar<1>
-		>tool_button_list;
-#undef BUTTON_KEY
 
-	void Key<IDB_CycleBtn>::Click(HWND h) {}
-	void Key<IDB_Reset>::Click(HWND h) {}
-	void Key<IDB_QueryBtn>::Click(HWND h) {}
+	template<int ID>using BTB = ButtonToolbar<ID, Key<ID> >;
+	typedef Vlst<
+		SeparatorToolbar<0>
+		, BTB<IDB_CycleBtn>
+		, BTB<IDB_Reset>
+		, BTB<IDB_QueryBtn>
+		, SeparatorToolbar<1>
+	>tool_button_list;
+
+	void Key<IDB_CycleBtn>::Click(HWND h) 
+	{
+		dprint("Key<IDB_CycleBtn>::Click\n"); 
+	}
+	void Key<IDB_Reset>::Click(HWND h) 
+	{
+		dprint("Key<IDB_Reset>::Click\n"); 
+	}
+	void Key<IDB_QueryBtn>::Click(HWND h) 
+	{
+		dprint("Key<IDB_QueryBtn>::Click\n"); 
+	}
 }
 
 HWND MainWindowToolBar::Init(HWND h)
