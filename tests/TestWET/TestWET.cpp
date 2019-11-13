@@ -61,7 +61,7 @@ template<class O, class P>struct proc
 	bool  operator()(P &p)
 	{
 		O().Do(p);
-		std::cout << typeid(O).name() << std::endl;
+		std::cout << typeid(O).name() << ++p << std::endl;
 		return true;
 	}
 };
@@ -82,8 +82,8 @@ template<class W>struct no_IDB_SEP<WET::Couple<W, TGetMinMaxInfo>>
 
 int main()
 {
-	//int p = 0;
-	//VL::find<list99, proc>()(p);
+	int p = 0;
+	VL::find<listA, proc>()(p);
 	//typedef XAppend<Vlst<>, A>::Result alist;
 	//std::cout << VL::IndexOf<list, C>::value << std::endl;
 	//std::cout << typeid(alist).name() << std::endl;
