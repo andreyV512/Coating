@@ -178,25 +178,19 @@ namespace VL
 	};
 
 	template<typename List, template<class>class T>struct EraseAllParam;
-	//template<template<class>class T>struct EraseAllParam<NullType, T>
-	//{
-	//	typedef NullType Result;
-	//};
 	template<typename Head, typename ...Tail, template<class>class T>struct EraseAllParam<Vlst<Head, Tail...>, T>
 	{
-		typedef typename _if<
-			T<Head>::value
-			, Vlst<Head, typename EraseAllParam<Vlst<Tail...>, T>::Result>
+		typedef typename Append<
+			typename _if<T<Head>::value
+				, Head
+				, Vlst<>
+			>::Result
 			, typename EraseAllParam<Vlst<Tail...>, T>::Result
 		>::Result Result;
 	};
-	template<typename Head, template<class>class T>struct EraseAllParam<Vlst<Head>, T>
+	template<template<class>class T>struct EraseAllParam<Vlst<>, T> 
 	{
-		typedef typename _if<
-			T<Head>::value
-			, Vlst<Head>
-			, Vlst<>
-		>::Result Result;
+		typedef Vlst<> Result;
 	};
 }
 
