@@ -78,6 +78,15 @@
     <ClInclude Include="\\andrew\shared\plast2\Common\window_tool\InitToolbar.hpp">
       <Filter>Common\window_tool</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\window_tool\MenuAPI.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\TEvent.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\MainWindow\MainWindowMenu.hpp">
+      <Filter>Windows\MainWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -103,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="Windows\MainWindow\MainWindowToolBar.cpp">
       <Filter>Windows\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\MenuAPI.cpp">
+      <Filter>Common\window_tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

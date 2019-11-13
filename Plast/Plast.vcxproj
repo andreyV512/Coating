@@ -163,13 +163,16 @@
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />
     <ClInclude Include="..\Common\window_tool\Emptywindow.h" />
     <ClInclude Include="..\Common\window_tool\ItemIni.h" />
+    <ClInclude Include="..\Common\window_tool\MenuAPI.h" />
     <ClInclude Include="..\Common\window_tool\message.h" />
+    <ClInclude Include="..\Common\window_tool\TEvent.h" />
     <ClInclude Include="..\Common\window_tool\WindowsPosition.h" />
     <ClInclude Include="App\App.h" />
     <ClInclude Include="Plast.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Windows\MainWindow\MainWindow.h" />
+    <ClInclude Include="Windows\MainWindow\MainWindowMenu.hpp" />
     <ClInclude Include="Windows\MainWindow\MainWindowToolBar.h" />
     <ClInclude Include="\\andrew\shared\plast2\Common\window_tool\InitToolbar.hpp" />
   </ItemGroup>
@@ -177,6 +180,7 @@
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp" />
     <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp" />
     <ClCompile Include="..\Common\window_tool\ItemIni.cpp" />
+    <ClCompile Include="..\Common\window_tool\MenuAPI.cpp" />
     <ClCompile Include="..\Common\window_tool\WindowsPosition.cpp" />
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="Plast.cpp" />

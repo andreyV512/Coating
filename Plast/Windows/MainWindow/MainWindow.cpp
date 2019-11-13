@@ -1,7 +1,10 @@
 #include "MainWindow.h"
+#include "MainWindowMenu.hpp"
+#include "window_tool/MenuAPI.h"
 
 LRESULT MainWindow::operator()(TCreate &l)
 {
+	Menu<MainWindowMenu::Menu>().Init(l.hwnd);
 	toolBar.Init(l.hwnd);
 	return 0;
 }
@@ -18,11 +21,11 @@ void MainWindow::operator()(TSize &l)
 	toolBar.Size();
 }
 
-void MainWindow::operator()(TCommand&)
+void MainWindow::operator()(TCommand &l)
 {
-
+	EventDo(l);
 }
 
-void MainWindow::operator()(TGetMinMaxInfo&)
+void MainWindow::operator()(TGetMinMaxInfo &)
 {
 }
