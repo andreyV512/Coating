@@ -183,6 +183,9 @@
     <ClCompile Include="Windows\MainWindow\MainWindow.cpp" />
     <ClCompile Include="Windows\MainWindow\MainWindowToolBar.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Common\Resource\Resource.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

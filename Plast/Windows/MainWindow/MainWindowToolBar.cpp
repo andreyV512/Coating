@@ -16,7 +16,7 @@ namespace
 	KEY(IDB_Reset, L"Esc Стор")
 	KEY(IDB_QueryBtn, L"F4 Тест")
 #undef KEY
-#define BUTTON_KEY(ID)ButtonToolbar<ID, Key<ID> >
+#define BUTTON_KEY(ID)ButtonToolbar<ID, Key<ID> >				  
 		typedef Vlst<
 		SeparatorToolbar<0>
 		, BUTTON_KEY(IDB_CycleBtn)

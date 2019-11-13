@@ -105,4 +105,9 @@
       <Filter>Windows\MainWindow</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Common\Resource\Resource.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
 </Project>
