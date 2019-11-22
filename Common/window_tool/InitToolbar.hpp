@@ -110,7 +110,7 @@ private:
 			return  CreateToolbarEx(hwnd, TBSTYLE_FLAT | CCS_ADJUSTABLE | CCS_NODIVIDER | WS_CHILD | WS_VISIBLE
 				, (UINT)o.tbb
 				, VL::Length<typename O::list>::value, (HINSTANCE)::GetModuleHandle(NULL), NULL
-				, o.tbb, VL::Length<typename O::list>::value,0,0,0,0, sizeof(TBBUTTON)
+				, (TBBUTTON *)o.tbb, VL::Length<typename O::list>::value,0,0,0,0, sizeof(TBBUTTON)
 				);
 		}
 	};

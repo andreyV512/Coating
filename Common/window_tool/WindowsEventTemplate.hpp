@@ -10,14 +10,17 @@ namespace WET{
 		template<bool, class Z>struct Ret
 		{
 			typedef Vlst<> Result;
+			static const bool value = false;
 		};
 		template<class Z>struct Ret<true, Z>
 		{
 			typedef typename Z::Parent Result;
+			static const bool value = true;
 		};
 		template<class Z>static char Is(Z *, typename Z::Parent * = 0);
 		static double Is(...);
 		typedef typename Ret<sizeof(char) == sizeof(Is((T *)0)), T>::Result Result;
+		static const bool value = Ret<sizeof(char) == sizeof(Is((T *)0)), T>::value;
 	};
 	template<class T>struct TypeToEvent
 	{
@@ -58,17 +61,28 @@ namespace WET{
 		template<class Z>static double Is(O *, Helper<LRESULT(O::*)(Z &), &O::operator()> * = NULL);
 		template<class Z>static char Is(...);
 	public:
-		static const bool value = sizeof(Is<P>((O *)0)) == sizeof(double);
+		static const bool value = (sizeof(Is<P>((O *)0)) == sizeof(double) );
 	};
 
-	template<class O>class IsCreateExist
+	template<class O, class P>struct IsCreateExist;
+	template<class O, class P, bool>struct isExist
 	{
-		template<class T, T>struct Helper{};
-		static double Is(O *, Helper<unsigned(O::*)(TCreate &), &O::operator()> * = NULL);
-		static double Is(O *, Helper<void(O::*)(TCreate &), &O::operator()> * = NULL);
-		static char Is(...);
-	public:
-		static const bool value = sizeof(Is((O *)0)) == sizeof(double);
+		typedef typename IsCreateExist<typename O::Parent, P>::Result Result;
+	};
+	template<class O, class P>struct isExist<O, P, false>
+	{
+		typedef Vlst<> Result;
+	};
+
+	template<class O, class P>struct IsCreateExist
+	{
+		template<class T, T>struct Helper {};
+		template<class Z>static double Is(O *, Helper<LRESULT(O:: *)(Z &), &O::operator()> * = NULL);
+		template<class Z>static char Is(...);
+		typedef typename VL::_if<sizeof(Is<P>((O *)0)) == sizeof(double)
+			, O
+			, typename isExist<O, P, IsParent<O>::value>::Result
+		>::Result Result;
 	};
 
 	template<class O, class P>struct Couple
@@ -121,7 +135,7 @@ namespace WET{
 
 	template<bool >struct Wapper
 	{
-		template<class O, class P>unsigned operator()(O &o, P &p)
+		template<class O, class P>LRESULT operator()(O &o, P &p)
 		{
 			p.obj(o);
 			return 0;
@@ -227,24 +241,38 @@ namespace WET{
 			return DefWindowProc(MESSAGE(mess));
 		}
 	};
-}
+}									
 //------------------------------------------------------------------------------------------------
 template<class T>struct Viewer
 {
+	template<class T>struct Create
+	{
+		template<class O, class P>LRESULT operator()(O *o, P &p) 
+		{ 
+			return (*(T *)o)((TCreate &)p); 
+		}
+	};
+	template<>struct Create<Vlst<> >
+	{
+		template<class O, class P>LRESULT operator()(O *o, P &p) 
+		{ 
+			return 0; 
+		}
+	};
 	static LRESULT CALLBACK Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{		
 		T *o = (T *)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 		TMessage m = {hWnd, message, wParam, lParam};
 		if(NULL != o)
 		{
-			return WET::EventHandler<T>(m, *o)();
+			return  WET::EventHandler<T>(m, *o)();
 		}	
 		else if(WM_CREATE == message)
 		{
 			o = (T *)(*(TCreate *)&m).create->lpCreateParams;
 			o->hWnd = hWnd;
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)o);
-			return 	WET::IsFuncExist<T, TCreate>::value ? (*o)((TCreate&)m) : 0;
+			return Create<typename WET::IsCreateExist<T, TCreate>::Result>()(o, m);
 		}
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}	

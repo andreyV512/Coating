@@ -15,7 +15,7 @@ namespace
 
 	KEY(IDB_CycleBtn, L"F4 Цикл")
 		KEY(IDB_Reset, L"Esc Стор")
-		KEY(IDB_QueryBtn, L"F4 Тест")
+		KEY(IDB_QueryBtn, L"Тест")
 #undef KEY
 
 	template<int ID>using BTB = ButtonToolbar<ID, Key<ID> >;

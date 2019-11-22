@@ -79,7 +79,7 @@ public:
 	template<class P>static void Do(HWND hWnd, P *data)
 	{		
 		Param param(CreatePopupMenu(), hWnd);
-		VL::find<List, __insert_menu__>()(&param);
+		VL::find<List, __insert_menu__>()(param);
 		HMENU hMenu = param.h;
 		POINT p;
 		GetCursorPos(&p);

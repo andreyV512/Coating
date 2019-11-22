@@ -13,22 +13,22 @@ template<typename ...List>struct Vlst {};
 
 namespace VL
 {
-	template<typename Head>struct Factory;
+	template<typename List>struct Factory;
 
 	template<typename Head>struct Factory<Vlst<Head>> : Head
 	{
 		Factory() : Head() {}
-		template<typename T>Factory(T& t) : Head(t) {}
-		template<typename T>Factory(T* t) : Head(t) {}
-		template<typename T>T& get() { return *this; }
+		template<typename T>Factory(T &t) : Head(t) {}
+		template<typename T>Factory(T *t) : Head(t) {}
+		template<typename T>T &get() { return *this; }
 	};
 
 	template<typename Head, typename ...Tail>struct Factory<Vlst<Head, Tail...>> : Head, Factory<Vlst<Tail...>>
 	{
 		Factory() : Head(), Factory<Vlst<Tail...>>() {}
-		template<typename T>Factory(T& t) : Head(), Factory<Vlst<Tail...>>(t) {}
-		template<typename T>Factory(T* t) : Head(), Factory<Vlst<Tail...>>(t) {}
-		template<typename T>T& get() { return *this; }
+		template<typename T>Factory(T &t) : Head(t), Factory<Vlst<Tail...>>(t) {}
+		template<typename T>Factory(T *t) : Head(t), Factory<Vlst<Tail...>>(t) {}
+		template<typename T>T &get() { return *this; }
 	};
 
 	template<typename List, template<typename, typename>typename proc>struct for_each;
@@ -79,7 +79,7 @@ namespace VL
 	{
 		template<class O, class P>bool operator()(O& o, P& p)
 		{
-			return (proc<Head, int>()(o, p) && find<Vlst<Tail...>, proc>()(o, p));
+			return (proc<Head, P>()(o, p) && find<Vlst<Tail...>, proc>()(o, p));
 		}
 		template<class P>bool operator()(P &p)
 		{
@@ -105,7 +105,7 @@ namespace VL
 		{
 			return proc<Head, P>()(p);
 		}
-		bool operator()(Vlst<Head>& o)
+		bool operator()(Vlst<Head> &o)
 		{
 			return proc<Head, int>()(o);
 		}
@@ -192,6 +192,125 @@ namespace VL
 	{
 		typedef Vlst<> Result;
 	};
+
+	template<int N>struct IntToType { static const int value = N; };
+
+	template<class A, class B>struct CompareTypes { typedef A Result; };
+	template<class A>struct CompareTypes<A, A> { typedef Vlst<> Result; };
+
+	template<class List, class T>struct EraseItem;
+	template<class T, class Head, class ...Tail>struct EraseItem<Vlst<Head, Tail...>, T>
+	{
+		typedef typename Append<
+			typename CompareTypes<Head, T>::Result
+			, typename EraseItem<Vlst<Tail...>, T>::Result
+		>::Result Result;
+	};
+	template<class T>struct EraseItem<Vlst<>, T>
+	{
+		typedef Vlst<> Result;
+	};
+
+	template<class T>struct Inner;
+	template<template<class>class W, class T>struct Inner<W<T> >
+	{
+		typedef T Result;
+	};
+	template<template<class, class>class W, class T, class X>struct Inner<W<T, X> >
+	{
+		typedef T Result;
+	};
+
+	template<class T, template<class>class W>struct CmpW { typedef Vlst<> Result; };
+	template<class T, template<class>class W>struct CmpW<W<T>, W> { typedef W<T> Result; };
+	template<class List, template<class>class Wapper>struct SelectWapper;
+	template<template<class>class Wapper, class Head, class ...Tail>struct SelectWapper<Vlst<Head, Tail...>, Wapper>
+	{
+		typedef typename Append<typename CmpW<Head, Wapper>::Result, typename SelectWapper<Vlst<Tail...>, Wapper>::Result>::Result Result;
+	};
+	template<template<class>class Wapper>struct SelectWapper<Vlst<>, Wapper>
+	{
+		typedef Vlst<> Result;
+	};
+
+	template<class List>struct SubMultyList;
+	template<class Head, class ...Tail>struct SubMultyList<Vlst<Head, Tail...> >
+	{
+		typedef typename Append<Head, typename SubMultyList<Vlst<Tail...> >::Result>::Result Result;
+	};
+	template<>struct SubMultyList<Vlst<> >
+	{
+		typedef Vlst<> Result;
+	};
+	template<class ...List>struct MultyList
+	{
+		typedef typename SubMultyList<Vlst<List...> >::Result Result;
+	};
+
+	template<class List, class T>struct InList;
+	template<class Head, class ...Tail, class T>struct InList<Vlst<Head, Tail...>, T>
+	{
+		static const bool value = InList<Vlst<Tail...>, T>::value;
+	};
+	template<class T, class ...Tail>struct InList<Vlst<T, Tail...>, T>
+	{
+		static const bool value = true;
+	};
+	template<class T>struct InList<Vlst<>, T>
+	{
+		static const bool value = false;
+	};
+	template<class List, class T>struct SubListFromMultyList;
+	template<class Head, class ...Tail, class T>struct SubListFromMultyList<Vlst<Head, Tail...>, T>
+	{
+		typedef typename VL::_if<
+			InList<Head, T>::value
+			, Head
+			, typename SubListFromMultyList<Vlst<Tail...>, T>::Result
+		>::Result Result;
+	};
+
+	template<class T>struct SubListFromMultyList<Vlst<>, T>
+	{
+		typedef Vlst<> Result;
+	};
+
+	template<typename List, template<typename, typename>class Wapper, class Param>struct TypeToTypeLstParam1;
+	template<typename Head, typename ...Tail, template<typename, typename>class Wapper, class Param>struct TypeToTypeLstParam1<Vlst<Head, Tail...>, Wapper, Param>
+	{
+		typedef typename Append<Wapper<Head, Param>, typename TypeToTypeLstParam1<Vlst<Tail...>, Wapper, Param>::Result>::Result Result;
+	};
+	template<template<typename, typename>class Wapper, class Param>struct TypeToTypeLstParam1<Vlst<>, Wapper, Param>
+	{
+		typedef Vlst<> Result;
+	};
+
+	template<class T>struct TestType
+	{
+		template<class Q, Q>struct helper {};
+		//typedef typename Inner<Z>::Result::type_value Res;
+		//template<class Z>using RetRes = typename Inner<Z>::Result::type_value;
+		template<class Z>static double Is(
+			typename Z *
+			, helper<typename Inner<Z>::Result::type_value(Z:: *)(), &Z::operator()> * = NULL
+		);
+		template<class Z>static char   Is(...);
+		static const bool value = sizeof(double) == sizeof(Is<T>((T *)0));
+	};
+
+	template<class List>struct TypeExist;
+	template<class Head, class ...Tail>struct TypeExist<Vlst<Head, Tail...> >
+	{
+		typedef typename _if<
+			TestType<Head>::value
+			, Head
+			, typename TypeExist<Vlst<Tail...> >::Result
+		>::Result Result;
+	};
+	template<>struct TypeExist<Vlst<> >
+	{
+		typedef Vlst<> Result;
+	};
 }
 
 template<class T>struct Singleton
@@ -205,3 +324,51 @@ private:
 	Singleton(Singleton const&) = delete; // реализаци¤ не нужна
 	Singleton& operator= (Singleton const&) = delete;  // и тут
 };
+
+#define EXPAND(x) x
+#define CONCATENATE(x,y) x##y
+
+#define FOR_EACH_1(what, x, ...)what(x)
+#define FOR_EACH_2(what, x, ...)what(x)EXPAND(FOR_EACH_1(what, __VA_ARGS__))
+#define FOR_EACH_3(what, x, ...)what(x)EXPAND(FOR_EACH_2(what, __VA_ARGS__))
+#define FOR_EACH_4(what, x, ...)what(x)EXPAND(FOR_EACH_3(what, __VA_ARGS__))
+#define FOR_EACH_5(what, x, ...)what(x)EXPAND(FOR_EACH_4(what, __VA_ARGS__))
+#define FOR_EACH_6(what, x, ...)what(x)EXPAND(FOR_EACH_5(what, __VA_ARGS__))
+#define FOR_EACH_7(what, x, ...)what(x)EXPAND(FOR_EACH_6(what, __VA_ARGS__))
+#define FOR_EACH_8(what, x, ...)what(x)EXPAND(FOR_EACH_7(what, __VA_ARGS__))
+#define FOR_EACH_9(what, x, ...)what(x)EXPAND(FOR_EACH_8(what, __VA_ARGS__))
+#define FOR_EACH_10(what, x, ...)what(x)EXPAND(FOR_EACH_9(what, __VA_ARGS__))
+#define FOR_EACH_11(what, x, ...)what(x)EXPAND(FOR_EACH_10(what, __VA_ARGS__))
+#define FOR_EACH_12(what, x, ...)what(x)EXPAND(FOR_EACH_11(what, __VA_ARGS__))
+#define FOR_EACH_13(what, x, ...)what(x)EXPAND(FOR_EACH_12(what, __VA_ARGS__))
+#define FOR_EACH_14(what, x, ...)what(x)EXPAND(FOR_EACH_13(what, __VA_ARGS__))
+#define FOR_EACH_15(what, x, ...)what(x)EXPAND(FOR_EACH_14(what, __VA_ARGS__))
+#define FOR_EACH_16(what, x, ...)what(x)EXPAND(FOR_EACH_15(what, __VA_ARGS__))
+#define FOR_EACH_17(what, x, ...)what(x)EXPAND(FOR_EACH_16(what, __VA_ARGS__))
+#define FOR_EACH_18(what, x, ...)what(x)EXPAND(FOR_EACH_17(what, __VA_ARGS__))
+#define FOR_EACH_19(what, x, ...)what(x)EXPAND(FOR_EACH_18(what, __VA_ARGS__))
+#define FOR_EACH_20(what, x, ...)what(x)EXPAND(FOR_EACH_19(what, __VA_ARGS__))
+#define FOR_EACH_21(what, x, ...)what(x)EXPAND(FOR_EACH_20(what, __VA_ARGS__))
+#define FOR_EACH_22(what, x, ...)what(x)EXPAND(FOR_EACH_21(what, __VA_ARGS__))
+#define FOR_EACH_23(what, x, ...)what(x)EXPAND(FOR_EACH_22(what, __VA_ARGS__))
+#define FOR_EACH_24(what, x, ...)what(x)EXPAND(FOR_EACH_23(what, __VA_ARGS__))
+#define FOR_EACH_25(what, x, ...)what(x)EXPAND(FOR_EACH_24(what, __VA_ARGS__))
+#define FOR_EACH_26(what, x, ...)what(x)EXPAND(FOR_EACH_25(what, __VA_ARGS__))
+#define FOR_EACH_27(what, x, ...)what(x)EXPAND(FOR_EACH_26(what, __VA_ARGS__))
+#define FOR_EACH_28(what, x, ...)what(x)EXPAND(FOR_EACH_27(what, __VA_ARGS__))
+#define FOR_EACH_29(what, x, ...)what(x)EXPAND(FOR_EACH_28(what, __VA_ARGS__))
+#define FOR_EACH_30(what, x, ...)what(x)EXPAND(FOR_EACH_29(what, __VA_ARGS__))
+#define FOR_EACH_31(what, x, ...)what(x)EXPAND(FOR_EACH_30(what, __VA_ARGS__))
+#define FOR_EACH_32(what, x, ...)what(x)EXPAND(FOR_EACH_31(what, __VA_ARGS__))
+#define FOR_EACH_NARG(...) FOR_EACH_NARG_(__VA_ARGS__, FOR_EACH_RSEQ_N())
+#define FOR_EACH_NARG_(...) EXPAND(FOR_EACH_ARG_N(__VA_ARGS__))
+#define FOR_EACH_ARG_N(_32,_31,_30,_29,_28,_27,_26,_25,_24,_23,_22,_21,_20,_19,_18,_17,_16,_15,_14,_13,_12,_11,_10,_9,_8,_7,_6,_5,_4,_3,_2,_1, N, ...) N
+#define FOR_EACH_RSEQ_N() 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
+
+#define FOR_EACH_(N, what, ...) EXPAND(CONCATENATE(FOR_EACH_, N)(what, __VA_ARGS__))
+#define FOR_EACH(what, ...) FOR_EACH_(FOR_EACH_NARG(__VA_ARGS__), what, __VA_ARGS__)
+
+//---------------------------------------------------тест генератора
+//#define INT_TO_TYPE(n) TL::IntToType<n>,
+//#define INT_TO_TYPE_LIST(...)  TL::MkTlst<FOR_EACH(INT_TO_TYPE, __VA_ARGS__)NullType>::Result
+//typedef INT_TO_TYPE_LIST(1,3, 7, 8, 9) int_to_type_list ;

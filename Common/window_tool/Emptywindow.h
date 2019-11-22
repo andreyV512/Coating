@@ -5,7 +5,7 @@
 #include "window_tool/WindowsEventTemplate.hpp"
 #include "resource.h"
 //#include "templates/WindowsEventTemplate.hpp"
-//#include "App/App.h"
+#include "App/App.h"
 //---------------------------------------------------------------------------------
 ATOM MyRegisterClass(WNDPROC WndProc
 	, const wchar_t *windowClassName

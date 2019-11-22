@@ -3,7 +3,7 @@
 
 #include <windows.h>
 #include <commctrl.h>
-//#include "Base/Base.hpp"
+#include "Base/Base.hpp"
 #include "App/App.h"
 //#include "window_tool/HookKey.h"
 #include <gdiplus.h>
@@ -44,6 +44,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Gdiplus::GdiplusStartupInput* gdiplusStartupInput = new Gdiplus::GdiplusStartupInput;
 	GdiplusStartup(&gdiplusToken, gdiplusStartupInput, NULL);
 
+	Initialize initialize;
 	App::Init();
 
     MSG msg;

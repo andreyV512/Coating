@@ -34,6 +34,27 @@
     <Filter Include="Common\tools_debug">
       <UniqueIdentifier>{e2c78e8e-3ff9-4a08-b1da-d14ab92f5218}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Graphics">
+      <UniqueIdentifier>{94f494cc-7404-4316-8420-1e6c39f5dc42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Viewers">
+      <UniqueIdentifier>{eb1e0815-e59b-48c9-a08a-13be34eb117c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Viewers\DefectViewer">
+      <UniqueIdentifier>{ba2e5ae0-20a6-464d-a689-d7490426b8c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{a70a84ba-6e51-4874-b0ce-d7629b9eb36c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Grid">
+      <UniqueIdentifier>{18471e8d-07d8-4ea6-b592-a53563bfa6b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Viewers\SelectUsers">
+      <UniqueIdentifier>{16dad4f0-cddc-41b4-a6ca-b2c6d8201cb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\DlgTemplates">
+      <UniqueIdentifier>{0039e388-0e67-4a93-85f1-78ce4e7a320b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -87,6 +108,78 @@
     <ClInclude Include="Windows\MainWindow\MainWindowMenu.hpp">
       <Filter>Windows\MainWindow</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\window_tool\HookKey.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\MainWindow\AppKeyHandler.h">
+      <Filter>Windows\MainWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\DefectViewers\DefectViewer.h">
+      <Filter>Windows\Viewers\DefectViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\DefectViewers\GridSeries.h">
+      <Filter>Windows\Viewers\DefectViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Graphics\TopLabelViewer.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Graphics\ColorLabel.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="App\AppBase.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Graphics\FixedGridSeries.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Graphics\EmptyLeftAxes.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Graphics\Chart.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Graphics\Chart.hpp">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Grid\GridDetail.h">
+      <Filter>Common\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\SelectUsers\SelectUsers.h">
+      <Filter>Windows\Viewers\SelectUsers</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\SelectUsers\SelectUserWindow.h">
+      <Filter>Windows\Viewers\SelectUsers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Base\Base.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Base\tables.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Base\TablesDefine.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Base\ExpressBase.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\SelectUsers\SelectUserDlg.h">
+      <Filter>Windows\Viewers\SelectUsers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\GroupBox.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\Pass.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\DlgTemplates\ParamDlg.h">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\DlgTemplates\ParamDlg.hpp">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\DlgTemplates\ParamDlgNew.h">
+      <Filter>Common\DlgTemplates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -115,6 +208,57 @@
     </ClCompile>
     <ClCompile Include="..\Common\window_tool\MenuAPI.cpp">
       <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\HookKey.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\MainWindow\AppKeyHandler.cpp">
+      <Filter>Windows\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\DefectViewers\DefectViewer.cpp">
+      <Filter>Windows\Viewers\DefectViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\DefectViewers\GridSeries.cpp">
+      <Filter>Windows\Viewers\DefectViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Graphics\TopLabelViewer.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Graphics\ColorLabel.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="App\AppBase.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Graphics\FixedGridSeries.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Graphics\EmptyLeftAxes.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Graphics\Chart.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Grid\GridDetail.cpp">
+      <Filter>Common\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\SelectUsers\SelectUsers.cpp">
+      <Filter>Windows\Viewers\SelectUsers</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\SelectUsers\SelectUserWindow.cpp">
+      <Filter>Windows\Viewers\SelectUsers</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\SelectUsers\SelectUserDlg.cpp">
+      <Filter>Windows\Viewers\SelectUsers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\GroupBox.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\Pass.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\DlgTemplates\ParamDlg.cpp">
+      <Filter>Common\DlgTemplates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
