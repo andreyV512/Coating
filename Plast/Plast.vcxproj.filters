@@ -55,6 +55,9 @@
     <Filter Include="Common\DlgTemplates">
       <UniqueIdentifier>{0039e388-0e67-4a93-85f1-78ce4e7a320b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\GridWindow">
+      <UniqueIdentifier>{d8ab7dd1-203a-4c23-b02e-142f82c1573c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -180,6 +183,9 @@
     <ClInclude Include="..\Common\DlgTemplates\ParamDlgNew.h">
       <Filter>Common\DlgTemplates</Filter>
     </ClInclude>
+    <ClInclude Include="Windows\GridWindow\GridWindow.h">
+      <Filter>Windows\GridWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -259,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\DlgTemplates\ParamDlg.cpp">
       <Filter>Common\DlgTemplates</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\GridWindow\GridWindow.cpp">
+      <Filter>Windows\GridWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
