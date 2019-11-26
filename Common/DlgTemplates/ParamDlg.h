@@ -1,11 +1,10 @@
 #pragma once
 #include "templates/typelist.hpp"
 #include "Base/Base.hpp"
-//#include "App/AppBase.h"
 #include "window_tool/message.h"
-#include "DlgTemplates\ParamDlg.hpp"
-#include "window_tool\Pass.h"
-#include "tools_debug\DebugMess.h"
+#include "DlgTemplates/ParamDlg.hpp"
+#include "window_tool/Pass.h"
+#include "tools_debug/DebugMess.h"
 //--------------------------------------------------------------------------------------------------------------------------
 bool TemplDlg_Do(HWND hWnd, wchar_t *title, DLGPROC proc, LPARAM param);
 
@@ -15,7 +14,7 @@ template<class O, class P>struct __make_btn__
 	{
 		CreateWindow(L"button", o.Title()
 			, WS_VISIBLE | WS_CHILD | WS_TABSTOP
-			, p.offs, p.height, O::width, 30, p.h, (HMENU)O::ID, (HINSTANCE)::GetModuleHandle(NULL), NULL
+			, p.offs, p.height, O::width, 30, p.h, (HMENU )(LONG_PTR)O::ID, (HINSTANCE)::GetModuleHandle(NULL), NULL
 			);
 		p.offs += O::width + 10;
 	}

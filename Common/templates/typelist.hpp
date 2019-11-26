@@ -275,6 +275,16 @@ namespace VL
 		typedef Vlst<> Result;
 	};
 
+	template<typename List, template<typename>class Wapper>struct TypeToTypeLst;
+	template<typename Head, typename ...Tail, template<typename>class Wapper>struct TypeToTypeLst<Vlst<Head, Tail...>, Wapper>
+	{
+		typedef typename Append<Wapper<Head>, typename TypeToTypeLst<Vlst<Tail...>, Wapper>::Result>::Result Result;
+	};
+	template<template<typename>class Wapper>struct TypeToTypeLst<Vlst<>, Wapper>
+	{
+		typedef Vlst<> Result;
+	};
+
 	template<typename List, template<typename, typename>class Wapper, class Param>struct TypeToTypeLstParam1;
 	template<typename Head, typename ...Tail, template<typename, typename>class Wapper, class Param>struct TypeToTypeLstParam1<Vlst<Head, Tail...>, Wapper, Param>
 	{
@@ -288,8 +298,6 @@ namespace VL
 	template<class T>struct TestType
 	{
 		template<class Q, Q>struct helper {};
-		//typedef typename Inner<Z>::Result::type_value Res;
-		//template<class Z>using RetRes = typename Inner<Z>::Result::type_value;
 		template<class Z>static double Is(
 			typename Z *
 			, helper<typename Inner<Z>::Result::type_value(Z:: *)(), &Z::operator()> * = NULL

@@ -1,17 +1,20 @@
 #pragma once
 #include "window_tool/MenuApi.h"
 #include "Windows/SelectUsers/SelectUserWindow.h"
+#include "Windows/GridWindow/Test.h"
 
 namespace MainWindowMenu
 {
 	struct MainFile {};
 	MENU_TEXT(L"Τΰιλ", TopMenu<MainFile>)
-		//-------------------------------------------------
-		struct LoadDateFile { static void Do(HWND) {} };
-	struct SaveDateFile { static void Do(HWND) {} };
+	struct LoadDateFile { static void Do(HWND) {} };
+	struct SaveDateFile {
+		static void Do(HWND) {
+			GridOptions<SelectUsers>::Open((wchar_t *)L"Users");
+		}
+	};
 	struct Compute { static void Do(HWND) {
-		//Common::OpenWindow<SelectUserWindow>::Do((HBRUSH)COLOR_WINDOW);
-		GridOptions<SelectUsers>::Open((wchar_t *)L"Users");
+		TestTest();
 	} };
 
 	struct Exit

@@ -2,7 +2,7 @@
 #include "Grid/GridDetail.h"
 #include "window_tool/MenuAPI.h"
 
-DataGrid::DataGrid() : okButton(*this) {}
+DataGrid::DataGrid() : hWnd(0), okButton(*this) {}
 void DataGrid::Size(int x, int y, int width, int heigth) 
 { 
 	MoveWindow(hWnd, x, y, width, heigth, TRUE); 
@@ -13,6 +13,10 @@ LRESULT DataGrid::Do(TNotify &l)
 }
 
 DataGrid::OkButton::OkButton(DataGrid &o) : owner(o) {}
+void DataGrid::OkButton::Do(TCommand &)
+{
+	owner.ButtonClick();
+}
 
 
 LRESULT GridWindowX::operator()(TCreate &l)
@@ -72,3 +76,5 @@ void GridWindowX::CancelButton::Do(TCommand &l)
 {
 	DestroyWindow(l.hwnd);
 }
+
+

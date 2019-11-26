@@ -3,10 +3,10 @@
 
 #include <iostream>
 #include <templates/typelist.hpp>
-#include "window_tool/WindowsEventTemplate.hpp"
-#include "window_tool/message.h"
-#include "C:\Users\USER\source\repos\Coating\Plast\App\AppBase.h"
-#include "C:\Users\USER\source\repos\Coating\Common\DlgTemplates\ParamDlg.hpp"
+//#include "window_tool/WindowsEventTemplate.hpp"
+//#include "window_tool/message.h"
+//#include "C:\Users\USER\source\repos\Coating\Plast\App\AppBase.h"
+//#include "C:\Users\USER\source\repos\Coating\Common\DlgTemplates\ParamDlg.hpp"
 
 template<class List, class T>struct InList;
 template<class Head, class ...Tail, class T>struct InList<Vlst<Head, Tail...>, T>
@@ -36,33 +36,33 @@ template<class T>struct SubListFromMultyList<Vlst<>, T>
 	typedef Vlst<> Result;
 };
 
-class TestWnd
-{
-public:
-	HWND hWnd;
-	
-	void operator()(TClose&) {}
-	void operator()(TMouseWell&) {}
-	void operator()(TUser&) {}
-
-	void operator()(TGetMinMaxInfo&) {}
-	void operator()(TSize&) { }
-	LRESULT operator()(TCreate &) {return 50;}
-	
-};
-
-class TestW : public TestWnd
-{
-public:
-	typedef TestWnd Parent;
-	void operator()(TGetMinMaxInfo&) {}
-	void operator()(TSize&) { }
-	
-	void operator()(TDestroy&) {}
-
-	//LRESULT operator()(TCreate &) { return 100; }
-
-};
+//class TestWnd
+//{
+//public:
+//	HWND hWnd;
+//	
+//	void operator()(TClose&) {}
+//	void operator()(TMouseWell&) {}
+//	void operator()(TUser&) {}
+//
+//	void operator()(TGetMinMaxInfo&) {}
+//	void operator()(TSize&) { }
+//	LRESULT operator()(TCreate &) {return 50;}
+//	
+//};
+//
+//class TestW : public TestWnd
+//{
+//public:
+//	typedef TestWnd Parent;
+//	void operator()(TGetMinMaxInfo&) {}
+//	void operator()(TSize&) { }
+//	
+//	void operator()(TDestroy&) {}
+//
+//	//LRESULT operator()(TCreate &) { return 100; }
+//
+//};
 
 
 //typedef WET::AddTypeEvent<WET::type_events_all_list, TestW>::Result list;
@@ -102,22 +102,22 @@ template<class O, class P>struct proc
 	std::cout << typeid(alist).name() << std::endl;\
 }
 
-template<class T>struct no_IDB_SEP
-{
-	static const bool value = true;
-};
-template<class W>struct no_IDB_SEP<WET::Couple<W, TGetMinMaxInfo>>
-{
-	static const bool value = false;
-};
-
-template<class O, class P>struct Print
-{
-	void operator()(O &o, P &p)
-	{
-		o.Do(p);
-	}
-};
+//template<class T>struct no_IDB_SEP
+//{
+//	static const bool value = true;
+//};
+//template<class W>struct no_IDB_SEP<WET::Couple<W, TGetMinMaxInfo>>
+//{
+//	static const bool value = false;
+//};
+//
+//template<class O, class P>struct Print
+//{
+//	void operator()(O &o, P &p)
+//	{
+//		o.Do(p);
+//	}
+//};
 
 
 template<int N>struct expX
@@ -146,11 +146,33 @@ struct TestVal
 	type_value value;
 };
 
-MIN_VALUE(TestVal, 0)
-MAX_VALUE(TestVal, 9999999)
+//MIN_VALUE(TestVal, 0)
+//MAX_VALUE(TestVal, 9999999)
+//
+
+wchar_t *one(int)
+{
+	return (wchar_t *)L"111";
+}
+wchar_t *two(int)
+{
+	return (wchar_t *)L"222";
+}
+wchar_t *three(int)
+{
+	return (wchar_t *)L"333";
+}
+
+wchar_t *(*proc[3])(int) = {one, two, three};
 
 int main()
 {
+
+	for (int i = 0; i < 3; ++i)
+	{
+		//std::cout << proc[i](99) << std::endl;
+		wprintf(L"%s\n", proc[i](99));
+	}
 #if 0
 	int p = 0;
 	VL::find<listA, proc>()(p);
@@ -208,29 +230,29 @@ int main()
 	wprintf(L"%s\n", dtow<3>(123.456, buf));
 #else
 
-	int val = 88;
-	HWND h = 0;
-	allowable_limit_on_the_parameter<TestVal>()(val, h);
-
-	typedef VL::MultyList<
-		listA
-		, listN
-	>::Result type_list;
-
-	int xxxx;
-	VL::Factory<type_list> items(xxxx);
-
-	std::cout << typeid(items).name() << "FActory" << std::endl;
-
-	std::wcout << typeid(SubListFromMultyList<Vlst<listA, listN>, TestW>::Result).name() << std::endl;
-
-	std::cout << typeid(ParametersBase::type_list).name() << std::endl;
+	//int val = 88;
+	//HWND h = 0;
+	//allowable_limit_on_the_parameter<TestVal>()(val, h);
+	//
+	//typedef VL::MultyList<
+	//	listA
+	//	, listN
+	//>::Result type_list;
+	//
+	//int xxxx;
+	//VL::Factory<type_list> items(xxxx);
+	//
+	//std::cout << typeid(items).name() << "FActory" << std::endl;
+	//
+	//std::wcout << typeid(SubListFromMultyList<Vlst<listA, listN>, TestW>::Result).name() << std::endl;
+	//
+	//std::cout << typeid(ParametersBase::type_list).name() << std::endl;
 	//std::cout << typeid(WET::IsCreateExist<TestWnd, TCreate>::Result).name() << std::endl;
   //TestWnd
 	//Create<WET::IsFuncExist<TestWnd, TCreate>::value>()(o, m);
 	//Create<WET::IsFuncExist<TestW, TCreate>::value>()(o, m)
-	auto x = Viewer<TestW>::Proc;// (HWND(), WM_CREATE, 0, 0);
-	std::cout << x << std::endl;
+//	auto x = Viewer<TestW>::Proc;// (HWND(), WM_CREATE, 0, 0);
+//	std::cout << x << std::endl;
 #endif
 }
 

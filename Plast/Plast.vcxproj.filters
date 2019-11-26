@@ -186,6 +186,12 @@
     <ClInclude Include="Windows\GridWindow\GridWindow.h">
       <Filter>Windows\GridWindow</Filter>
     </ClInclude>
+    <ClInclude Include="Windows\GridWindow\DataGrid.hpp">
+      <Filter>Windows\GridWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\GridWindow\Test.h">
+      <Filter>Windows\GridWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -267,6 +273,9 @@
       <Filter>Common\DlgTemplates</Filter>
     </ClCompile>
     <ClCompile Include="Windows\GridWindow\GridWindow.cpp">
+      <Filter>Windows\GridWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\GridWindow\Test.cpp">
       <Filter>Windows\GridWindow</Filter>
     </ClCompile>
   </ItemGroup>

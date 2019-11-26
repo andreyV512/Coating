@@ -10,16 +10,17 @@ public:
 	{
 		DataGrid &owner;
 		OkButton(DataGrid &);
-		void Do(TCommand &) {}
+		void Do(TCommand &)override;
 	} okButton;
 	HWND hWnd;
 	DataGrid();
 	virtual void Create(HWND) = 0;
 	void Size(int, int, int, int);
-	LRESULT Do(TNotify &);
+	LRESULT Do(TNotify &) override;
 	virtual void RClick(LPNMITEMACTIVATE) = 0;
 	virtual void SetDataToGrid(LV_DISPINFO *) = 0;
 	virtual void SetColorToGrid(NMLVCUSTOMDRAW *) = 0;
+	virtual void ButtonClick() = 0;
 };
 
 class GridWindowX
