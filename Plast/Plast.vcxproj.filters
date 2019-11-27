@@ -183,14 +183,14 @@
     <ClInclude Include="..\Common\DlgTemplates\ParamDlgNew.h">
       <Filter>Common\DlgTemplates</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\GridWindow\GridWindow.h">
-      <Filter>Windows\GridWindow</Filter>
-    </ClInclude>
-    <ClInclude Include="Windows\GridWindow\DataGrid.hpp">
-      <Filter>Windows\GridWindow</Filter>
-    </ClInclude>
     <ClInclude Include="Windows\GridWindow\Test.h">
       <Filter>Windows\GridWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Grid\GridWindow.h">
+      <Filter>Common\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Grid\DataGrid.hpp">
+      <Filter>Common\Grid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -272,11 +272,11 @@
     <ClCompile Include="..\Common\DlgTemplates\ParamDlg.cpp">
       <Filter>Common\DlgTemplates</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\GridWindow\GridWindow.cpp">
-      <Filter>Windows\GridWindow</Filter>
-    </ClCompile>
     <ClCompile Include="Windows\GridWindow\Test.cpp">
       <Filter>Windows\GridWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Grid\GridWindow.cpp">
+      <Filter>Common\Grid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,8 +3,6 @@
 #include <vector>
 #include <strsafe.h>
 #include "Grid/GridDetail.h"
-#include "templates/templates.hpp"
-#include "window_tool/Pass.h"
 #include "window_tool/MenuAPI.h"
 #include "DlgTemplates/ParamDlgNew.h"
 

@@ -171,7 +171,9 @@
     <ClInclude Include="..\Common\Graphics\EmptyLeftAxes.h" />
     <ClInclude Include="..\Common\Graphics\FixedGridSeries.h" />
     <ClInclude Include="..\Common\Graphics\TopLabelViewer.h" />
+    <ClInclude Include="..\Common\Grid\DataGrid.hpp" />
     <ClInclude Include="..\Common\Grid\GridDetail.h" />
+    <ClInclude Include="..\Common\Grid\GridWindow.h" />
     <ClInclude Include="..\Common\templates\templates.hpp" />
     <ClInclude Include="..\Common\templates\typelist.hpp" />
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />
@@ -189,8 +191,6 @@
     <ClInclude Include="Plast.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Windows\GridWindow\DataGrid.hpp" />
-    <ClInclude Include="Windows\GridWindow\GridWindow.h" />
     <ClInclude Include="Windows\GridWindow\Test.h" />
     <ClInclude Include="Windows\MainWindow\AppKeyHandler.h" />
     <ClInclude Include="Windows\MainWindow\MainWindow.h" />
@@ -211,6 +211,7 @@
     <ClCompile Include="..\Common\Graphics\FixedGridSeries.cpp" />
     <ClCompile Include="..\Common\Graphics\TopLabelViewer.cpp" />
     <ClCompile Include="..\Common\Grid\GridDetail.cpp" />
+    <ClCompile Include="..\Common\Grid\GridWindow.cpp" />
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp" />
     <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp" />
     <ClCompile Include="..\Common\window_tool\GroupBox.cpp" />
@@ -222,7 +223,6 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\AppBase.cpp" />
     <ClCompile Include="Plast.cpp" />
-    <ClCompile Include="Windows\GridWindow\GridWindow.cpp" />
     <ClCompile Include="Windows\GridWindow\Test.cpp" />
     <ClCompile Include="Windows\MainWindow\AppKeyHandler.cpp" />
     <ClCompile Include="Windows\MainWindow\MainWindow.cpp" />

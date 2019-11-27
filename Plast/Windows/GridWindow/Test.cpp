@@ -1,9 +1,6 @@
 #include "Test.h"
 #include "App/AppBase.h"
-#include "Grid/GridDetail.h"
-#include "DataGrid.hpp"
-
-
+#include "Grid/DataGrid.hpp"
 
 HEADER_TABLE(Num, 60, L"Номер")
 PARAM_TABLE(UserName, 90, L"Оператор")
