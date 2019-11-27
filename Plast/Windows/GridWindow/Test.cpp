@@ -6,11 +6,8 @@
 
 
 HEADER_TABLE(Num, 60, L"Номер")
-HEADER_TABLE(UserName, 90, L"Имя")
-HEADER_TABLE(UserPersonnelNumber, 120, L"Табельный номер")
-
-PARAM_TITLE(UserName, L"Оператор")
-PARAM_TITLE(UserPersonnelNumber, L"Табельный номер")
+PARAM_TABLE(UserName, 90, L"Оператор")
+PARAM_TABLE(UserPersonnelNumber, 120, L"Табельный номер")
 
 CHECK_EMPTY_STRING(UserName)
 MIN_VALUE(UserPersonnelNumber, 0)

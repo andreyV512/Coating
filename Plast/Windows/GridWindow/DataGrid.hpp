@@ -16,6 +16,10 @@ struct Num {};
 	static const int width = w;\
 	};
 
+#define PARAM_TABLE(T, w, txt)\
+PARAM_TITLE(T, txt) \
+HEADER_TABLE(T, w, txt)	 
+
 template<class Table, class OrderBy>class TDataGrid : public DataGrid
 {
 	template<class Items, class Type, class TypeValue>struct __to_str__;
@@ -260,7 +264,7 @@ inline void TDataGrid<Table, OrderBy>::AddItem(HWND h)
 		ParametersBase
 		, Table
 		, typename Table::items_list
-		, 300
+		, 350
 		, Vlst<sel_OkBtn, CancelBtn>
 	>(t).Do(h, buf))
 	{
@@ -271,3 +275,17 @@ inline void TDataGrid<Table, OrderBy>::AddItem(HWND h)
 		GridDetail::UpdateGridCells(h);
 	}
 }
+
+//Пример использования сетка с окном добавления и удаления и сохранения базы данных
+//HEADER_TABLE(Num, 60, L"Номер")  //заголовок столбца, ширина столбца
+//PARAM_TABLE(UserName, 90, L"Оператор") //заголовок столбца, ширина столбца(столбец из базы данных)
+//PARAM_TABLE(UserPersonnelNumber, 120, L"Табельный номер")
+//
+//CHECK_EMPTY_STRING(UserName)
+//MIN_VALUE(UserPersonnelNumber, 0)
+//MAX_VALUE(UserPersonnelNumber, 9999999)
+//
+//void TestTest()
+//{
+//	GridOptions<TDataGrid<UserTable, UserName> >::Open((wchar_t *)L"Настройки оператора", 320, 300);
+//}

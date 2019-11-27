@@ -13,7 +13,7 @@ public:
 		void Do(TCommand &)override;
 	} okButton;
 	HWND hWnd;
-	DataGrid() : hWnd(0), okButton(*this) {}
+	DataGrid();
 	virtual void Create(HWND) = 0;
 	void Size(int, int, int, int);
 	LRESULT Do(TNotify &) override;
@@ -57,8 +57,7 @@ public:
 	static void Open(wchar_t *title, int width, int height)
 	{
 		typedef GridOptions<T> Owner;
-		WindowClass<Owner> x;
-		HWND hh = FindWindow(x(), 0);
+		HWND hh = FindWindow(WindowClass<Owner>()(), 0);
 		if (NULL != hh)
 		{
 			SendMessage(hh, WM_SYSCOMMAND, SC_RESTORE, 0);

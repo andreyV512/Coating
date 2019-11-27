@@ -2,7 +2,7 @@
 #include "Grid/GridDetail.h"
 #include "window_tool/MenuAPI.h"
 
-//DataGrid::DataGrid() : hWnd(0), okButton(*this) {}
+DataGrid::DataGrid() : hWnd(0), okButton(*this) {} 
 void DataGrid::Size(int x, int y, int width, int heigth) 
 { 
 	MoveWindow(hWnd, x, y, width, heigth, TRUE); 
