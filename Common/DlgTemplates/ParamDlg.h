@@ -1,10 +1,10 @@
 #pragma once
-#include "templates/typelist.hpp"
+//#include "templates/typelist.hpp"
 #include "Base/Base.hpp"
 #include "window_tool/message.h"
-#include "DlgTemplates/ParamDlg.hpp"
 #include "window_tool/Pass.h"
 #include "tools_debug/DebugMess.h"
+#include "DlgTemplates/ParamDlg.hpp"
 //--------------------------------------------------------------------------------------------------------------------------
 bool TemplDlg_Do(HWND hWnd, wchar_t *title, DLGPROC proc, LPARAM param);
 

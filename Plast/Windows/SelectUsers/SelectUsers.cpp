@@ -65,7 +65,7 @@ void SelectUsers::Size(int x, int y, int width, int heigth)
 
 LRESULT SelectUsers::Do(TNotify &l)
 {
-	return GridDetail::Do(this, l);
+	return  GridDetail::Do(this, l);
 }
 //---------------------------------------------------------------------------
 namespace __pupup_menu_su__

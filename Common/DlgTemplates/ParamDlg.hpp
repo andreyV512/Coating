@@ -14,7 +14,7 @@ template<class T>struct ParamTitle
 	wchar_t *operator()()
 	{
 		zprint(" ParamTitle\n");
-		return L"Error";
+		return (wchar_t *)L"Error";
 	}
 };
 //{

@@ -3,19 +3,21 @@
 #include "Grid/GridDetail.h"
 #include "DataGrid.hpp"
 
-#define Z(T, w, txt)template<>struct GridDetail::header_table<T>\
-	{\
-	LPWSTR name(){return (LPWSTR)txt;}\
-	static const int width = w;\
-	};
 
-Z(Num, 60, L"Номер")
-Z(UserName, 90, L"Имя")
-Z(UserPersonnelNumber, 120, L"Табельный номер")
-#undef Z
+
+HEADER_TABLE(Num, 60, L"Номер")
+HEADER_TABLE(UserName, 90, L"Имя")
+HEADER_TABLE(UserPersonnelNumber, 120, L"Табельный номер")
+
+PARAM_TITLE(UserName, L"Оператор")
+PARAM_TITLE(UserPersonnelNumber, L"Табельный номер")
+
+CHECK_EMPTY_STRING(UserName)
+MIN_VALUE(UserPersonnelNumber, 0)
+MAX_VALUE(UserPersonnelNumber, 9999999)
 
 
 void TestTest()
 {
-	GridOptions<TDataGrid<UserTable, UserName> >::Open((wchar_t *)L"Test", 320, 300);
+	GridOptions<TDataGrid<UserTable, UserName> >::Open((wchar_t *)L"Настройки оператора", 320, 300);
 }
