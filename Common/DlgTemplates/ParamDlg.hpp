@@ -154,19 +154,19 @@ template<class T>struct ErrMessText<LargenEqual<T> >:__LargenEqualText__{};
 
 template<class min_type, class max_type, class T>struct SubErrMess
 {
-	void operator()(wchar_t (&buf)[256])
+	void operator()(wchar_t (&buf)[512])
 	{
-		//wsprintf(buf, L"Параметр \"%s\" должен быть %s %s и %s %s"
-		//	, ParamTitle<T>()()
-		//	, ErrMessText<min_type>()()
-		//	, Wchar_from<T::type_value>(min_type()())()
-		//	, ErrMessText<max_type>()()
-		//	, Wchar_from<T::type_value>(max_type()())()
-		//	);
+		wsprintf(buf, L"Параметр \"%s\" должен быть %s %s и %s %s"
+			, ParamTitle<T>()()
+			, ErrMessText<min_type>()()
+			, Wchar_from<T::type_value>(min_type()())()
+			, ErrMessText<max_type>()()
+			, Wchar_from<T::type_value>(max_type()())()
+			);
 	}
 };
 
-template<class T>struct SubErrMess<NullType, NullType, T>
+template<class T>struct SubErrMess<Vlst<>, Vlst<>, T>
 {
 	void operator()(wchar_t (&buf)[256])
 	{
@@ -179,11 +179,11 @@ template<class T>struct ErrMess
 {
 	void operator()(typename T::type_value &t, HWND h)
 	{
-        wchar_t buf[256];
-		typedef Vlst<Less<T>, LessEqual<T> > min_type;
-		typedef Vlst<Largen<T>, LargenEqual<T> > max_type;
+		wchar_t buf[512];
+		typedef VL::TypeExist<Vlst<Less<T>, LessEqual<T> > >::Result min_type;
+		typedef VL::TypeExist< Vlst<Largen<T>, LargenEqual<T> > >::Result max_type;
 		SubErrMess<min_type, max_type, T>()(buf);
-		MessageBox(h, buf, L"Ошибка!!!", MB_ICONEXCLAMATION);
+		MessageBox(h, buf, (wchar_t *)L"Ошибка!!!", MB_ICONEXCLAMATION);
 	}
 };
 
