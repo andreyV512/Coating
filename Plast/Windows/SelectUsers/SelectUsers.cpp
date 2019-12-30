@@ -83,15 +83,20 @@ namespace __pupup_menu_su__
 		static void Do(LPNMITEMACTIVATE d)
 		{
 			UserTable t;
-			if (SelectUserDlg::Do(d->hdr.hwndFrom, t))
+			SelectUsers *o = (SelectUsers *)GetWindowLongPtr(d->hdr.hwndFrom, GWLP_USERDATA);
+			t.items.get<UserName>().value = (wchar_t *)o->items[d->iItem].name.c_str();
+			t.items.get<UserPersonnelNumber>().value = o->items[d->iItem].tabelNum;
+			if (o->items.size() > d->iItem)
 			{
-				SelectUsers *o = (SelectUsers *)GetWindowLongPtr(d->hdr.hwndFrom, GWLP_USERDATA);
-				o->items.push_back({ 
-					-1
-					, (wchar_t *)t.items.get<UserName>().value
-					, t.items.get<UserPersonnelNumber>().value
-					});
-				GridDetail::UpdateGridCells(d->hdr.hwndFrom);
+				if (SelectUserDlg::Do(d->hdr.hwndFrom, t))
+				{
+					o->items.push_back({
+						-1
+						, (wchar_t *)t.items.get<UserName>().value
+						, t.items.get<UserPersonnelNumber>().value
+						});
+					GridDetail::UpdateGridCells(d->hdr.hwndFrom);
+				}
 			}
 		}
 	};

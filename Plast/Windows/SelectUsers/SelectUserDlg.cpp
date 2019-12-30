@@ -17,15 +17,12 @@ struct sel_OkBtn
 	wchar_t *Title() { return (wchar_t *)L"Применить"; }
 	template<class Owner>void BtnHandler(Owner &owner, HWND h)
 	{
-		
+		if (__ok_table_btn__<
+			Owner::Base, Owner::Table
+			, typename VL::SubListFromMultyList<typename Owner::Base::multy_type_list, Owner::Table>::Result
+		>()(h, owner))
 		{
-			if (__ok_table_btn__<
-				Owner::Base, Owner::Table
-				, typename VL::SubListFromMultyList<typename Owner::Base::multy_type_list, Owner::Table>::Result
-			>x; x(h, owner))
-			{
-				EndDialog(h, TRUE);
-			}
+			EndDialog(h, TRUE);
 		}
 	}
 };
