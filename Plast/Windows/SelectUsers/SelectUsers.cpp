@@ -84,19 +84,24 @@ namespace __pupup_menu_su__
 		{
 			UserTable t;
 			SelectUsers *o = (SelectUsers *)GetWindowLongPtr(d->hdr.hwndFrom, GWLP_USERDATA);
-			t.items.get<UserName>().value = (wchar_t *)o->items[d->iItem].name.c_str();
-			t.items.get<UserPersonnelNumber>().value = o->items[d->iItem].tabelNum;
 			if (o->items.size() > d->iItem)
 			{
-				if (SelectUserDlg::Do(d->hdr.hwndFrom, t))
-				{
-					o->items.push_back({
-						-1
-						, (wchar_t *)t.items.get<UserName>().value
-						, t.items.get<UserPersonnelNumber>().value
-						});
-					GridDetail::UpdateGridCells(d->hdr.hwndFrom);
-				}
+				t.items.get<UserName>().value = (wchar_t *)o->items[d->iItem].name.c_str();
+				t.items.get<UserPersonnelNumber>().value = o->items[d->iItem].tabelNum;
+			}
+			else
+			{
+				t.items.get<UserName>().value = (wchar_t *)L"";
+				t.items.get<UserPersonnelNumber>().value = 0;
+			}
+			if (SelectUserDlg::Do(d->hdr.hwndFrom, t))
+			{
+				o->items.push_back({
+					-1
+					, (wchar_t *)t.items.get<UserName>().value
+					, t.items.get<UserPersonnelNumber>().value
+					});
+				GridDetail::UpdateGridCells(d->hdr.hwndFrom);
 			}
 		}
 	};
