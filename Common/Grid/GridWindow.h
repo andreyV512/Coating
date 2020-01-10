@@ -2,6 +2,7 @@
 #include "window_tool/Emptywindow.h"
 #include "window_tool/TEvent.h"
 #include <CommCtrl.h>
+#include "tools_debug/DebugMess.h"
 
 class DataGrid : public TEvent
 {
@@ -34,6 +35,7 @@ public:
 	} cancelButton;
 	HWND hWnd;
 	DataGrid *grid;
+	virtual ~GridWindowX() = default;
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
 	void operator()(TSize &);
