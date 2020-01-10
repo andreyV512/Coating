@@ -13,6 +13,12 @@ template<typename ...List>struct Vlst {};
 
 namespace VL
 {
+	template<class>struct ToVlst;
+	template<template<typename ...>class W, typename ...List>struct ToVlst<W<List...>>
+	{
+		typedef Vlst<List...> Result;
+	};
+
 	template<typename List>struct Factory;
 
 	template<typename Head>struct Factory<Vlst<Head>> : Head
