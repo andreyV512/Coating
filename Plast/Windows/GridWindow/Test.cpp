@@ -13,5 +13,5 @@ MAX_VALUE(UserPersonnelNumber, 9999999)
 
 void TestTest()
 {
-	GridOptions<TDataGrid<UserTable, UserName> >::Open((wchar_t *)L"Настройки оператора", 320, 300);
+	GridOptions<TDataGrid<UserTable, Vlst<UserName>> >::Open((wchar_t *)L"Настройки оператора", 320, 300);
 }

@@ -18,8 +18,9 @@ struct Num {};
 PARAM_TITLE(T, txt) \
 HEADER_TABLE(T, w, txt)	 
 
-template<class Table, class OrderBy>class TDataGrid : public DataGrid
+template<class Table, class OrderBy, class ViewCols = Vlst<>>class TDataGrid : public DataGrid
 {
+	typedef typename VL::_if<VL::Length<ViewCols>::value, ViewCols, typename Table::items_list>::Result cols_list;
 	template<class Items, class Type, class TypeValue>struct __to_str__;
 	template<class Items, class Type>struct __to_str__<Items, Type, int>
 	{
@@ -41,7 +42,7 @@ template<class Table, class OrderBy>class TDataGrid : public DataGrid
 	{
 		void operator()(P &p)
 		{
-			p[VL::IndexOf<typename Table::items_list, O>::value] = __to_str__<typename Table::TItems, O, typename O::type_value>::Do;
+			p[VL::IndexOf<cols_list, O>::value] = __to_str__<typename Item::TItems, O, typename O::type_value>::Do;
 		}
 	};
 	template<class O, class P>struct __copy__
@@ -54,24 +55,25 @@ template<class Table, class OrderBy>class TDataGrid : public DataGrid
 	struct Item
 	{
 		int id;
-		typename VL::Factory<typename Table::items_list> items;
+		typedef typename VL::Factory<cols_list> TItems;
+		TItems items;
 		Item &operator=(const Item &t)
 		{
 			id = t.id;
-			VL::for_each<typename Table::items_list, __copy__>()(items, t.items);
+			VL::for_each<cols_list, __copy__>()(items, t.items);
 			return *this;
 		}
 	};
 	int countItems;
 	
-	static const int proc_size = VL::Length<typename Table::items_list>::value;
-	wchar_t *(*proc_proc[proc_size])(typename Table::TItems &, wchar_t *);
+	static const int proc_size = VL::Length<cols_list>::value;
+	wchar_t *(*proc_proc[proc_size])(typename Item::TItems &, wchar_t *);
 	std::vector<Item> dataItems;
 	std::vector<int> delItems;
 public:
 	TDataGrid() : DataGrid(), countItems(0)
 	{
-		VL::for_each<typename Table::items_list, __set_to_str__>()(proc_proc);
+		VL::for_each<cols_list, __set_to_str__>()(proc_proc);
 	}
 	void Create(HWND) override;
 	void RClick(LPNMITEMACTIVATE)override;
@@ -91,13 +93,38 @@ template<class T, class D>struct __insert__
 	}
 };
 
-template<class Table, class OrderBy>
-inline void TDataGrid<Table, OrderBy>::Create(HWND hwnd)
+template<class List>class __order_by__
+{
+	template<class O, class P>struct loc
+	{
+		void operator()(P &p)
+		{
+			wsprintf(p, L" %s,", O().name());
+			p += wcslen(p);
+		}
+	};
+public: 
+	void operator()(wchar_t *s)
+	{
+		wcscat(s, L" ORDER BY ");
+		s += wcslen(s);
+		VL::for_each<List, loc>()(s);
+		wcscat(&s[wcslen(s)], L"      ");
+	}
+};
+template<>class __order_by__<Vlst<>>
+{
+public:
+	void operator()(wchar_t *s) {}
+};
+
+template<class Table, class OrderBy, class ViewCols>
+inline void TDataGrid<Table, OrderBy, ViewCols>::Create(HWND hwnd)
 {
 	hWnd = GridDetail::CreateGrid(hwnd, this);
 	typedef typename VL::Append<
 		Num
-		, typename Table::items_list
+		, typename VL::_if<VL::Length<ViewCols>::value, ViewCols, typename Table::items_list>::Result
 	>::Result  list;
 	typename GridDetail::SetGridHeader<list> _(hWnd);
 	GridDetail::SetRow(hWnd, 128);
@@ -106,8 +133,10 @@ inline void TDataGrid<Table, OrderBy>::Create(HWND hwnd)
 	if (base.IsOpen())
 	{
 		Select<Table>_(base);
-		wsprintf(&_.head[wcslen(_.head) - 7], L" ORDER BY %s ASC       ", OrderBy().name());
-		_.ExecuteLoop<__insert__>(dataItems);
+		wchar_t *s = &_.head[wcslen(_.head) - 7];
+		*s = L'\0';
+		__order_by__<OrderBy>()(s);
+		_.ExecuteLoop<__insert__, cols_list>(dataItems);
 		countItems = (int)dataItems.size();
 	}
 }
@@ -164,14 +193,14 @@ template<class T>struct Event<TopMenu<Wapper<Del, T>>>
 	}
 };
 
-template<class Table, class OrderBy>
-inline void TDataGrid<Table, OrderBy>::RClick(LPNMITEMACTIVATE d)
+template<class Table, class OrderBy, class ViewCols>
+inline void TDataGrid<Table, OrderBy, ViewCols>::RClick(LPNMITEMACTIVATE d)
 {
 	PopupMenu<Vlst<TopMenu<Wapper<Add, TDataGrid>>, TopMenu<Wapper<Del, TDataGrid>>>>::Do(d->hdr.hwndFrom, d);
 }
 
-template<class Table, class OrderBy>
-inline void TDataGrid<Table, OrderBy>::SetDataToGrid(LV_DISPINFO *d)
+template<class Table, class OrderBy, class ViewCols>
+inline void TDataGrid<Table, OrderBy, ViewCols>::SetDataToGrid(LV_DISPINFO *d)
 {
 	int row = d->item.iItem;
 	if (row < (int)dataItems.size())
@@ -193,8 +222,8 @@ inline void TDataGrid<Table, OrderBy>::SetDataToGrid(LV_DISPINFO *d)
 	}
 }
 
-template<class Table, class OrderBy>
-inline void TDataGrid<Table, OrderBy>::SetColorToGrid(NMLVCUSTOMDRAW *d)
+template<class Table, class OrderBy, class ViewCols>
+inline void TDataGrid<Table, OrderBy, ViewCols>::SetColorToGrid(NMLVCUSTOMDRAW *d)
 {
 	if (d->nmcd.dwItemSpec < (int)dataItems.size())
 	{
@@ -205,8 +234,8 @@ inline void TDataGrid<Table, OrderBy>::SetColorToGrid(NMLVCUSTOMDRAW *d)
 	}
 }
 
-template<class Table, class OrderBy>
-inline void TDataGrid<Table, OrderBy>::ButtonClick(HWND h)
+template<class Table, class OrderBy, class ViewCols>
+inline void TDataGrid<Table, OrderBy, ViewCols>::ButtonClick(HWND h)
 {
 	if ((0 != delItems.size() || countItems != dataItems.size()) && TypesizePasswordDlg().Do(h))
 	{
@@ -231,7 +260,9 @@ inline void TDataGrid<Table, OrderBy>::ButtonClick(HWND h)
 				{
 					try
 					{
-						Insert_Into<Table>(*(Table *)&i.items, base).Execute();
+						Table t;
+						VL::CopyFromTo(i.items, t.items);
+						Insert_Into<Table>(t, base).Execute();
 					}
 					catch (...) {}
 				}
@@ -241,8 +272,8 @@ inline void TDataGrid<Table, OrderBy>::ButtonClick(HWND h)
 	DestroyWindow(h);
 }
 
-template<class Table, class OrderBy>
-inline void TDataGrid<Table, OrderBy>::DeleteItem(int i, HWND h)
+template<class Table, class OrderBy, class ViewCols>
+inline void TDataGrid<Table, OrderBy, ViewCols>::DeleteItem(int i, HWND h)
 {
 	if ((int)dataItems.size() > i)
 	{
@@ -252,8 +283,8 @@ inline void TDataGrid<Table, OrderBy>::DeleteItem(int i, HWND h)
 	}
 }
 
-template<class Table, class OrderBy>
-inline void TDataGrid<Table, OrderBy>::AddItem(HWND h)
+template<class Table, class OrderBy, class ViewCols>
+inline void TDataGrid<Table, OrderBy, ViewCols>::AddItem(HWND h)
 {
 	Table t;
 	wchar_t buf[128];
@@ -261,7 +292,7 @@ inline void TDataGrid<Table, OrderBy>::AddItem(HWND h)
 	if (Dialog::Templ<
 		ParametersBase
 		, Table
-		, typename Table::items_list
+		, cols_list
 		, 350
 		, Vlst<sel_OkBtn, CancelBtn>
 	>(t).Do(h, buf))

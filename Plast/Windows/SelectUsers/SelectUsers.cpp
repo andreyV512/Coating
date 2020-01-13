@@ -53,7 +53,7 @@ void SelectUsers::Create(HWND hwnd)
 	if (base.IsOpen())
 	{
 		Select<UserTable>_(base);
-		wcscpy(&_.head[wcslen(_.head) - 7], L" ORDER BY UserName ASC       ");
+		wcscpy(&_.head[wcslen(_.head) - 7], L" ORDER BY UserName       ");
 		_.ExecuteLoop<__insert__>(items);
 	}
 }
