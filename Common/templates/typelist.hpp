@@ -325,6 +325,19 @@ namespace VL
 	{
 		typedef Vlst<> Result;
 	};
+
+	template<class O, class P>struct __copy__
+	{
+		void operator()(O &o, P &p)
+		{
+			p.get<O>().value = o.value;
+		}
+	};
+
+	template<class From, class To>void CopyFromTo(From &from, To &to)
+	{
+		for_each<typename Inner<From>::Result, __copy__>()(from, to);
+	}
 }
 
 template<class T>struct Singleton
