@@ -791,6 +791,28 @@ template<typename Table>struct Select
 			return false;
 		}
 	}
+	template<template<class, class>class Proc, class list, class Data>bool ExecuteLoop(Data &d)
+	{
+		try
+		{
+			head[wcslen(head) - 7] = '\0';
+			cmd->CommandText = head;
+			_variant_t rowsAffected;
+			ADODB::_RecordsetPtr rec = cmd->Execute(&rowsAffected, 0, ADODB::adCmdText);
+			Table table;
+			while (!rec->EndOfFile)
+			{
+				VL::for_each<list, set_to_>()(table.items, rec.GetInterfacePtr());
+				if (Proc<Table, Data>()(rec->Fields->GetItem(L"ID")->GetValue(), table, d)) return true;
+				rec->MoveNext();
+			}
+			return true;
+		}
+		catch (...)
+		{
+			return false;
+		}
+	}
 	template<class O, class P>struct __order_by__
 	{
 		void operator()(O *, P *p)
