@@ -567,9 +567,9 @@ struct ShowItem
 {typename W<sub_type>::type_value operator()(){return value;}};
 #define TEMPL_PARAM_TITLE(type, name)template<template<class>class W>struct ParamTitle<W<type>>{wchar_t *operator()(){return name;}};
 
-#define CHECK_EMPTY_STRING(n)template<template<class, class>class Wapper, class X, class Z>struct Skip<Wapper<n, X>, Z>\
+#define CHECK_EMPTY_STRING(n)template<template<class, class>class Wrap, class X, class Z>struct Skip<Wrap<n, X>, Z>\
 {\
-	template<class P>bool operator()(Wapper<n, X> &o, P &)\
+	template<class P>bool operator()(Wrap<n, X> &o, P &)\
     {\
 	  wchar_t buf[128];\
 	  GetWindowText(o.hWnd, buf, dimention_of(buf));\

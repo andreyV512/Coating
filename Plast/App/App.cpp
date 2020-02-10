@@ -24,8 +24,13 @@ namespace App
 	void Destroy()
 	{
 	}
+	void TopLabel(wchar_t(&)[128])
+	{
+	}
 	wchar_t* Salt()
 	{
 		return (wchar_t *)L"Coating";
 	}
 }
+
+Device1730 device1730;

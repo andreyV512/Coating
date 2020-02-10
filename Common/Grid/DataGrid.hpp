@@ -162,20 +162,20 @@ struct sel_OkBtn
 
 struct Add {};
 struct Del {};
-template<class, class >class Wapper {};
-template<class T>struct TopMenu<Wapper<Add, T>> { typedef Vlst<> list; };
-template<class T>struct TopMenu<Wapper<Del, T>> { typedef Vlst<> list; };
+template<class, class >class Wrap {};
+template<class T>struct TopMenu<Wrap<Add, T>> { typedef Vlst<> list; };
+template<class T>struct TopMenu<Wrap<Del, T>> { typedef Vlst<> list; };
 
-template<class T>struct NameMenu<TopMenu<Wapper<Add, T> > >
+template<class T>struct NameMenu<TopMenu<Wrap<Add, T> > >
 {
 	wchar_t *operator()(HWND) { return (wchar_t *)L"Добавить"; }
 };
-template<class T>struct NameMenu<TopMenu<Wapper<Del, T> > >
+template<class T>struct NameMenu<TopMenu<Wrap<Del, T> > >
 {
 	wchar_t *operator()(HWND) { return (wchar_t *)L"Удалить"; }
 };
 
-template<class T>struct Event<TopMenu<Wapper<Add, T>>>
+template<class T>struct Event<TopMenu<Wrap<Add, T>>>
 {
 	static void Do(LPNMITEMACTIVATE d)
 	{
@@ -184,7 +184,7 @@ template<class T>struct Event<TopMenu<Wapper<Add, T>>>
 	}
 };
 
-template<class T>struct Event<TopMenu<Wapper<Del, T>>>
+template<class T>struct Event<TopMenu<Wrap<Del, T>>>
 {
 	static void Do(LPNMITEMACTIVATE d)
 	{
@@ -196,7 +196,7 @@ template<class T>struct Event<TopMenu<Wapper<Del, T>>>
 template<class Table, class OrderBy, class ViewCols>
 inline void TDataGrid<Table, OrderBy, ViewCols>::RClick(LPNMITEMACTIVATE d)
 {
-	PopupMenu<Vlst<TopMenu<Wapper<Add, TDataGrid>>, TopMenu<Wapper<Del, TDataGrid>>>>::Do(d->hdr.hwndFrom, d);
+	PopupMenu<Vlst<TopMenu<Wrap<Add, TDataGrid>>, TopMenu<Wrap<Del, TDataGrid>>>>::Do(d->hdr.hwndFrom, d);
 }
 
 template<class Table, class OrderBy, class ViewCols>

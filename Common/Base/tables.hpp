@@ -148,7 +148,7 @@ template<class Base>struct value_type<Base, unsigned>
 {
 	static wchar_t *Type()
 	{
-		return L"Integer";
+		return (wchar_t *)L"Integer";
 	}
 };
 template<class Base>struct value_type<Base, double>
@@ -1020,6 +1020,7 @@ private:
 		   set(o, p);
 	   }
    };
+   /*
    template<typename P>struct insert<double *, P>
    {
 	   void operator()(double **o, P *p)
@@ -1037,6 +1038,7 @@ private:
 		   );
 	   }
    };
+   */
 };
 //-------------------------------------------------------------------------------------
 template<typename Table>struct Delete
@@ -1108,14 +1110,14 @@ template<typename Table>struct Delete
 		VL::for_each<List, eq_all_>()(f, this);
 		return *this;
 	}
-	template<typename O, typename P>struct set_to_
-	{
-		void operator()(O &o, P &p)
-		{
-			VARIANT v = p.Fields->GetItem(o.name())->GetValue();
-			//TODO o.value = *(O::type_value *)&v.punkVal;
-		}
-	};
+	//template<typename O, typename P>struct set_to_
+	//{
+	//	void operator()(O &o, P &p)
+	//	{
+	//		VARIANT v = p.Fields->GetItem(o.name())->GetValue();
+	//		//TODO o.value = *(O::type_value *)&v.punkVal;
+	//	}
+	//};
 	bool Execute()
 	{
 		try
@@ -1148,7 +1150,7 @@ template<typename Table>struct Delete
 	}
 //------------------------------------------------------------------
     template<class T>struct Inner;
-	template<template<class>class Wapper, class T>struct Inner<Wapper<T> >
+	template<template<class>class Wrap, class T>struct Inner<Wrap<T> >
 	{
 		typedef T Result;
 	};

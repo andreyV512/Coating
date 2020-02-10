@@ -348,7 +348,7 @@ template<typename T, int IND>struct Ind : T
 };
 template<typename U>struct Upper
 {
-	template<typename T>struct Wapper
+	template<typename T>struct Wrap
 	{
 		static char Tst(...);
 		template<int N>static double Tst(Ind<U, N>);

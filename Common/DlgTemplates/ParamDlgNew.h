@@ -63,7 +63,7 @@ namespace Dialog
 			{
 				if(WET::TypeToEvent<typename O::PAR>::value != p.mess.uMsg) return true;
 				static const bool b = sizeof(double) == sizeof(Is<typename O::OBJ, typename O::PAR>((typename O::OBJ *)0));
-				p.result = WET::Wapper<b>()((typename O::PAR &)p.mess, (EventHandler<typename O::OBJ> &)p);
+				p.result = WET::Wrap<b>()((typename O::PAR &)p.mess, (EventHandler<typename O::OBJ> &)p);
 				return false;
 			}
 		};
@@ -261,13 +261,13 @@ namespace Dialog
 		, class List = typename TableParam::items_list
 		, int widthP = 550
 		, class ButtonsList = Vlst<OkBtn, CancelBtn>
-		, template<class, class>class Wapper = DlgItem2>struct Templ
+		, template<class, class>class Wrap = DlgItem2>struct Templ
 	{
-		typedef typename VL::TypeToTypeLstParam1<List, Wapper, Templ>::Result original_list;
+		typedef typename VL::TypeToTypeLstParam1<List, Wrap, Templ>::Result original_list;
 		typedef BaseParam Base;
 		typedef TableParam Table;
 		Table &table;	
-		typedef typename VL::TypeToTypeLstParam1<typename __del_group_box__<List>::Result, Wapper, Templ>::Result list;
+		typedef typename VL::TypeToTypeLstParam1<typename __del_group_box__<List>::Result, Wrap, Templ>::Result list;
 		VL::Factory<list> items;
 		VL::Factory<ButtonsList> buttons;
 		void operator()(TInitDialog &e)

@@ -121,8 +121,8 @@ private:
 			o.himl = ImageList_Create(Height, Height, ILC_COLOR24|ILC_COLORDDB|ILC_MASK, 1, 0);
 			return  CreateToolbarEx(hwnd, TBSTYLE_FLAT | CCS_ADJUSTABLE | CCS_NODIVIDER | WS_CHILD | WS_VISIBLE
 				, (UINT)o.tbb
-				, TL::Length<O::list>::value, (HINSTANCE)::GetModuleHandle(NULL), NULL
-				, o.tbb, TL::Length<O::list>::value,0,0,0,0, sizeof(TBBUTTON)
+				, VL::Length<O::list>::value, (HINSTANCE)::GetModuleHandle(NULL), NULL
+				, o.tbb, VL::Length<O::list>::value,0,0,0,0, sizeof(TBBUTTON)
 				);
 		}
 	};

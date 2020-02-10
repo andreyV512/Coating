@@ -58,6 +58,24 @@
     <Filter Include="Windows\GridWindow">
       <UniqueIdentifier>{d8ab7dd1-203a-4c23-b02e-142f82c1573c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Automat">
+      <UniqueIdentifier>{4b9e58cc-7ed1-4c54-b6d5-e992566b8f2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\PerformanceCounter">
+      <UniqueIdentifier>{367d3ca2-9cb5-46bb-8c48-6b143003c086}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\1730">
+      <UniqueIdentifier>{ef0d9efb-e329-408e-898d-67fa850afcdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\1730\inc">
+      <UniqueIdentifier>{f9fde18f-ed26-40f1-a89f-d8d6d60f1b3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CommonApp">
+      <UniqueIdentifier>{0d73a361-782c-4528-bec4-0317f0bf7f2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CommonApp\Log">
+      <UniqueIdentifier>{07684d6b-9482-4002-a01b-b1840cd0146e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -192,6 +210,33 @@
     <ClInclude Include="..\Common\Grid\DataGrid.hpp">
       <Filter>Common\Grid</Filter>
     </ClInclude>
+    <ClInclude Include="Automat\Automat.h">
+      <Filter>Automat</Filter>
+    </ClInclude>
+    <ClInclude Include="Automat\Automat.hpp">
+      <Filter>Automat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\PerformanceCounter\PerformanceCounter.h">
+      <Filter>Common\PerformanceCounter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\1730\Device1730.h">
+      <Filter>Common\1730</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\1730\inc\bdaqctrl.h">
+      <Filter>Common\1730\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Config.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonApp\Log\LogMessages.h">
+      <Filter>CommonApp\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonApp\Log\LogBuffer.h">
+      <Filter>CommonApp\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonApp\Log\LogMessageToTopLabel.h">
+      <Filter>CommonApp\Log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -277,6 +322,24 @@
     </ClCompile>
     <ClCompile Include="..\Common\Grid\GridWindow.cpp">
       <Filter>Common\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Automat\Automat.cpp">
+      <Filter>Automat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\PerformanceCounter\PerformanceCounter.cpp">
+      <Filter>Common\PerformanceCounter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\1730\Device1730.cpp">
+      <Filter>Common\1730</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonApp\Log\LogBuffer.cpp">
+      <Filter>CommonApp\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonApp\Log\LogMessageToTopLabel.cpp">
+      <Filter>CommonApp\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonApp\Log\LogMessages.cpp">
+      <Filter>CommonApp\Log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

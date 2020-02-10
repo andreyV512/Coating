@@ -90,8 +90,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Common;$(SolutionDir)CommonApp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <DisableSpecificWarnings>%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,6 +159,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\CommonApp\Log\LogBuffer.h" />
+    <ClInclude Include="..\CommonApp\Log\LogMessages.h" />
+    <ClInclude Include="..\CommonApp\Log\LogMessageToTopLabel.h" />
+    <ClInclude Include="..\Common\1730\Device1730.h" />
+    <ClInclude Include="..\Common\1730\inc\bdaqctrl.h" />
     <ClInclude Include="..\Common\Base\Base.hpp" />
     <ClInclude Include="..\Common\Base\ExpressBase.hpp" />
     <ClInclude Include="..\Common\Base\tables.hpp" />
@@ -174,6 +180,7 @@
     <ClInclude Include="..\Common\Grid\DataGrid.hpp" />
     <ClInclude Include="..\Common\Grid\GridDetail.h" />
     <ClInclude Include="..\Common\Grid\GridWindow.h" />
+    <ClInclude Include="..\Common\PerformanceCounter\PerformanceCounter.h" />
     <ClInclude Include="..\Common\templates\templates.hpp" />
     <ClInclude Include="..\Common\templates\typelist.hpp" />
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />
@@ -188,6 +195,9 @@
     <ClInclude Include="..\Common\window_tool\WindowsPosition.h" />
     <ClInclude Include="App\App.h" />
     <ClInclude Include="App\AppBase.h" />
+    <ClInclude Include="App\Config.h" />
+    <ClInclude Include="Automat\Automat.h" />
+    <ClInclude Include="Automat\Automat.hpp" />
     <ClInclude Include="Plast.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -204,6 +214,10 @@
     <ClInclude Include="\\andrew\shared\plast2\Common\window_tool\InitToolbar.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\CommonApp\Log\LogBuffer.cpp" />
+    <ClCompile Include="..\CommonApp\Log\LogMessages.cpp" />
+    <ClCompile Include="..\CommonApp\Log\LogMessageToTopLabel.cpp" />
+    <ClCompile Include="..\Common\1730\Device1730.cpp" />
     <ClCompile Include="..\Common\DlgTemplates\ParamDlg.cpp" />
     <ClCompile Include="..\Common\Graphics\Chart.cpp" />
     <ClCompile Include="..\Common\Graphics\ColorLabel.cpp" />
@@ -212,6 +226,7 @@
     <ClCompile Include="..\Common\Graphics\TopLabelViewer.cpp" />
     <ClCompile Include="..\Common\Grid\GridDetail.cpp" />
     <ClCompile Include="..\Common\Grid\GridWindow.cpp" />
+    <ClCompile Include="..\Common\PerformanceCounter\PerformanceCounter.cpp" />
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp" />
     <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp" />
     <ClCompile Include="..\Common\window_tool\GroupBox.cpp" />
@@ -222,6 +237,7 @@
     <ClCompile Include="..\Common\window_tool\WindowsPosition.cpp" />
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\AppBase.cpp" />
+    <ClCompile Include="Automat\Automat.cpp" />
     <ClCompile Include="Plast.cpp" />
     <ClCompile Include="Windows\GridWindow\Test.cpp" />
     <ClCompile Include="Windows\MainWindow\AppKeyHandler.cpp" />

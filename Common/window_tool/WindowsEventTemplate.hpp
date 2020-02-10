@@ -133,7 +133,7 @@ namespace WET{
 		typedef Vlst<> Result;
 	};
 
-	template<bool >struct Wapper
+	template<bool >struct Wrap
 	{
 		template<class O, class P>LRESULT operator()(O &o, P &p)
 		{
@@ -142,7 +142,7 @@ namespace WET{
 		}
 	};
 
-	template<>struct Wapper<false>
+	template<>struct Wrap<false>
 	{
 		template<class O, class P>LRESULT operator()(O &o, P &p)
 		{
@@ -194,7 +194,7 @@ namespace WET{
 			{
 				if(TypeToEvent<typename O::PAR>::value != p.mess.uMsg) return true;
 				static const bool b = sizeof(double) == sizeof(Is<typename O::OBJ, typename O::PAR>((typename O::OBJ *)0));
-				p.result = Wapper<b>()((typename O::PAR &)p.mess, (EventHandler<typename O::OBJ> &)p);
+				p.result = Wrap<b>()((typename O::PAR &)p.mess, (EventHandler<typename O::OBJ> &)p);
 				return false;
 			}
 		};

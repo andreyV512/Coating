@@ -83,41 +83,41 @@ template<class T>struct ID
 	   value = default_value;\
     }\
 };
-	//L#wapper##L#z;
-#define DEFINE_PARAM_WAPPER(wapper, z, type, def_val) template<> struct wapper<z>\
+	//L#Wrap##L#z;
+#define DEFINE_PARAM_Wrap(Wrap, z, type, def_val) template<> struct Wrap<z>\
 {\
 	typedef type type_value;\
 	type_value value;\
 	const type_value default_value;\
-	const wchar_t *name(){return L#wapper###z;}\
-	wapper() : value(def_val), default_value(def_val) {}\
+	const wchar_t *name(){return L#Wrap###z;}\
+	Wrap() : value(def_val), default_value(def_val) {}\
 };
 
-#define DEFINE_PARAM_WAPPER2(wapper0, wapper1, z, type, def_val) template<> struct wapper0<wapper1<z> >\
+#define DEFINE_PARAM_Wrap2(Wrap0, Wrap1, z, type, def_val) template<> struct Wrap0<Wrap1<z> >\
 {\
 	typedef type type_value;\
 	type_value value;\
 	const type_value default_value;\
-	const wchar_t *name(){return L#wapper0##L#wapper1##L#z;}\
-	wapper0() : value(def_val), default_value(def_val) {}\
+	const wchar_t *name(){return L#Wrap0##L#Wrap1##L#z;}\
+	Wrap0() : value(def_val), default_value(def_val) {}\
 };
 
-#define DEFINE_PARAM_WAPPER_NUM(wapper, z, n, type, def_val) template<> struct wapper<z, n>\
+#define DEFINE_PARAM_Wrap_NUM(Wrap, z, n, type, def_val) template<> struct Wrap<z, n>\
 {\
 	typedef type type_value;\
 	type_value value;\
 	const type_value default_value;\
-	const wchar_t *name(){return L#wapper##L#z##L#n;}\
-	wapper() : value(def_val), default_value(def_val) {}\
+	const wchar_t *name(){return L#Wrap##L#z##L#n;}\
+	Wrap() : value(def_val), default_value(def_val) {}\
 };
 
-#define DEFINE_ARRAY_PARAM_WAPPER(wapper, z, type, count, def_val) template<>struct wapper<z>\
+#define DEFINE_ARRAY_PARAM_Wrap(Wrap, z, type, count, def_val) template<>struct Wrap<z>\
 {\
 	typedef type type_value[count];\
 	type_value value;\
 	const type default_value;\
-	const wchar_t *name(){return L#wapper##L#z;}\
-	wapper(): default_value(def_val) \
+	const wchar_t *name(){return L#Wrap##L#z;}\
+	Wrap(): default_value(def_val) \
     {\
 		for(int i = 0; i < count; ++i) value[i] = def_val;\
 	}\
@@ -130,7 +130,7 @@ template<class T>struct ID
 	const wchar_t *name(){return L#z;}\
 };
 
-#define DEFINE_WAPPER(Name, type, def_val)template<>struct Name	 \
+#define DEFINE_Wrap(Name, type, def_val)template<>struct Name	 \
 {\
 	typedef type type_value;\
 	type_value value;\

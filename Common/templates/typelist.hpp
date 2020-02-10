@@ -229,12 +229,12 @@ namespace VL
 
 	template<class T, template<class>class W>struct CmpW { typedef Vlst<> Result; };
 	template<class T, template<class>class W>struct CmpW<W<T>, W> { typedef W<T> Result; };
-	template<class List, template<class>class Wapper>struct SelectWapper;
-	template<template<class>class Wapper, class Head, class ...Tail>struct SelectWapper<Vlst<Head, Tail...>, Wapper>
+	template<class List, template<class>class Wrap>struct SelectWrap;
+	template<template<class>class Wrap, class Head, class ...Tail>struct SelectWrap<Vlst<Head, Tail...>, Wrap>
 	{
-		typedef typename Append<typename CmpW<Head, Wapper>::Result, typename SelectWapper<Vlst<Tail...>, Wapper>::Result>::Result Result;
+		typedef typename Append<typename CmpW<Head, Wrap>::Result, typename SelectWrap<Vlst<Tail...>, Wrap>::Result>::Result Result;
 	};
-	template<template<class>class Wapper>struct SelectWapper<Vlst<>, Wapper>
+	template<template<class>class Wrap>struct SelectWrap<Vlst<>, Wrap>
 	{
 		typedef Vlst<> Result;
 	};
@@ -281,22 +281,22 @@ namespace VL
 		typedef Vlst<> Result;
 	};
 
-	template<typename List, template<typename>class Wapper>struct TypeToTypeLst;
-	template<typename Head, typename ...Tail, template<typename>class Wapper>struct TypeToTypeLst<Vlst<Head, Tail...>, Wapper>
+	template<typename List, template<typename>class Wrap>struct TypeToTypeLst;
+	template<typename Head, typename ...Tail, template<typename>class Wrap>struct TypeToTypeLst<Vlst<Head, Tail...>, Wrap>
 	{
-		typedef typename Append<Wapper<Head>, typename TypeToTypeLst<Vlst<Tail...>, Wapper>::Result>::Result Result;
+		typedef typename Append<Wrap<Head>, typename TypeToTypeLst<Vlst<Tail...>, Wrap>::Result>::Result Result;
 	};
-	template<template<typename>class Wapper>struct TypeToTypeLst<Vlst<>, Wapper>
+	template<template<typename>class Wrap>struct TypeToTypeLst<Vlst<>, Wrap>
 	{
 		typedef Vlst<> Result;
 	};
 
-	template<typename List, template<typename, typename>class Wapper, class Param>struct TypeToTypeLstParam1;
-	template<typename Head, typename ...Tail, template<typename, typename>class Wapper, class Param>struct TypeToTypeLstParam1<Vlst<Head, Tail...>, Wapper, Param>
+	template<typename List, template<typename, typename>class Wrap, class Param>struct TypeToTypeLstParam1;
+	template<typename Head, typename ...Tail, template<typename, typename>class Wrap, class Param>struct TypeToTypeLstParam1<Vlst<Head, Tail...>, Wrap, Param>
 	{
-		typedef typename Append<Wapper<Head, Param>, typename TypeToTypeLstParam1<Vlst<Tail...>, Wapper, Param>::Result>::Result Result;
+		typedef typename Append<Wrap<Head, Param>, typename TypeToTypeLstParam1<Vlst<Tail...>, Wrap, Param>::Result>::Result Result;
 	};
-	template<template<typename, typename>class Wapper, class Param>struct TypeToTypeLstParam1<Vlst<>, Wapper, Param>
+	template<template<typename, typename>class Wrap, class Param>struct TypeToTypeLstParam1<Vlst<>, Wrap, Param>
 	{
 		typedef Vlst<> Result;
 	};
@@ -338,6 +338,29 @@ namespace VL
 	{
 		for_each<typename Inner<From>::Result, __copy__>()(from, to);
 	}
+
+	template<template<class>class W, class List, class tmp = Vlst<> >struct WrapFilter;
+	template<template<class>class W, class tmp, class Head, class ...Tail>struct WrapFilter<W, Vlst<Head, Tail...>, tmp>
+	{
+		typedef typename WrapFilter<W, Vlst<Tail...>, tmp>::Result Result;
+	};
+	template<template<class>class W, class tmp, class Head, class ...Tail>struct WrapFilter<W, Vlst<W<Head>, Tail...>, tmp>
+	{
+		typedef typename WrapFilter<W, Vlst<Tail...>, typename Append<tmp, Head>::Result>::Result Result;
+	};
+	template<template<class>class W, class tmp>struct WrapFilter<W, Vlst<>, tmp>
+	{
+		typedef tmp Result;
+	};
+
+	template<template<int>class Wrap, int start, int max>struct CreateNumList
+	{
+		typedef typename Append<Wrap<start>, typename CreateNumList<Wrap, 1 + start, max>::Result>::Result Result;
+	};
+	template<template<int>class Wrap, int max>struct CreateNumList<Wrap, max, max>
+	{
+		typedef Vlst<Wrap<max> > Result;
+	};
 }
 
 template<class T>struct Singleton

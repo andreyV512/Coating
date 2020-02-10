@@ -84,7 +84,7 @@ namespace __pupup_menu_su__
 		{
 			UserTable t;
 			SelectUsers *o = (SelectUsers *)GetWindowLongPtr(d->hdr.hwndFrom, GWLP_USERDATA);
-			if (o->items.size() > d->iItem)
+			if ((int)o->items.size() > d->iItem)
 			{
 				t.items.get<UserName>().value = (wchar_t *)o->items[d->iItem].name.c_str();
 				t.items.get<UserPersonnelNumber>().value = o->items[d->iItem].tabelNum;

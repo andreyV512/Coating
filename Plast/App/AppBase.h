@@ -7,7 +7,7 @@ template<class>struct Clr;
 
 struct Nominal;
 
-DEFINE_PARAM_WAPPER(Clr, Nominal, int, 0xff00ff00)
+DEFINE_PARAM_Wrap(Clr, Nominal, int, 0xff00ff00)
 
 struct ColorTable
 {
@@ -17,6 +17,58 @@ struct ColorTable
 	typedef VL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name() { return L"ColorTable"; }
+};
+
+DEFINE_PARAM(iCU, unsigned, 1 << 0) //цепи управления
+DEFINE_PARAM(iKM2_DC, unsigned, 1 << 4)
+DEFINE_PARAM(iKM3_AC, unsigned, 1 << 5)
+DEFINE_PARAM(iCycle, unsigned, 1 << 8)
+DEFINE_PARAM(iP1, unsigned, 1 << 9)
+DEFINE_PARAM(iP2, unsigned, 1 << 10)
+DEFINE_PARAM(iCOPT, unsigned, 1 << 11)
+DEFINE_PARAM(iControl, unsigned, 1 << 12)
+
+struct InputBitsTable
+{
+	typedef Vlst<
+		iCU
+		, iKM2_DC
+		, iKM3_AC
+		, iCycle
+		, iP1
+		, iP2
+		, iCOPT
+		, iControl
+	> items_list;
+	typedef VL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t* name() { return L"InputBitsTable"; }
+};
+
+DEFINE_PARAM(oDC_ON1, unsigned, 1 << 0)
+DEFINE_PARAM(oAC_ON, unsigned, 1 << 1)
+DEFINE_PARAM(oDC_ON2, unsigned, 1 << 2)
+DEFINE_PARAM(oWork, unsigned, 1 << 3)
+DEFINE_PARAM(oStart, unsigned, 1 << 4)
+DEFINE_PARAM(oToShift, unsigned, 1 << 5)
+DEFINE_PARAM(oC1, unsigned, 1 << 6)
+DEFINE_PARAM(oC2, unsigned, 1 << 7)
+
+struct OutputBitsTable
+{
+	typedef Vlst <
+		oDC_ON1
+		, oAC_ON
+		, oDC_ON2
+		, oWork
+		, oStart
+		, oToShift
+		, oC1
+		, oC2
+	> items_list;
+	typedef VL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t* name() { return L"OutputBitTable"; }
 };
 
 STR_UNIQUE_PARAM(UserName, 64, L"Nobady")
@@ -78,6 +130,8 @@ struct ParametersBase
 	typedef Vlst<
 		ColorTable
 		, UserTable
+		, InputBitsTable
+		, OutputBitsTable
 	> one_row_table_list;
 
 	typedef Vlst<
