@@ -5,11 +5,15 @@
 #include "Windows/MainWindow/MainWindow.h"
 #include "Windows/MainWindow/AppKeyHandler.h"
 #include "AppBase.h"
+#include "Windows/GridWindow/Test.h"
+#include "Dlg/Dlg.h"
 namespace App
 {
 	void Init()
 	{
 		AppBase().Init();
+
+#if 0
 		MainWindow& w = Singleton<MainWindow>::Instance();
 
 		RECT r;
@@ -19,6 +23,10 @@ namespace App
 		ShowWindow(h, SW_SHOWNORMAL);
 
 		StartKeyHook(&AppKeyHandler::KeyPressed);
+#else
+		DspFiltrDlg::Do(0);
+		TestTest();
+#endif
 	}
 
 	void Destroy()

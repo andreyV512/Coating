@@ -5,7 +5,7 @@
 #define d_mess debug.print
 namespace {
 	wchar_t name[] = L"Parallel hatch in space";
-	wchar_t eventName[] = L"debug event 19 03 04";
+	wchar_t eventName[] = L"debug event 2015 12 16 08 29";
 	HANDLE h;
 }
 DebugMess::DebugMess()

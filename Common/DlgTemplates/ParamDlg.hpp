@@ -168,7 +168,7 @@ template<class min_type, class max_type, class T>struct SubErrMess
 
 template<class T>struct SubErrMess<Vlst<>, Vlst<>, T>
 {
-	void operator()(wchar_t (&buf)[256])
+	void operator()(wchar_t (&buf)[512])
 	{
 		const char *s = typeid(T).name();
 		mbstowcs(buf, s, strlen(s));
@@ -277,7 +277,7 @@ template<class Base, class Table, class B>struct Insert
 	template<class Z>void operator()(Z &t, CBase &base)
 	{
 		Insert_Into<Table>(t.table, base).Execute();
-		int id = Select<Table>(base).eq_all<Table::items_list>(&t.table.items).Execute();
+		int id = Select<Table>(base).eq_all<Table::items_list>(t.table.items).Execute();
 		UpdateId<ID<Table> >(base, id);
 	}
 };
@@ -583,7 +583,7 @@ struct ShowItem
     }\
 };
 
-#define DO_NOT_CHECK(n)template<>struct __compare_param__<NullType, NullType, n>\
+#define DO_NOT_CHECK(n)template<>struct __compare_param__<Vlst<>, Vlst<>, n>\
 {\
 	bool operator()(n::type_value &t)\
 	{\

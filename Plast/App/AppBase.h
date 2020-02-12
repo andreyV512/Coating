@@ -2,12 +2,13 @@
 #include "Base/TablesDefine.h"
 #include "Base/tables.hpp"
 #include "templates/typelist.hpp"
+#include "Dlg/DspFiltrParams.h"
 
 template<class>struct Clr;
 
 struct Nominal;
 
-DEFINE_PARAM_Wrap(Clr, Nominal, int, 0xff00ff00)
+DEFINE_PARAM_WRAP(Clr, Nominal, int, 0xff00ff00)
 
 struct ColorTable
 {
@@ -108,11 +109,13 @@ struct CurrentParametersTable
 };
 
 STR_PARAM(NameParam, 128, L"Noname")
-#define PARAM_ID TresholdsTable
+
+#define PARAM_ID FiltersTable, TresholdsTable
 #define PARAM_IDM(n)DEFINE_PARAM_ID(n, int, 1)
 	FOR_EACH(PARAM_IDM, PARAM_ID)
 #undef PARAM_IDM
 #define PARAM_IDX(n)ID<n>,
+
 struct ParametersTable
 {
 	typedef Vlst<
@@ -134,10 +137,14 @@ struct ParametersBase
 		, OutputBitsTable
 	> one_row_table_list;
 
-	typedef Vlst<
-		CurrentParametersTable
-		, TresholdsTable
-	> multy_row_table_list;
+	//typedef Vlst<
+	//	CurrentParametersTable
+	//	, TresholdsTable
+	//> multy_row_table_list;
+	typedef VL::Append<
+		Vlst<CurrentParametersTable, ParametersTable >
+		, Vlst<PARAM_ID> 
+	>::Result multy_row_table_list;
 
 	typedef Vlst<
 		one_row_table_list
@@ -172,15 +179,19 @@ template<class T>void UpdateId(CBase &base, int num)
 
 template<class T>int CountId(CBase &base, int num)
 {
-	ADODB::_RecordsetPtr rec;
-	Select<ParametersTable>(base).eq<T>(num).Execute(rec);
-	int i = 0;
-	while (!rec->EndOfFile)
-	{
-		++i;
-		rec->MoveNext();
-	}
-	return i;
+	//ADODB::_RecordsetPtr rec;
+	//Select<ParametersTable>(base).eq<T>(num).Execute(rec);
+	//int i = 0;
+	//while (!rec->EndOfFile)
+	//{
+	//	++i;
+	//	rec->MoveNext();
+	//}
+	int cnt = 0;
+	wchar_t query[128];
+	wsprintf(query, L"SELECT COUNT(*) AS cnt FROM ParametersTable WHERE %s = %d", T().name(), num);
+	CMD(base).CommandText(query).GetValue((wchar_t*)L"cnt", cnt);
+	return cnt;
 }
 
 template<class T>int CurrentId()

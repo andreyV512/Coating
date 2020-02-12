@@ -84,7 +84,7 @@ template<class T>struct ID
     }\
 };
 	//L#Wrap##L#z;
-#define DEFINE_PARAM_Wrap(Wrap, z, type, def_val) template<> struct Wrap<z>\
+#define DEFINE_PARAM_WRAP(Wrap, z, type, def_val) template<> struct Wrap<z>\
 {\
 	typedef type type_value;\
 	type_value value;\
@@ -93,12 +93,12 @@ template<class T>struct ID
 	Wrap() : value(def_val), default_value(def_val) {}\
 };
 
-#define DEFINE_PARAM_Wrap2(Wrap0, Wrap1, z, type, def_val) template<> struct Wrap0<Wrap1<z> >\
+#define DEFINE_PARAM_WRAP2(Wrap0, Wrap1, z, type, def_val) template<> struct Wrap0<Wrap1<z> >\
 {\
 	typedef type type_value;\
 	type_value value;\
 	const type_value default_value;\
-	const wchar_t *name(){return L#Wrap0##L#Wrap1##L#z;}\
+	const wchar_t *name(){return L#Wrap0###Wrap1###z;}\
 	Wrap0() : value(def_val), default_value(def_val) {}\
 };
 
@@ -111,7 +111,7 @@ template<class T>struct ID
 	Wrap() : value(def_val), default_value(def_val) {}\
 };
 
-#define DEFINE_ARRAY_PARAM_Wrap(Wrap, z, type, count, def_val) template<>struct Wrap<z>\
+#define DEFINE_ARRAY_PARAM_WRAP(Wrap, z, type, count, def_val) template<>struct Wrap<z>\
 {\
 	typedef type type_value[count];\
 	type_value value;\
@@ -130,7 +130,7 @@ template<class T>struct ID
 	const wchar_t *name(){return L#z;}\
 };
 
-#define DEFINE_Wrap(Name, type, def_val)template<>struct Name	 \
+#define DEFINE_WRAP(Name, type, def_val)template<>struct Name	 \
 {\
 	typedef type type_value;\
 	type_value value;\

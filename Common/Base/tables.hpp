@@ -685,24 +685,24 @@ template<typename Table>struct Select
 	}
 	template<typename O, typename P>struct eq_all_
 	{
-		void operator()(O *o, P *p)
+		void operator()(O &o, P &p)
 		{
-			wcscat(p->head, o->name());
-			wcscat(p->head, L"=?   AND ");
-			p->cmd->Parameters->Append(
-				p->cmd->CreateParameter( 
+			wcscat(p.head, o.name());
+			wcscat(p.head, L"=?   AND ");
+			p.cmd->Parameters->Append(
+				p.cmd->CreateParameter( 
 				""
 				, TypeToInt<O::type_value>::value
 				, ADODB::adParamInput
-			    , len<typename O::type_value>()(o->value)
-			    , Tpe<O::type_value>()(o->value)
+			    , len<typename O::type_value>()(o.value)
+			    , Tpe<O::type_value>()(o.value)
 				)
 				);
 		}
 	};
-	template< typename List, typename F>Select &eq_all(F *f)
+	template< typename List, typename F>Select &eq_all(F &f)
 	{
-		VL::for_each<List, eq_all_>()(f, this);
+		VL::for_each<List, eq_all_>()(f, *this);
 		return *this;
 	}
 	template<class T>struct convert
@@ -955,7 +955,7 @@ template<typename Table> struct UpdateWhere
 	   cmd.CreateInstance(__uuidof(ADODB::Command));
 	   cmd->ActiveConnection = base.conn;
 	   cmd->CommandType = ADODB::adCmdText;
-	   VL::for_each<Table::items_list, insert>()(&table.items, this);
+	   VL::for_each<Table::items_list, insert>()(table.items, *this);
 	   wcscpy(head + wcslen(head) - 1, L" WHERE ");
    }
    
@@ -1001,21 +1001,21 @@ private:
    ADODB::_CommandPtr cmd;
    template<typename O, typename P>struct insert
    {
-	   template<typename O, typename P>void set(O *o, P *p)
+	   template<typename O, typename P>void set(O &o, P &p)
 	   {
-		   wcscat(p->head, o->name());
-		   wcscat(p->head, L"=?,");
-		   p->cmd->Parameters->Append(
-			   p->cmd->CreateParameter( 
+		   wcscat(p.head, o.name());
+		   wcscat(p.head, L"=?,");
+		   p.cmd->Parameters->Append(
+			   p.cmd->CreateParameter( 
 			   ""
 			   , TypeToInt<O::type_value>::value
 			   , ADODB::adParamInput
-			    , len<typename O::type_value>()(o->value)
-				 , Tpe<O::type_value>()(o->value)
+			    , len<typename O::type_value>()(o.value)
+				 , Tpe<O::type_value>()(o.value)
 			   )
 			   );
 	   }
-	   void operator()(O *o, P *p)
+	   void operator()(O &o, P &p)
 	   {
 		   set(o, p);
 	   }
