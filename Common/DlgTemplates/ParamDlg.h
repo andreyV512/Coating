@@ -30,9 +30,9 @@ template<class O, class P>struct __command__
 {
 	bool operator()(O &o, P &p)
 	{
-		if(p.id == O::ID)
+		if(p.command.id == O::ID)
 		{
-			o.BtnHandler(p.owner, p.hwnd);
+			o.BtnHandler(p.owner, p.command.hwnd);
 			return false;
 		}
 		return true;

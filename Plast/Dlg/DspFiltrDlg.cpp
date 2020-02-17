@@ -1,7 +1,11 @@
 #include "Dlg.h"
 #include "DspFiltrParams.h"
+
 #include "DlgTemplates/ParamDlgNew.h"
 #include "tools_debug/DebugMess.h"
+#include "DlgTemplates/ParamDlg.hpp"
+
+
 
 template<class List>struct __orders__;
 template<class Head, class ...Tail>struct __orders__<Vlst<Head, Tail...>>
@@ -37,6 +41,7 @@ template<class T>struct __current_filtre_param_data__
 {
 	T obj;
 	HWND h;
+	bool close;
 };
 
 MIN_EQUAL_VALUE(Low<ChebyshevI<Order>>, 1)
@@ -58,6 +63,14 @@ template<>struct CbItem<High<ChebyshevI<Order>>>
 {
 	wchar_t* operator()() { return (wchar_t*)L"Высокочастотный фильтр"; }
 };
+
+#define TITLE(type, name)template<template<class>class X, template<class>class Y>\
+struct ParamTitle<X<Y<type>>>{wchar_t* operator()() { return (wchar_t*)name; }};
+TITLE(Order              , L"Порядок фильтра")
+TITLE(CutoffFrequency    , L"Частота среза")
+TITLE(Ripple             , L"Неравномерность в полосе пропускания")
+#undef TITLE
+PARAM_TITLE(CurrentFilter, L"Тип фильтра")
 
 template<>struct FillComboboxList<CurrentFilter>
 {
@@ -86,35 +99,33 @@ template<>struct DlgSubItems<CurrentFilter, int> : ComboBoxSubItem<CurrentFilter
 
 DO_NOT_CHECK(CurrentFilter)
 
-template<class T>struct Cb {};
 
-template<class P>struct __command__<Cb<CurrentFilter>, P>
+template<class P>struct __command__<Dialog::NoButton<CurrentFilter>, P>
 {
-	typedef Cb<CurrentFilter> O;
-	bool operator()(O *o, P *p)
+	typedef Dialog::NoButton<CurrentFilter> O;
+	bool operator()(O &o, P &p)
 	{
-		if (1 == p->e.isAcselerator)
+		if (1 == p.command.isAcselerator)
 		{
-			//HWND h = p->owner.items.get<Dialog::DlgItem2<DefectSig<TypeFiltre>, P::Owner>>().hWnd;
-			////
-			//if (p->e.hControl == h)
-			//{
-			//	int t = ComboBox_GetCurSel(h);
-			//	dprint("%s %d\n", typeid(O).name(), t);
-			//	if (p->owner.additionalData->id != t)
-			//	{
-			//		p->owner.additionalData->current = t;
-			//		p->owner.additionalData->changed = true;
-			//		EndDialog(p->e.hwnd, FALSE);
-			//	}
-			//	return false;
-			//}
+			Dialog::DlgItem2<CurrentFilter, typename P::Owner>(&item) = p.owner.items.get<Dialog::DlgItem2<CurrentFilter, typename P::Owner>>();
+			item.value.value = ComboBox_GetCurSel(item.hWnd);
+			p.owner.additional->close = false;
+			EndDialog(p.command.hwnd, FALSE);
+			return false;
 		}
 		return true;
 	}
 };
 
-
+template<class Dlg>struct __data_from_widget__<Dialog::DlgItem2<CurrentFilter, Dlg>, int>
+{
+	typedef int T;
+	typedef Dialog::DlgItem2<CurrentFilter, Dlg> O;
+	T operator()(O &o)
+	{
+		return ComboBox_GetCurSel(o.hWnd);
+	}
+};
 
 template<class O, class P>struct __current_filtre_param__;
 
@@ -126,6 +137,8 @@ template<class From, class To>struct __copy__
 	}
 };
 
+template<>struct Dialog::NoButton<CurrentFilter>{};
+
 template<template<class>class X, template<class>class Y, class O, class P>struct __current_filtre_param__<X<Y<O>>, P>
 {
 	bool operator()(P &p)
@@ -133,12 +146,13 @@ template<template<class>class X, template<class>class Y, class O, class P>struct
 		if (VL::IndexOf<__orders_list__, X<Y<O>>>::value == p.obj.items.get<CurrentFilter>().value)
 		{
 			typedef typename VL::Append<typename __filtr__<X, Y, FiltersTable::items_list>::Result, CurrentFilter>::Result list;
-
+			p.close = true;
 			if (Dialog::Templ<ParametersBase, FiltersTable
 				, list
 				, 550
-				, Vlst<OkBtn, CancelBtn, Cb<CurrentFilter>>
-			>(p.obj).Do(p.h, (wchar_t *)L"Фильтр"))
+				, Vlst<OkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
+				, __current_filtre_param_data__<FiltersTable>
+			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
 			{
 				VL::for_each<list, __copy__>()(p.obj.items, Singleton<FiltersTable>::Instance().items);
 			}
@@ -153,6 +167,8 @@ void DspFiltrDlg::Do(HWND h)
 	__current_filtre_param_data__<FiltersTable> data = {
 		Singleton<FiltersTable>::Instance()
 		, h
+		, false
 	};
-	VL::find<__orders_list__, __current_filtre_param__>()(data);
+	while(!data.close)
+		VL::find<__orders_list__, __current_filtre_param__>()(data);
 }

@@ -10,16 +10,16 @@
  
 //-----------------------------------------------------------------------
 template<class T>struct ParamTitle
-{
-	wchar_t *operator()()
-	{
-		zprint(" ParamTitle\n");
-		return (wchar_t *)L"Error";
-	}
-};
 //{
-//	typedef typename T::__ParamTitle_template_must_be_overridded__ noused;
+//	wchar_t *operator()()
+//	{
+//		zprint(" ParamTitle\n");
+//		return (wchar_t *)L"Error";
+//	}
 //};
+{
+	typedef typename T::__ParamTitle_template_must_be_overridded__ noused;
+};
 
 template<class T, class X>struct DlgSubItems
 {
@@ -263,9 +263,12 @@ template<class Base, class Table>struct __ok_table_btn__<Base, Table, Parameters
 		CBase base(Base().name());
 		if(base.IsOpen())
 		{
+			//int ID = 0;
+			//wchar_t* query = (wchar_t*)L"SELECT TOP 1 ID FROM CurrentParametersTable";
+			//CMD(base).CommandText(query).GetValue((wchar_t*)L"ID", ID);
 			__update_data__<Table> _data(base);
 			VL::for_each<T::list, __ok_btn__>()(t.items, _data);
-			_data.update.Where().ID(1).Execute();
+			_data.update.Where().ID(TopID()).Execute();
 		}
 		return true;
 	}

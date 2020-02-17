@@ -168,10 +168,16 @@ struct AppBase
 	static void InitTypeSizeTables(CBase &);
 };
 
+unsigned TopID();
+
 template<class T>void UpdateId(CBase &base, int num)
 {
+	//int ID = 0;
+	//wchar_t* query = (wchar_t*)L"SELECT TOP 1 ID FROM CurrentParametersTable";
+	//CMD(base).CommandText(query).GetValue((wchar_t*)L"ID", ID);
+
 	CurrentParametersTable &current = Singleton<CurrentParametersTable>::Instance();
-	Select<CurrentParametersTable>(base).ID(1).Execute(current);
+	Select<CurrentParametersTable>(base).ID(TopID()).Execute(current);
 	ParametersTable &t = Singleton<ParametersTable>::Instance();
 	t.items.get<T>().value = num;
 	UpdateWhere<ParametersTable>(t, base).ID(current.items.get<CurrentID>().value).Execute();
@@ -198,4 +204,5 @@ template<class T>int CurrentId()
 {
 	return Singleton<ParametersTable>::Instance().items.get<T>().value;
 }
+
 

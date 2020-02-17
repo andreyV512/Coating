@@ -106,11 +106,21 @@ template<class X, class P>struct __default_param__<ID<X>, P>
 template<class O, class P>struct __default_param__XXX : __default_param__<O, P> {};
 template<class X, class P>struct __default_param__XXX<ID<X>, P> : __default_param__<ID<X>, P> {};
 
+static unsigned ___top_ID___ = 0;
+
 void AppBase::InitTypeSizeTables(CBase &base)
 {
+	wchar_t* query = (wchar_t*)L"SELECT TOP 1 ID FROM CurrentParametersTable";
+	CMD(base).CommandText(query).GetValue((wchar_t*)L"ID", ___top_ID___);
+
 	CurrentParametersTable x;
-	Select<CurrentParametersTable>(base).ID(1).Execute();
+	Select<CurrentParametersTable>(base).ID(___top_ID___).Execute(x);
 	ParametersTable &p = Singleton<ParametersTable>::Instance();
 	Select<ParametersTable>(base).ID(x.items.get<CurrentID>().value).Execute(p);
 	VL::for_each<typename ParametersTable::items_list, __default_param__>()(p.items, base);
+}
+
+unsigned TopID()
+{
+	return ___top_ID___;
 }

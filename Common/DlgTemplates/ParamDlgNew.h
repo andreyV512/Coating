@@ -5,6 +5,7 @@
 
 namespace Dialog
 {
+	template<class T>struct NoButton;
 	template<class List>struct __get_height_tmpl__;
 	template<class Head, class ...Tail>struct __get_height_tmpl__<Vlst<Head, Tail...> >
 	{
@@ -21,7 +22,7 @@ namespace Dialog
 		static const int DY = __get_height_tmpl__<VL::TypeToTypeLstParam1<Result, DlgItem2, NullType>::Result>::value;
 	};
 
-#define GROUP_BOX(...) Dialog::GroupBox<TL::MkTlst<__VA_ARGS__>>
+//#define GROUP_BOX(...) Dialog::GroupBox<TL::MkTlst<__VA_ARGS__>>
 	
 	template<class List>struct __del_group_box__;
 	template<class Head, class ...Tail>struct __del_group_box__<Vlst<Head, Tail...>>
@@ -126,12 +127,11 @@ namespace Dialog
 
 	template<class TemplDialog>struct __command_data__
 	{
-		HWND hwnd;
-		WPARAM id;
+		typedef TemplDialog Owner;
+		TCommand command;
 		TemplDialog &owner;
-		__command_data__(HWND hwnd, WPARAM id, TemplDialog &owner)
-			: hwnd(hwnd)
-			, id(id)
+		__command_data__(TCommand command, TemplDialog &owner)
+			: command(command)
 			, owner(owner)
 		{}
 	};
@@ -255,12 +255,27 @@ namespace Dialog
 			p.height = storeHeight + 5;
 		}
 	};
+
+	template<class List>struct __only_buttons__;
+	template<class Head, class ...Tail>struct __only_buttons__ < Vlst <Head, Tail... >>
+	{
+		typedef typename VL::Append<Head, typename __only_buttons__<Vlst<Tail...>>::Result>::Result Result;
+	};
+	template<class Head, class ...Tail>struct __only_buttons__<Vlst<NoButton<Head>, Tail...>>
+	{
+		typedef typename __only_buttons__<Vlst<Tail...>>::Result Result;
+	};
+	template<>struct __only_buttons__<Vlst<>>
+	{
+		typedef Vlst<> Result;
+	};
 	
 #pragma warning(disable: 4355)
 	template<class BaseParam, class TableParam
 		, class List = typename TableParam::items_list
 		, int widthP = 550
 		, class ButtonsList = Vlst<OkBtn, CancelBtn>
+		, class AdditionalData = Vlst<>
 		, template<class, class>class Wrap = DlgItem2>struct Templ
 	{
 		typedef typename VL::TypeToTypeLstParam1<List, Wrap, Templ>::Result original_list;
@@ -270,6 +285,7 @@ namespace Dialog
 		typedef typename VL::TypeToTypeLstParam1<typename __del_group_box__<List>::Result, Wrap, Templ>::Result list;
 		VL::Factory<list> items;
 		VL::Factory<ButtonsList> buttons;
+		AdditionalData *additional;
 		void operator()(TInitDialog &e)
 		{
 			int width = widthP;
@@ -278,30 +294,32 @@ namespace Dialog
 
 			__table_data__X<VL::Factory<list>>param(e.hwnd, xOffs, width, height, items);
 			VL::for_each<original_list, __init__X>()(param);
-			
-			int offs = __btn_width__<ButtonsList>::value + (VL::Length<ButtonsList>::value - 1) * 10;
+			typedef typename __only_buttons__<ButtonsList>::Result __button_list__;
+			int offs = __btn_width__<__button_list__>::value + (VL::Length<__button_list__>::value - 1) * 10;
 			
 			offs = (width - offs) / 2;
 			height += 10;
 			
-			__make_btn_data__ make_btn_data(offs, height, e.hwnd);
-			VL::for_each<ButtonsList, __make_btn__>()(buttons, make_btn_data);
+			__make_btn_data__ data(offs, height, e.hwnd);
+			VL::for_each<__button_list__, __make_btn__>()(buttons, data);
 			
 			RECT r;
 			GetWindowRect(GetDesktopWindow(), &r);
-			
+			//
 			height += 75;
-			int x = r.left +(r.right - r.left - width) / 2;
-			int y = r.top +(r.bottom - r.top - height) / 2;
+			int x = r.left + (r.right - r.left - width) / 2;
+			int y = r.top + (r.bottom - r.top - height) / 2;
 			MoveWindow(e.hwnd, x, y, width, height, FALSE);
 		}
 		LRESULT operator()(TCommand &e)
 		{
-			__command_data__<Templ> command_data(e.hwnd, e.id, *this);
+			__command_data__<Templ> command_data(e, *this);
 			return !VL::find<ButtonsList, __command__>()(buttons, command_data);
 		}
 
-		Templ(Table &table_) : table(table_), items(*this){}
+		Templ(Table &table_, AdditionalData *additional = NULL) 
+			: table(table_), items(*this), additional(additional)
+		{}
 		bool Do(HWND hWnd, wchar_t *title)
 		{
 			return TemplDlg_Do(hWnd, title, (DLGPROC)Proc<Templ>::Do, (LPARAM)this);
