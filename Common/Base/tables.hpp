@@ -53,6 +53,7 @@ template<int COUNT = 128>struct CharHolder
 
 template<class T>struct len
 {
+	int operator()(T& o) { return 0; }
 };
 template<int N>struct len<Holder<N>>
 {
@@ -491,15 +492,13 @@ private:
 		   wcscat(p.head, o.name());
 		   wcscat(p.head, L",");
            wcscat(p.tail, L"?,");
-		   int xlen = len<typename O::type_value>()(o.value);
-		   auto xTpe = Tpe<O::type_value>()(o.value);
 		   p.cmd->Parameters->Append(
 			   p.cmd->CreateParameter( 
 			     ""
 				 , TypeToInt<O::type_value>::value
 				 , ADODB::adParamInput
 				 , len<typename O::type_value>()(o.value)
-				, Tpe<O::type_value>()(o.value)
+				 , Tpe<O::type_value>()(o.value)
 				 )
 		   );
 	   }
