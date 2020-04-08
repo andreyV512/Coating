@@ -1,4 +1,4 @@
-#include "Test.h"
+#include "Dlg.h.h"
 #include "App/AppBase.h"
 #include "Grid/DataGrid.hpp"
 
@@ -11,7 +11,7 @@ MIN_VALUE(UserPersonnelNumber, 0)
 MAX_VALUE(UserPersonnelNumber, 9999999)
 
 
-void TestTest()
+void OperatorsDlg::Do(HWND)
 {
 	GridOptions<TDataGrid<UserTable, Vlst<UserName>> >::Open((wchar_t *)L"Настройки оператора", 320, 300);
 }
