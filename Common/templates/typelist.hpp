@@ -37,29 +37,29 @@ namespace VL
 		template<typename T>T &get() { return *this; }
 	};
 
-	template<typename List, template<typename, typename>typename proc>struct for_each;
+	template<typename List, template<typename, typename>typename proc>struct foreach;
 
-	template<template<typename, typename>typename proc, typename Head, typename ...Tail>struct for_each<Vlst<Head, Tail...>, proc>
+	template<template<typename, typename>typename proc, typename Head, typename ...Tail>struct foreach<Vlst<Head, Tail...>, proc>
 	{
 		template<class O, class P>void operator()(O& o, P& p)
 		{
-			(proc<Head, P>()(o, p), for_each< Vlst<Tail...>, proc>()(o, p));
+			(proc<Head, P>()(o, p), foreach< Vlst<Tail...>, proc>()(o, p));
 		}
 		template<class P>void operator()(P& p)
 		{
-			(proc<Head, P>()(p), for_each< Vlst<Tail...>, proc>()(p));
+			(proc<Head, P>()(p), foreach< Vlst<Tail...>, proc>()(p));
 		}
 		void operator()(Vlst<Head, Tail...>& o)
 		{
-			(proc<Head, int>()(o), for_each< Vlst<Tail...>, proc>()(o));
+			(proc<Head, int>()(o), foreach< Vlst<Tail...>, proc>()(o));
 		}
 		void operator()()
 		{
-			(proc<Head, int>()(), for_each< Vlst<Tail...>, proc>()());
+			(proc<Head, int>()(), foreach< Vlst<Tail...>, proc>()());
 		}
 	};
 
-	template<template<typename, typename>typename proc, typename Head>struct for_each<Vlst<Head>, proc>
+	template<template<typename, typename>typename proc, typename Head>struct foreach<Vlst<Head>, proc>
 	{
 		template<class O, class P>void operator()(O& o, P& p)
 		{
@@ -336,7 +336,7 @@ namespace VL
 
 	template<class From, class To>void CopyFromTo(From &from, To &to)
 	{
-		for_each<typename Inner<From>::Result, __copy__>()(from, to);
+		foreach<typename Inner<From>::Result, __copy__>()(from, to);
 	}
 
 	template<template<class>class W, class List, class tmp = Vlst<> >struct WrapFilter;

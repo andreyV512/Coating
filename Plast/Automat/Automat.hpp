@@ -27,7 +27,7 @@ namespace Automat
 		};
 		unsigned operator()()
 		{
-			VL::for_each<List, __init__>()(h);
+			VL::foreach<List, __init__>()(h);
 			return WaitForMultipleObjects(count, h, FALSE, 5);
 		}
 	};
@@ -102,7 +102,7 @@ namespace Automat
 			changed = last ^ bits;
 			if (changed)
 			{
-				VL::for_each<typename T::items_list, __test_bits_xxx__>()(Singleton<T>::Instance().items, *this);
+				VL::foreach<typename T::items_list, __test_bits_xxx__>()(Singleton<T>::Instance().items, *this);
 				last = bits;
 			}
 		}
@@ -112,11 +112,11 @@ namespace Automat
 	{
 		template<class Items, class Data>void operator()(Items &items, Data &data)
 		{
-			VL::for_each<List, Proc>()(items, data);
+			VL::foreach<List, Proc>()(items, data);
 		}
 		template<class Data>void operator()(Data& data)
 		{
-			VL::for_each<List, Proc>()(data);
+			VL::foreach<List, Proc>()(data);
 		}
 	};
 	template<template<class, class>class Proc>struct WrapFor<Vlst<>, Proc>
@@ -133,7 +133,7 @@ namespace Automat
 		}
 		template<class Data>bool operator()(Data& data)
 		{
-			return VL::for_each<List, Proc>()(data);
+			return VL::foreach<List, Proc>()(data);
 		}
 	};
 	template<template<class, class>class Proc>struct WrapFind<Vlst<>, Proc>

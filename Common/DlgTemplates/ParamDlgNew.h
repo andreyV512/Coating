@@ -249,7 +249,7 @@ namespace Dialog
 			p.height = 17;
 			int store_x = p.x;
 			p.x = 5;
-			VL::for_each<list, __init_unit__>()(p);
+			VL::foreach<list, __init_unit__>()(p);
 			p.x = store_x;
 			p.h = storeHWND;
 			p.height = storeHeight + 5;
@@ -293,7 +293,7 @@ namespace Dialog
 			int xOffs = 5;
 
 			__table_data__X<VL::Factory<list>>param(e.hwnd, xOffs, width, height, items);
-			VL::for_each<original_list, __init__X>()(param);
+			VL::foreach<original_list, __init__X>()(param);
 			typedef typename __only_buttons__<ButtonsList>::Result __button_list__;
 			int offs = __btn_width__<__button_list__>::value + (VL::Length<__button_list__>::value - 1) * 10;
 			
@@ -301,7 +301,7 @@ namespace Dialog
 			height += 10;
 			
 			__make_btn_data__ data(offs, height, e.hwnd);
-			VL::for_each<__button_list__, __make_btn__>()(buttons, data);
+			VL::foreach<__button_list__, __make_btn__>()(buttons, data);
 			
 			RECT r;
 			GetWindowRect(GetDesktopWindow(), &r);

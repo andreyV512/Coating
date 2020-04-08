@@ -263,12 +263,9 @@ template<class Base, class Table>struct __ok_table_btn__<Base, Table, Parameters
 		CBase base(Base().name());
 		if(base.IsOpen())
 		{
-			//int ID = 0;
-			//wchar_t* query = (wchar_t*)L"SELECT TOP 1 ID FROM CurrentParametersTable";
-			//CMD(base).CommandText(query).GetValue((wchar_t*)L"ID", ID);
 			__update_data__<Table> _data(base);
-			VL::for_each<T::list, __ok_btn__>()(t.items, _data);
-			_data.update.Where().ID(TopID()).Execute();
+			VL::foreach<T::list, __ok_btn__>()(t.items, _data);
+			_data.update.Where()./*.ID(TopID()).*/Execute();
 		}
 		return true;
 	}
@@ -295,7 +292,7 @@ template<class Base, class Table>struct __ok_table_btn__<Base, Table, typename B
 		{
 			int id = CurrentId<ID<Table> >();	
 			__update_data__<Table> _data(base);			
-			VL::for_each<typename T::list, __ok_btn__>()(t.items, _data);
+			VL::foreach<typename T::list, __ok_btn__>()(t.items, _data);
 			if(1 == CountId<ID<Table> >(base, id))
 			{
 				_data.update.Where().ID(id).Execute();

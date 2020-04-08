@@ -60,7 +60,7 @@ template<class Table, class OrderBy, class ViewCols = Vlst<>>class TDataGrid : p
 		Item &operator=(const Item &t)
 		{
 			id = t.id;
-			VL::for_each<cols_list, __copy__>()(items, t.items);
+			VL::foreach<cols_list, __copy__>()(items, t.items);
 			return *this;
 		}
 	};
@@ -73,7 +73,7 @@ template<class Table, class OrderBy, class ViewCols = Vlst<>>class TDataGrid : p
 public:
 	TDataGrid() : DataGrid(), countItems(0)
 	{
-		VL::for_each<cols_list, __set_to_str__>()(proc_proc);
+		VL::foreach<cols_list, __set_to_str__>()(proc_proc);
 	}
 	void Create(HWND) override;
 	void RClick(LPNMITEMACTIVATE)override;
@@ -108,7 +108,7 @@ public:
 	{
 		wcscat(s, L" ORDER BY ");
 		s += wcslen(s);
-		VL::for_each<List, loc>()(s);
+		VL::foreach<List, loc>()(s);
 		wcscat(&s[wcslen(s)], L"      ");
 	}
 };
@@ -140,7 +140,14 @@ inline void TDataGrid<Table, OrderBy, ViewCols>::Create(HWND hwnd)
 		countItems = (int)dataItems.size();
 	}
 }
-template<class, class, class>struct __ok_table_btn__;
+
+template<class O, class P>struct __ok_btn_data_grid__
+{
+	void operator()(O &o)
+	{
+        o.value.value =  __data_from_widget__<O, typename VL::Inner<O>::Result::type_value>()(o);
+	}
+};
 
 struct sel_OkBtn
 {
@@ -150,11 +157,9 @@ struct sel_OkBtn
 	wchar_t *Title() { return (wchar_t *)L"Применить"; }
 	template<class Owner>void BtnHandler(Owner &owner, HWND h)
 	{
-		if (__ok_table_btn__<
-			Owner::Base, Owner::Table
-			, typename VL::SubListFromMultyList<typename Owner::Base::multy_type_list, Owner::Table>::Result
-		>x; x(h, owner))
+		if (VL::find<Owner::list, __test__>()(owner.items, h))
 		{
+			VL::foreach<Owner::list, __ok_btn_data_grid__>()(owner.items);
 			EndDialog(h, TRUE);
 		}
 	}
@@ -264,7 +269,9 @@ inline void TDataGrid<Table, OrderBy, ViewCols>::ButtonClick(HWND h)
 						VL::CopyFromTo(i.items, t.items);
 						Insert_Into<Table>(t, base).Execute();
 					}
-					catch (...) {}
+					catch (...) 
+					{
+					}
 				}
 			}
 		}
@@ -306,13 +313,15 @@ inline void TDataGrid<Table, OrderBy, ViewCols>::AddItem(HWND h)
 }
 
 //Пример использования сетка с окном добавления и удаления и сохранения базы данных
-//HEADER_TABLE(Num, 60, L"Номер")  //заголовок столбца, ширина столбца
+//HEADER_TABLE(Num, 60, L"Номер")  //заголовок столбца, ширина столбца (отрисовывает номер строки)
 //PARAM_TABLE(UserName, 90, L"Оператор") //заголовок столбца, ширина столбца(столбец из базы данных)
-//PARAM_TABLE(UserPersonnelNumber, 120, L"Табельный номер")
+//PARAM_TABLE(UserPersonnelNumber, 120, L"Табельный номер")	 //заголовок столбца, ширина столбца(столбец из базы данных)
 //
 //CHECK_EMPTY_STRING(UserName)
 //MIN_VALUE(UserPersonnelNumber, 0)
 //MAX_VALUE(UserPersonnelNumber, 9999999)
+//Сохраняет в таблицу UserTable
+//Сортирует список по полю	   UserName
 //
 //void TestTest()
 //{

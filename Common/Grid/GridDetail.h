@@ -26,7 +26,7 @@ namespace GridDetail
 		{
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 			lvc.fmt = LVCFMT_LEFT;
-			VL::for_each<T, loc>()(*this);
+			VL::foreach<T, loc>()(*this);
 		}
 	};
 

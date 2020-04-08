@@ -13,7 +13,7 @@ namespace App
 	{
 		AppBase().Init();
 
-#if 0
+#if 1
 		MainWindow& w = Singleton<MainWindow>::Instance();
 
 		RECT r;
@@ -24,7 +24,7 @@ namespace App
 
 		StartKeyHook(&AppKeyHandler::KeyPressed);
 #else
-		DspFiltrDlg::Do(0);
+		//DspFiltrDlg::Do(0);
 		TestTest();
 #endif
 	}

@@ -68,7 +68,7 @@ template<typename Base>struct set_default_table<ParametersTable, Base>
 		CMD(base).CommandText(query).GetValue((wchar_t*)L"ID", ID);
 		Update< ParametersTable> update(base);// .set<CurrentID>(ID).Where().ID(ID).Execute();
 		__set__XXX_data__ data = { update, ID };
-		VL::for_each<ParametersTable::items_list, __set__XXX__>()(data);
+		VL::foreach<ParametersTable::items_list, __set__XXX__>()(data);
 		update.Where().ID(ID).Execute();
 	}
 };
@@ -100,27 +100,27 @@ template<class X, class P>struct __default_param__<ID<X>, P>
 	{
 		X &x = Singleton<X>::Instance();
 		Select<X>(base).ID(o.value).Execute(x);
-		VL::for_each<typename X::items_list, __default_param__XXX>()(x.items, base);
+		VL::foreach<typename X::items_list, __default_param__XXX>()(x.items, base);
 	}
 };
 template<class O, class P>struct __default_param__XXX : __default_param__<O, P> {};
 template<class X, class P>struct __default_param__XXX<ID<X>, P> : __default_param__<ID<X>, P> {};
 
-static unsigned ___top_ID___ = 0;
+//static unsigned ___top_ID___ = 0;
 
 void AppBase::InitTypeSizeTables(CBase &base)
 {
-	wchar_t* query = (wchar_t*)L"SELECT TOP 1 ID FROM CurrentParametersTable";
-	CMD(base).CommandText(query).GetValue((wchar_t*)L"ID", ___top_ID___);
+	//wchar_t* query = (wchar_t*)L"SELECT TOP 1 ID FROM CurrentParametersTable";
+	//CMD(base).CommandText(query).GetValue((wchar_t*)L"ID", ___top_ID___);
 
 	CurrentParametersTable x;
-	Select<CurrentParametersTable>(base).ID(___top_ID___).Execute(x);
+	Select<CurrentParametersTable>(base)./*ID(___top_ID___).*/Execute(x);
 	ParametersTable &p = Singleton<ParametersTable>::Instance();
 	Select<ParametersTable>(base).ID(x.items.get<CurrentID>().value).Execute(p);
-	VL::for_each<typename ParametersTable::items_list, __default_param__>()(p.items, base);
+	VL::foreach<typename ParametersTable::items_list, __default_param__>()(p.items, base);
 }
 
-unsigned TopID()
-{
-	return ___top_ID___;
-}
+//unsigned TopID()
+//{
+//	return ___top_ID___;
+//}

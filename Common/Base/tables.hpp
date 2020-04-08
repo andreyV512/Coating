@@ -53,7 +53,6 @@ template<int COUNT = 128>struct CharHolder
 
 template<class T>struct len
 {
-	int operator()(T &){return 0;}
 };
 template<int N>struct len<Holder<N>>
 {
@@ -296,7 +295,7 @@ template<class TypeBase, typename TParam, typename List, int N = 4096>struct Que
 			 wcscpy(buf, L"create table ");
 			 wcscat(buf, param.name());
 			 wcscat(buf, L"(ID int IDENTITY(2,1) PRIMARY KEY ");
-			 VL::for_each<List, init>()(param.items, buf);
+			 VL::foreach<List, init>()(param.items, buf);
 			 wcscat(buf, L")");
 		}
 		wchar_t *operator()(){return buf;}
@@ -402,7 +401,7 @@ template<typename SubList, typename SetDefault = Vlst<>, typename TypeBase = Acc
 public:
     template<typename Tables, typename Base>void operator()(Tables &tables, Base &base)
 	{
-		VL::for_each<SubList, init>()(tables, base);
+		VL::foreach<SubList, init>()(tables, base);
 		SetDefaultParam<SetDefault>()(tables, base);
 	}
 };
@@ -420,7 +419,7 @@ template<typename List>struct SetDefault
 {	
 	template<typename Tables, typename Base>void operator()(Tables &tables, Base &base)
 	{
-        VL::for_each<List, set_default_table>()(tables, base);
+        VL::foreach<List, set_default_table>()(tables, base);
 	}
 };
 //---------------------------------------------------------------------------------------------------------
@@ -439,22 +438,21 @@ template<typename Table> struct Insert_Into
    }
    void Execute()
    {
-	   cmd.CreateInstance(__uuidof(ADODB::Command));
-	   cmd->ActiveConnection = base.conn;
-	   cmd->CommandType = ADODB::adCmdText;
-	   VL::for_each<Table::items_list, init>()(table.items, *this);
-	   wcscpy(head + wcslen(head) - 1, tail);
-	   head[wcslen(head) - 1] = ')';
-	   cmd->CommandText = head;
-	   _variant_t rowsAffected; 
-	   cmd->Execute(&rowsAffected, 0, ADODB::adCmdText);
+	  cmd.CreateInstance(__uuidof(ADODB::Command));
+	  cmd->ActiveConnection = base.conn;
+	  cmd->CommandType = ADODB::adCmdText;
+	  VL::foreach<Table::items_list, init>()(table.items, *this);
+	  wcscpy(head + wcslen(head) - 1, tail);
+	  head[wcslen(head) - 1] = ')';
+	  cmd->CommandText = head;
+	  cmd->Execute(NULL, NULL, ADODB::adCmdText);
    }
    template<class List>void Execute()
    {
 	   cmd.CreateInstance(__uuidof(ADODB::Command));
 	   cmd->ActiveConnection = base.conn;
 	   cmd->CommandType = ADODB::adCmdText;
-	   VL::for_each<List, init>()(&table.items, this);
+	   VL::foreach<List, init>()(table.items, *this);
 	   wcscpy(head + wcslen(head) - 1, tail);
 	   head[wcslen(head) - 1] = ')';
 	   cmd->CommandText = head;
@@ -500,8 +498,8 @@ private:
 			     ""
 				 , TypeToInt<O::type_value>::value
 				 , ADODB::adParamInput
-				 , xlen
-				 , xTpe
+				 , len<typename O::type_value>()(o.value)
+				, Tpe<O::type_value>()(o.value)
 				 )
 		   );
 	   }
@@ -702,7 +700,7 @@ template<typename Table>struct Select
 	};
 	template< typename List, typename F>Select &eq_all(F &f)
 	{
-		VL::for_each<List, eq_all_>()(f, *this);
+		VL::foreach<List, eq_all_>()(f, *this);
 		return *this;
 	}
 	template<class T>struct convert
@@ -746,7 +744,7 @@ template<typename Table>struct Select
 			cmd->CommandText = head;
 			_variant_t rowsAffected; 
 			ADODB::_RecordsetPtr rec = cmd->Execute( &rowsAffected, 0, ADODB::adCmdText);
-			VL::for_each<F::items_list, set_to_>()(f.items, rec.GetInterfacePtr());
+			VL::foreach<F::items_list, set_to_>()(f.items, rec.GetInterfacePtr());
 			return rec->Fields->GetItem(L"ID")->GetValue();
 		}
 		catch(...)
@@ -780,7 +778,7 @@ template<typename Table>struct Select
 			Table table;
 			while (!rec->EndOfFile) 
 			{
-				VL::for_each<Table::items_list, set_to_>()(table.items, rec.GetInterfacePtr());
+				VL::foreach<Table::items_list, set_to_>()(table.items, rec.GetInterfacePtr());
 				if(Proc<Table, Data>()(rec->Fields->GetItem(L"ID")->GetValue(), table, d)) return true;
 				rec->MoveNext(); 
 			}
@@ -802,7 +800,7 @@ template<typename Table>struct Select
 			Table table;
 			while (!rec->EndOfFile)
 			{
-				VL::for_each<list, set_to_>()(table.items, rec.GetInterfacePtr());
+				VL::foreach<list, set_to_>()(table.items, rec.GetInterfacePtr());
 				if (Proc<Table, Data>()(rec->Fields->GetItem(L"ID")->GetValue(), table, d)) return true;
 				rec->MoveNext();
 			}
@@ -827,7 +825,7 @@ template<typename Table>struct Select
 		{
 			head[wcslen(head) - 7] = '\0';
 			wcscat(head, L" ORDER BY ");
-			VL::for_each<ORDER_BY_LIST, __order_by__>()(head);
+			VL::foreach<ORDER_BY_LIST, __order_by__>()(head);
 			head[wcslen(head) - 1] = '\0';
 			cmd->CommandText = head;
 			_variant_t rowsAffected; 
@@ -929,7 +927,7 @@ template<typename Table, int N = 1024>struct Update
 	{
 		try
 		{
-			head[wcslen(head) - 5] = '\0';
+			head[wcslen(head) - 1] = '\0';
 			cmd->CommandText = head;
 			_variant_t rowsAffected; 
 			cmd->Execute( &rowsAffected, 0, ADODB::adCmdText);
@@ -955,7 +953,7 @@ template<typename Table> struct UpdateWhere
 	   cmd.CreateInstance(__uuidof(ADODB::Command));
 	   cmd->ActiveConnection = base.conn;
 	   cmd->CommandType = ADODB::adCmdText;
-	   VL::for_each<Table::items_list, insert>()(table.items, *this);
+	   VL::foreach<Table::items_list, insert>()(table.items, *this);
 	   wcscpy(head + wcslen(head) - 1, L" WHERE ");
    }
    
@@ -1107,7 +1105,7 @@ template<typename Table>struct Delete
 	};
 	template< typename List, typename F>Delete &eq_all(F *f)
 	{
-		VL::for_each<List, eq_all_>()(f, this);
+		VL::foreach<List, eq_all_>()(f, this);
 		return *this;
 	}
 	//template<typename O, typename P>struct set_to_

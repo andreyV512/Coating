@@ -19,11 +19,11 @@ public:
 	void Draw(Gdiplus::Graphics &graph)
 	{
 		Chart::Draw(graph);
-		VL::for_each<List, __draw__>()(items);
+		VL::foreach<List, __draw__>()(items);
 	}
 	template<class lst>void DrawItems(Gdiplus::Graphics &graph)
 	{
 		Chart::Draw(graph);
-		VL::for_each<lst, __draw__>()(items);
+		VL::foreach<lst, __draw__>()(items);
 	}
 };

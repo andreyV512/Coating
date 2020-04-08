@@ -73,7 +73,7 @@ namespace Common
 				p->l.x = o->currentX;
 				p->l.delta = 0;
 				typedef VL::EraseItem<List, O>::Result lst;
-				VL::for_each<lst, __sub_in_rect__>()(&p->owner.viewers, p);
+				VL::foreach<lst, __sub_in_rect__>()(&p->owner.viewers, p);
 				return false;
 			}
 			return true;
@@ -110,7 +110,7 @@ namespace Common
 				p->l.x = o->storedMouseMove.x;
 				p->l.delta = 0;
 				typedef VL::EraseItem<List, O>::Result lst;
-				VL::for_each<lst, __sub_in_rect_wapper_>()(&p->owner.viewers, o);
+				VL::foreach<lst, __sub_in_rect_wapper_>()(&p->owner.viewers, o);
 				return false;
 			}
 			return true;

@@ -85,7 +85,7 @@ template<>struct FillComboboxList<CurrentFilter>
 	void operator()(HWND h, CurrentFilter& t)
 	{
 		this->h = h;
-		VL::for_each<__orders_list__, loc>()(*this);
+		VL::foreach<__orders_list__, loc>()(*this);
 	}
 };	 
 template<>struct CurrentValue<CurrentFilter>
@@ -154,7 +154,7 @@ template<template<class>class X, template<class>class Y, class O, class P>struct
 				, __current_filtre_param_data__<FiltersTable>
 			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
 			{
-				VL::for_each<list, __copy__>()(p.obj.items, Singleton<FiltersTable>::Instance().items);
+				VL::foreach<list, __copy__>()(p.obj.items, Singleton<FiltersTable>::Instance().items);
 			}
 			return false;
 		}

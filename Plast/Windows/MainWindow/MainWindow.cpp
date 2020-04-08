@@ -20,7 +20,7 @@ LRESULT MainWindow::operator()(TCreate &l)
 	SendMessage(hStatuisBar, WM_SETFONT, (WPARAM)font, (LPARAM)0);
 	SendMessage(hStatuisBar, SB_SETMINHEIGHT, 30, (LPARAM)0);
 
-	VL::for_each<viewers_list, Common::__create_window__>()(viewers, l.hwnd);
+	VL::foreach<viewers_list, Common::__create_window__>()(viewers, l.hwnd);
 	return 0;
 }
 
@@ -64,7 +64,7 @@ void MainWindow::operator()(TSize &l)
 	y += topLabelHeight;
 
 	__move_window_data__ data{y, l.Width, t, l.Height - rs.bottom, 100};
-	VL::for_each<viewers_list, __move_window__>()(viewers, data);
+	VL::foreach<viewers_list, __move_window__>()(viewers, data);
 
 }
 
