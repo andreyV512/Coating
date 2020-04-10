@@ -174,9 +174,9 @@ template<int N, class P>struct __insert_menu__<Separator<N>, P>
 	{	
 		p.m.fMask = MIIM_TYPE | MIIM_DATA | MIIM_ID | MIIM_STATE;
 		p.m.hSubMenu = NULL;		
-		unsigned t = p->m.fType;
+		unsigned t = p.m.fType;
 		p.m.fType = MFT_SEPARATOR;
-		InsertMenuItem(p.h, p.index++, false, &p.m);
+		InsertMenuItem(p.h, p.Index()++, false, &p.m);
 		p.m.fType = t;
 		return true;
 	}

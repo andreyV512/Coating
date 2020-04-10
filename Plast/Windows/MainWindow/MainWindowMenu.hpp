@@ -1,7 +1,6 @@
 #pragma once
 #include "window_tool/MenuApi.h"
-#include "Windows/SelectUsers/SelectUserWindow.h"
-#include "Windows/GridWindow/Test.h"
+#include "Dlg/Dlg.h"
 
 namespace MainWindowMenu
 {
@@ -10,12 +9,10 @@ namespace MainWindowMenu
 	struct LoadDateFile { static void Do(HWND) {} };
 	struct SaveDateFile {
 		static void Do(HWND) {
-			GridOptions<SelectUsers>::Open((wchar_t *)L"Users");
+			//GridOptions<SelectUsers>::Open((wchar_t *)L"Users");
 		}
 	};
-	struct Compute { static void Do(HWND) {
-		TestTest();
-	} };
+	struct Compute : OperatorsDlg {};
 
 	struct Exit
 	{

@@ -115,11 +115,11 @@ int Chart::GetCountDigit(double min, double max, double &height, Font &font)
 	RectF rect;
 	wchar_t wbuf[32];
 	dtow<3>(min, wbuf);
-	g->MeasureString(wbuf, (int)wcslen(wbuf) * 3, &font, origin, &format, &rect);
+	g->MeasureString(wbuf, (int)wcslen(wbuf) * 1.2, &font, origin, &format, &rect);
 	int mn = (int)rect.Width; 
 	dtow<3>(max, wbuf);
-	g->MeasureString(wbuf, (int)wcslen(wbuf) * 3, &font, origin, &format, &rect);
-	int mx = (int)rect.Width; 
+	g->MeasureString(wbuf, (int)wcslen(wbuf) * 1.2, &font, origin, &format, &rect);
+	int mx = (int)ceil(rect.Width); 
 	height = rect.Height;
 	return mx > mn ? mx : mn;
 }
@@ -379,7 +379,7 @@ void BottomAxesInt::Draw()
     int y = chart.rect.bottom - chart.offsetAxesBottom;
 	chart.g->DrawLine(&pen, chart.rect.left + chart.offsetAxesLeft, y, chart.rect.right - chart.offsetAxesRight, y);
 
-    char buf[32];
+   // char buf[32];
 	wchar_t wbuf[32];
 	PointF origin;
 	RectF rect;	
@@ -389,7 +389,7 @@ void BottomAxesInt::Draw()
     double digit = 0;
     double minTick = 0;
 	OffsetAxes(
-		int(3.5 * chart.GetCountDigit(minA, maxA, height, font))
+		int(1.5 * chart.GetCountDigit(minA, maxA, height, font))
 		, chart.rect.right - chart.rect.left - chart.offsetAxesLeft - chart.offsetAxesRight
 		, chart.minAxesX
 		, chart.maxAxesX
@@ -418,8 +418,10 @@ void BottomAxesInt::Draw()
     while(offs < ((double)chart.rect.right - chart.offsetAxesRight))
     {		
 		chart.g->DrawLine(&pen, int(offs), y, int(offs), y + 7);
-		gcvt(digit, 5, buf);
-		mbstowcs(wbuf, buf, 32);
+		//gcvt(digit, 5, buf);
+		//mbstowcs(wbuf, buf, 32);
+		int t = int(digit);
+		_itow(t, wbuf, 10);
 		size_t len = wcslen(wbuf);
 		chart.g->MeasureString(wbuf, (int)len, &font, origin, &format, &rect);
 		origin.X = (REAL)offs;

@@ -82,6 +82,7 @@ public:
 	void ButtonClick(HWND)override;
 	void DeleteItem(int i, HWND h);
 	void AddItem(HWND h);
+	void SelectItem(int i, HWND h);
 };
 
 template<class T, class D>struct __insert__
@@ -167,9 +168,11 @@ struct sel_OkBtn
 
 struct Add {};
 struct Del {};
+struct Sel {};
 template<class, class >class Wrap {};
 template<class T>struct TopMenu<Wrap<Add, T>> { typedef Vlst<> list; };
 template<class T>struct TopMenu<Wrap<Del, T>> { typedef Vlst<> list; };
+template<class T>struct TopMenu<Wrap<Sel, T>> { typedef Vlst<> list; };
 
 template<class T>struct NameMenu<TopMenu<Wrap<Add, T> > >
 {
@@ -178,6 +181,10 @@ template<class T>struct NameMenu<TopMenu<Wrap<Add, T> > >
 template<class T>struct NameMenu<TopMenu<Wrap<Del, T> > >
 {
 	wchar_t *operator()(HWND) { return (wchar_t *)L"Удалить"; }
+};
+template<class T>struct NameMenu<TopMenu<Wrap<Sel, T> > >
+{
+	wchar_t *operator()(HWND) { return (wchar_t *)L"Выбрать"; }
 };
 
 template<class T>struct Event<TopMenu<Wrap<Add, T>>>
@@ -198,10 +205,19 @@ template<class T>struct Event<TopMenu<Wrap<Del, T>>>
 	}
 };
 
+template<class T>struct Event<TopMenu<Wrap<Sel, T>>>
+{
+	static void Do(LPNMITEMACTIVATE d)
+	{
+		T *o = (T *)GetWindowLongPtr(d->hdr.hwndFrom, GWLP_USERDATA);
+		o->SelectItem(d->iItem, d->hdr.hwndFrom);
+	}
+};
+
 template<class Table, class OrderBy, class ViewCols>
 inline void TDataGrid<Table, OrderBy, ViewCols>::RClick(LPNMITEMACTIVATE d)
 {
-	PopupMenu<Vlst<TopMenu<Wrap<Add, TDataGrid>>, TopMenu<Wrap<Del, TDataGrid>>>>::Do(d->hdr.hwndFrom, d);
+	PopupMenu<Vlst<TopMenu<Wrap<Sel, TDataGrid>>, Separator<0>, TopMenu<Wrap<Add, TDataGrid>>, TopMenu<Wrap<Del, TDataGrid>>>>::Do(d->hdr.hwndFrom, d);
 }
 
 template<class Table, class OrderBy, class ViewCols>
@@ -249,7 +265,7 @@ inline void TDataGrid<Table, OrderBy, ViewCols>::ButtonClick(HWND h)
 		{
 			for (auto i : delItems)
 			{
-				if (-1 != i)
+				if (-1 != i && CurrentId<ID<Table>>() != i)
 				{
 					try
 					{
@@ -309,6 +325,27 @@ inline void TDataGrid<Table, OrderBy, ViewCols>::AddItem(HWND h)
 			, t.items
 			});
 		GridDetail::UpdateGridCells(h);
+	}
+}
+
+template<class Table, class OrderBy, class ViewCols>
+inline void TDataGrid<Table, OrderBy, ViewCols>::SelectItem(int i, HWND h)
+{
+	if ((int)dataItems.size() > i && TypesizePasswordDlg().Do(h))
+	{
+		CBase base((wchar_t *)ParametersBase().name());
+		if (base.IsOpen())
+		{
+			if (-1 == dataItems[i].id)
+			{
+				Table t;
+				VL::CopyFromTo(dataItems[i].items, t.items);
+				Insert_Into<Table>(t, base).Execute();
+				dataItems[i].id = Select<Table>(base).eq_all<Table::items_list>(t.items).Execute();
+				++countItems;
+			}
+			UpdateId<ID<Table> >(base, dataItems[i].id);
+		}
 	}
 }
 

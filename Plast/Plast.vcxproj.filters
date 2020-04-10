@@ -49,14 +49,8 @@
     <Filter Include="Common\Grid">
       <UniqueIdentifier>{18471e8d-07d8-4ea6-b592-a53563bfa6b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\Viewers\SelectUsers">
-      <UniqueIdentifier>{16dad4f0-cddc-41b4-a6ca-b2c6d8201cb6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\DlgTemplates">
       <UniqueIdentifier>{0039e388-0e67-4a93-85f1-78ce4e7a320b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows\GridWindow">
-      <UniqueIdentifier>{d8ab7dd1-203a-4c23-b02e-142f82c1573c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Automat">
       <UniqueIdentifier>{4b9e58cc-7ed1-4c54-b6d5-e992566b8f2f}</UniqueIdentifier>
@@ -87,6 +81,9 @@
     </Filter>
     <Filter Include="Dlg">
       <UniqueIdentifier>{249369e0-eea6-431e-a306-5fd305663346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{007b125f-68ad-4e28-912c-69ff0908b2b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +144,6 @@
     <ClInclude Include="Windows\MainWindow\AppKeyHandler.h">
       <Filter>Windows\MainWindow</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\Viewers\DefectViewers\DefectViewer.h">
-      <Filter>Windows\Viewers\DefectViewer</Filter>
-    </ClInclude>
     <ClInclude Include="Windows\Viewers\DefectViewers\GridSeries.h">
       <Filter>Windows\Viewers\DefectViewer</Filter>
     </ClInclude>
@@ -177,12 +171,6 @@
     <ClInclude Include="..\Common\Grid\GridDetail.h">
       <Filter>Common\Grid</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\SelectUsers\SelectUsers.h">
-      <Filter>Windows\Viewers\SelectUsers</Filter>
-    </ClInclude>
-    <ClInclude Include="Windows\SelectUsers\SelectUserWindow.h">
-      <Filter>Windows\Viewers\SelectUsers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\Base\Base.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -194,9 +182,6 @@
     </ClInclude>
     <ClInclude Include="..\Common\Base\ExpressBase.hpp">
       <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Windows\SelectUsers\SelectUserDlg.h">
-      <Filter>Windows\Viewers\SelectUsers</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\window_tool\GroupBox.h">
       <Filter>Common\window_tool</Filter>
@@ -212,9 +197,6 @@
     </ClInclude>
     <ClInclude Include="..\Common\DlgTemplates\ParamDlgNew.h">
       <Filter>Common\DlgTemplates</Filter>
-    </ClInclude>
-    <ClInclude Include="Windows\GridWindow\Test.h">
-      <Filter>Windows\GridWindow</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\Grid\GridWindow.h">
       <Filter>Common\Grid</Filter>
@@ -327,6 +309,21 @@
     <ClInclude Include="Dlg\DspFiltrParams.h">
       <Filter>Dlg</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\Graphics\BarSeries.h">
+      <Filter>Common\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Data.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\DefectViewers\CommonSensorViewer.h">
+      <Filter>Windows\Viewers\DefectViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\DefectViewers\ResultViewer.h">
+      <Filter>Windows\Viewers\DefectViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\DefectViewers\SensorViewer.h">
+      <Filter>Windows\Viewers\DefectViewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -362,9 +359,6 @@
     <ClCompile Include="Windows\MainWindow\AppKeyHandler.cpp">
       <Filter>Windows\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\Viewers\DefectViewers\DefectViewer.cpp">
-      <Filter>Windows\Viewers\DefectViewer</Filter>
-    </ClCompile>
     <ClCompile Include="Windows\Viewers\DefectViewers\GridSeries.cpp">
       <Filter>Windows\Viewers\DefectViewer</Filter>
     </ClCompile>
@@ -389,15 +383,6 @@
     <ClCompile Include="..\Common\Grid\GridDetail.cpp">
       <Filter>Common\Grid</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\SelectUsers\SelectUsers.cpp">
-      <Filter>Windows\Viewers\SelectUsers</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\SelectUsers\SelectUserWindow.cpp">
-      <Filter>Windows\Viewers\SelectUsers</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\SelectUsers\SelectUserDlg.cpp">
-      <Filter>Windows\Viewers\SelectUsers</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\window_tool\GroupBox.cpp">
       <Filter>Common\window_tool</Filter>
     </ClCompile>
@@ -406,9 +391,6 @@
     </ClCompile>
     <ClCompile Include="..\Common\DlgTemplates\ParamDlg.cpp">
       <Filter>Common\DlgTemplates</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\GridWindow\Test.cpp">
-      <Filter>Windows\GridWindow</Filter>
     </ClCompile>
     <ClCompile Include="..\Common\Grid\GridWindow.cpp">
       <Filter>Common\Grid</Filter>
@@ -484,6 +466,24 @@
     </ClCompile>
     <ClCompile Include="Dlg\DspFiltrDlg.cpp">
       <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\OperatorsDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Graphics\BarSeries.cpp">
+      <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Data.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\DefectViewers\CommonSensorViewer.cpp">
+      <Filter>Windows\Viewers\DefectViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\DefectViewers\ResultViewer.cpp">
+      <Filter>Windows\Viewers\DefectViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\DefectViewers\SensorViewer.cpp">
+      <Filter>Windows\Viewers\DefectViewer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

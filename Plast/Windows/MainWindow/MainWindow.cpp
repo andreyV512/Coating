@@ -14,11 +14,12 @@ LRESULT MainWindow::operator()(TCreate &l)
 	topLabelViewer.label.fontHeight = 25;
 
 	hStatuisBar = CreateStatusWindow(WS_CHILD | WS_VISIBLE, NULL, l.hwnd, 0);
-	int parts[]{ 300, 650, 800, 900 };
+	int parts[]{ 300, 650, 900, 1200 };
 	SendMessage(hStatuisBar, SB_SETPARTS, dimention_of(parts), (LPARAM)parts);
 	HFONT font = CreateFont(30,0,0,90,900,TRUE,0,0,ANSI_CHARSET, 0,0,0,0,L"Arial");
 	SendMessage(hStatuisBar, WM_SETFONT, (WPARAM)font, (LPARAM)0);
 	SendMessage(hStatuisBar, SB_SETMINHEIGHT, 30, (LPARAM)0);
+
 
 	VL::foreach<viewers_list, Common::__create_window__>()(viewers, l.hwnd);
 	return 0;
@@ -39,11 +40,22 @@ template<class O, class P>struct __move_window__
 {
 	void operator()(O &o, P &p)
 	{
-		o.tchart.items.get<BottomAxesMeters>().maxBorder = p.lengthTube;
+		o.tchart.maxAxesX = App::count_zones;
 		TSize size{o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height};
 		SendMessage(MESSAGE(size));
 		MoveWindow(o.hWnd, 0, p.y, p.width, p.height, TRUE);
 		p.y += p.height;
+	}
+};
+template<class P>struct __move_window__<ResultViewer, P>
+{
+	typedef ResultViewer O;
+	void operator()(O &o, P &p)
+	{
+		o.tchart.maxAxesX = App::count_zones;
+		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
+		SendMessage(MESSAGE(size));
+		MoveWindow(o.hWnd, 0, p.y, p.width, p.maxYHeight - p.y, TRUE);
 	}
 };
 
@@ -60,7 +72,7 @@ void MainWindow::operator()(TSize &l)
 	int y = rt.bottom - 1;
 	MoveWindow(topLabelViewer.hWnd, 0, y, l.Width, topLabelHeight, true);
 
-	int t = l.Height - rs.bottom - rt.bottom - topLabelHeight;
+	int t = (l.Height - rs.bottom - rt.bottom - topLabelHeight) / ( 1 + VL::Length<viewers_list>::value);
 	y += topLabelHeight;
 
 	__move_window_data__ data{y, l.Width, t, l.Height - rs.bottom, 100};

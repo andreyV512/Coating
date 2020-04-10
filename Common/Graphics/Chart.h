@@ -104,11 +104,11 @@ void CoordCell( Chart &chart, int mX, int &x, int delta);
 
 class BottomAxesInt
 {
-	double minA, maxA;
-	int offsMax;
-	int offsMin;
+	double minA, maxA;	
 	double deltaTickDigit;
 public:
+    int offsMax;
+    int offsMin;
   Chart &chart;
   BottomAxesInt(Chart &chart);
   void Draw();

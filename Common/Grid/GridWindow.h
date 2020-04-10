@@ -41,7 +41,7 @@ public:
 	void operator()(TSize &);
 	LRESULT operator()(TNotify &);
 	void operator()(TCommand &);
-};
+};	 
 
 template<class T>class GridOptions : public GridWindowX
 {

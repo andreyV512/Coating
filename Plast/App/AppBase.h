@@ -98,10 +98,12 @@ struct TresholdsTable
 };
 
 DEFINE_PARAM(CurrentID, int, 1)
+DEFINE_PARAM(CurrentUserNameID, int, 1)
 struct CurrentParametersTable
 {
 	typedef Vlst<
 		CurrentID
+		, CurrentUserNameID
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;
@@ -168,16 +170,10 @@ struct AppBase
 	static void InitTypeSizeTables(CBase &);
 };
 
-//unsigned TopID();
-
 template<class T>void UpdateId(CBase &base, int num)
 {
-	//int ID = 0;
-	//wchar_t* query = (wchar_t*)L"SELECT TOP 1 ID FROM CurrentParametersTable";
-	//CMD(base).CommandText(query).GetValue((wchar_t*)L"ID", ID);
-
 	CurrentParametersTable &current = Singleton<CurrentParametersTable>::Instance();
-	Select<CurrentParametersTable>(base)/*.ID(TopID())*/.Execute(current);
+	Select<CurrentParametersTable>(base).Execute(current);
 	ParametersTable &t = Singleton<ParametersTable>::Instance();
 	t.items.get<T>().value = num;
 	UpdateWhere<ParametersTable>(t, base).ID(current.items.get<CurrentID>().value).Execute();
@@ -185,14 +181,6 @@ template<class T>void UpdateId(CBase &base, int num)
 
 template<class T>int CountId(CBase &base, int num)
 {
-	//ADODB::_RecordsetPtr rec;
-	//Select<ParametersTable>(base).eq<T>(num).Execute(rec);
-	//int i = 0;
-	//while (!rec->EndOfFile)
-	//{
-	//	++i;
-	//	rec->MoveNext();
-	//}
 	int cnt = 0;
 	wchar_t query[128];
 	wsprintf(query, L"SELECT COUNT(*) AS cnt FROM ParametersTable WHERE %s = %d", T().name(), num);

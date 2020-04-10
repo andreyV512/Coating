@@ -195,6 +195,7 @@
     <ClInclude Include="..\Common\DspFilters\include\DspFilters\State.h" />
     <ClInclude Include="..\Common\DspFilters\include\DspFilters\Types.h" />
     <ClInclude Include="..\Common\DspFilters\include\DspFilters\Utilities.h" />
+    <ClInclude Include="..\Common\Graphics\BarSeries.h" />
     <ClInclude Include="..\Common\Graphics\Chart.h" />
     <ClInclude Include="..\Common\Graphics\Chart.hpp" />
     <ClInclude Include="..\Common\Graphics\ColorLabel.h" />
@@ -222,21 +223,20 @@
     <ClInclude Include="App\Config.h" />
     <ClInclude Include="Automat\Automat.h" />
     <ClInclude Include="Automat\Automat.hpp" />
+    <ClInclude Include="Data\Data.h" />
     <ClInclude Include="Dlg\Dlg.h" />
     <ClInclude Include="Dlg\DspFiltrParams.h" />
     <ClInclude Include="Plast.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Windows\GridWindow\Test.h" />
     <ClInclude Include="Windows\MainWindow\AppKeyHandler.h" />
     <ClInclude Include="Windows\MainWindow\MainWindow.h" />
     <ClInclude Include="Windows\MainWindow\MainWindowMenu.hpp" />
     <ClInclude Include="Windows\MainWindow\MainWindowToolBar.h" />
-    <ClInclude Include="Windows\SelectUsers\SelectUserDlg.h" />
-    <ClInclude Include="Windows\SelectUsers\SelectUsers.h" />
-    <ClInclude Include="Windows\SelectUsers\SelectUserWindow.h" />
-    <ClInclude Include="Windows\Viewers\DefectViewers\DefectViewer.h" />
+    <ClInclude Include="Windows\Viewers\DefectViewers\CommonSensorViewer.h" />
     <ClInclude Include="Windows\Viewers\DefectViewers\GridSeries.h" />
+    <ClInclude Include="Windows\Viewers\DefectViewers\ResultViewer.h" />
+    <ClInclude Include="Windows\Viewers\DefectViewers\SensorViewer.h" />
     <ClInclude Include="\\andrew\shared\plast2\Common\window_tool\InitToolbar.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -262,6 +262,7 @@
     <ClCompile Include="..\Common\DspFilters\source\RBJ.cpp" />
     <ClCompile Include="..\Common\DspFilters\source\RootFinder.cpp" />
     <ClCompile Include="..\Common\DspFilters\source\State.cpp" />
+    <ClCompile Include="..\Common\Graphics\BarSeries.cpp" />
     <ClCompile Include="..\Common\Graphics\Chart.cpp" />
     <ClCompile Include="..\Common\Graphics\ColorLabel.cpp" />
     <ClCompile Include="..\Common\Graphics\EmptyLeftAxes.cpp" />
@@ -281,17 +282,17 @@
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\AppBase.cpp" />
     <ClCompile Include="Automat\Automat.cpp" />
+    <ClCompile Include="Data\Data.cpp" />
     <ClCompile Include="Dlg\DspFiltrDlg.cpp" />
+    <ClCompile Include="Dlg\OperatorsDlg.cpp" />
     <ClCompile Include="Plast.cpp" />
-    <ClCompile Include="Windows\GridWindow\Test.cpp" />
     <ClCompile Include="Windows\MainWindow\AppKeyHandler.cpp" />
     <ClCompile Include="Windows\MainWindow\MainWindow.cpp" />
     <ClCompile Include="Windows\MainWindow\MainWindowToolBar.cpp" />
-    <ClCompile Include="Windows\SelectUsers\SelectUserDlg.cpp" />
-    <ClCompile Include="Windows\SelectUsers\SelectUsers.cpp" />
-    <ClCompile Include="Windows\SelectUsers\SelectUserWindow.cpp" />
-    <ClCompile Include="Windows\Viewers\DefectViewers\DefectViewer.cpp" />
+    <ClCompile Include="Windows\Viewers\DefectViewers\CommonSensorViewer.cpp" />
     <ClCompile Include="Windows\Viewers\DefectViewers\GridSeries.cpp" />
+    <ClCompile Include="Windows\Viewers\DefectViewers\ResultViewer.cpp" />
+    <ClCompile Include="Windows\Viewers\DefectViewers\SensorViewer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc" />

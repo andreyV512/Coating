@@ -113,7 +113,7 @@ void AppBase::InitTypeSizeTables(CBase &base)
 	//wchar_t* query = (wchar_t*)L"SELECT TOP 1 ID FROM CurrentParametersTable";
 	//CMD(base).CommandText(query).GetValue((wchar_t*)L"ID", ___top_ID___);
 
-	CurrentParametersTable x;
+	CurrentParametersTable &x = Singleton<CurrentParametersTable>::Instance();
 	Select<CurrentParametersTable>(base)./*ID(___top_ID___).*/Execute(x);
 	ParametersTable &p = Singleton<ParametersTable>::Instance();
 	Select<ParametersTable>(base).ID(x.items.get<CurrentID>().value).Execute(p);
@@ -124,3 +124,4 @@ void AppBase::InitTypeSizeTables(CBase &base)
 //{
 //	return ___top_ID___;
 //}
+
