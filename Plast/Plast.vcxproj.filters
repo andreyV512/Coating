@@ -85,6 +85,9 @@
     <Filter Include="Data">
       <UniqueIdentifier>{007b125f-68ad-4e28-912c-69ff0908b2b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\AScanWindow">
+      <UniqueIdentifier>{5aebe633-4185-4c31-a6c8-a1bbaa93b4af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -324,6 +327,21 @@
     <ClInclude Include="Windows\Viewers\DefectViewers\SensorViewer.h">
       <Filter>Windows\Viewers\DefectViewer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\window_tool\OpenWindow.hpp">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\AScanWindow\AScanKeyHandler.h">
+      <Filter>Windows\AScanWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\AScanWindow\AScanWindow.h">
+      <Filter>Windows\AScanWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\AScanWindow\AScanWindowMenu.hpp">
+      <Filter>Windows\AScanWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\AScanWindow\AScanWindowToolBar.h">
+      <Filter>Windows\AScanWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -484,6 +502,15 @@
     </ClCompile>
     <ClCompile Include="Windows\Viewers\DefectViewers\SensorViewer.cpp">
       <Filter>Windows\Viewers\DefectViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\AScanWindow\AScanKeyHandler.cpp">
+      <Filter>Windows\AScanWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\AScanWindow\AScanWindow.cpp">
+      <Filter>Windows\AScanWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\AScanWindow\AScanWindowToolBar.cpp">
+      <Filter>Windows\AScanWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

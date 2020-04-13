@@ -6,20 +6,19 @@
 #include "Resource.h"
 #include "tools_debug/DebugMess.h"
 #include "window_tool/Emptywindow.h"
-//#include "Windows/TestSignalWindow/TestSignalWindow.h"
 
 namespace AppKeyHandler
 {
 	typedef Vlst<
 		VL::IntToType<IDB_CycleBtn>
 		, VL::IntToType<IDB_Reset>
-		//, TL::IntToType<IDB_QueryBtn>
+		, VL::IntToType<IDB_QueryBtn>
 		//, TL::IntToType<IDB_DownArrow>
 		//, TL::IntToType<IDB_UpArrow>
 		//, TL::IntToType<IDB_LeftArrow>
 		//, TL::IntToType<IDB_RightArrow>
 		//, TL::IntToType<IDB_ExitTubeBtn>
-		, VL::IntToType<IDB_Ok>
+		//, VL::IntToType<IDB_Ok>
 	> button_list;
 
 	template<int ID>struct On {static const int ID = ID; static const bool state = true;};
@@ -118,6 +117,17 @@ namespace AppKeyHandler
 	void Stop()
 	{
 		Init();
+	}
+
+	void DisableAll()
+	{
+		__btn__<
+			__all_button_OnOff__<
+			button_list
+			, Vlst<>
+			, On, Off
+			>::Result
+		>()();
 	}
 
 	void VK_(unsigned id)

@@ -1,10 +1,7 @@
-#include "MainWindowToolBar.h"
+#include "AScanWindowToolBar.h"
 #include "Resource.h"
 #include "window_tool/InitToolBar.hpp"
 #include "tools_debug/DebugMess.h"
-#include "window_tool/OpenWindow.hpp"
-#include "Windows/AScanWindow/AScanWindow.h"
-#include "Windows/MainWindow/AppKeyHandler.h"
 
 namespace
 {
@@ -16,9 +13,8 @@ namespace
 	static wchar_t *Text(){return (wchar_t *)text;}\
 };
 
-	KEY(IDB_CycleBtn, L"F4 Цикл")
-		KEY(IDB_Reset, L"Esc Стор")
-		KEY(IDB_QueryBtn, L"Тест")
+	KEY(IDB_CycleBtn, L"Цикл")
+		KEY(IDB_Reset, L"Стор")
 #undef KEY
 
 	template<int ID>using BTB = ButtonToolbar<ID, Key<ID> >;
@@ -26,7 +22,6 @@ namespace
 		SeparatorToolbar<0>
 		, BTB<IDB_CycleBtn>
 		, BTB<IDB_Reset>
-		, BTB<IDB_QueryBtn>
 		, SeparatorToolbar<1>
 	>tool_button_list;
 
@@ -38,25 +33,20 @@ namespace
 	{
 		dprint("Key<IDB_Reset>::Click\n"); 
 	}
-	void Key<IDB_QueryBtn>::Click(HWND h) 
-	{
-		OpenWindow<AScanWindow>::Do(h);
-		AppKeyHandler::DisableAll();
-	}
 }
 
-HWND MainWindowToolBar::Init(HWND h)
+HWND AScanWindowToolBar::Init(HWND h)
 {
 	hWnd = InitToolbar< tool_button_list>()(h);
 	return hWnd;
 }
 
-void MainWindowToolBar::Size()
+void AScanWindowToolBar::Size()
 {
 	MoveWindow(hWnd, 0, 0, 0, 0, false);
 }
 
-const int MainWindowToolBar::Width()
+const int AScanWindowToolBar::Width()
 {
 	return __tool_bar_width__<tool_button_list>::value;;
 }

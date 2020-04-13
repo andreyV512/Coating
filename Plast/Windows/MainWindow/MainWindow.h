@@ -1,11 +1,10 @@
 #pragma once
 #include <Windows.h>
-#include "window_tool\message.h"
+#include "window_tool/message.h"
 #include "MainWindowToolBar.h"
 #include "../Viewers/DefectViewers/SensorViewer.h"
 #include "../Viewers/DefectViewers/ResultViewer.h"
 #include "Graphics/TopLabelViewer.h"
-#include "templates/templates.hpp"
 
 class MainWindow
 {
