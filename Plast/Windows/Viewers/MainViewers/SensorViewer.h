@@ -1,6 +1,7 @@
 #pragma once 
-#include "CommonSensorViewer.h"
+#include "Windows/Viewers/CommonSensorViewer.h"
 #include "Data/Data.h"
+#include "Graphics/FixedGridSeries.h"
 
 class SensorViewer : public CommonSensorViewer
 {

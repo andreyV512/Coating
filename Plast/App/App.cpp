@@ -7,12 +7,13 @@
 #include "Windows/MainWindow/AppKeyHandler.h"
 #include "AppBase.h"
 #include "Dlg/Dlg.h"
+#include "PerformanceCounter\PerformanceCounter.h"
 namespace App
 {
 	void Init()
 	{
+		Performance::Init();
 		AppBase().Init();
-
 #if 1
 		MainWindow& w = Singleton<MainWindow>::Instance();
 

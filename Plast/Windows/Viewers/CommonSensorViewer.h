@@ -3,7 +3,6 @@
 #include "Graphics/Chart.h"
 #include "Graphics/ColorLabel.h"
 #include "Graphics/EmptyLeftAxes.h"
-#include "GridSeries.h"
 #include "Graphics/BarSeries.h"
 
 class CommonSensorViewer

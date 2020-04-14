@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Lan">
+      <UniqueIdentifier>{fece403d-7fdd-4f40-9adf-178fef3c2809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lan\INTERFACES">
+      <UniqueIdentifier>{73c03bba-f9ab-486a-ad41-99a6d9af747a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lan\INTERFACES\REGKEY">
+      <UniqueIdentifier>{3041e463-4975-4884-8b29-271808aeecab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Test_RudShel0.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Lan\Lan.cpp">
+      <Filter>Lan</Filter>
+    </ClCompile>
+    <ClCompile Include="Lan\LanParameters.cpp">
+      <Filter>Lan</Filter>
+    </ClCompile>
+    <ClCompile Include="Lan\INTERFACES\ADC_Errors.cpp">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClCompile>
+    <ClCompile Include="Lan\INTERFACES\DllFactory.cpp">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Lan\AppBase.h">
+      <Filter>Lan</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\Lan.h">
+      <Filter>Lan</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\LanParameters.h">
+      <Filter>Lan</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\ADC_CAPS.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\ADC_CONST.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\ADC_CONSTEX.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\ADC_CONSTS.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\ADC_Errors.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\DAC_CONST.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\DAC_ERRORS.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\DLLClient.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\DllFactory.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\Drawosc.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\DSPUtil.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IADCDevice.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IADCUtility.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IADCUtilityEX.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IDACDevice1.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IDDevice.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IEasyDriver.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IEasyPort.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IFactory.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IntDMAEx.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IOSC.H">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\IOSCE.H">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\UniDriver.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="Lan\INTERFACES\UniDriver4LV.h">
+      <Filter>Lan\INTERFACES</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

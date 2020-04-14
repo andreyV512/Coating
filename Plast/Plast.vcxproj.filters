@@ -40,9 +40,6 @@
     <Filter Include="Windows\Viewers">
       <UniqueIdentifier>{eb1e0815-e59b-48c9-a08a-13be34eb117c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\Viewers\DefectViewer">
-      <UniqueIdentifier>{ba2e5ae0-20a6-464d-a689-d7490426b8c0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Base">
       <UniqueIdentifier>{a70a84ba-6e51-4874-b0ce-d7629b9eb36c}</UniqueIdentifier>
     </Filter>
@@ -57,12 +54,6 @@
     </Filter>
     <Filter Include="Common\PerformanceCounter">
       <UniqueIdentifier>{367d3ca2-9cb5-46bb-8c48-6b143003c086}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common\1730">
-      <UniqueIdentifier>{ef0d9efb-e329-408e-898d-67fa850afcdb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common\1730\inc">
-      <UniqueIdentifier>{f9fde18f-ed26-40f1-a89f-d8d6d60f1b3b}</UniqueIdentifier>
     </Filter>
     <Filter Include="CommonApp">
       <UniqueIdentifier>{0d73a361-782c-4528-bec4-0317f0bf7f2f}</UniqueIdentifier>
@@ -87,6 +78,36 @@
     </Filter>
     <Filter Include="Windows\AScanWindow">
       <UniqueIdentifier>{5aebe633-4185-4c31-a6c8-a1bbaa93b4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Viewers\MainViewer">
+      <UniqueIdentifier>{ba2e5ae0-20a6-464d-a689-d7490426b8c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\Viewers\AScanViewer">
+      <UniqueIdentifier>{6b1f5145-705f-4aaa-8c4d-6a93c0f4fc2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Automat\Auto">
+      <UniqueIdentifier>{9d1af5bd-32fd-4416-81ea-949e9749f117}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Automat\AScanAuto">
+      <UniqueIdentifier>{95b742a6-de2f-48dc-9c86-a1286898236a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Units">
+      <UniqueIdentifier>{e0e33284-5074-4e87-b9bb-6741e5aa6148}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Units\Lan">
+      <UniqueIdentifier>{3677791a-1edc-4f90-b4f0-c7ea2f3d21b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Units\1730">
+      <UniqueIdentifier>{9faa7359-98e8-479f-891b-2d2f8149a430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Units\1730\inc">
+      <UniqueIdentifier>{fb9c7404-f823-4a98-bcd8-cc3e55ff1f1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Units\Lan\INTERFACES">
+      <UniqueIdentifier>{59681294-162c-42f7-a7f1-260b3ab0a486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Units\Lan\INTERFACES\REGKEY">
+      <UniqueIdentifier>{2ac2f518-17a3-4292-bf84-2224838568ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +168,6 @@
     <ClInclude Include="Windows\MainWindow\AppKeyHandler.h">
       <Filter>Windows\MainWindow</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\Viewers\DefectViewers\GridSeries.h">
-      <Filter>Windows\Viewers\DefectViewer</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\Graphics\TopLabelViewer.h">
       <Filter>Common\Graphics</Filter>
     </ClInclude>
@@ -207,20 +225,8 @@
     <ClInclude Include="..\Common\Grid\DataGrid.hpp">
       <Filter>Common\Grid</Filter>
     </ClInclude>
-    <ClInclude Include="Automat\Automat.h">
-      <Filter>Automat</Filter>
-    </ClInclude>
-    <ClInclude Include="Automat\Automat.hpp">
-      <Filter>Automat</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\PerformanceCounter\PerformanceCounter.h">
       <Filter>Common\PerformanceCounter</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\1730\Device1730.h">
-      <Filter>Common\1730</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\1730\inc\bdaqctrl.h">
-      <Filter>Common\1730\inc</Filter>
     </ClInclude>
     <ClInclude Include="App\Config.h">
       <Filter>App</Filter>
@@ -318,15 +324,6 @@
     <ClInclude Include="Data\Data.h">
       <Filter>Data</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\Viewers\DefectViewers\CommonSensorViewer.h">
-      <Filter>Windows\Viewers\DefectViewer</Filter>
-    </ClInclude>
-    <ClInclude Include="Windows\Viewers\DefectViewers\ResultViewer.h">
-      <Filter>Windows\Viewers\DefectViewer</Filter>
-    </ClInclude>
-    <ClInclude Include="Windows\Viewers\DefectViewers\SensorViewer.h">
-      <Filter>Windows\Viewers\DefectViewer</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\window_tool\OpenWindow.hpp">
       <Filter>Common\window_tool</Filter>
     </ClInclude>
@@ -341,6 +338,111 @@
     </ClInclude>
     <ClInclude Include="Windows\AScanWindow\AScanWindowToolBar.h">
       <Filter>Windows\AScanWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\MainViewers\ResultViewer.h">
+      <Filter>Windows\Viewers\MainViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\MainViewers\SensorViewer.h">
+      <Filter>Windows\Viewers\MainViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\AScanViewer\AScanViewer.h">
+      <Filter>Windows\Viewers\AScanViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\CommonSensorViewer.h">
+      <Filter>Windows\Viewers</Filter>
+    </ClInclude>
+    <ClInclude Include="Automat\Automat.hpp">
+      <Filter>Automat\Auto</Filter>
+    </ClInclude>
+    <ClInclude Include="Automat\Automat.h">
+      <Filter>Automat\Auto</Filter>
+    </ClInclude>
+    <ClInclude Include="AScanAuto\AScanAuto.h">
+      <Filter>Automat\AScanAuto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\1730\inc\bdaqctrl.h">
+      <Filter>Common\Units\1730\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\1730\Device1730.h">
+      <Filter>Common\Units\1730</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\Lan.h">
+      <Filter>Common\Units\Lan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CAPS.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONST.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONSTEX.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONSTS.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_Errors.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DAC_CONST.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DAC_ERRORS.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DLLClient.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DllFactory.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\Drawosc.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DSPUtil.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCDevice.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCUtility.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCUtilityEX.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDACDevice.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDACDevice1.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDDevice.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IEasyDriver.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IEasyPort.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IFactory.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IntDMAEx.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IOSC.H">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IOSCE.H">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\UniDriver.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\UniDriver4LV.h">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,9 +479,6 @@
     <ClCompile Include="Windows\MainWindow\AppKeyHandler.cpp">
       <Filter>Windows\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\Viewers\DefectViewers\GridSeries.cpp">
-      <Filter>Windows\Viewers\DefectViewer</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\Graphics\TopLabelViewer.cpp">
       <Filter>Common\Graphics</Filter>
     </ClCompile>
@@ -413,14 +512,8 @@
     <ClCompile Include="..\Common\Grid\GridWindow.cpp">
       <Filter>Common\Grid</Filter>
     </ClCompile>
-    <ClCompile Include="Automat\Automat.cpp">
-      <Filter>Automat</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\PerformanceCounter\PerformanceCounter.cpp">
       <Filter>Common\PerformanceCounter</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\1730\Device1730.cpp">
-      <Filter>Common\1730</Filter>
     </ClCompile>
     <ClCompile Include="..\CommonApp\Log\LogBuffer.cpp">
       <Filter>CommonApp\Log</Filter>
@@ -494,15 +587,6 @@
     <ClCompile Include="Data\Data.cpp">
       <Filter>Data</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\Viewers\DefectViewers\CommonSensorViewer.cpp">
-      <Filter>Windows\Viewers\DefectViewer</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\Viewers\DefectViewers\ResultViewer.cpp">
-      <Filter>Windows\Viewers\DefectViewer</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\Viewers\DefectViewers\SensorViewer.cpp">
-      <Filter>Windows\Viewers\DefectViewer</Filter>
-    </ClCompile>
     <ClCompile Include="Windows\AScanWindow\AScanKeyHandler.cpp">
       <Filter>Windows\AScanWindow</Filter>
     </ClCompile>
@@ -512,10 +596,63 @@
     <ClCompile Include="Windows\AScanWindow\AScanWindowToolBar.cpp">
       <Filter>Windows\AScanWindow</Filter>
     </ClCompile>
+    <ClCompile Include="Windows\Viewers\MainViewers\ResultViewer.cpp">
+      <Filter>Windows\Viewers\MainViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\MainViewers\SensorViewer.cpp">
+      <Filter>Windows\Viewers\MainViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\AScanViewer\AScanViewer.cpp">
+      <Filter>Windows\Viewers\AScanViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\CommonSensorViewer.cpp">
+      <Filter>Windows\Viewers</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\AboutWindow.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Automat\Automat.cpp">
+      <Filter>Automat\Auto</Filter>
+    </ClCompile>
+    <ClCompile Include="AScanAuto\AScanAuto.cpp">
+      <Filter>Automat\AScanAuto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Units\1730\Device1730.cpp">
+      <Filter>Common\Units\1730</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Units\Lan\Lan.cpp">
+      <Filter>Common\Units\Lan</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\LanDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Units\Lan\INTERFACES\ADC_Errors.cpp">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Units\Lan\INTERFACES\DllFactory.cpp">
+      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_DACDrivers.ri">
+      <Filter>Common\Units\Lan\INTERFACES\REGKEY</Filter>
+    </None>
+    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_DACDrv.ri">
+      <Filter>Common\Units\Lan\INTERFACES\REGKEY</Filter>
+    </None>
+    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_Drivers.ri">
+      <Filter>Common\Units\Lan\INTERFACES\REGKEY</Filter>
+    </None>
+    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_EasyDriver.ri">
+      <Filter>Common\Units\Lan\INTERFACES\REGKEY</Filter>
+    </None>
+    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_Library.ri">
+      <Filter>Common\Units\Lan\INTERFACES\REGKEY</Filter>
+    </None>
   </ItemGroup>
 </Project>

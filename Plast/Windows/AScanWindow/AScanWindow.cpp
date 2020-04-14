@@ -24,7 +24,7 @@ LRESULT AScanWindow::operator()(TCreate &l)
 
 	AScanKeyHandler::Stop();
 
-	//VL::foreach<viewers_list, Common::__create_window__>()(viewers, l.hwnd);
+	VL::foreach<viewers_list, Common::__create_window__>()(viewers, l.hwnd);
 	return 0;
 }
 
@@ -43,24 +43,14 @@ template<class O, class P>struct __move_window__
 {
 	void operator()(O &o, P &p)
 	{
-		o.tchart.maxAxesX = App::count_zones;
+		o.tchart.maxAxesX = 512;
 		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
 		SendMessage(MESSAGE(size));
 		MoveWindow(o.hWnd, 0, p.y, p.width, p.height, TRUE);
 		p.y += p.height;
 	}
 };
-template<class P>struct __move_window__<ResultViewer, P>
-{
-	typedef ResultViewer O;
-	void operator()(O &o, P &p)
-	{
-		o.tchart.maxAxesX = App::count_zones;
-		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
-		SendMessage(MESSAGE(size));
-		MoveWindow(o.hWnd, 0, p.y, p.width, p.maxYHeight - p.y, TRUE);
-	}
-};
+
 
 void AScanWindow::operator()(TSize &l)
 {
@@ -75,11 +65,11 @@ void AScanWindow::operator()(TSize &l)
 	int y = rt.bottom - 1;
 	MoveWindow(topLabelViewer.hWnd, 0, y, l.Width, topLabelHeight, true);
 
-	//int t = (l.Height - rs.bottom - rt.bottom - topLabelHeight) / (1 + VL::Length<viewers_list>::value);
-	//y += topLabelHeight;
+	int t = (l.Height - rs.bottom - rt.bottom - topLabelHeight) / VL::Length<viewers_list>::value;
+	y += topLabelHeight;
 	//
-	//__move_window_data__ data{ y, l.Width, t, l.Height - rs.bottom, 100 };
-	//VL::foreach<viewers_list, __move_window__>()(viewers, data);
+	__move_window_data__ data{ y, l.Width, t, l.Height - rs.bottom, 100 };
+	VL::foreach<viewers_list, __move_window__>()(viewers, data);
 
 }
 

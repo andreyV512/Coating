@@ -357,7 +357,7 @@ template<class T>struct DlgItemsRadio
 
 template<class T, int edit_width = 140>struct EditItems
 {
-	static const int DY = 25;
+	static const int DY = 30;
 	HWND Init(HWND h, int &x, int &width, int &dy, T &t)
 	{
 		HWND hWnd = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", Wchar_from<typename T::type_value>(t.value)()

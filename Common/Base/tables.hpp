@@ -191,7 +191,7 @@ template<class Base>struct value_type<Base, bool>
 {
 	static wchar_t *Type()
 	{
-		return L"bit";
+		return (wchar_t *)L"bit";
 	}
 };
 

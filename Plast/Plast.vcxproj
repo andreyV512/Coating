@@ -115,6 +115,12 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>GenVer.bat</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Генерация git hash</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -162,8 +168,6 @@
     <ClInclude Include="..\CommonApp\Log\LogBuffer.h" />
     <ClInclude Include="..\CommonApp\Log\LogMessages.h" />
     <ClInclude Include="..\CommonApp\Log\LogMessageToTopLabel.h" />
-    <ClInclude Include="..\Common\1730\Device1730.h" />
-    <ClInclude Include="..\Common\1730\inc\bdaqctrl.h" />
     <ClInclude Include="..\Common\Base\Base.hpp" />
     <ClInclude Include="..\Common\Base\ExpressBase.hpp" />
     <ClInclude Include="..\Common\Base\tables.hpp" />
@@ -209,6 +213,34 @@
     <ClInclude Include="..\Common\templates\templates.hpp" />
     <ClInclude Include="..\Common\templates\typelist.hpp" />
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />
+    <ClInclude Include="..\Common\Units\1730\Device1730.h" />
+    <ClInclude Include="..\Common\Units\1730\inc\bdaqctrl.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CAPS.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONST.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONSTEX.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONSTS.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_Errors.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DAC_CONST.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DAC_ERRORS.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DLLClient.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DllFactory.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\Drawosc.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DSPUtil.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCDevice.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCUtility.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCUtilityEX.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDACDevice.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDACDevice1.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDDevice.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IEasyDriver.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IEasyPort.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IFactory.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IntDMAEx.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IOSC.H" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IOSCE.H" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\UniDriver.h" />
+    <ClInclude Include="..\Common\Units\Lan\INTERFACES\UniDriver4LV.h" />
+    <ClInclude Include="..\Common\Units\Lan\Lan.h" />
     <ClInclude Include="..\Common\window_tool\Emptywindow.h" />
     <ClInclude Include="..\Common\window_tool\GroupBox.h" />
     <ClInclude Include="..\Common\window_tool\HookKey.h" />
@@ -222,6 +254,7 @@
     <ClInclude Include="App\App.h" />
     <ClInclude Include="App\AppBase.h" />
     <ClInclude Include="App\Config.h" />
+    <ClInclude Include="AScanAuto\AScanAuto.h" />
     <ClInclude Include="Automat\Automat.h" />
     <ClInclude Include="Automat\Automat.hpp" />
     <ClInclude Include="Data\Data.h" />
@@ -238,17 +271,16 @@
     <ClInclude Include="Windows\MainWindow\MainWindow.h" />
     <ClInclude Include="Windows\MainWindow\MainWindowMenu.hpp" />
     <ClInclude Include="Windows\MainWindow\MainWindowToolBar.h" />
-    <ClInclude Include="Windows\Viewers\DefectViewers\CommonSensorViewer.h" />
-    <ClInclude Include="Windows\Viewers\DefectViewers\GridSeries.h" />
-    <ClInclude Include="Windows\Viewers\DefectViewers\ResultViewer.h" />
-    <ClInclude Include="Windows\Viewers\DefectViewers\SensorViewer.h" />
+    <ClInclude Include="Windows\Viewers\AScanViewer\AScanViewer.h" />
+    <ClInclude Include="Windows\Viewers\CommonSensorViewer.h" />
+    <ClInclude Include="Windows\Viewers\MainViewers\ResultViewer.h" />
+    <ClInclude Include="Windows\Viewers\MainViewers\SensorViewer.h" />
     <ClInclude Include="\\andrew\shared\plast2\Common\window_tool\InitToolbar.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\CommonApp\Log\LogBuffer.cpp" />
     <ClCompile Include="..\CommonApp\Log\LogMessages.cpp" />
     <ClCompile Include="..\CommonApp\Log\LogMessageToTopLabel.cpp" />
-    <ClCompile Include="..\Common\1730\Device1730.cpp" />
     <ClCompile Include="..\Common\DlgTemplates\ParamDlg.cpp" />
     <ClCompile Include="..\Common\DspFilters\source\Bessel.cpp" />
     <ClCompile Include="..\Common\DspFilters\source\Biquad.cpp" />
@@ -277,6 +309,10 @@
     <ClCompile Include="..\Common\Grid\GridWindow.cpp" />
     <ClCompile Include="..\Common\PerformanceCounter\PerformanceCounter.cpp" />
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp" />
+    <ClCompile Include="..\Common\Units\1730\Device1730.cpp" />
+    <ClCompile Include="..\Common\Units\Lan\INTERFACES\ADC_Errors.cpp" />
+    <ClCompile Include="..\Common\Units\Lan\INTERFACES\DllFactory.cpp" />
+    <ClCompile Include="..\Common\Units\Lan\Lan.cpp" />
     <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp" />
     <ClCompile Include="..\Common\window_tool\GroupBox.cpp" />
     <ClCompile Include="..\Common\window_tool\HookKey.cpp" />
@@ -286,9 +322,12 @@
     <ClCompile Include="..\Common\window_tool\WindowsPosition.cpp" />
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\AppBase.cpp" />
+    <ClCompile Include="AScanAuto\AScanAuto.cpp" />
     <ClCompile Include="Automat\Automat.cpp" />
     <ClCompile Include="Data\Data.cpp" />
+    <ClCompile Include="Dlg\AboutWindow.cpp" />
     <ClCompile Include="Dlg\DspFiltrDlg.cpp" />
+    <ClCompile Include="Dlg\LanDlg.cpp" />
     <ClCompile Include="Dlg\OperatorsDlg.cpp" />
     <ClCompile Include="Plast.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanKeyHandler.cpp" />
@@ -297,13 +336,20 @@
     <ClCompile Include="Windows\MainWindow\AppKeyHandler.cpp" />
     <ClCompile Include="Windows\MainWindow\MainWindow.cpp" />
     <ClCompile Include="Windows\MainWindow\MainWindowToolBar.cpp" />
-    <ClCompile Include="Windows\Viewers\DefectViewers\CommonSensorViewer.cpp" />
-    <ClCompile Include="Windows\Viewers\DefectViewers\GridSeries.cpp" />
-    <ClCompile Include="Windows\Viewers\DefectViewers\ResultViewer.cpp" />
-    <ClCompile Include="Windows\Viewers\DefectViewers\SensorViewer.cpp" />
+    <ClCompile Include="Windows\Viewers\AScanViewer\AScanViewer.cpp" />
+    <ClCompile Include="Windows\Viewers\CommonSensorViewer.cpp" />
+    <ClCompile Include="Windows\Viewers\MainViewers\ResultViewer.cpp" />
+    <ClCompile Include="Windows\Viewers\MainViewers\SensorViewer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_DACDrivers.ri" />
+    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_DACDrv.ri" />
+    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_Drivers.ri" />
+    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_EasyDriver.ri" />
+    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_Library.ri" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

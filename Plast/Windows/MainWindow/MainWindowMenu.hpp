@@ -8,9 +8,7 @@ namespace MainWindowMenu
 	MENU_TEXT(L"Файл", TopMenu<MainFile>)
 	struct LoadDateFile { static void Do(HWND) {} };
 	struct SaveDateFile {
-		static void Do(HWND) {
-			//GridOptions<SelectUsers>::Open((wchar_t *)L"Users");
-		}
+		static void Do(HWND) {}
 	};
 	struct Compute : OperatorsDlg {};
 
@@ -24,11 +22,11 @@ namespace MainWindowMenu
 	};
 
 	MENU_ITEM(L"Загрузить данные", LoadDateFile)
-		MENU_ITEM(L"Сохранить данные", SaveDateFile)
-		MENU_ITEM(L"Перерасчёт", Compute)
-		MENU_ITEM(L"Выход", Exit)
-		//------------------------------------
-		template<>struct TopMenu<MainFile>
+	MENU_ITEM(L"Сохранить данные", SaveDateFile)
+	MENU_ITEM(L"Перерасчёт", Compute)
+	MENU_ITEM(L"Выход", Exit)
+	//------------------------------------
+	template<>struct TopMenu<MainFile>
 	{
 		typedef Vlst<
 			MenuItem<LoadDateFile>
@@ -39,8 +37,47 @@ namespace MainWindowMenu
 		> list;
 	};
 	//-------------------------------------------
+	struct TypeSizeFile {};
+	MENU_TEXT(L"Типоразмер", TopMenu<TypeSizeFile>)
+	struct TypeSize { static void Do(HWND) {} };
+
+	MENU_ITEM(L"Типоразмер", TypeSize)
+	//------------------------------------
+	template<>struct TopMenu<TypeSizeFile>
+	{
+		typedef Vlst<
+			MenuItem<TypeSize>
+		> list;
+	};
+	//-------------------------------------------
+	struct OptionsFile {};
+	MENU_TEXT(L"Настройки", TopMenu<OptionsFile>)
+	struct __LanDlg : LanDlg {};
+
+	MENU_ITEM(L"Настройка аналоговой платы", __LanDlg)
+	//------------------------------------
+	template<>struct TopMenu<OptionsFile>
+	{
+		typedef Vlst<
+			MenuItem<__LanDlg>
+		> list;
+	};
+	//-------------------------------------------
+	struct MainAbout : AboutWindowDlg {};
+	MENU_TEXT(L"О программе", TopMenu<MainAbout>)
+	MENU_ITEM(L"О программе", MainAbout)
+	//-----------------------------------
+	template<>struct TopMenu<MainAbout>
+	{
+		typedef Vlst<
+			MenuItem<MainAbout>
+		> list;
+	};
+	//-----------------------------------------
 	typedef Vlst<
 		TopMenu<MainFile>
+		, TopMenu<OptionsFile>
+		, TopMenu<MainAbout>
 	> Menu;
 
 }
