@@ -123,7 +123,7 @@ struct AppBase
 template<class T>void UpdateId(CBase &base, int num)
 {
 	CurrentParametersTable &current = Singleton<CurrentParametersTable>::Instance();
-	Select<CurrentParametersTable>(base).Execute(current);
+	Select<CurrentParametersTable>(base).ID(__id__).Execute(current);
 	ParametersTable &t = Singleton<ParametersTable>::Instance();
 	t.items.get<T>().value = num;
 	UpdateWhere<ParametersTable>(t, base).ID(current.items.get<CurrentID>().value).Execute();

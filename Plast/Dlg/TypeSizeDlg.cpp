@@ -45,7 +45,7 @@ namespace
 					}
 					CurrentParametersTable &curr = Singleton<CurrentParametersTable>::Instance();
 					curr.items.get<CurrentID>().value = id;
-					UpdateWhere<CurrentParametersTable>(curr, base).ID(1).Execute();
+					UpdateWhere<CurrentParametersTable>(curr, base).ID(__id__).Execute();
 					//
 					MainWindow &o = Singleton<MainWindow>::Instance();
 					o.select.AddMenuItem(owner.table.items.get<NameParam>().value.buffer);	
@@ -112,7 +112,7 @@ namespace
 						int id = Select<Owner::Table>(base).eq<NameParam>(n.value).Execute();
 						if(id)
 						{
-							Update<CurrentParametersTable>(base).set<CurrentID>(id).Where().ID(1).Execute();
+							Update<CurrentParametersTable>(base).set<CurrentID>(id).Where().ID(__id__).Execute();
 							AppBase::InitTypeSizeTables(base);
 							
 							TCommand c(o.hWnd, 0, 1, o.select.hWnd);

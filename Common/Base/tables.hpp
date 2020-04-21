@@ -926,7 +926,7 @@ template<typename Table, int N = 1024>struct Update
 	{
 		try
 		{
-			head[wcslen(head) - 1] = '\0';
+			head[wcslen(head) - 5] = '\0';
 			cmd->CommandText = head;
 			_variant_t rowsAffected; 
 			cmd->Execute( &rowsAffected, 0, ADODB::adCmdText);

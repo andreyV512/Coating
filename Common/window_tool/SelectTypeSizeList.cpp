@@ -66,7 +66,7 @@ void SelectTypeSizeList::Do(TCommand &m)
 			{
 				CurrentParametersTable t;
 				t.items.get<CurrentID>().value = id;
-				UpdateWhere<CurrentParametersTable>(t, base).ID(1).Execute();
+				UpdateWhere<CurrentParametersTable>(t, base).ID(__id__).Execute();
 
 				AppBase::InitTypeSizeTables(base);
 				(*ptr)();
