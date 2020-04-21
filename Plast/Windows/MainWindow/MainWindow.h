@@ -5,6 +5,7 @@
 #include "Windows/Viewers/MainViewers/SensorViewer.h"
 #include "Windows/Viewers/MainViewers/ResultViewer.h"
 #include "Graphics/TopLabelViewer.h"
+#include "window_tool/SelectTypeSizeList.h"
 
 class MainWindow
 {
@@ -23,6 +24,7 @@ public:
 	HWND hStatuisBar;
 	MainWindowToolBar toolBar;
 	TopLabelViewer topLabelViewer;
+	SelectTypeSizeList select;
 
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);

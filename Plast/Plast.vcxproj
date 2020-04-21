@@ -179,6 +179,7 @@
     <ClInclude Include="..\Common\DlgTemplates\ParamDlg.hpp" />
     <ClInclude Include="..\Common\DlgTemplates\ParamDlgNew.h" />
     <ClInclude Include="..\Common\DspFilters\ChebyshevFiltre.hpp" />
+    <ClInclude Include="..\Common\DspFilters\DspFiltrParams.h" />
     <ClInclude Include="..\Common\DspFilters\include\DspFilters\Bessel.h" />
     <ClInclude Include="..\Common\DspFilters\include\DspFilters\Biquad.h" />
     <ClInclude Include="..\Common\DspFilters\include\DspFilters\Butterworth.h" />
@@ -230,6 +231,7 @@
     <ClInclude Include="..\Common\window_tool\message.h" />
     <ClInclude Include="..\Common\window_tool\OpenWindow.hpp" />
     <ClInclude Include="..\Common\window_tool\Pass.h" />
+    <ClInclude Include="..\Common\window_tool\SelectTypeSizeList.h" />
     <ClInclude Include="..\Common\window_tool\TEvent.h" />
     <ClInclude Include="..\Common\window_tool\WindowsPosition.h" />
     <ClInclude Include="App\App.h" />
@@ -241,7 +243,6 @@
     <ClInclude Include="Compute\Compute.h" />
     <ClInclude Include="Data\Data.h" />
     <ClInclude Include="Dlg\Dlg.h" />
-    <ClInclude Include="Dlg\DspFiltrParams.h" />
     <ClInclude Include="Plast.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
@@ -300,6 +301,7 @@
     <ClCompile Include="..\Common\window_tool\ItemIni.cpp" />
     <ClCompile Include="..\Common\window_tool\MenuAPI.cpp" />
     <ClCompile Include="..\Common\window_tool\Pass.cpp" />
+    <ClCompile Include="..\Common\window_tool\SelectTypeSizeList.cpp" />
     <ClCompile Include="..\Common\window_tool\WindowsPosition.cpp" />
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\AppBase.cpp" />
@@ -314,6 +316,7 @@
     <ClCompile Include="Dlg\LanDlg.cpp" />
     <ClCompile Include="Dlg\OperatorsDlg.cpp" />
     <ClCompile Include="Dlg\TestIOPorts.cpp" />
+    <ClCompile Include="Dlg\TypeSizeDlg.cpp" />
     <ClCompile Include="Plast.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanKeyHandler.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanWindow.cpp" />

@@ -9,6 +9,7 @@ LRESULT MainWindow::operator()(TCreate &l)
 {
 	Menu<MainWindowMenu::Menu>().Init(l.hwnd);
 	toolBar.Init(l.hwnd);
+	select.Create(toolBar.hWnd);
 	CreateChildWindow(l.hwnd, &topLabelViewer);
 	topLabelViewer.label = (wchar_t *)L"<ff00>Test";
 	topLabelViewer.label.fontHeight = 25;
@@ -63,6 +64,8 @@ void MainWindow::operator()(TSize &l)
 {
 	if (SIZE_MINIMIZED == l.resizing || 0 == l.Width || 0 == l.Height) return;
 	toolBar.Size();
+	static const int width = toolBar.Width();
+	select.Size(width, 5, 400);
 	RECT rt;
 	GetClientRect(toolBar.hWnd, &rt);
 	MoveWindow(hStatuisBar, 0, 0, 0, 0, FALSE);

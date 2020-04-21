@@ -49,6 +49,36 @@ namespace MainWindowMenu
 			MenuItem<TypeSize>
 		> list;
 	};
+	//----------------------------------------------
+	struct MainOptionTypeSize {};
+	MENU_TEXT(L"Типоразмер", TopMenu<MainOptionTypeSize>)
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+	struct DeadZones { static void Do(HWND) {} };						 																				   //
+	struct MainCreateTypesize : AddTypeSizeDlg {};
+	struct MainDeleteTypeSize : DelTypeSizeDlg {};
+	struct MedianFiltre__ { static void Do(HWND) {} };
+	struct DspFiltr : DspFiltrDlg {};
+	struct Tresholds { static void Do(HWND) {} };
+
+	MENU_ITEM(L"Мёртвые зоны", DeadZones)
+	MENU_ITEM(L"Создать типоразмер", MainCreateTypesize)
+	MENU_ITEM(L"Удалить типоразмер", MainDeleteTypeSize)
+	MENU_ITEM(L"Медианный фильтр", MedianFiltre__)
+	MENU_ITEM(L"Настройки аналогового фильтра", DspFiltr)
+	MENU_ITEM(L"Настройки порогов", Tresholds)
+
+	template<>struct TopMenu<MainOptionTypeSize>
+	{
+		typedef Vlst<
+			MenuItem<DeadZones>
+			, MenuItem<Tresholds>
+			, MenuItem<MedianFiltre__>
+			, MenuItem<DspFiltr>
+			, Separator<0>
+			, MenuItem<MainCreateTypesize>
+			, MenuItem<MainDeleteTypeSize>
+		> list;
+	};
 	//-------------------------------------------
 	struct OptionsFile {};
 	MENU_TEXT(L"Настройки", TopMenu<OptionsFile>)
@@ -110,6 +140,7 @@ namespace MainWindowMenu
 	//-----------------------------------------
 	typedef Vlst<
 		TopMenu<MainFile>
+		, TopMenu<MainOptionTypeSize>
 		, TopMenu<MainTest>
 		, TopMenu<OptionsFile>
 		, TopMenu<MainAbout>

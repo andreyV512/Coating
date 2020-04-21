@@ -1,10 +1,9 @@
 #pragma once
-//#include "templates/typelist.hpp"
 #include "Base/Base.hpp"
 #include "window_tool/message.h"
 #include "window_tool/Pass.h"
 #include "tools_debug/DebugMess.h"
-#include "DlgTemplates/ParamDlg.hpp"
+#include "ParamDlg.hpp"
 //--------------------------------------------------------------------------------------------------------------------------
 bool TemplDlg_Do(HWND hWnd, wchar_t *title, DLGPROC proc, LPARAM param);
 
@@ -40,6 +39,7 @@ template<class O, class P>struct __command__
 };
 
 template<class, class Table>struct TestPassword;
+template<class Base, class Table, class T>struct __ok_table_btn__;
 
 struct OkBtn
 {
@@ -49,16 +49,17 @@ struct OkBtn
 	wchar_t *Title(){return (wchar_t *)L"Применить";}
 	template<class Owner>void BtnHandler(Owner &owner, HWND h)
 	{
-		//TODOif(TestPassword<Owner::Base, Owner::Table>()(h))
-		//TODO{
-		//TODO	if(__ok_table_btn__<
-		//TODO		Owner::Base, Owner::Table
-		//TODO		, typename VL::SubListFromMultyList<typename Owner::Base::multy_type_list, Owner::Table>::Result
-		//TODO	>x; x(h, owner))  
-		//TODO	{
-		//TODO		EndDialog(h, TRUE);
-		//TODO	}
-		//TODO}
+		__ok_table_btn__<
+			Owner::Base, Owner::Table
+			, typename VL::SubListFromMultyList<typename Owner::Base::multy_type_list, Owner::Table>::Result
+		>x;
+		if(TestPassword<Owner::Base, Owner::Table>()(h))
+		{
+			if(x(h, owner))  
+			{
+				EndDialog(h, TRUE);
+			}
+		}
 	}
 };
 

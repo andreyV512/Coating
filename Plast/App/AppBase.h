@@ -2,7 +2,7 @@
 #include "Base/TablesDefine.h"
 #include "Base/tables.hpp"
 #include "templates/typelist.hpp"
-#include "Dlg/DspFiltrParams.h"
+#include "DspFilters/DspFiltrParams.h"
 #include "Units/Lan/LanParameters.h"
 #include "Units/1730/1730Parameters.h"
 
@@ -47,8 +47,10 @@ struct TresholdsTable
 	const wchar_t *name() { return L"TresholdsTable"; }
 };
 
-DEFINE_PARAM(CurrentID, int, 1)
-DEFINE_PARAM(CurrentUserNameID, int, 1)
+static const int __id__ = 2;
+
+DEFINE_PARAM(CurrentID, int, __id__)
+DEFINE_PARAM(CurrentUserNameID, int, __id__)
 struct CurrentParametersTable
 {
 	typedef Vlst<
@@ -63,7 +65,7 @@ struct CurrentParametersTable
 STR_PARAM(NameParam, 128, L"Noname")
 
 #define PARAM_ID FiltersTable, TresholdsTable
-#define PARAM_IDM(n)DEFINE_PARAM_ID(n, int, 1)
+#define PARAM_IDM(n)DEFINE_PARAM_ID(n, int, __id__)
 	FOR_EACH(PARAM_IDM, PARAM_ID)
 #undef PARAM_IDM
 #define PARAM_IDX(n)ID<n>,

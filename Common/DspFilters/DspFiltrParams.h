@@ -23,14 +23,6 @@ DEFINE_PARAM_WRAP2(High, ChebyshevI, CutoffFrequency, int, 50)
 DEFINE_PARAM_WRAP2(High, ChebyshevI, Ripple, double, 0.1)
 DEFINE_PARAM_WRAP2(High, ChebyshevI, OnFiltre, bool, true)
 
-//DEFINE_PARAM_WRAP2(Low, ChebyshevI, unsigned, 1 << 5)
-//
-//DEFINE_PARAM_WRAP(iCycle, unsigned, 1 << 8)
-//DEFINE_PARAM_WRAP(iP1, unsigned, 1 << 9)
-//DEFINE_PARAM_WRAP(iP2, unsigned, 1 << 10)
-//DEFINE_PARAM_WRAP(iCOPT, unsigned, 1 << 11)
-//DEFINE_PARAM_WRAP(iControl, unsigned, 1 << 12)
-//
 struct FiltersTable
 {
 	typedef Vlst<

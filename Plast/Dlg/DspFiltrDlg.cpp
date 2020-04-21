@@ -1,11 +1,8 @@
 #include "Dlg.h"
-#include "DspFiltrParams.h"
-
+#include "DspFilters/DspFiltrParams.h"
 #include "DlgTemplates/ParamDlgNew.h"
 #include "tools_debug/DebugMess.h"
 #include "DlgTemplates/ParamDlg.hpp"
-
-
 
 template<class List>struct __orders__;
 template<class Head, class ...Tail>struct __orders__<Vlst<Head, Tail...>>

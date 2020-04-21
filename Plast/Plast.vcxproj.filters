@@ -315,9 +315,6 @@
     <ClInclude Include="Dlg\Dlg.h">
       <Filter>Dlg</Filter>
     </ClInclude>
-    <ClInclude Include="Dlg\DspFiltrParams.h">
-      <Filter>Dlg</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\Graphics\BarSeries.h">
       <Filter>Common\Graphics</Filter>
     </ClInclude>
@@ -380,6 +377,12 @@
     </ClInclude>
     <ClInclude Include="..\Common\Units\1730\1730Parameters.h">
       <Filter>Common\Units\1730</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\SelectTypeSizeList.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\DspFilters\DspFiltrParams.h">
+      <Filter>Common\DspFilters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -576,6 +579,12 @@
       <Filter>Dlg</Filter>
     </ClCompile>
     <ClCompile Include="Dlg\InputOutputDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\SelectTypeSizeList.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\TypeSizeDlg.cpp">
       <Filter>Dlg</Filter>
     </ClCompile>
   </ItemGroup>

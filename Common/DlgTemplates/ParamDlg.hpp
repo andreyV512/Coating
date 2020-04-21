@@ -252,8 +252,9 @@ template<class O, class P>struct __test__
 
 template<class Base, class Table, class T>struct __ok_table_btn__
 {
-	typedef typename T::__template_must_be_overridded__ noused; 
+	typedef typename T::__template_must_be_overridded__ noused;
 };
+
 
 template<class Base, class Table>struct __ok_table_btn__<Base, Table, ParametersBase::one_row_table_list>
 {
@@ -265,7 +266,7 @@ template<class Base, class Table>struct __ok_table_btn__<Base, Table, Parameters
 		{
 			__update_data__<Table> _data(base);
 			VL::foreach<T::list, __ok_btn__>()(t.items, _data);
-			_data.update.Where()./*.ID(TopID()).*/Execute();
+			_data.update.Where().ID(__id__).Execute();
 		}
 		return true;
 	}
