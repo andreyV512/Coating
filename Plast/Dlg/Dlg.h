@@ -6,4 +6,9 @@
    DLG(OperatorsDlg)
    DLG(AboutWindowDlg)
    DLG(LanDlg)
+   DLG(TestIOPorts)
+   DLG(AScanWindowDlg)
+   DLG(InputBitDlg)
+   DLG(OutputBitDlg)
+   DLG(DiscriptorBitDlg)
 #undef DLG

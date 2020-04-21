@@ -143,5 +143,14 @@ template<class T>struct ID
 	wchar_t *name(){return Buf();}\
 };
 
+#define DEFINE_PARAM_WAPPER(wapper, z, type, def_val) template<> struct wapper<z>\
+{\
+	typedef type type_value;\
+	type_value value;\
+	const type_value default_value;\
+	const wchar_t *name(){return L#wapper L#z;}\
+	wapper() : value(def_val), default_value(def_val) {}\
+};
+
 
 

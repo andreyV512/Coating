@@ -49,16 +49,16 @@ struct OkBtn
 	wchar_t *Title(){return (wchar_t *)L"Применить";}
 	template<class Owner>void BtnHandler(Owner &owner, HWND h)
 	{
-		if(TestPassword<Owner::Base, Owner::Table>()(h))
-		{
-			if(__ok_table_btn__<
-				Owner::Base, Owner::Table
-				, typename VL::SubListFromMultyList<typename Owner::Base::multy_type_list, Owner::Table>::Result
-			>x; x(h, owner))  
-			{
-				EndDialog(h, TRUE);
-			}
-		}
+		//TODOif(TestPassword<Owner::Base, Owner::Table>()(h))
+		//TODO{
+		//TODO	if(__ok_table_btn__<
+		//TODO		Owner::Base, Owner::Table
+		//TODO		, typename VL::SubListFromMultyList<typename Owner::Base::multy_type_list, Owner::Table>::Result
+		//TODO	>x; x(h, owner))  
+		//TODO	{
+		//TODO		EndDialog(h, TRUE);
+		//TODO	}
+		//TODO}
 	}
 };
 

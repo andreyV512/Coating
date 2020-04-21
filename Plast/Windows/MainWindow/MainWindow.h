@@ -29,6 +29,9 @@ public:
 	void operator()(TSize &);
 	void operator()(TCommand &);
 	void operator()(TGetMinMaxInfo &);
+	void operator()(TClose &);
+
+	static void EnableMenu(bool);
 };
 
 

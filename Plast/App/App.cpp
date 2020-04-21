@@ -8,6 +8,7 @@
 #include "AppBase.h"
 #include "Dlg/Dlg.h"
 #include "PerformanceCounter\PerformanceCounter.h"
+#include "Units/Lan/Lan.h"
 namespace App
 {
 	void Init()
@@ -23,11 +24,32 @@ namespace App
 		HWND h = WindowTemplate(&w, (wchar_t *)L"Control", r.left, r.top, r.right, r.bottom);
 		ShowWindow(h, SW_SHOWNORMAL);
 
+	//	w.EnableMenu(false);
+
 		wchar_t name[64];
 		CurrentOperatorName(name);
 		StatusBar(App::operator_status_section, name);
 
 		StartKeyHook(&AppKeyHandler::KeyPressed);
+ //инициализация АЦП
+		Lan &l = Singleton<Lan>::Instance();
+	    //l.SetHandler
+		RshInitMemory p{};
+		l.SetParams(p);
+		wchar_t mess[256];
+		U32 st = l.Init(1, l.device1, p);
+		if (l.Err(st, mess)) 
+		{
+			MessageBox(h, mess, (wchar_t *)L"Ошибка платы La-n108-100PCI(1)!!!", MB_ICONEXCLAMATION);
+			return;
+		}
+		st = l.Init(2, l.device2, p);
+		if (l.Err(st, mess))
+		{
+			MessageBox(h, mess, (wchar_t *)L"Ошибка платы La-n108-100PCI(2)!!!", MB_ICONEXCLAMATION);
+			return;
+		}
+		AppKeyHandler::Stop();
 #else
 		//DspFiltrDlg::Do(0);
 		TestTest();
@@ -64,6 +86,8 @@ namespace App
 	{
 		return (wchar_t *)L"Coating";
 	}
+	bool __run__ = false;
+	bool &IsRun() { return __run__; }
 }
 
 Device1730 device1730;

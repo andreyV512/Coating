@@ -1,23 +1,34 @@
 #pragma once
-#include "INTERFACES\IADCDevice.h"
-#include "INTERFACES\IFactory.h"
-#include "INTERFACES\DllClient.h"
-#include "INTERFACES\REGKEY\VT_Drivers.ri"
-#include "INTERFACES\REGKEY\VT_Library.ri"
-#include "INTERFACES\ADC_Errors.h"
+#include "Units/Lan/include/RshApi.h"
+
 class Lan
 {
-	unsigned timeBeforeStop;
-	void(Lan::*ptr)();	
-	void DataCollection();
+	friend DWORD WINAPI __frame1__(PVOID);
+	friend DWORD WINAPI __frame2__(PVOID);
+	struct TObj {};
+	TObj *obj;
+	int(TObj:: *ptr)(double *&);
+	RshDllClient Client;
+public:
+	IRshDevice *device1, *device2;
+private:
+	HANDLE hTresh1, hTresh2;
+	bool terminate;
 public:
 	Lan();
-	void Init();
-	void Destroy();
-	void Preparation();
-	void Do();	
+	~Lan();
+	unsigned Init(int numDevece, IRshDevice *&d, RshInitMemory &p);
+	void SetParams(RshInitMemory &);
+	bool Err(U32 err, wchar_t(&str)[256]);
+
 	void Start();
 	void Stop();
 
-	unsigned SetParams();
+	void Frame(IRshDevice *);
+
+	template<class T>void SetHandler(T *t, int(T:: *p)(double *&))
+	{
+		obj = (TObj *)t;
+		ptr = (int(TObj:: *)(double *&))p;
+	}
 };

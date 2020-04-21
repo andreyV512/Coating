@@ -3,6 +3,8 @@
 #include "Base/tables.hpp"
 #include "templates/typelist.hpp"
 #include "Dlg/DspFiltrParams.h"
+#include "Units/Lan/LanParameters.h"
+#include "Units/1730/1730Parameters.h"
 
 template<class>struct Clr;
 
@@ -18,89 +20,6 @@ struct ColorTable
 	typedef VL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name() { return L"ColorTable"; }
-};
-
-DEFINE_PARAM(iCU, unsigned, 1 << 0) //цепи управления
-DEFINE_PARAM(iKM2_DC, unsigned, 1 << 4)
-DEFINE_PARAM(iKM3_AC, unsigned, 1 << 5)
-DEFINE_PARAM(iCycle, unsigned, 1 << 8)
-DEFINE_PARAM(iP1, unsigned, 1 << 9)
-DEFINE_PARAM(iP2, unsigned, 1 << 10)
-DEFINE_PARAM(iCOPT, unsigned, 1 << 11)
-DEFINE_PARAM(iControl, unsigned, 1 << 12)
-
-struct InputBitsTable
-{
-	typedef Vlst<
-		iCU
-		, iKM2_DC
-		, iKM3_AC
-		, iCycle
-		, iP1
-		, iP2
-		, iCOPT
-		, iControl
-	> items_list;
-	typedef VL::Factory<items_list> TItems;
-	TItems items;
-	const wchar_t* name() { return L"InputBitsTable"; }
-};
-
-DEFINE_PARAM(oDC_ON1, unsigned, 1 << 0)
-DEFINE_PARAM(oAC_ON, unsigned, 1 << 1)
-DEFINE_PARAM(oDC_ON2, unsigned, 1 << 2)
-DEFINE_PARAM(oWork, unsigned, 1 << 3)
-DEFINE_PARAM(oStart, unsigned, 1 << 4)
-DEFINE_PARAM(oToShift, unsigned, 1 << 5)
-DEFINE_PARAM(oC1, unsigned, 1 << 6)
-DEFINE_PARAM(oC2, unsigned, 1 << 7)
-
-struct OutputBitsTable
-{
-	typedef Vlst <
-		oDC_ON1
-		, oAC_ON
-		, oDC_ON2
-		, oWork
-		, oStart
-		, oToShift
-		, oC1
-		, oC2
-	> items_list;
-	typedef VL::Factory<items_list> TItems;
-	TItems items;
-	const wchar_t* name() { return L"OutputBitTable"; }
-};
-
-DEFINE_PARAM(PacketSize, int, 986)
-DEFINE_PARAM(Gain0, int, 40)
-DEFINE_PARAM(SyncLevel, int, 75)
-DEFINE_PARAM(SyncGain, int, 10)
-DEFINE_PARAM(StartDelay, int, 0)
-DEFINE_PARAM(Frequency, int, 25) //50
-DEFINE_PARAM(NumberPackets, int, 50)
-DEFINE_PARAM(SyncInput, bool, false)
-DEFINE_PARAM(MeasurementInput, bool, false)
-DEFINE_PARAM(SynchronizationEdge, bool, false)
-
-struct LanTable
-{
-	typedef Vlst<
-		PacketSize
-		, Gain0
-		, SyncLevel
-		, SyncGain
-		, StartDelay
-		, Frequency
-		, NumberPackets
-		, SyncInput
-		, MeasurementInput
-		, SynchronizationEdge
-	> items_list;
-	typedef NullType unique_list;
-	typedef VL::Factory<items_list> TItems;
-	TItems items;
-	const wchar_t *name() { return L"LanTable"; }
 };
 
 STR_UNIQUE_PARAM(UserName, 64, L"Nobady")
@@ -168,13 +87,10 @@ struct ParametersBase
 		, UserTable
 		, InputBitsTable
 		, OutputBitsTable
-		, LanTable
+		, NamePlate1730ParametersTable
+		, LanParametersTable
 	> one_row_table_list;
 
-	//typedef Vlst<
-	//	CurrentParametersTable
-	//	, TresholdsTable
-	//> multy_row_table_list;
 	typedef VL::Append<
 		Vlst<CurrentParametersTable, ParametersTable >
 		, Vlst<PARAM_ID> 

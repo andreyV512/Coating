@@ -51,7 +51,7 @@ template<>struct CurrentValue<PacketSize>
 	{
 		for (int i = 0; i < dimention_of(PacketSizeData); ++i)
 		{
-			if (PacketSizeData[i] == Singleton<LanTable>::Instance().items.get<PacketSize>().value)
+			if (PacketSizeData[i] == Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
 			{
 				ComboBox_SetCurSel(h, i);
 				break;
@@ -79,7 +79,7 @@ template<>struct CurrentValue<Gain0>
 	{
 		for (int i = 0; i < dimention_of(Gain0Data); ++i)
 		{
-			if (Gain0Data[i] == Singleton<LanTable>::Instance().items.get<Gain0>().value)
+			if (Gain0Data[i] == Singleton<LanParametersTable>::Instance().items.get<Gain0>().value)
 			{
 				ComboBox_SetCurSel(h, i);
 				break;
@@ -107,7 +107,7 @@ template<>struct CurrentValue<Frequency>
 	{
 		for (int i = 0; i < dimention_of(FrequencyData); ++i)
 		{
-			if (FrequencyData[i] == Singleton<LanTable>::Instance().items.get<Frequency>().value)
+			if (FrequencyData[i] == Singleton<LanParametersTable>::Instance().items.get<Frequency>().value)
 			{
 				ComboBox_SetCurSel(h, i);
 				break;
@@ -135,7 +135,7 @@ template<>struct CurrentValue<SyncGain>
 	{
 		for (int i = 0; i < dimention_of(SyncGainData); ++i)
 		{
-			if (SyncGainData[i] == Singleton<LanTable>::Instance().items.get<SyncGain>().value)
+			if (SyncGainData[i] == Singleton<LanParametersTable>::Instance().items.get<SyncGain>().value)
 			{
 				ComboBox_SetCurSel(h, i);
 				break;
@@ -146,9 +146,9 @@ template<>struct CurrentValue<SyncGain>
 
 void LanDlg::Do(HWND h)
 {
-	if (Dialog::Templ<ParametersBase, LanTable
+	if (Dialog::Templ<ParametersBase, LanParametersTable
 	>(
-		Singleton<LanTable>::Instance()
+		Singleton<LanParametersTable>::Instance()
 	).Do(h, (wchar_t *)L"Настройка аналоговой платы"))
 	{
 	}

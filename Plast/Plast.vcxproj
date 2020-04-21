@@ -75,6 +75,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x64);</ReferencePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -108,7 +111,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Common;$(SolutionDir)CommonApp;$(SolutionDir)Common\DspFilters\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Common;$(SolutionDir)CommonApp;$(SolutionDir)Common\DspFilters\include;$(SolutionDir)Common\Units\Lan\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -213,34 +216,12 @@
     <ClInclude Include="..\Common\templates\templates.hpp" />
     <ClInclude Include="..\Common\templates\typelist.hpp" />
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />
+    <ClInclude Include="..\Common\Units\1730\1730Parameters.h" />
     <ClInclude Include="..\Common\Units\1730\Device1730.h" />
     <ClInclude Include="..\Common\Units\1730\inc\bdaqctrl.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CAPS.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONST.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONSTEX.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONSTS.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_Errors.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DAC_CONST.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DAC_ERRORS.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DLLClient.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DllFactory.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\Drawosc.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DSPUtil.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCDevice.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCUtility.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCUtilityEX.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDACDevice.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDACDevice1.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDDevice.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IEasyDriver.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IEasyPort.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IFactory.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IntDMAEx.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IOSC.H" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IOSCE.H" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\UniDriver.h" />
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\UniDriver4LV.h" />
+    <ClInclude Include="..\Common\Units\Lan\include\RshApi.h" />
     <ClInclude Include="..\Common\Units\Lan\Lan.h" />
+    <ClInclude Include="..\Common\Units\Lan\LanParameters.h" />
     <ClInclude Include="..\Common\window_tool\Emptywindow.h" />
     <ClInclude Include="..\Common\window_tool\GroupBox.h" />
     <ClInclude Include="..\Common\window_tool\HookKey.h" />
@@ -257,6 +238,7 @@
     <ClInclude Include="AScanAuto\AScanAuto.h" />
     <ClInclude Include="Automat\Automat.h" />
     <ClInclude Include="Automat\Automat.hpp" />
+    <ClInclude Include="Compute\Compute.h" />
     <ClInclude Include="Data\Data.h" />
     <ClInclude Include="Dlg\Dlg.h" />
     <ClInclude Include="Dlg\DspFiltrParams.h" />
@@ -310,8 +292,7 @@
     <ClCompile Include="..\Common\PerformanceCounter\PerformanceCounter.cpp" />
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp" />
     <ClCompile Include="..\Common\Units\1730\Device1730.cpp" />
-    <ClCompile Include="..\Common\Units\Lan\INTERFACES\ADC_Errors.cpp" />
-    <ClCompile Include="..\Common\Units\Lan\INTERFACES\DllFactory.cpp" />
+    <ClCompile Include="..\Common\Units\Lan\include\RshApi.cpp" />
     <ClCompile Include="..\Common\Units\Lan\Lan.cpp" />
     <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp" />
     <ClCompile Include="..\Common\window_tool\GroupBox.cpp" />
@@ -324,11 +305,15 @@
     <ClCompile Include="App\AppBase.cpp" />
     <ClCompile Include="AScanAuto\AScanAuto.cpp" />
     <ClCompile Include="Automat\Automat.cpp" />
+    <ClCompile Include="Compute\Compute.cpp" />
     <ClCompile Include="Data\Data.cpp" />
     <ClCompile Include="Dlg\AboutWindow.cpp" />
+    <ClCompile Include="Dlg\AScanWindowDlg.cpp" />
     <ClCompile Include="Dlg\DspFiltrDlg.cpp" />
+    <ClCompile Include="Dlg\InputOutputDlg.cpp" />
     <ClCompile Include="Dlg\LanDlg.cpp" />
     <ClCompile Include="Dlg\OperatorsDlg.cpp" />
+    <ClCompile Include="Dlg\TestIOPorts.cpp" />
     <ClCompile Include="Plast.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanKeyHandler.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanWindow.cpp" />
@@ -343,13 +328,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_DACDrivers.ri" />
-    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_DACDrv.ri" />
-    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_Drivers.ri" />
-    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_EasyDriver.ri" />
-    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_Library.ri" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

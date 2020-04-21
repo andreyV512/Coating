@@ -100,7 +100,6 @@ public:
 		DestroyMenu(hMenu);
 	}	
 };
-//#define index Index()
 
 template<class O, class P>struct __insert_item_menu__
 {

@@ -93,3 +93,48 @@ void MainWindow::operator()(TGetMinMaxInfo &l)
 		l.pMinMaxInfo->ptMinTrackSize.y = 400;
 	}
 }
+
+void MainWindow::operator()(TClose &l)
+{
+	if (App::IsRun())
+	{
+		MessageBox(l.hwnd, L"Программа находится в режиме сбора данных!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
+	}
+	else
+	{
+		if (IDYES == MessageBox(l.hwnd, L"Выйти из программы?", L"Cообщение", MB_ICONQUESTION | MB_YESNO))
+		{
+			DestroyWindow(l.hwnd);
+		}
+	}
+}
+
+namespace {
+	struct __enable_data__
+	{
+		bool en;
+		HWND h;
+	};
+
+	template<class O, class P>struct __enable__
+	{
+		void operator()(P &p)
+		{
+			UINT t = p.en ? MF_ENABLED : MF_DISABLED;
+			EnableMenuItem(GetMenu(p.h), (unsigned short)(ULONG_PTR)Event<O>::Do, t | MF_BYCOMMAND);
+			DrawMenuBar(p.h);
+		}
+	};
+
+	typedef Vlst<
+		TopMenu<MainWindowMenu::MainFile>
+		, MenuItem<MainWindowMenu::AScanWindow>
+		, TopMenu<MainWindowMenu::OptionsFile>
+	> __menu_enable__;
+}
+
+void MainWindow::EnableMenu(bool b)
+{
+	__enable_data__ data = { b, Singleton<MainWindow>::Instance().hWnd };
+	VL::foreach<__menu_enable__, __enable__>()(data);
+}

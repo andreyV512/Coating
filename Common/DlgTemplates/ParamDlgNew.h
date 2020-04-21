@@ -18,11 +18,11 @@ namespace Dialog
 	template<class T, class Owner>struct DlgItem2;
 	template<class T>struct GroupBox
 	{
-		typedef typename T::Result Result;
+		typedef typename T Result;
 		static const int DY = __get_height_tmpl__<VL::TypeToTypeLstParam1<Result, DlgItem2, NullType>::Result>::value;
 	};
 
-//#define GROUP_BOX(...) Dialog::GroupBox<TL::MkTlst<__VA_ARGS__>>
+#define GROUP_BOX(...) Dialog::GroupBox<Vlst<__VA_ARGS__>>
 	
 	template<class List>struct __del_group_box__;
 	template<class Head, class ...Tail>struct __del_group_box__<Vlst<Head, Tail...>>
@@ -31,14 +31,11 @@ namespace Dialog
 	};
 	template<class List, class ...Tail>struct __del_group_box__<Vlst<GroupBox<List>, Tail...> >
 	{
-		typedef typename VL::MultyList<Vlst<
-			typename List::Result
-			, typename __del_group_box__<Tail...>::Result
-		> >::Result Result;
+		typedef typename VL::Append<List, typename __del_group_box__<Vlst<Tail...>>::Result>::Result Result;
 	};
 	template<>struct __del_group_box__<Vlst<> >
 	{
-	   typedef Vlst<> Result;
+		typedef Vlst<> Result;
 	};
 
 	template<class T>struct isParentExist

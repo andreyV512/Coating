@@ -52,14 +52,48 @@ namespace MainWindowMenu
 	//-------------------------------------------
 	struct OptionsFile {};
 	MENU_TEXT(L"Настройки", TopMenu<OptionsFile>)
-	struct __LanDlg : LanDlg {};
+		struct __LanDlg : LanDlg {};
+
+	struct DiscretePlate {};
+	struct DiscretePlateInputs : InputBitDlg {};
+	struct DiscretePlateOutputs : OutputBitDlg {};
+
+	template<>struct SubMenu<DiscretePlate>
+	{
+		typedef VL::TypeToTypeLst<
+			Vlst<DiscriptorBitDlg, DiscretePlateInputs, DiscretePlateOutputs>
+			, MenuItem
+		>::Result list;
+	};
 
 	MENU_ITEM(L"Настройка аналоговой платы", __LanDlg)
+
+	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
+	MENU_ITEM(L"Входные порты", DiscretePlateInputs)
+	MENU_ITEM(L"Выходные порты", DiscretePlateOutputs)
+	MENU_ITEM(L"Дескриптор дискретной платы", DiscriptorBitDlg)
 	//------------------------------------
 	template<>struct TopMenu<OptionsFile>
 	{
 		typedef Vlst<
-			MenuItem<__LanDlg>
+			SubMenu<DiscretePlate>
+			, MenuItem<__LanDlg>
+		> list;
+	};
+	//-------------------------------------------
+	struct MainTest {};
+	MENU_TEXT(L"Тест", TopMenu<MainTest>)
+	struct __TestIOPorts : TestIOPorts {};
+	struct AScanWindow : AScanWindowDlg {};
+
+	MENU_ITEM(L"Просмотр дискретных портов", __TestIOPorts)
+	MENU_ITEM(L"Просмотр А-скан сигналов", AScanWindow)
+	//------------------------------------
+	template<>struct TopMenu<MainTest>
+	{
+		typedef Vlst<
+			MenuItem<__TestIOPorts>
+			, MenuItem<AScanWindow>
 		> list;
 	};
 	//-------------------------------------------
@@ -76,6 +110,7 @@ namespace MainWindowMenu
 	//-----------------------------------------
 	typedef Vlst<
 		TopMenu<MainFile>
+		, TopMenu<MainTest>
 		, TopMenu<OptionsFile>
 		, TopMenu<MainAbout>
 	> Menu;

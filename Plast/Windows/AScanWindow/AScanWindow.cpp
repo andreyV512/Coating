@@ -9,6 +9,7 @@
 
 LRESULT AScanWindow::operator()(TCreate &l)
 {
+	AppKeyHandler::DisableAll();
 	Menu<AScanWindowMenu::Menu>().Init(l.hwnd);
 	toolBar.Init(l.hwnd);
 	CreateChildWindow(l.hwnd, &topLabelViewer);

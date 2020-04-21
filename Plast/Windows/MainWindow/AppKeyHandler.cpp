@@ -101,6 +101,7 @@ namespace AppKeyHandler
 			  , On, Off
 			>::Result
 		>()();
+		MainWindow::EnableMenu(false);
 	}
 	
 	void Continue()
@@ -117,6 +118,7 @@ namespace AppKeyHandler
 	void Stop()
 	{
 		Init();
+		MainWindow::EnableMenu(true);
 	}
 
 	void DisableAll()

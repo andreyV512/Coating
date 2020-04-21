@@ -94,20 +94,20 @@
     <Filter Include="Common\Units">
       <UniqueIdentifier>{e0e33284-5074-4e87-b9bb-6741e5aa6148}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Units\Lan">
-      <UniqueIdentifier>{3677791a-1edc-4f90-b4f0-c7ea2f3d21b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Units\1730">
       <UniqueIdentifier>{9faa7359-98e8-479f-891b-2d2f8149a430}</UniqueIdentifier>
     </Filter>
     <Filter Include="Common\Units\1730\inc">
       <UniqueIdentifier>{fb9c7404-f823-4a98-bcd8-cc3e55ff1f1e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Units\Lan\INTERFACES">
-      <UniqueIdentifier>{59681294-162c-42f7-a7f1-260b3ab0a486}</UniqueIdentifier>
+    <Filter Include="Common\Units\Lan">
+      <UniqueIdentifier>{77d98672-b994-4e98-8472-0614db990e92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Units\Lan\INTERFACES\REGKEY">
-      <UniqueIdentifier>{2ac2f518-17a3-4292-bf84-2224838568ee}</UniqueIdentifier>
+    <Filter Include="Common\Units\Lan\include">
+      <UniqueIdentifier>{5cdf5ce0-1966-4373-bba4-f2efe63a0515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compute">
+      <UniqueIdentifier>{d994d7c9-ed6a-498e-8b11-517423117016}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -366,83 +366,20 @@
     <ClInclude Include="..\Common\Units\1730\Device1730.h">
       <Filter>Common\Units\1730</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\include\RshApi.h">
+      <Filter>Common\Units\Lan\include</Filter>
+    </ClInclude>
     <ClInclude Include="..\Common\Units\Lan\Lan.h">
       <Filter>Common\Units\Lan</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CAPS.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    <ClInclude Include="..\Common\Units\Lan\LanParameters.h">
+      <Filter>Common\Units\Lan</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONST.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    <ClInclude Include="Compute\Compute.h">
+      <Filter>Compute</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONSTEX.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_CONSTS.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\ADC_Errors.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DAC_CONST.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DAC_ERRORS.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DLLClient.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DllFactory.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\Drawosc.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\DSPUtil.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCDevice.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCUtility.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IADCUtilityEX.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDACDevice.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDACDevice1.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IDDevice.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IEasyDriver.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IEasyPort.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IFactory.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IntDMAEx.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IOSC.H">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\IOSCE.H">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\UniDriver.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\INTERFACES\UniDriver4LV.h">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    <ClInclude Include="..\Common\Units\1730\1730Parameters.h">
+      <Filter>Common\Units\1730</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -620,39 +557,31 @@
     <ClCompile Include="..\Common\Units\1730\Device1730.cpp">
       <Filter>Common\Units\1730</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Units\Lan\Lan.cpp">
-      <Filter>Common\Units\Lan</Filter>
-    </ClCompile>
     <ClCompile Include="Dlg\LanDlg.cpp">
       <Filter>Dlg</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Units\Lan\INTERFACES\ADC_Errors.cpp">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    <ClCompile Include="..\Common\Units\Lan\include\RshApi.cpp">
+      <Filter>Common\Units\Lan\include</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Units\Lan\INTERFACES\DllFactory.cpp">
-      <Filter>Common\Units\Lan\INTERFACES</Filter>
+    <ClCompile Include="..\Common\Units\Lan\Lan.cpp">
+      <Filter>Common\Units\Lan</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\Compute.cpp">
+      <Filter>Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\TestIOPorts.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\AScanWindowDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\InputOutputDlg.cpp">
+      <Filter>Dlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_DACDrivers.ri">
-      <Filter>Common\Units\Lan\INTERFACES\REGKEY</Filter>
-    </None>
-    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_DACDrv.ri">
-      <Filter>Common\Units\Lan\INTERFACES\REGKEY</Filter>
-    </None>
-    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_Drivers.ri">
-      <Filter>Common\Units\Lan\INTERFACES\REGKEY</Filter>
-    </None>
-    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_EasyDriver.ri">
-      <Filter>Common\Units\Lan\INTERFACES\REGKEY</Filter>
-    </None>
-    <None Include="..\Common\Units\Lan\INTERFACES\REGKEY\VT_Library.ri">
-      <Filter>Common\Units\Lan\INTERFACES\REGKEY</Filter>
-    </None>
   </ItemGroup>
 </Project>
