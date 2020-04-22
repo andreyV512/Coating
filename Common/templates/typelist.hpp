@@ -95,7 +95,7 @@ namespace VL
 		{
 			return (proc<Head, int>()(o) && find<Vlst<Tail...>, proc>()(o));
 		}
-		template<class O>bool operator()()
+		bool operator()()
 		{
 			return (proc<Head, int>()() && find<Vlst<Tail...>, proc>()());
 		}
@@ -115,7 +115,7 @@ namespace VL
 		{
 			return proc<Head, int>()(o);
 		}
-		template<class O>bool operator()()
+		bool operator()()
 		{
 			return proc<Head, int>()();
 		}
