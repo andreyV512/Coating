@@ -8,7 +8,7 @@
 //#include "window_tool/HookKey.h"
 #include <gdiplus.h>
 //#include "tcp/InitTcp.h"
-//#include "tools_debug\DebugMess.h"
+#include "tools_debug/DebugMess.h"
 
 #if defined _M_IX86
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -27,6 +27,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+	dprint(__FUNCTION__"\n");
 	CreateSemaphore(0, 0, 1, typeWindow);
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{

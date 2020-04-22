@@ -12,26 +12,27 @@ struct TimeOutExteption {};
 struct ExitLoopExteption {};
 struct AlarmBitsExteption {};
 
-struct StartBtn  { static const int value = __COUNTER__; };
-struct StopBtn   { static const int value = __COUNTER__; };
-struct ContineBtn{ static const int value = __COUNTER__; };
+struct StartBtn  { static const int value = 1; };
+struct StopBtn   { static const int value = 2; };
+struct ContineBtn{ static const int value = 3; };
 
 namespace Automat
 {
 	
 	template<>struct Key<StartBtn>
 	{
-		static HANDLE Event;
+		static HANDLE hEvent;
 	};
 	template<>struct Key<StopBtn>
 	{
-		static HANDLE Event;
+		static HANDLE hEvent;
 	};
 	template<>struct Key<ContineBtn>
 	{
-		static HANDLE Event;
+		static HANDLE hEvent;
 	};
 	void Init();
 	void Destroy();
-	void Run();
+	void Start();
+	void Stop();
 }

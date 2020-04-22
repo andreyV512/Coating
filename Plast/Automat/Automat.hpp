@@ -22,7 +22,7 @@ namespace Automat
 		{
 			void operator()(P& p)
 			{
-				p[VL::IndexOf<List, O>::value] = O::Event;
+				p[VL::IndexOf<List, O>::value] = O::hEvent;
 			}
 		};
 		unsigned operator()()
@@ -33,10 +33,10 @@ namespace Automat
 	};
 	template<>struct WaitFor<Vlst<>>
 	{
-		static HANDLE Event;
+		static HANDLE hEvent;
 		unsigned operator()()
 		{
-			return WaitForSingleObject(Event, 5);
+			return WaitForSingleObject(hEvent, 5);
 		}
 	};
 
@@ -83,11 +83,11 @@ namespace Automat
 			{
 				if (0 != (o.value & p.bits))
 				{
-					 Log::Mess<MessWrap<On<O> > >();
+				//	 Log::Mess<MessWrap<On<O> > >();
 				}
 				else
 				{
-					Log::Mess<MessWrap<Off<O>>>();
+				//	Log::Mess<MessWrap<Off<O>>>();
 				}
 			}
 		}
@@ -133,7 +133,7 @@ namespace Automat
 		}
 		template<class Data>bool operator()(Data& data)
 		{
-			return VL::foreach<List, Proc>()(data);
+			return VL::find<List, Proc>()(data);
 		}
 	};
 	template<template<class, class>class Proc>struct WrapFind<Vlst<>, Proc>

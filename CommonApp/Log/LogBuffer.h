@@ -4,7 +4,8 @@
 class Log
 {
 public:
-	static void Insert(int id, double val, bool);
+	static int ID;
+	static void Insert(unsigned id, double val, bool);
 private:
 	template<class T>struct Param{typedef T Result;};
 	template<>struct Param<void>{typedef int Result;};
@@ -31,34 +32,27 @@ public:
 		Insert(T::ID, Convert(value), Filter<T>::value);
 	}
 #pragma warning(default: 4101)
-	static bool IsRow(int , TData *&);
+	static bool IsRow(unsigned , TData *&);
 	static int LastMessageIndex();
 	static bool LastMessage(TData *&d);
 	static void TailMessage(TData *&d);
 };
 
 #define DROP_MESSAGE(N)template<>struct Log::Filter<N>{static const bool value = false;};
-//DROP_MESSAGE(LogMess::ProgramOpen)
-//DROP_MESSAGE(LogMess::DataCollectionCompleted)
-//
-//DROP_MESSAGE(LogMess::Bits<TL::MkTlst<Off<oC1>>::Result>)
-//DROP_MESSAGE(LogMess::Bits<TL::MkTlst<Off<oC2>>::Result>)
-//DROP_MESSAGE(LogMess::Bits<TL::MkTlst<Off<oStart>>::Result>)
-//DROP_MESSAGE(LogMess::Bits<TL::MkTlst<On<oC1>>::Result>)
-//DROP_MESSAGE(LogMess::Bits<TL::MkTlst<On<oC2>>::Result>)
+//DROP_MESSAGE(LogMess::ErrStop)
+//DROP_MESSAGE(LogMess::ProgramOpen) 
 
-
-
-
-
-#define DROP_ID_PARAMS iCU, iKM2_DC, iKM3_AC, iCycle, iP1, iP2, iCOPT, iControl, oDC_ON1, oAC_ON, oDC_ON2, oWork, oStart, oToShift, oC1, oC2
-
-//#define DROP_ON(n) DROP_MESSAGE(MessWrap<On<n>>)
-//FOR_EACH(DROP_ON, DROP_ID_PARAMS)
-//#undef DROP_ON
-//
-//#define DROP_OFF(n) DROP_MESSAGE(MessWrap<Off<n>>)
-//FOR_EACH(DROP_OFF, DROP_ID_PARAMS)
-//#undef DROP_OFF
-//
-//#undef DROP_MESSAGE
+//DROP_MESSAGE(MessBit<Off<oLampRed  		   >>)
+//DROP_MESSAGE(MessBit<Off<oLampGreen		   >>)
+//DROP_MESSAGE(MessBit<Off<oBuzzer   		   >>)
+//DROP_MESSAGE(MessBit<Off<oOperatorLampRed  >>)
+//DROP_MESSAGE(MessBit<Off<oOperatorLampGreen>>)
+//DROP_MESSAGE(MessBit<Off<oOperatorBuzzer   >>)
+//			
+//DROP_MESSAGE(MessBit<On<oLampRed  		   >>)
+//DROP_MESSAGE(MessBit<On<oLampGreen		   >>)
+//DROP_MESSAGE(MessBit<On<oBuzzer   		   >>)
+//DROP_MESSAGE(MessBit<On<oOperatorLampRed   >>)
+//DROP_MESSAGE(MessBit<On<oOperatorLampGreen >>)
+//DROP_MESSAGE(MessBit<On<oOperatorBuzzer    >>)
+#undef DROP_MESSAGE

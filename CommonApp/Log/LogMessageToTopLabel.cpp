@@ -1,11 +1,12 @@
 #include "LogMessageToTopLabel.h"
 #include "App/App.h"
 #include "LogMessages.h"
-#include "Log/LogBuffer.h"
+#include "LogBuffer.h"
 
 LogMessageToTopLabel::LogMessageToTopLabel()
 	: hTimer(INVALID_HANDLE_VALUE)
-{}
+{
+}
 
 void LogMessageToTopLabel::Stop()
 {

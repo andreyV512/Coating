@@ -9,6 +9,8 @@
 #include "Dlg/Dlg.h"
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "Units/Lan/Lan.h"
+#include "Automat/Automat.h"
+#include "Log/LogMessageToTopLabel.h"
 namespace App
 {
 	void Init()
@@ -49,7 +51,10 @@ namespace App
 			MessageBox(h, mess, (wchar_t *)L"Ошибка платы La-n108-100PCI(2)!!!", MB_ICONEXCLAMATION);
 			return;
 		}
-		AppKeyHandler::Stop();
+
+		Singleton<LogMessageToTopLabel>::Instance().Run();
+		Automat::Init();
+		
 #else
 		//DspFiltrDlg::Do(0);
 		TestTest();
@@ -58,9 +63,13 @@ namespace App
 
 	void Destroy()
 	{
+		Singleton<LogMessageToTopLabel>::Instance().Stop();
+		Automat::Destroy();
 	}
-	void TopLabel(wchar_t(&)[128])
+	void TopLabel(wchar_t(&mess)[128])
 	{
+		MainWindow &w = Singleton<MainWindow>::Instance();
+		w.topLabelViewer.SetMessage((wchar_t *)mess);
 	}
 
 	void StatusBar(int id, wchar_t *mess)

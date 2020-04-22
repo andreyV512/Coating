@@ -1,5 +1,5 @@
 #include <atlsimpstr.h>
-#include "Log\LogBuffer.h"
+#include "LogBuffer.h"
 #include "tools_debug/DebugMess.h"
 #include "PerformanceCounter\PerformanceCounter.h"
 wchar_t name[] = L"Parallel hatch in log space ";
@@ -11,8 +11,8 @@ namespace LogSpace{
 
 	struct TMapData
 	{
-		volatile LONG head;
-		volatile LONG tail;
+		volatile ULONG head;
+		volatile ULONG tail;
 		Log::TData data[SizeBuffer];
 	};
 }
@@ -21,21 +21,21 @@ struct Log_Inner
 {
 	HANDLE hMapFile;
 	LogSpace::TMapData *map;
-	bool IsRow(int row, Log::TData *&d)
+	bool IsRow(unsigned row, Log::TData *&d)
 	{
 		if(map->head - map->tail > LogSpace::SizeBuffer) map->tail = map->head - LogSpace::SizeBuffer;
 		if(map->head - map->tail > row)
 		{
-			int i = map->head - row;
+			unsigned i = map->head - row;
 			i %= LogSpace::SizeBuffer; 
 			d = &map->data[i];
 			return true;
 		}
 		return false;
 	}
-	void Get(int i, Log::TData *&d)
+	void Get(unsigned i, Log::TData *&d)
 	{
-		d = &map->data[i];
+		d = &map->data[i % LogSpace::SizeBuffer];
 	}
 	Log_Inner()
 	{
@@ -74,9 +74,12 @@ struct Log_Inner
 	}
 } inner;
 
-void Log::Insert(int id, double val, bool b)
+int Log::ID = LogMess::MAX_MESS_ID;
+
+void Log::Insert(unsigned id, double val, bool b)
 {
-	LONG i = _InterlockedIncrement(&inner.map->head);
+	Log::ID = id;
+	LONG i = _InterlockedIncrement((LONG *)&inner.map->head);
 	i &= LogSpace::SizeBuffer - 1;
 	if(b) InterlockedExchange(&lastMessage, i);
 	inner.map->data[i].id = id;
@@ -84,7 +87,7 @@ void Log::Insert(int id, double val, bool b)
 	inner.map->data[i].value = val;
 }
 
-bool Log::IsRow(int row, TData *&d)
+bool Log::IsRow(unsigned row, TData *&d)
 {
 	return inner.IsRow(row, d);
 }

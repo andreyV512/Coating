@@ -115,10 +115,10 @@ int Chart::GetCountDigit(double min, double max, double &height, Font &font)
 	RectF rect;
 	wchar_t wbuf[32];
 	dtow<3>(min, wbuf);
-	g->MeasureString(wbuf, (int)wcslen(wbuf) * 1.2, &font, origin, &format, &rect);
+	g->MeasureString(wbuf, (int)ceil(wcslen(wbuf) * 1.2), &font, origin, &format, &rect);
 	int mn = (int)rect.Width; 
 	dtow<3>(max, wbuf);
-	g->MeasureString(wbuf, (int)wcslen(wbuf) * 1.2, &font, origin, &format, &rect);
+	g->MeasureString(wbuf, (int)ceil(wcslen(wbuf) * 1.2), &font, origin, &format, &rect);
 	int mx = (int)ceil(rect.Width); 
 	height = rect.Height;
 	return mx > mn ? mx : mn;

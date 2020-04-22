@@ -2,7 +2,8 @@
 #include <Windows.h>
 #include "templates/typelist.hpp"
 #include <stdio.h>
-#include "PerformanceCounter/PerformanceCounter.h"
+#include "PerformanceCounter\PerformanceCounter.h"
+#include "LogBuffer.h"
 
 #pragma warning(disable : 4996)
 
@@ -11,79 +12,77 @@ namespace LogMess
 	struct Loc
 	{
 		unsigned backColor, textColor;
-		void(*proc)(char*, double);
+		void(*proc)(char *, double);
 	};
 	template<class T, class C>struct GenFunc;
 	template<class C>struct GenFunc<void, C>
 	{
-		static void Func(char* buf, double)
+		static void Func(char *buf, double)
 		{
 			sprintf(buf, C::mess());
 		}
 	};
-
+	
 	template<class C>struct GenFunc<int, C>
 	{
-		static void Func(char* buf, double val)
+		static void Func(char *buf, double val)
 		{
-			sprintf(buf, C::mess(), (int)val);
+			sprintf(buf, C::mess(), (int)val);			
 		}
 	};
 	template<class C>struct GenFunc<double, C>
 	{
-		static void Func(char* buf, double val)
+		static void Func(char *buf, double val)
 		{
-			sprintf(buf, C::mess(), val);
+			sprintf(buf, C::mess(), val);			
 		}
 	};
 	template<class C>struct GenFunc<bool, C>
 	{
-		static void Func(char* buf, double val)
+		static void Func(char *buf, double val)
 		{
-			sprintf(buf, C::mess(), 0.0 != val ? "¬ À" : "Œ“ À");
+			sprintf(buf, C::mess(), 0.0 != val ? "¬ À" : "Œ“ À");			
 		}
 	};
-	template<class C>struct GenFunc<const char*, C>
+	template<class C>struct GenFunc<const char *, C>
 	{
-		static void Func(char* buf, double val)
+		static void Func(char *buf, double val)
 		{
-			sprintf(buf, C::mess(), (char*)*(unsigned*)&val);
+			sprintf(buf, C::mess(), (char *)*(unsigned *)&val);			
 		}
 	};
-
-	class Items
+	
+	template<int i = 0, bool = true>struct Item
 	{
-		Loc (&arr)[MAX_MESS_ID];
-		template<class T>void Proc()
+		typedef typename IDtoMess<i>::Result O;
+		void operator()(Loc(&arr)[MAX_MESS_ID])
 		{
-			static const int i = T::value;
-			typedef typename IDtoMess<i>::Result O;
 			arr[i].backColor = O::backColor;
 			arr[i].textColor = O::textColor;
 			arr[i].proc = GenFunc<O::type, O >::Func;
-			Proc<VL::IntToType<1 + i>>();
+			Item < i + 1, i + 1 < MAX_MESS_ID > ()(arr);
 		}
-		template<>void Proc<VL::IntToType<MAX_MESS_ID - 1>>()
-		{
-			static const int i = MAX_MESS_ID - 1;
-			typedef typename IDtoMess<MAX_MESS_ID - 1>::Result O;
-			arr[i].backColor = O::backColor;
-			arr[i].textColor = O::textColor;
-			arr[i].proc = GenFunc<O::type, O >::Func;
-		}
-	public:
-		Items(Loc(&arr)[MAX_MESS_ID]): arr(arr){}
 	};
-	class FactoryMessages::Inner
+	template<int i>struct Item<i, false>
 	{
-		Items items;
+		void operator()(Loc(&arr)[MAX_MESS_ID]) {}
+	};
+	struct FactoryMessages::Inner
+	{
 	public:
-		unsigned start;
+		unsigned start = 0;
+		
 		Loc arr[MAX_MESS_ID];
-		Inner() : items(arr) {}
+		Inner()
+		{
+			Item<>()(arr);
+		}
 		static Inner &Instance(){static Inner x; return x;}
 	};
-	FactoryMessages::FactoryMessages() : inner(Inner::Instance()) {}
+	FactoryMessages::FactoryMessages()
+		: inner(Inner::Instance())
+	{
+	}
 	void FactoryMessages::StartTime()
 	{
 		inner.start = Performance::Counter();
@@ -110,5 +109,45 @@ namespace LogMess
 	FactoryMessages &FactoryMessages::Instance()
 	{
 		static FactoryMessages x; return x;
+	}
+
+////////////////////////////////////////////////////////////////////////////////////////
+	template<class T>struct __exist_err__
+	{
+	private:
+		template<class E, E>struct Helper;
+		template<class Z>static char Tst(...);
+		template<class Z>static double Tst(Z *, Helper<int, Z::err> * = NULL);
+		static const bool value = sizeof(double) == sizeof(Tst<T>((T *)NULL));
+	public:
+		typedef typename VL::_if<value, T, Vlst<>>::Result Result;
+	};
+	
+	template<int N, class tmp = Vlst<>>struct __get_err_list__
+	{
+		typedef typename IDtoMess<N>::Result Head;
+		typedef typename __get_err_list__<N - 1, typename VL::Append<tmp, typename __exist_err__<Head>::Result>::Result>::Result Result;
+	};
+
+	template<class tmp>struct __get_err_list__<-1, tmp>
+	{
+		typedef tmp Result;
+	};
+
+	typedef __get_err_list__<MAX_MESS_ID - 1>::Result __error_list__;
+
+	template<class O, class P>struct __get_err__
+	{
+		bool operator()()
+		{
+			if(Log::ID == O::err){Log::Mess<O>(); return false;}
+			return true;
+		}
+	};
+////////////////////////////////////////////////////////////////////////////////////////
+
+	void Err()
+	{
+		VL::find<__error_list__, __get_err__>()();
 	}
 }
