@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="App">
+      <UniqueIdentifier>{50edb471-15f1-4d8c-87e6-820e2289628d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{0a4cedb7-1b55-4def-ab8e-f4f3860ec727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{bbff424d-eb65-4a71-a8e4-80e40b097103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\window_tool">
+      <UniqueIdentifier>{9a16a777-35f3-4aec-94fe-a49579d2c502}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\tools_debug">
+      <UniqueIdentifier>{bc6610e4-da2f-49dc-9df1-4bff1c323195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dlg">
+      <UniqueIdentifier>{34c5f672-fbfb-4cf2-a8a5-5742ede2dee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CommonApp">
+      <UniqueIdentifier>{755bcb26-94e6-460c-8c57-de6c6f495f5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CommonApp\Log">
+      <UniqueIdentifier>{3f6b29b5-2ca3-4828-ad99-77273836eeef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\PerformanceCounter">
+      <UniqueIdentifier>{2a9db010-e4ad-48d0-835b-e740af132e1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Grid">
+      <UniqueIdentifier>{64abfa65-5758-4c10-863e-2315f495cd75}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Messages.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="App\App.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="App\config.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\MainWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\MainWindowMenu.hpp">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\Emptywindow.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\WindowsPosition.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\ItemIni.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\MenuAPI.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\tools_debug\DebugMess.h">
+      <Filter>Common\tools_debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg\Dialogs.h">
+      <Filter>Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonApp\Log\LogBuffer.h">
+      <Filter>CommonApp\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonApp\Log\LogMessages.h">
+      <Filter>CommonApp\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\PerformanceCounter\PerformanceCounter.h">
+      <Filter>Common\PerformanceCounter</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\EmptyDataGrid.hpp">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Grid\DataGrid.hpp">
+      <Filter>Common\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Grid\GridDetail.h">
+      <Filter>Common\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Grid\GridWindow.h">
+      <Filter>Common\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\GridMessages.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Messages.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="App\App.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\MainWindow.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\WindowsPosition.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\ItemIni.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\MenuAPI.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\tools_debug\DebugMess.cpp">
+      <Filter>Common\tools_debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\DlgProc.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonApp\Log\LogBuffer.cpp">
+      <Filter>CommonApp\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonApp\Log\LogMessages.cpp">
+      <Filter>CommonApp\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\PerformanceCounter\PerformanceCounter.cpp">
+      <Filter>Common\PerformanceCounter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Grid\GridDetail.cpp">
+      <Filter>Common\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Grid\GridWindow.cpp">
+      <Filter>Common\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\GridMessages.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\Common\Resource\Resource.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
