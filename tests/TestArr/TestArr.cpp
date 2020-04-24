@@ -13,15 +13,39 @@ template<class O, class P>struct tst
     }
 };
 
+template<class >struct TstOn {};
+template<class >struct TstOff {};
+
+template<class List>struct __filtr_tst_bits__;
+template<class Head, class ...Tail>struct __filtr_tst_bits__<Vlst<Head, Tail...>>
+{
+    typedef typename __filtr_tst_bits__<Vlst<Tail...>>::Result Result;
+};
+template<class Head, class ...Tail>struct __filtr_tst_bits__<Vlst<TstOn<Head>, Tail...>>
+{
+    typedef typename VL::Append< TstOn<Head>, typename __filtr_tst_bits__<Vlst<Tail...>>::Result>::Result Result;
+};
+template<class Head, class ...Tail>struct __filtr_tst_bits__<Vlst<TstOff<Head>, Tail...>>
+{
+    typedef typename VL::Append< TstOff<Head>, typename __filtr_tst_bits__<Vlst<Tail...>>::Result>::Result Result;
+};
+template<>struct __filtr_tst_bits__<Vlst<>>
+{
+    typedef Vlst<> Result;
+};
+
 struct A {};
 struct B {};
 struct C {};
 struct D {};
+struct F {};
+struct Z {};
 
-typedef Vlst<A, B, C, D> list;
+typedef Vlst<TstOn<Z>, A, TstOn<B>, C, TstOff<D>, F> list;
 VL::Factory<list> f;
 
 int main()
 {
-    VL::find<list, tst>()();
+    typedef __filtr_tst_bits__<list>::Result xxx;
+    VL::find<xxx, tst>()();
 }

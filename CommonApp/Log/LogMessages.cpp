@@ -112,42 +112,42 @@ namespace LogMess
 	}
 
 ////////////////////////////////////////////////////////////////////////////////////////
-	template<class T>struct __exist_err__
-	{
-	private:
-		template<class E, E>struct Helper;
-		template<class Z>static char Tst(...);
-		template<class Z>static double Tst(Z *, Helper<int, Z::err> * = NULL);
-		static const bool value = sizeof(double) == sizeof(Tst<T>((T *)NULL));
-	public:
-		typedef typename VL::_if<value, T, Vlst<>>::Result Result;
-	};
-	
-	template<int N, class tmp = Vlst<>>struct __get_err_list__
-	{
-		typedef typename IDtoMess<N>::Result Head;
-		typedef typename __get_err_list__<N - 1, typename VL::Append<tmp, typename __exist_err__<Head>::Result>::Result>::Result Result;
-	};
-
-	template<class tmp>struct __get_err_list__<-1, tmp>
-	{
-		typedef tmp Result;
-	};
-
-	typedef __get_err_list__<MAX_MESS_ID - 1>::Result __error_list__;
-
-	template<class O, class P>struct __get_err__
-	{
-		bool operator()()
-		{
-			if(Log::ID == O::err){Log::Mess<O>(); return false;}
-			return true;
-		}
-	};
-////////////////////////////////////////////////////////////////////////////////////////
-
-	void Err()
-	{
-		VL::find<__error_list__, __get_err__>()();
-	}
+//	template<class T>struct __exist_err__
+//	{
+//	private:
+//		template<class E, E>struct Helper;
+//		template<class Z>static char Tst(...);
+//		template<class Z>static double Tst(Z *, Helper<int, Z::err> * = NULL);
+//		static const bool value = sizeof(double) == sizeof(Tst<T>((T *)NULL));
+//	public:
+//		typedef typename VL::_if<value, T, Vlst<>>::Result Result;
+//	};
+//	
+//	template<int N, class tmp = Vlst<>>struct __get_err_list__
+//	{
+//		typedef typename IDtoMess<N>::Result Head;
+//		typedef typename __get_err_list__<N - 1, typename VL::Append<tmp, typename __exist_err__<Head>::Result>::Result>::Result Result;
+//	};
+//
+//	template<class tmp>struct __get_err_list__<-1, tmp>
+//	{
+//		typedef tmp Result;
+//	};
+//
+//	typedef __get_err_list__<MAX_MESS_ID - 1>::Result __error_list__;
+//
+//	template<class O, class P>struct __get_err__
+//	{
+//		bool operator()()
+//		{
+//			if(Log::ID == O::err){Log::Mess<O>(); return false;}
+//			return true;
+//		}
+//	};
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+//	void Err()
+//	{
+//		VL::find<__error_list__, __get_err__>()();
+//	}
 }

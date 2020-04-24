@@ -83,11 +83,11 @@ namespace Automat
 			{
 				if (0 != (o.value & p.bits))
 				{
-				//	 Log::Mess<MessWrap<On<O> > >();
+					 Log::Mess<MessBit<On<O> > >();
 				}
 				else
 				{
-				//	Log::Mess<MessWrap<Off<O>>>();
+					Log::Mess<MessBit<Off<O>>>();
 				}
 			}
 		}
@@ -107,7 +107,79 @@ namespace Automat
 			}
 		}
 	};
+//------------------------
+	template<class List>struct __filtr_tst_bits__;
+	template<class Head, class ...Tail>struct __filtr_tst_bits__<Vlst<Head, Tail...>>
+	{
+		typedef typename __filtr_tst_bits__<Vlst<Tail...>>::Result Result;
+	};
+	template<class Head, class ...Tail>struct __filtr_tst_bits__<Vlst<TstOn<Head>, Tail...>>
+	{
+		typedef typename VL::Append< TstOn<Head>, typename __filtr_tst_bits__<Vlst<Tail...>>::Result>::Result Result;
+	};
+	template<class Head, class ...Tail>struct __filtr_tst_bits__<Vlst<TstOff<Head>, Tail...>>
+	{
+		typedef typename VL::Append< TstOff<Head>, typename __filtr_tst_bits__<Vlst<Tail...>>::Result>::Result Result;
+	};
+	template<>struct __filtr_tst_bits__<Vlst<>>
+	{
+		typedef Vlst<> Result;
+	};
 
+	struct __alarm_bits_data__
+	{
+		InputBitsTable::TItems &items;
+		unsigned inputBits;
+		__alarm_bits_data__(unsigned inputBits)
+			: items(Singleton<InputBitsTable>::Instance().items)
+			, inputBits(inputBits)
+		{}
+	};
+	template<class O, class P>struct __alarm_bits_xxx__;
+	template<class X, class P>struct __alarm_bits_xxx__<TstOn<X>, P>
+	{
+		void operator()(P &p)
+		{
+			if (0 == (p.inputBits & p.items.get<X>().value))
+			{
+				Log::Mess<AlarmBit<On<X> > >();
+				/*INFO
+				* Необходимо переопределить макрос 
+				* ALARM_BIT(On<X>, void, "подписать название сигнала", red, yellow);
+				* X - тип сигнала (см. файл LogMessages.h)
+				*/
+			}
+		}
+	};
+	template<class X, class P>struct __alarm_bits_xxx__<TstOff<X>, P>
+	{
+		void operator()(P &p)
+		{
+			if (0 != (p.inputBits & p.items.get<X>().value))
+			{
+				Log::Mess<AlarmBit<Off<X> > >();
+				/*INFO
+				* Необходимо переопределить макрос
+				* ALARM_BIT(Off<X>, void, "подписать название сигнала", red, yellow);
+				* X - тип сигнала (см. файл LogMessages.h)
+				*/
+			}
+		}
+	};
+
+	template<class List>struct __alarm_bits_message__
+	{
+		void operator()(unsigned bits)
+		{
+			__alarm_bits_data__ data(bits);
+			VL::foreach<List, __alarm_bits_xxx__>()(data);
+		}
+	};
+	template<>struct __alarm_bits_message__<Vlst<>>
+	{
+		void operator()(unsigned bits) {}
+	};
+//----------------------------------
 	template<class List, template<class, class>class Proc>struct WrapFor
 	{
 		template<class Items, class Data>void operator()(Items &items, Data &data)
@@ -155,9 +227,11 @@ namespace Automat
 		WrapFor<typename VL::WrapFilter<Off, Vlst<Args...> >::Result, __bits__>()(items, bitsOff);
 		//
 		unsigned tstBitsOn = 0;
-		WrapFor<typename VL::WrapFilter<TstOn, Vlst<Args...> >::Result, __bits__>()(items, tstBitsOn);
+		typedef typename VL::WrapFilter<TstOn, Vlst<Args...> >::Result __tst_on_list;
+		WrapFor<__tst_on_list, __bits__>()(items, tstBitsOn);
 		unsigned tstBitsOff = 0;
-		WrapFor<typename VL::WrapFilter<TstOff, Vlst<Args...> >::Result, __bits__>()(items, tstBitsOff);
+		typedef typename VL::WrapFilter<TstOff, Vlst<Args...> >::Result __tst_off_list__;
+		WrapFor<__tst_off_list__, __bits__>()(items, tstBitsOff);
 		//
 		typedef typename VL::WrapFilter<Proc, Vlst<Args...> >::Result proc_list;
 		//
@@ -186,9 +260,13 @@ namespace Automat
 				unsigned tstBitsOr = tstBitsOn | tstBitsOff;
 				if (tstBitsOr)
 				{
-					if (tstBitsOn == (inputs & tstBitsOr))
+					if (tstBitsOn != (inputs & tstBitsOr))
 					{
-						if (--alarmTick < 0) throw AlarmBitsExteption();
+						if (--alarmTick < 0)
+						{
+							__alarm_bits_message__<typename __filtr_tst_bits__<Vlst<Args...>>::Result>()(inputs);
+							throw AlarmBitsExteption();
+						}
 					}
 					else
 					{

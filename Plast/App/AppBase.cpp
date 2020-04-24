@@ -10,6 +10,15 @@ const wchar_t *ParametersBase::name()
 	return path;
 }
 
+template<class O, class P>struct row_table
+{
+	void operator()(P &p)
+	{
+		O &o = Singleton<O>::Instance();
+		Select<O>(p).ID(__id__).Execute(o);
+	}
+};
+
 void AppBase::Init()
 {
 	ParametersBase param;
@@ -21,6 +30,7 @@ void AppBase::Init()
 	);
 	if (base.IsOpen())
 	{
+		VL::foreach<ParametersBase::one_row_table_list, row_table>()(base);
 		InitTypeSizeTables(base);
 	}
 }

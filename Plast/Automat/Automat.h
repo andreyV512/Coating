@@ -18,7 +18,17 @@ struct ContineBtn{ static const int value = 3; };
 
 namespace Automat
 {
-	
+	enum class Status {
+		contine
+		, exit_loop
+		, time_out
+		, start
+		, stop
+		, alarm_bits
+		, alarm_l502
+		, tubeInWorkZone
+		, undefined
+	};
 	template<>struct Key<StartBtn>
 	{
 		static HANDLE hEvent;

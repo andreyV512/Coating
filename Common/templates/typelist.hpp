@@ -361,6 +361,20 @@ namespace VL
 	{
 		typedef Vlst<Wrap<max> > Result;
 	};
+
+	template<class List, class T>struct TypeInList;
+	template<class T, class Head, class ...Tail>struct TypeInList<Vlst<Head, Tail...>, T>
+	{
+		static const bool value = TypeInList<Tail..., T>::value;
+	};
+	template<class Head, class ...Tail>struct TypeInList<Vlst<Head, Tail...>, Head>
+	{
+		static const bool value = true;
+	};
+	template<class T>struct TypeInList<Vlst<>, T>
+	{
+		static const bool value = false;
+	};
 }
 
 template<class T>struct Singleton

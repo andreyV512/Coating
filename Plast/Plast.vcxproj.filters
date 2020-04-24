@@ -384,6 +384,9 @@
     <ClInclude Include="..\Common\DspFilters\DspFiltrParams.h">
       <Filter>Common\DspFilters</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\window_tool\RunExecute.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -586,6 +589,12 @@
     </ClCompile>
     <ClCompile Include="Dlg\TypeSizeDlg.cpp">
       <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\MessageDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\RunExecute.cpp">
+      <Filter>Common\window_tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

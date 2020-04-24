@@ -1,7 +1,7 @@
 #include <atlsimpstr.h>
 #include "LogBuffer.h"
 #include "tools_debug/DebugMess.h"
-#include "PerformanceCounter\PerformanceCounter.h"
+#include "PerformanceCounter/PerformanceCounter.h"
 wchar_t name[] = L"Parallel hatch in log space ";
 
 #define d_mess

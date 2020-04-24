@@ -115,15 +115,18 @@ namespace MainWindowMenu
 	MENU_TEXT(L"Тест", TopMenu<MainTest>)
 	struct __TestIOPorts : TestIOPorts {};
 	struct AScanWindow : AScanWindowDlg {};
+	struct Message_ : MessageDlg {};
 
 	MENU_ITEM(L"Просмотр дискретных портов", __TestIOPorts)
 	MENU_ITEM(L"Просмотр А-скан сигналов", AScanWindow)
+	MENU_ITEM(L"Просмотр сообщений", Message_)
 	//------------------------------------
 	template<>struct TopMenu<MainTest>
 	{
 		typedef Vlst<
 			MenuItem<__TestIOPorts>
 			, MenuItem<AScanWindow>
+			, MenuItem<Message_>
 		> list;
 	};
 	//-------------------------------------------

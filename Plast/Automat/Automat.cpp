@@ -62,24 +62,24 @@ namespace Automat
 					startLoop = false;
 				}
 
-				Bits<On<iCU>>(500);
+				Bits<TstOn<iCU>, On<iCU>>(5000);
 				dprint("loop\n");
 				Sleep(5000);
 			}
 			catch (TimeOutExteption)
 			{
 				Log::Mess<LogMess::TimeOutExteption>();
-				startLoop = true;
 			}
 			catch (AlarmBitsExteption)
 			{
-				Log::Mess<LogMess::AlarmBitsExteption>();
+			//	Log::Mess<LogMess::AlarmBitsExteption>();
 			}
 			catch (ExitLoopExteption)
 			{
 				Log::Mess<LogMess::ExitLoopExteption>();
 				break;
 			}
+			startLoop = true;
 		}
 		return 0;
 	}

@@ -1,89 +1,10 @@
 #pragma once
-/*
-#include "App/AppBase.h"
-#include "Automat/Automat.h"
 
-template<class T>struct MessWrap;
-template<int N>struct IDtoMess;
-
-static const int green = 0xff00;
-static const int blue = 0xff0000;
-static const int black = 0x0;
-static const int white = 0xffffff;
-static const int red = 0xff;
-static const int yellow = 0xffff;
-static const int sea = 0xffa279;
-static const int pink = 0xaBa0FF;
-
-#define __double_1 " %.1f" 
-#define __double_2 " %.2f"
-#define __int " %d"
-#define __void ""
-#define __bool " %s"
-#define __const_char_ptr " %s"
-
-#define MESS_WRAP(name, tpe, txt, bc, tc)template<>struct MessWrap<name>\
-{\
-	static const int ID = __COUNTER__;\
-	typedef tpe type;\
-	static const unsigned backColor = bc;\
-    static const unsigned textColor = tc;\
-	static const char *mess(){return txt __ ## tpe;}\
-};\
-template<>struct IDtoMess<MessWrap<name>::ID>{typedef MessWrap<name> Result;};
-
-#define MESS(name, tpe, txt, bc, tc)struct name\
-{\
-	static const int ID = __COUNTER__;\
-	typedef tpe type;\
-	static const unsigned backColor = bc;\
-    static const unsigned textColor = tc;\
-	static const char *mess(){return txt __ ## tpe;);}\
-};\
-template<>struct IDtoMess<name::ID>{typedef name Result;};
-
-namespace LogMess
-{
-	MESS_WRAP(On<iCU >, void, "Включен сигнал \"Цепи управления\"", red, white);
-	MESS_WRAP(On<iIn >, void, "Включен сигнал \"Труба на входе\"", red, white);
-	MESS_WRAP(On<iOut>, void, "Включен сигнал \"Труба на выходе\"", red, white);
-		
-	MESS_WRAP(On<oAutomat >, void, "Включен сигнал \"Автомат\"", red, white);
-	MESS_WRAP(On<oSupply  >, void, "Включен сигнал \"Подвод\"", red, white);
-	MESS_WRAP(On<oMark >, void   , "Включен сигнал \"Отметка\"", red, white);
-
-	MESS_WRAP(Off<iCU >, void, "Включен сигнал \"Цепи управления\"", blue, white);
-	MESS_WRAP(Off<iIn >, void, "Включен сигнал \"Труба на входе\"" , blue, white);
-	MESS_WRAP(Off<iOut>, void, "Включен сигнал \"Труба на выходе\"", blue, white);
-
-	MESS_WRAP(Off<oAutomat >, void, "Включен сигнал \"Автомат\""   , blue, white);
-	MESS_WRAP(Off<oSupply  >, void, "Включен сигнал \"Подвод\""    , blue, white);
-	MESS_WRAP(Off<oMark >, void, "Включен сигнал \"Отметка\""      , blue, white);
-
-	MESS_WRAP(TimeOutExteption, void, "Превышено время ожидания", red, yellow);
-	MESS_WRAP(AlarmBitsExteption, void, "Выход по аварийному биту", red, yellow);
-	MESS_WRAP(ExitLoopExteption, void, "Выход из программы", red, yellow);
-
-	static const int MAX_MESS_ID = __COUNTER__;
-
-	class FactoryMessages
-	{
-		class Inner;
-		Inner &inner;
-		FactoryMessages();
-	public:
-		void StartTime();
-		bool Color(int i, unsigned& backColor, unsigned& textColor);
-		bool Text(int i, char* buf, double val);
-		static FactoryMessages& Instance();
-	};
-}
-*/
-
-#include "templates\typelist.hpp"
-#include "App\App.h"
-#include "App\AppBase.h"
-#include "tools_debug\DebugMess.h"
+#include "templates/typelist.hpp"
+#include "App/App.h"
+//#include "App\AppBase.h"
+#include "Units/1730/1730Parameters.h"
+#include "tools_debug/DebugMess.h"
 
 template<int N>struct IDtoMess;
 template<class>struct On;
@@ -117,7 +38,7 @@ template<>struct IDtoMess<name::ID>{typedef name Result;};
 };\
 template<>struct IDtoMess<name::ID>{typedef name Result;};
 
-template<class T>struct MessBit;
+template<class T>struct MessBit;			
 
 #define MESS_BIT(name, tpe, txt, bc, tc)template<>struct MessBit<name>\
 {\
@@ -128,6 +49,17 @@ template<class T>struct MessBit;
 	static const char *mess(){return _cat(txt, __##tpe);}\
 };\
 template<>struct IDtoMess<MessBit<name>::ID>{typedef MessBit<name> Result;};
+
+template<class T>struct AlarmBit;
+#define ALARM_BIT(name, tpe, txt, bc, tc)template<>struct AlarmBit<name>\
+{\
+	static const int ID = __COUNTER__;\
+	typedef tpe type;\
+	static const unsigned backColor = bc;\
+    static const unsigned textColor = tc;\
+	static const char *mess(){return _cat(txt, __##tpe);}\
+};\
+template<>struct IDtoMess<AlarmBit<name>::ID>{typedef AlarmBit<name> Result;};
 
 static const int green = 0xff00;
 static const int blue = 0xff0000;
@@ -170,19 +102,24 @@ namespace LogMess
 	MESS_BIT(On<iCU  >, void, "Включен сигнал \"Цепи управления\"", red, white);
 	MESS_BIT(On<iIn  >, void, "Включен сигнал \"Труба на входе\"", red, white);
 	MESS_BIT(On<iOut >, void, "Включен сигнал \"Труба на выходе\"", red, white);
-	MESS_BIT(On<oMark>, void, "Включен сигнал \"Отметка\"", blue, white);
+
+	MESS_BIT(On<oAutomat>, void, "On<oAutomat>", red, white);
+	MESS_BIT(On<oSupply >, void, "On<oSupply >", red, white);
+	MESS_BIT(On<oMark>, void, "Включен сигнал \"Отметка\"", red, white);
 
 	MESS_BIT(Off<iCU  >, void, "Отключен сигнал \"Цепи управления\"", blue, white);
 	MESS_BIT(Off<iIn  >, void, "Отключен сигнал \"Труба на входе\"", blue, white);
 	MESS_BIT(Off<iOut >, void, "Отключен сигнал \"Труба на выходе\"", blue, white);
+
+	MESS_BIT(Off<oAutomat>, void, "Off<oAutomat>", blue, white);
+	MESS_BIT(Off<oSupply >, void, "Off<oSupply >", blue, white);
 	MESS_BIT(Off<oMark>, void, "Отключен сигнал \"Отметка\"", blue, white);
+
+	ALARM_BIT(On<iCU  >, void, "Нет сигнала \"Цепи управления\"", red, yellow);
 	
 	MESS(TimeOutExteption, void, "Превышено время ожидания", red, yellow);
 	MESS(AlarmBitsExteption, void, "Выход по аварийному биту", red, yellow);
 	MESS(ExitLoopExteption, void, "Выход из программы", red, yellow);
-
-
-
 
 	template<class T>struct Bits;
 	template<>struct Bits<Vlst<>> {};
@@ -209,28 +146,26 @@ namespace LogMess
 	BITS_XX(sea, "Ожидание сигнала \"Труба на выходе\"", On<iOut>)
 #undef BITS_XX
 
-#define ERR_BITS(color, txt, ...)template<>struct Bits<Bits<Vlst<__VA_ARGS__> >>\
-	{\
-		static const int ID = __COUNTER__;\
-		typedef int type;\
-		static const unsigned backColor = color;\
-		static const unsigned textColor = black;\
-		static const int err = Bits<Vlst<__VA_ARGS__> >::ID;\
-		static const char *mess(){return txt;}\
-	};\
-	template<>struct IDtoMess<Bits<Bits<Vlst<__VA_ARGS__>> >::ID>\
-	{\
-		typedef Bits<Bits<Vlst<__VA_ARGS__> >> Result;\
-	};
-
-
-	ERR_BITS(red, "Нет сигнала \"ЦЕПИ УПРАВЛЕНИЯ\"", On<iCU>)
+//#define ERR_BITS(color, txt, ...)template<>struct Bits<Bits<Vlst<__VA_ARGS__> >>\
+//	{\
+//		static const int ID = __COUNTER__;\
+//		typedef int type;\
+//		static const unsigned backColor = color;\
+//		static const unsigned textColor = black;\
+//		static const int err = Bits<Vlst<__VA_ARGS__> >::ID;\
+//		static const char *mess(){return txt;}\
+//	};\
+//	template<>struct IDtoMess<Bits<Bits<Vlst<__VA_ARGS__>> >::ID>\
+//	{\
+//		typedef Bits<Bits<Vlst<__VA_ARGS__> >> Result;\
+//	};
+//
+//	//ERR_BITS(red, "Нет сигнала \"ЦЕПИ УПРАВЛЕНИЯ\"", On<iCU>)
+//#undef ERR_BITS
 
 	MESS(BaseLengthError, void, "Необходимо уменьшить параметр \"Базовое расстояние\"", red, yellow)
 
-#undef ERR_BITS
-
-		static const int MAX_MESS_ID = __COUNTER__;
+    static const int MAX_MESS_ID = __COUNTER__;
 
 	class FactoryMessages
 	{
@@ -244,7 +179,7 @@ namespace LogMess
 		static FactoryMessages &Instance();
 	};
 
-	void Err();
+	//void Err();
 }
 #undef MESS
 #undef MESS1

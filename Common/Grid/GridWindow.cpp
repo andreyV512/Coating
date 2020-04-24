@@ -1,4 +1,5 @@
 #include "GridWindow.h"
+#include <CommCtrl.h>
 #include "Grid/GridDetail.h"
 #include "window_tool/MenuAPI.h"
 

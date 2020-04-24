@@ -13,4 +13,5 @@
    DLG(DiscriptorBitDlg)
    DLG(AddTypeSizeDlg)
    DLG(DelTypeSizeDlg)
+   DLG(MessageDlg)
 #undef DLG
