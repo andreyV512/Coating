@@ -109,6 +109,15 @@
     <Filter Include="Compute">
       <UniqueIdentifier>{d994d7c9-ed6a-498e-8b11-517423117016}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Units\Lir">
+      <UniqueIdentifier>{2d31ec93-d9a6-4899-820d-1ec9b5831995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Units\Lir\Inc">
+      <UniqueIdentifier>{6738edee-d7d2-4fab-8371-daa9a6b43aec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Devices">
+      <UniqueIdentifier>{6dede5bd-0812-470c-9cd3-55621c9a2c1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -369,14 +378,8 @@
     <ClInclude Include="..\Common\Units\Lan\Lan.h">
       <Filter>Common\Units\Lan</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Units\Lan\LanParameters.h">
-      <Filter>Common\Units\Lan</Filter>
-    </ClInclude>
     <ClInclude Include="Compute\Compute.h">
       <Filter>Compute</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\1730\1730Parameters.h">
-      <Filter>Common\Units\1730</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\window_tool\SelectTypeSizeList.h">
       <Filter>Common\window_tool</Filter>
@@ -386,6 +389,27 @@
     </ClInclude>
     <ClInclude Include="..\Common\window_tool\RunExecute.h">
       <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lir\Lir.h">
+      <Filter>Common\Units\Lir</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lir\Inc\bdaqctrl.h">
+      <Filter>Common\Units\Lir\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lir\Inc\compatibility.h">
+      <Filter>Common\Units\Lir\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Devices\1730Parameters.h">
+      <Filter>Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Devices\LanParameters.h">
+      <Filter>Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Devices\LirParameters.h">
+      <Filter>Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Devices\LanDevice.h">
+      <Filter>Devices</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -595,6 +619,12 @@
     </ClCompile>
     <ClCompile Include="..\Common\window_tool\RunExecute.cpp">
       <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Units\Lir\Lir.cpp">
+      <Filter>Common\Units\Lir</Filter>
+    </ClCompile>
+    <ClCompile Include="Devices\LanDevice.cpp">
+      <Filter>Devices</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

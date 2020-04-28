@@ -1,6 +1,5 @@
 #include "Lan.h"
-//#include "RshError.h"
-#include "LanParameters.h"
+#include "Devices/LanParameters.h"
 #include "App/App.h"
 const char *BoardName = "LAn10M8PCI";
 #define dprint printf
@@ -71,11 +70,11 @@ void Lan::Stop()
 
 struct Tbuf: RshBaseType
 {
-	double *ptr;
+	char *ptr;
 	size_t m_size;
 	size_t m_psize;
-	Tbuf(double *ptr, size_t m_psize)
-		: RshBaseType(rshBufferTypeDouble, sizeof(RshBufferType<double, rshBufferTypeDouble>))
+	Tbuf(char *ptr, size_t m_psize)
+		: RshBaseType(rshBufferTypeDouble, sizeof(RshBufferType<char, rshBufferTypeDouble>))
 		, ptr(ptr)
 		, m_size(0)
 		, m_psize(m_psize)
@@ -89,7 +88,7 @@ void Lan::Frame(IRshDevice *d)
 	{
 		S32 st = d->Start();
 		st = d->Get(RSH_GET_WAIT_BUFFER_READY_EVENT, &waitTime);
-		double *addr = NULL;
+		char *addr = NULL;
 		size_t count = (obj->*ptr)(addr);
 		Tbuf buf(addr, count);
 		st = d->GetData(&buf);

@@ -6,13 +6,15 @@
 #include "App/App.h"
 #include "Log/LogBuffer.h"
 #include "Log/LogMessages.h"
+#include "Automat.h"
 
 
 namespace Automat
 {
-	struct Result
-	{
-	};
+	//struct Result
+	//{
+	//	Status status;
+	//};
 
 	template<class List>struct WaitFor
 	{
@@ -52,28 +54,43 @@ namespace Automat
 	{
 		void operator()(P& p)
 		{
-			Proc<O>(p);
+			Proc<O>()(p);
 		}
 	};
 
 	template<class T>struct __key_data__
 	{
 		typedef T list;
-		DWORD value;
+		Status status;
+		int numKey;
+		__key_data__(int numKey) : status(Status::contine), numKey(numKey) {}
 	};
 
 	template<class O, class P>struct __key__
 	{
 		bool operator()(P& p)
 		{
-			if (VL::IndexOf<P::list, O>::value == p.value)
+			if (VL::IndexOf<P::list, O>::value == p.numKey)
 			{
-				p.value = O::value;
+				p.status = O::value;
 				return false;
 			}
 			return true;
 		}
 	};
+
+	template<class P>struct __key__<StopBtn, P>
+	{
+		bool operator()(P &p)
+		{
+			if (VL::IndexOf<P::list, StopBtn>::value == p.numKey)
+			{
+				throw StopBtn();
+			}
+			return true;
+		}
+	};
+
 
 	template<class O, class P>struct __test_bits_xxx__
 	{
@@ -214,11 +231,9 @@ namespace Automat
 		template<class Data>bool operator()(Data& data) { return true; }
 	};
 
-	template<typename ...Args>unsigned Bits(unsigned delay = -1)
+	template<typename... Args> Status Bits(unsigned delay = -1)
 	{
 		if (-1 != delay) delay += Performance::Counter();
-
-		Result result;
 
 		InputBitsTable::TItems(&items) = Singleton<InputBitsTable>::Instance().items;
 		unsigned bitsOn = 0;
@@ -253,9 +268,11 @@ namespace Automat
 				__test_bits__<OutputBitsTable>()(outputs);
 		
 				unsigned bitsOr = bitsOn | bitsOff;
-				if (bitsOr && bitsOn == (inputs & bitsOr)) return 0;
+				if (bitsOr && bitsOn == (inputs & bitsOr)) return Status::contine;
 		
+				Status result = Status::contine;
 				WrapFor<proc_list, __proc__>()(result);
+				if (Status::exit_from_procedure == result) return Status::contine;
 		
 				unsigned tstBitsOr = tstBitsOn | tstBitsOff;
 				if (tstBitsOr)
@@ -278,11 +295,12 @@ namespace Automat
 			case WAIT_FAILED:
 				throw ExitLoopExteption();
 			default:
-				__key_data__<key_list> data = { ev - WAIT_OBJECT_0 };
-				if (!WrapFind<key_list, __key__>()(data)) return data.value;
+			{
+				__key_data__<key_list> data(ev - WAIT_OBJECT_0);
+				if (!WrapFind<key_list, __key__>()(data)) return data.status;
+			}
 			}
 		}
-
-		return 0;
+		return Status::contine;
 	}
 }

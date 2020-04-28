@@ -3,8 +3,9 @@
 #include "Base/tables.hpp"
 #include "templates/typelist.hpp"
 #include "DspFilters/DspFiltrParams.h"
-#include "Units/Lan/LanParameters.h"
-#include "Units/1730/1730Parameters.h"
+#include "Devices/LanParameters.h"
+#include "Devices/1730Parameters.h"
+#include "Devices/LirParameters.h"
 
 template<class>struct Clr;
 
@@ -91,6 +92,7 @@ struct ParametersBase
 		, OutputBitsTable
 		, NamePlate1730ParametersTable
 		, LanParametersTable
+		, LirParamTable
 	> one_row_table_list;
 
 	typedef VL::Append<

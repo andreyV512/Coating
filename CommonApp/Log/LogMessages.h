@@ -2,8 +2,7 @@
 
 #include "templates/typelist.hpp"
 #include "App/App.h"
-//#include "App\AppBase.h"
-#include "Units/1730/1730Parameters.h"
+#include "Devices/1730Parameters.h"
 #include "tools_debug/DebugMess.h"
 
 template<int N>struct IDtoMess;
@@ -98,6 +97,11 @@ namespace LogMess
 	MESS(Brak, void, "Ѕрак", red, yellow)
 
 	MESS(ErrorSpline, void, "ќшибка сплайн", red, yellow)
+
+	MESS(StopBtn, void, "ќператор вышел из цикла", blue, white)
+	MESS(On_iIn, void, "ќжидание прутка", blue, white)
+	MESS(Collection, void, "—бор данных", blue, white)
+	MESS(CollectionDone, void, "—бор данных закончен", blue, white)
 
 	MESS_BIT(On<iCU  >, void, "¬ключен сигнал \"÷епи управлени€\"", red, white);
 	MESS_BIT(On<iIn  >, void, "¬ключен сигнал \"“руба на входе\"", red, white);

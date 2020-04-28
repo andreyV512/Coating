@@ -7,7 +7,7 @@ class Lan
 	friend DWORD WINAPI __frame2__(PVOID);
 	struct TObj {};
 	TObj *obj;
-	int(TObj:: *ptr)(double *&);
+	int(TObj:: *ptr)(char *&);
 	RshDllClient Client;
 public:
 	IRshDevice *device1, *device2;
@@ -26,9 +26,9 @@ public:
 
 	void Frame(IRshDevice *);
 
-	template<class T>void SetHandler(T *t, int(T:: *p)(double *&))
+	template<class T>void SetHandler(T *t, int(T:: *p)(char *&))
 	{
 		obj = (TObj *)t;
-		ptr = (int(TObj:: *)(double *&))p;
+		ptr = (int(TObj:: *)(char *&))p;
 	}
 };

@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 
-template<class T>struct Key;
+
 template<class T>struct On;
 template<class T>struct Off;
 template<class T>struct TstOn;
@@ -12,12 +12,11 @@ struct TimeOutExteption {};
 struct ExitLoopExteption {};
 struct AlarmBitsExteption {};
 
-struct StartBtn  { static const int value = 1; };
-struct StopBtn   { static const int value = 2; };
-struct ContineBtn{ static const int value = 3; };
+
 
 namespace Automat
 {
+	template<class T>struct Key;
 	enum class Status {
 		contine
 		, exit_loop
@@ -27,8 +26,12 @@ namespace Automat
 		, alarm_bits
 		, alarm_l502
 		, tubeInWorkZone
+		, exit_from_procedure
 		, undefined
 	};
+	struct StartBtn { static const Status value = Status::start; };
+	struct StopBtn { static const Status value = Status::stop; };
+	struct ContineBtn { static const Status value = Status::contine; };
 	template<>struct Key<StartBtn>
 	{
 		static HANDLE hEvent;

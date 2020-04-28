@@ -3,13 +3,41 @@
 #include "Windows/MainWindow/AppKeyHandler.h"
 #include "Windows/MainWindow/MainWindow.h"
 #include "tools_debug/DebugMess.h"
+#include "Units/Lir/Lir.h"
+#include "Compute/Compute.h"
+#include "Devices/LanDevice.h"
 
-HANDLE Key<StartBtn>::hEvent;
-HANDLE Key<StopBtn>::hEvent;
-HANDLE Key<ContineBtn>::hEvent;
+
+struct StartLir {};
+template<> struct Proc<StartLir>
+{
+	template<class P>void operator()(P &p)
+	{
+		Compute &compute = Singleton<Compute>::Instance();
+		if (compute.StartStrobes()) p = Automat::Status::exit_from_procedure;
+	}
+};
+
+template<> struct Proc<Compute>
+{
+	template<class P>void operator()(P &p)
+	{
+		static unsigned last = 0;
+		unsigned first = Performance::Counter();
+		if (first - last > 1000)
+		{
+			last = first;
+			Singleton<Compute>::Instance().Update();
+		}
+	}
+};
 
 namespace Automat
 {	
+	HANDLE Key<StartBtn>::hEvent;
+	HANDLE Key<StopBtn>::hEvent;
+	HANDLE Key<ContineBtn>::hEvent;
+
 	HANDLE WaitFor<Vlst<>>::hEvent;
 	HANDLE hThread;
 	
@@ -40,10 +68,12 @@ namespace Automat
 	{
 		SetEvent(Key<StopBtn>::hEvent);
 	}
+	
 
 	DWORD WINAPI Loop(PVOID)
 	{
-		
+		Lir &lir = Singleton<Lir>::Instance();
+		Compute &compute = Singleton<Compute>::Instance();
 		bool startLoop = true;
 		while (true)
 		{
@@ -55,31 +85,55 @@ namespace Automat
 					App::IsRun() = false;
 					MainWindow::EnableMenu(true);
 					AppKeyHandler::Stop();
-					Bits<Key<StartBtn>>();
+					auto x = Bits<Key<StartBtn>>();
 					App::IsRun() = true;
 					MainWindow::EnableMenu(false);
 					AppKeyHandler::Run();
 					startLoop = false;
 				}
 
-				Bits<TstOn<iCU>, On<iCU>>(5000);
+				//TODO Bits<TstOn<iCU> >(); //проверка цепей управления
+				Log::Mess <LogMess::On_iIn>();
+				Bits<On<iIn>, Key<StopBtn>>();
+				{
+					Log::Mess <LogMess::Collection>();
+
+					CollectionData collection(
+						Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value
+					);
+
+					Bits<On<iOut>, Key<StopBtn>, Proc<StartLir> >(120 * 1000);
+					Bits<On<iOut>, Key<StopBtn>, Proc<Compute> >(120 * 1000);
+					Bits<Off<iIn>, Key<StopBtn>, Proc<Compute> >(120 * 1000);
+					collection.ChangeLir();
+					Bits<Off<iOut>, Key<StopBtn>, Proc<Compute> >(20 * 1000);
+				}
+				Log::Mess <LogMess::CollectionDone>();
+				compute.Done();
 				dprint("loop\n");
 				Sleep(5000);
 			}
 			catch (TimeOutExteption)
 			{
 				Log::Mess<LogMess::TimeOutExteption>();
+				startLoop = true;
 			}
 			catch (AlarmBitsExteption)
 			{
 			//	Log::Mess<LogMess::AlarmBitsExteption>();
+				startLoop = true;
 			}
 			catch (ExitLoopExteption)
 			{
 				Log::Mess<LogMess::ExitLoopExteption>();
 				break;
 			}
-			startLoop = true;
+			catch (StopBtn)
+			{
+				Log::Mess<LogMess::StopBtn>();
+				startLoop = true;
+			}
+			
 		}
 		return 0;
 	}

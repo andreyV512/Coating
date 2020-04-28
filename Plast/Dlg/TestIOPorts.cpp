@@ -280,7 +280,8 @@ void TestIOWindow::operator()(TTimer &)
 	bool isRun = App::IsRun();
 	if(lastIsRun != isRun)
 	{
-		VL::foreach<TestIOWindow::list_output0, __enable__>()(items_output0, isRun);
+		bool t = !isRun;
+		VL::foreach<TestIOWindow::list_output0, __enable__>()(items_output0, t);
 		lastIsRun = isRun;
 	}
 	unsigned test_testIOWindow = device1730.Read();

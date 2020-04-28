@@ -11,6 +11,7 @@
 #include "Units/Lan/Lan.h"
 #include "Automat/Automat.h"
 #include "Log/LogMessageToTopLabel.h"
+#include "Units/Lir/Lir.h"
 namespace App
 {
 	void Init()
@@ -49,6 +50,14 @@ namespace App
 		if (l.Err(st, mess))
 		{
 			MessageBox(h, mess, (wchar_t *)L"Ошибка платы La-n108-100PCI(2)!!!", MB_ICONEXCLAMATION);
+			return;
+		}
+
+		Lir &lir = Singleton<Lir>::Instance();
+
+		if (!lir.Init(Singleton<LirParamTable>::Instance().items.get<LirDescriptor>().value))
+		{
+			MessageBox(h, L"Плата не инициализирована", (wchar_t *)L"Ошибка платы ЛИР", MB_ICONEXCLAMATION);
 			return;
 		}
 

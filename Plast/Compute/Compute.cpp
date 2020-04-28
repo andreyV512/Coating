@@ -8,11 +8,6 @@ Compute::Compute()
 {
 }
 
-void Compute::Start()
-{
-	inputData.countFrames = 0;
-}
-
 bool Compute::StartStrobes()
 {
 	if (inputData.offsetsLir[inputData.countFrames] > inputData.startOffsetLir + offsetSensorMM)
@@ -20,6 +15,7 @@ bool Compute::StartStrobes()
 		start = inputData.startOffsetLir + offsetSensorMM;
 		offsetLir = 0;
 		countZones = 0;
+		offsetFrames = 0;
 		return true;
 	}
 	return false;
@@ -43,4 +39,35 @@ bool Compute::Strobes()
 		}
 	}
 	return res;
+}
+
+void Compute::Frames()
+{
+	for (; offsetFrames < offsetLir; ++offsetFrames)
+	{
+		for (int i = inputData.offsetFrames[offsetFrames + 1]; i < inputData.offsetFrames[offsetFrames + 1]; ++i)
+		{
+			ComputeFrame(i);
+		}
+	}
+}
+
+void Compute::ComputeFrame(int i)
+{
+	//double result[App::count_sensors][sensorBuffSize];
+	//char status[App::count_sensors][sensorBuffSize];
+	//TODO ...
+	int sensor = i % App::count_sensors;
+}
+
+void Compute::Update()
+{
+	if (Strobes())
+	{
+		Frames();
+	}
+}
+
+void Compute::Done()
+{
 }

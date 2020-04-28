@@ -217,12 +217,13 @@
     <ClInclude Include="..\Common\templates\templates.hpp" />
     <ClInclude Include="..\Common\templates\typelist.hpp" />
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />
-    <ClInclude Include="..\Common\Units\1730\1730Parameters.h" />
     <ClInclude Include="..\Common\Units\1730\Device1730.h" />
     <ClInclude Include="..\Common\Units\1730\inc\bdaqctrl.h" />
     <ClInclude Include="..\Common\Units\Lan\include\RshApi.h" />
     <ClInclude Include="..\Common\Units\Lan\Lan.h" />
-    <ClInclude Include="..\Common\Units\Lan\LanParameters.h" />
+    <ClInclude Include="..\Common\Units\Lir\Inc\bdaqctrl.h" />
+    <ClInclude Include="..\Common\Units\Lir\Inc\compatibility.h" />
+    <ClInclude Include="..\Common\Units\Lir\Lir.h" />
     <ClInclude Include="..\Common\window_tool\Emptywindow.h" />
     <ClInclude Include="..\Common\window_tool\GroupBox.h" />
     <ClInclude Include="..\Common\window_tool\HookKey.h" />
@@ -243,6 +244,10 @@
     <ClInclude Include="Automat\Automat.hpp" />
     <ClInclude Include="Compute\Compute.h" />
     <ClInclude Include="Data\Data.h" />
+    <ClInclude Include="Devices\1730Parameters.h" />
+    <ClInclude Include="Devices\LanDevice.h" />
+    <ClInclude Include="Devices\LanParameters.h" />
+    <ClInclude Include="Devices\LirParameters.h" />
     <ClInclude Include="Dlg\Dlg.h" />
     <ClInclude Include="Plast.h" />
     <ClInclude Include="Resource.h" />
@@ -296,6 +301,7 @@
     <ClCompile Include="..\Common\Units\1730\Device1730.cpp" />
     <ClCompile Include="..\Common\Units\Lan\include\RshApi.cpp" />
     <ClCompile Include="..\Common\Units\Lan\Lan.cpp" />
+    <ClCompile Include="..\Common\Units\Lir\Lir.cpp" />
     <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp" />
     <ClCompile Include="..\Common\window_tool\GroupBox.cpp" />
     <ClCompile Include="..\Common\window_tool\HookKey.cpp" />
@@ -311,6 +317,7 @@
     <ClCompile Include="Automat\Automat.cpp" />
     <ClCompile Include="Compute\Compute.cpp" />
     <ClCompile Include="Data\Data.cpp" />
+    <ClCompile Include="Devices\LanDevice.cpp" />
     <ClCompile Include="Dlg\AboutWindow.cpp" />
     <ClCompile Include="Dlg\AScanWindowDlg.cpp" />
     <ClCompile Include="Dlg\DspFiltrDlg.cpp" />
