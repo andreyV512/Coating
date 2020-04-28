@@ -323,9 +323,11 @@
     <ClCompile Include="Dlg\DspFiltrDlg.cpp" />
     <ClCompile Include="Dlg\InputOutputDlg.cpp" />
     <ClCompile Include="Dlg\LanDlg.cpp" />
+    <ClCompile Include="Dlg\LirDlg.cpp" />
     <ClCompile Include="Dlg\MessageDlg.cpp" />
     <ClCompile Include="Dlg\OperatorsDlg.cpp" />
     <ClCompile Include="Dlg\TestIOPorts.cpp" />
+    <ClCompile Include="Dlg\TestLir.cpp" />
     <ClCompile Include="Dlg\TypeSizeDlg.cpp" />
     <ClCompile Include="Plast.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanKeyHandler.cpp" />

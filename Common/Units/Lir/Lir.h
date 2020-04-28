@@ -11,6 +11,10 @@ public:
 	Lir();
 	bool Init(int );
 	void Clear();
+	void Clear1();
+	void Clear2();
 	double Tick();
 	void Change();
+	unsigned Value1();
+	unsigned Value2();
 };

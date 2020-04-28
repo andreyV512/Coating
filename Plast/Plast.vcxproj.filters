@@ -626,6 +626,12 @@
     <ClCompile Include="Devices\LanDevice.cpp">
       <Filter>Devices</Filter>
     </ClCompile>
+    <ClCompile Include="Dlg\LirDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\TestLir.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc">

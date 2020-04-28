@@ -14,4 +14,6 @@
    DLG(AddTypeSizeDlg)
    DLG(DelTypeSizeDlg)
    DLG(MessageDlg)
+   DLG(LirDlg)
+   DLG(TestLirDlg)
 #undef DLG

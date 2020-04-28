@@ -5,7 +5,6 @@
 #include "App/AppBase.h"
 #include "inc/bdaqctrl.h"
 #include "templates/typelist.hpp"
-//#include "AnalogBoard.h"
 #include "tools_debug/DebugMess.h"
 using namespace Automation::BDaq;
 
@@ -13,8 +12,8 @@ using namespace Automation::BDaq;
 #define cnt1 ((UdCounterCtrl *)cnt1_)
 
 Lir::Lir()
-	: dx0(Singleton<LirParamTable>::Instance().items.get<TickPerZoneLir0>().value)
-	, dx1(Singleton<LirParamTable>::Instance().items.get<TickPerZoneLir1>().value)
+	: dx0(Singleton<LirParamTable>::Instance().items.get<TickPerMMLir0>().value)
+	, dx1(Singleton<LirParamTable>::Instance().items.get<TickPerMMLir1>().value)
 { }
 
 bool Lir::Init(int id)
@@ -44,6 +43,20 @@ void Lir::Clear()
 	ptrTick = &Lir::Tick0;
 }
 
+void Lir::Clear1()
+{
+#ifndef DEBUG_ITEMS	
+	cnt0->setInitialValue(0);
+#endif
+}
+
+void Lir::Clear2()
+{
+#ifndef DEBUG_ITEMS
+	cnt1->setInitialValue(0);
+#endif
+}
+
 double Lir::Tick()
 {
 	return (this->*ptrTick)();
@@ -52,6 +65,26 @@ double Lir::Tick()
 void Lir::Change()
 {
 	ptrTick = &Lir::Tick1;
+}
+
+unsigned Lir::Value1()
+{
+#ifndef DEBUG_ITEMS
+	return cnt0->getValue();
+#else
+	static int x;
+	return x++;
+#endif
+}
+
+unsigned Lir::Value2()
+{
+#ifndef DEBUG_ITEMS
+	return cnt1->getValue();
+#else
+	static int x;
+	return x++;
+#endif
 }
 
 double Lir::Tick0()

@@ -102,12 +102,16 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Входные порты", DiscretePlateInputs)
 	MENU_ITEM(L"Выходные порты", DiscretePlateOutputs)
 	MENU_ITEM(L"Дескриптор дискретной платы", DiscriptorBitDlg)
+
+	struct __LirDlg : LirDlg {};
+	MENU_ITEM(L"Датчик ЛИР", __LirDlg)
 	//------------------------------------
 	template<>struct TopMenu<OptionsFile>
 	{
 		typedef Vlst<
 			SubMenu<DiscretePlate>
 			, MenuItem<__LanDlg>
+			, MenuItem<__LirDlg>
 		> list;
 	};
 	//-------------------------------------------
@@ -116,10 +120,12 @@ namespace MainWindowMenu
 	struct __TestIOPorts : TestIOPorts {};
 	struct AScanWindow : AScanWindowDlg {};
 	struct Message_ : MessageDlg {};
+	struct TestLir_ : TestLirDlg {};
 
 	MENU_ITEM(L"Просмотр дискретных портов", __TestIOPorts)
 	MENU_ITEM(L"Просмотр А-скан сигналов", AScanWindow)
 	MENU_ITEM(L"Просмотр сообщений", Message_)
+	MENU_ITEM(L"Просмотр датчиков ЛИР", TestLir_)
 	//------------------------------------
 	template<>struct TopMenu<MainTest>
 	{
@@ -127,6 +133,7 @@ namespace MainWindowMenu
 			MenuItem<__TestIOPorts>
 			, MenuItem<AScanWindow>
 			, MenuItem<Message_>
+			, MenuItem<TestLir_>
 		> list;
 	};
 	//-------------------------------------------
