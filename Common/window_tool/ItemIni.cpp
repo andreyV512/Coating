@@ -1,6 +1,5 @@
 #include "ItemIni.h"
 #include <Windows.h>
-//#include "templates/typelist.hpp"
 #include "templates/templates.hpp"
 #pragma warning(disable: 4996)
 namespace ItemIni
@@ -45,11 +44,7 @@ namespace ItemIni
 	double Get(wchar_t *section, wchar_t *nameParam, double value, wchar_t *fileName)
 	{
 		wchar_t buff[128];
-		int ret = GetPrivateProfileString(section, nameParam, L"", buff, dimention_of(buff), fileName);
-		//if(!ret)
-		//{
-		//	WritePrivateProfileString(section, nameParam, Wchar_from<double>(value)(), fileName);
-		//}
+		int ret = GetPrivateProfileString(section, nameParam, L"", buff, dimention_of(buff), fileName);		
 		return _wtof(buff);
 	}
 
