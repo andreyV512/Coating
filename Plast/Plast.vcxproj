@@ -264,6 +264,9 @@
     <ClInclude Include="Windows\Viewers\CommonSensorViewer.h" />
     <ClInclude Include="Windows\Viewers\MainViewers\ResultViewer.h" />
     <ClInclude Include="Windows\Viewers\MainViewers\SensorViewer.h" />
+    <ClInclude Include="Windows\ZonesWindow\ZonesWindow.h" />
+    <ClInclude Include="Windows\ZonesWindow\ZonesWindowMenu.hpp" />
+    <ClInclude Include="Windows\ZonesWindow\ZonesWindowToolBar.h" />
     <ClInclude Include="\\andrew\shared\plast2\Common\window_tool\InitToolbar.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +343,8 @@
     <ClCompile Include="Windows\Viewers\CommonSensorViewer.cpp" />
     <ClCompile Include="Windows\Viewers\MainViewers\ResultViewer.cpp" />
     <ClCompile Include="Windows\Viewers\MainViewers\SensorViewer.cpp" />
+    <ClCompile Include="Windows\ZonesWindow\ZonesWindow.cpp" />
+    <ClCompile Include="Windows\ZonesWindow\ZonesWindowToolBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc" />

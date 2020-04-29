@@ -12,6 +12,8 @@
 #include "Automat/Automat.h"
 #include "Log/LogMessageToTopLabel.h"
 #include "Units/Lir/Lir.h"
+#include "Windows/ZonesWindow/ZonesWindow.h"
+#include "window_tool/ItemIni.h"
 namespace App
 {
 	void Init()
@@ -20,7 +22,7 @@ namespace App
 		AppBase().Init();
 #if 1
 		MainWindow& w = Singleton<MainWindow>::Instance();
-
+	//	ZonesWindow &w = Singleton<ZonesWindow>::Instance();
 		RECT r;
 		WindowPosition::Get<MainWindow>(r);
 

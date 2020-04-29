@@ -118,6 +118,9 @@
     <Filter Include="Devices">
       <UniqueIdentifier>{6dede5bd-0812-470c-9cd3-55621c9a2c1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\ZonesWindow">
+      <UniqueIdentifier>{dbfbb410-7aef-4f96-92da-078a41da4a36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -411,6 +414,15 @@
     <ClInclude Include="Devices\LanDevice.h">
       <Filter>Devices</Filter>
     </ClInclude>
+    <ClInclude Include="Windows\ZonesWindow\ZonesWindow.h">
+      <Filter>Windows\ZonesWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\ZonesWindow\ZonesWindowMenu.hpp">
+      <Filter>Windows\ZonesWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\ZonesWindow\ZonesWindowToolBar.h">
+      <Filter>Windows\ZonesWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -631,6 +643,12 @@
     </ClCompile>
     <ClCompile Include="Dlg\TestLir.cpp">
       <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\ZonesWindow\ZonesWindow.cpp">
+      <Filter>Windows\ZonesWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\ZonesWindow\ZonesWindowToolBar.cpp">
+      <Filter>Windows\ZonesWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
