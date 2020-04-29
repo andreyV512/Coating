@@ -3,6 +3,9 @@
 #include "ZonesWindowToolBar.h"
 #include "window_tool/TEvent.h"
 #include "templates/typelist.hpp"
+#include "Windows/Viewers/MainViewers/SensorViewer.h"
+#include "Windows/Viewers/ZonesViewer/ZoneViewer.h"
+#include "Windows/Viewers/ZonesViewer/AScanZoneViewer.h"
 
 class ZonesWindow
 {
@@ -22,6 +25,11 @@ public:
 	HWND hStatuisBar;
 	ZonesWindowToolBar toolBar;
 
+	SensorViewer sensor;
+	ZoneViewer zone;
+	AScanZoneViewer aScan;
+
+	ZonesWindow();
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
 	void operator()(TSize &);

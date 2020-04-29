@@ -121,6 +121,9 @@
     <Filter Include="Windows\ZonesWindow">
       <UniqueIdentifier>{dbfbb410-7aef-4f96-92da-078a41da4a36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\Viewers\ZonesViewer">
+      <UniqueIdentifier>{614ca920-60b7-4997-9a16-f7fa652733a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -423,6 +426,12 @@
     <ClInclude Include="Windows\ZonesWindow\ZonesWindowToolBar.h">
       <Filter>Windows\ZonesWindow</Filter>
     </ClInclude>
+    <ClInclude Include="Windows\Viewers\ZonesViewer\ZoneViewer.h">
+      <Filter>Windows\Viewers\ZonesViewer</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.h">
+      <Filter>Windows\Viewers\ZonesViewer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -649,6 +658,12 @@
     </ClCompile>
     <ClCompile Include="Windows\ZonesWindow\ZonesWindowToolBar.cpp">
       <Filter>Windows\ZonesWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\ZonesViewer\ZoneViewer.cpp">
+      <Filter>Windows\Viewers\ZonesViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.cpp">
+      <Filter>Windows\Viewers\ZonesViewer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

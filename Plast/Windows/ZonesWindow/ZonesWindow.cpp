@@ -24,9 +24,20 @@ template<class O, class P>struct __init_radio_btn__
 		);
 		p.offs += 50;
 		SetWindowLongPtr(h, GWLP_USERDATA, (LONG_PTR)&o);
-		if(O::ID == p.id)Button_SetCheck(h, BST_CHECKED);
+		if (O::ID == p.id)
+		{
+			Button_SetCheck(h, BST_CHECKED);
+			p.owner->sensor.data = &Singleton<Data::Sensor<O::ID - 1>>::Instance().data;
+		}
+		o.owner = p.owner;
 	}
 };
+
+ZonesWindow::ZonesWindow()
+	: sensor(NULL)
+{
+	
+}
 
 LRESULT ZonesWindow::operator()(TCreate &l)
 {
@@ -44,8 +55,13 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 	ItemIni::GetPath(path);
 	int sensID = ItemIni::Get((wchar_t *)L"ZonesWindow", (wchar_t *)L"SelectedSensor", 1, (wchar_t *)path);
 
-	__init_radio_btn_data__ data= { toolBar.Width() - 70 , sensID, this};
+	__init_radio_btn_data__ data = { toolBar.Width() - 70 , sensID, this};
 	VL::foreach<radio_btn_list, __init_radio_btn__>()(radio_btns, data);
+
+	sensor.hWnd = CreateChildWindow(l.hwnd, (WNDPROC)&Viewer<SensorViewer>::Proc, (wchar_t *)L"SensorViewer", &sensor);
+	sensor.tchart.maxAxesX = App::count_zones;
+	zone.hWnd = CreateChildWindow(l.hwnd, (WNDPROC)&Viewer<ZoneViewer>::Proc, (wchar_t *)L"ZoneViewer", &zone);
+	aScan.hWnd = CreateChildWindow(l.hwnd, (WNDPROC)&Viewer<AScanZoneViewer>::Proc, (wchar_t *)L"ZoneViewer", &aScan);
 
 	return 0;
 }
@@ -63,6 +79,19 @@ void ZonesWindow::operator()(TSize &l)
 	RECT rt;
 	GetClientRect(toolBar.hWnd, &rt);
 	MoveWindow(hStatuisBar, 0, 0, 0, 0, FALSE);
+	int dy = rt.bottom;
+	MoveWindow(sensor.hWnd, 0, dy, rt.right, 100, TRUE);
+	RepaintWindow(sensor.hWnd);
+	dy += 100;
+	MoveWindow(zone.hWnd, 0, dy, rt.right, 100, TRUE);
+	RepaintWindow(zone.hWnd);
+	dy += 100;
+	RECT r;
+	GetClientRect(l.hwnd, &r);
+	RECT st;
+	GetClientRect(hStatuisBar, &st);
+	MoveWindow(aScan.hWnd, 0, dy, rt.right, r.bottom - dy - st.bottom, TRUE);
+	RepaintWindow(aScan.hWnd);
 }
 
 void ZonesWindow::operator()(TCommand &l)
@@ -95,9 +124,30 @@ void ZonesWindow::operator()(TClose &l)
 	DestroyWindow(l.hwnd);
 }
 
+struct __set_sensor_data_data__
+{
+	int id;
+	Data::SensorData *data;
+};
+template<class O, class P>struct __set_sensor_data__
+{
+	bool operator()(P &p)
+	{
+		if (p.id == O::ID)
+		{
+		p.data = &Singleton<Data::Sensor<O::ID - 1>>::Instance().data;
+			return false;
+		}
+		return true;
+	}
+};
+
 void ZonesWindow::ChangeSensor(int id)
 {
-	dprint("menu %d\n", id);
+	__set_sensor_data_data__ data = {id, NULL};
+	VL::find<radio_btn_list, __set_sensor_data__>()(data);
+	sensor.data = data.data;
+	RepaintWindow(sensor.hWnd);
 	{
 		wchar_t path[1024];
 		ItemIni::GetPath(path);

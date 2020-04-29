@@ -264,6 +264,8 @@
     <ClInclude Include="Windows\Viewers\CommonSensorViewer.h" />
     <ClInclude Include="Windows\Viewers\MainViewers\ResultViewer.h" />
     <ClInclude Include="Windows\Viewers\MainViewers\SensorViewer.h" />
+    <ClInclude Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.h" />
+    <ClInclude Include="Windows\Viewers\ZonesViewer\ZoneViewer.h" />
     <ClInclude Include="Windows\ZonesWindow\ZonesWindow.h" />
     <ClInclude Include="Windows\ZonesWindow\ZonesWindowMenu.hpp" />
     <ClInclude Include="Windows\ZonesWindow\ZonesWindowToolBar.h" />
@@ -343,6 +345,8 @@
     <ClCompile Include="Windows\Viewers\CommonSensorViewer.cpp" />
     <ClCompile Include="Windows\Viewers\MainViewers\ResultViewer.cpp" />
     <ClCompile Include="Windows\Viewers\MainViewers\SensorViewer.cpp" />
+    <ClCompile Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.cpp" />
+    <ClCompile Include="Windows\Viewers\ZonesViewer\ZoneViewer.cpp" />
     <ClCompile Include="Windows\ZonesWindow\ZonesWindow.cpp" />
     <ClCompile Include="Windows\ZonesWindow\ZonesWindowToolBar.cpp" />
   </ItemGroup>
