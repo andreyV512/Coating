@@ -1,60 +1,88 @@
-#include <Windows.h>
 #include "Dlg.h"
 #include "window_tool/Emptywindow.h"
 #include "window_tool/MenuAPI.h"
 #include "App/AppBase.h"
-#include "DlgTemplates/ParamDlg.hpp"
-#include "window_tool/Emptywindow.h"
 #include "window_tool/WindowsPosition.h"
-#include "DlgTemplates/ParamDlgNew.h"
-#include "window_tool/TEvent.h"
-#include "window_tool/GroupBox.h"
-#include "App/App.h"
 #include "Units/Lir/Lir.h"
-#include "templates/templates.hpp"
 
 class TestLirWindow
 {
 	int idTimer;
-	struct ResetButton1 : TEvent
+	void(TestLirWindow::*ptrProc)();
+	struct ResetBtn1 : TEvent
 	{
 		TestLirWindow &owner;
-		ResetButton1(TestLirWindow &owner) : owner(owner) {}
+		ResetBtn1(TestLirWindow &owner) : owner(owner) {}
 		void Do(TCommand &);
-	} resetButton1;
+	} resetBtn1;
 
-	struct ResetButton2 : TEvent
+	struct ResetBtn2 : TEvent
 	{
 		TestLirWindow &owner;
-		ResetButton2(TestLirWindow &owner) : owner(owner) {}
+		ResetBtn2(TestLirWindow &owner) : owner(owner) {}
 		void Do(TCommand &);
-	} resetButton2;
+	} resetBtn2;
+
+	struct RadioBtn1 : TEvent
+	{
+		TestLirWindow &owner;
+		RadioBtn1(TestLirWindow &owner) : owner(owner) {}
+		void Do(TCommand &);
+	} radioBtn1;
+	struct RadioBtn2 : TEvent
+	{
+		TestLirWindow &owner;
+		RadioBtn2(TestLirWindow &owner) : owner(owner) {}
+		void Do(TCommand &);
+	} radioBtn2;
 public:
 	Lir &lir = Singleton<Lir>::Instance();
 	double &dx0 = Singleton<LirParamTable>::Instance().items.get<TickPerMMLir0>().value;
 	double &dx1 = Singleton<LirParamTable>::Instance().items.get<TickPerMMLir1>().value;
 	HWND hWnd, he1, he2, hb1, hb2, hmm;
-	bool lastIsRun;
+	bool lastIsRun = false;
 	TestLirWindow();
 	LRESULT operator()(TCreate &l);
 	void operator()(TDestroy &);
 	void operator()(TCommand &);
 	void operator()(TTimer &);
+
+	void ValMM();
+	void ValTick();
 };
 
 TestLirWindow::TestLirWindow()
-	: resetButton1(*this)
-	, resetButton2(*this)
+	: resetBtn1(*this)
+	, resetBtn2(*this)
+	, radioBtn1(*this)
+	, radioBtn2(*this)
+	, ptrProc(&TestLirWindow::ValMM)
 { }
 
-void TestLirWindow::ResetButton1::Do(TCommand &l)
+void TestLirWindow::ResetBtn1::Do(TCommand &l)
 {
 	owner.lir.Clear1();
 }
 
-void TestLirWindow::ResetButton2::Do(TCommand &l)
+void TestLirWindow::ResetBtn2::Do(TCommand &l)
 {
 	owner.lir.Clear2();
+}
+
+void TestLirWindow::RadioBtn1::Do(TCommand &l)
+{
+	if (BST_CHECKED == Button_GetCheck(l.hControl))
+	{
+		owner.ptrProc = &TestLirWindow::ValMM;
+	}
+}
+
+void TestLirWindow::RadioBtn2::Do(TCommand &l)
+{
+	if (BST_CHECKED == Button_GetCheck(l.hControl))
+	{
+		owner.ptrProc = &TestLirWindow::ValTick;
+	}
 }
 
 LRESULT TestLirWindow::operator()(TCreate &l)
@@ -71,7 +99,7 @@ LRESULT TestLirWindow::operator()(TCreate &l)
 		, WS_VISIBLE | WS_CHILD | WS_TABSTOP
 		, 160, 15, 80, 25, l.hwnd, NULL, GetModuleHandle(NULL), NULL
 	);
-	SetWindowLongPtr(hb1, GWLP_USERDATA, (LONG_PTR)&resetButton1);
+	SetWindowLongPtr(hb1, GWLP_USERDATA, (LONG_PTR)&resetBtn1);
 
 	int dy = 30;
 
@@ -87,7 +115,7 @@ LRESULT TestLirWindow::operator()(TCreate &l)
 		, WS_VISIBLE | WS_CHILD | WS_TABSTOP
 		, 160, 15 + dy, 80, 25, l.hwnd, NULL, GetModuleHandle(NULL), NULL
 	);
-	SetWindowLongPtr(hb2, GWLP_USERDATA, (LONG_PTR)&resetButton2);
+	SetWindowLongPtr(hb2, GWLP_USERDATA, (LONG_PTR)&resetBtn2);
  //----------------------------------------------------
 	dy += 30;
 	hmm = CreateWindow(L"button", L"Миллиметры"
@@ -95,11 +123,13 @@ LRESULT TestLirWindow::operator()(TCreate &l)
 		, 10, 15 + dy, 110, 25, l.hwnd, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
 	);
 	Button_SetCheck(hmm, BST_CHECKED);
+	SetWindowLongPtr(hmm, GWLP_USERDATA, (LONG_PTR)&radioBtn1);
 	dy += 20;
-	CreateWindow(L"button", L"Отчёты"
+	HWND h = CreateWindow(L"button", L"Отчёты"
 		, WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON
 		, 10, 15 + dy, 110, 25, l.hwnd, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
 	);
+	SetWindowLongPtr(h, GWLP_USERDATA, (LONG_PTR)&radioBtn2);
 
 	SetTimer(l.hwnd, idTimer, 300, NULL);
 	return 0;
@@ -118,46 +148,40 @@ void TestLirWindow::operator()(TCommand &l)
 	EventDo(l);
 }
 
-namespace
-{
-	template<class O, class P>struct __enable__
-	{
-		void operator()(O &o, P &p)
-		{
-			EnableWindow(o.hWnd, p);
-		}
-	};
-}
-
 void TestLirWindow::operator()(TTimer &)
 {
 	bool isRun = App::IsRun();
 	if (lastIsRun != isRun)
 	{
 		bool t = !isRun;
-		//VL::foreach<TestLirWindow::list_output0, __enable__>()(items_output0, t);
 		EnableWindow(hb1, t);
 		EnableWindow(hb2, t);
 		lastIsRun = isRun;
 	}
+
+	(this->*ptrProc)();
+}
+
+void TestLirWindow::ValMM()
+{
 	unsigned t1 = lir.Value1();
 	unsigned t2 = lir.Value2();
 
-	if (BST_CHECKED == Button_GetCheck(hmm))
-	{
-		double x1 = dx0 * t1;
-		double x2 = dx1 * t2;
-		SetWindowText(he1, Wchar_from<double, 1>(x1)());
-		SetWindowText(he2, Wchar_from<double, 1>(x2)());
-	}
-	else
-	{
-		wchar_t buf[64];
-		_itow_s(t1, buf, 10);
-		SetWindowText(he1, buf);
-		_itow_s(t2, buf, 10);
-		SetWindowText(he2, buf);
-	}
+	double x1 = dx0 * t1;
+	double x2 = dx1 * t2;
+	SetWindowText(he1, Wchar_from<double, 1>(x1)());
+	SetWindowText(he2, Wchar_from<double, 1>(x2)());
+}
+void TestLirWindow::ValTick()
+{
+	unsigned t1 = lir.Value1();
+	unsigned t2 = lir.Value2();
+
+	wchar_t buf[64];
+	_itow_s(t1, buf, 10);
+	SetWindowText(he1, buf);
+	_itow_s(t2, buf, 10);
+	SetWindowText(he2, buf);
 }
 
 void TestLirDlg::Do(HWND)
