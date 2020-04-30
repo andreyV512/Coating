@@ -14,7 +14,7 @@ public:
 		typedef AScanViewer Parent;
 		Sens(){numSensor = N;}
 	};
-	typedef Vlst<Sens<1>, Sens<2>, Sens<3> >viewers_list;
+	typedef Vlst<Sens<0>, Sens<1>, Sens<2> >viewers_list;
 	VL::Factory< viewers_list> viewers;
 	HWND hWnd;
 	HWND hStatuisBar;

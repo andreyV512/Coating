@@ -19,7 +19,7 @@ public:
 			owner->ChangeSensor(ID);
 		}
 	};
-	typedef Vlst<RadioBtn<1>, RadioBtn<2>, RadioBtn<3>> radio_btn_list;
+	typedef Vlst<RadioBtn<0>, RadioBtn<1>, RadioBtn<2>> radio_btn_list;
 	VL::Factory<radio_btn_list> radio_btns;
 	HWND hWnd;
 	HWND hStatuisBar;

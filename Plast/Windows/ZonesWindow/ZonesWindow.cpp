@@ -17,7 +17,7 @@ template<class O, class P>struct __init_radio_btn__
 	void operator()(O &o, P &p)
 	{
 		wchar_t buf[32];
-		_itow_s(O::ID, buf, 10);
+		_itow_s(O::ID + 1, buf, 10);
 		HWND h = CreateWindow(L"button", buf
 			, WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON
 			, p.offs, 1, 50, 25, p.owner->toolBar.hWnd, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
@@ -27,7 +27,7 @@ template<class O, class P>struct __init_radio_btn__
 		if (O::ID == p.id)
 		{
 			Button_SetCheck(h, BST_CHECKED);
-			p.owner->sensor.data = &Singleton<Data::Sensor<O::ID - 1>>::Instance().data;
+			p.owner->sensor.data = &Singleton<Data::Sensor<O::ID>>::Instance().data;
 		}
 		o.owner = p.owner;
 	}
@@ -35,9 +35,7 @@ template<class O, class P>struct __init_radio_btn__
 
 ZonesWindow::ZonesWindow()
 	: sensor(NULL)
-{
-	
-}
+{}
 
 LRESULT ZonesWindow::operator()(TCreate &l)
 {
@@ -135,7 +133,7 @@ template<class O, class P>struct __set_sensor_data__
 	{
 		if (p.id == O::ID)
 		{
-		p.data = &Singleton<Data::Sensor<O::ID - 1>>::Instance().data;
+			p.data = &Singleton<Data::Sensor<O::ID>>::Instance().data;
 			return false;
 		}
 		return true;
