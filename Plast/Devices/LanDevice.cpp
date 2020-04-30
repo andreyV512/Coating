@@ -23,17 +23,25 @@ int LanDevice::Buff(char *&buf)
 	if (data.countFrames + sizeBuf < dimention_of(data.buffer))
 	{
 		buf = &data.buffer[data.countFrames];
-		data.countFrames += sizeBuf;
-		lir.Tick();
+		
 		return sizeBuf;
 	}
 	return 0;
 }
 
+void LanDevice::Confirm(int b)
+{
+	data.countFrames += b;
+	lir.Tick();
+}
+
 CollectionData::CollectionData(int numberPackets)
 	: device(numberPackets)
 {
-	device.lan.SetHandler(&device, &LanDevice::Buff);
+	device.lan.SetHandler(&device
+		, &LanDevice::Buff
+		, &LanDevice::Confirm
+	);
 	RshInitMemory p{};
 	device.lan.SetParams(p);
 	p.packetNumber = numberPackets * App::count_sensors;

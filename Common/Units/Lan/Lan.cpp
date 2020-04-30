@@ -92,6 +92,19 @@ void Lan::Frame(IRshDevice *d)
 		size_t count = (obj->*ptr)(addr);
 		Tbuf buf(addr, count);
 		st = d->GetData(&buf);
+		if (RSH_API_SUCCESS == st)
+		{
+			(obj->*confirmPtr)(buf.m_size);
+		}
+		else
+		{
+			wchar_t m[256];
+			char c[256];
+			Err(st, m);
+			wcstombs(c, m, dimention_of(m));
+			int num = d == device1 ? 1 : 2;
+			dprint("%d %s\n", num, c);
+		}
 	}
 }
 

@@ -1,5 +1,8 @@
 #pragma once
-
+/*
+* INFO —бор данных в цикле
+void CollectionData::ChangeLir(); - мен€ет лир 
+*/
 namespace Data
 {
 	struct InputData;
@@ -16,6 +19,7 @@ class LanDevice
 public:
 	LanDevice(int);
 	int Buff(char *&);
+	void Confirm(int);
 };
 
 class CollectionData
