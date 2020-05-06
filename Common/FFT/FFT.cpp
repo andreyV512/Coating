@@ -20,7 +20,7 @@ void CFFT::Init( int size)
 	n = 1 << m;
 	nv = n >> 1;
 
-	double r = (double) (M_PI/n);
+	double r = (double) M_PI/n;
 
 	for(i = 0; i < nv; i++)
 		c[i] = (double) cos(r*i);

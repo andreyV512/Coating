@@ -122,7 +122,7 @@ template<class S, class P>struct __insert_item_menu__<MenuItem<S>, P>
 			p.m.dwItemData = (ULONG_PTR)Event<O>::Do;	
 		    p.m.wID = p.m.dwItemData & 0xffff;
 			p.m.fState = EnableMenuInit<O>()(p.hWnd);
-			InsertMenuItem(p.h, p.Index()++, false, &p.m);
+			InsertMenuItemW(p.h, p.Index()++, false, &p.m);
 			return true;
 		}
 		return false;
@@ -162,7 +162,7 @@ template<class O, class P>struct __insert_menu__
 		p.m.dwItemData = (ULONG_PTR)Event<O>::Do;			
 		p.m.wID = p.m.dwItemData & 0xffff;
 		p.m.fState = EnableMenuInit<O>()(p.hWnd);
-		InsertMenuItem(p.h, p.Index()++, false, &p.m);
+		InsertMenuItemW(p.h, p.Index()++, false, &p.m);
 		return true;
 	}
 };
@@ -175,7 +175,7 @@ template<int N, class P>struct __insert_menu__<Separator<N>, P>
 		p.m.hSubMenu = NULL;		
 		unsigned t = p.m.fType;
 		p.m.fType = MFT_SEPARATOR;
-		InsertMenuItem(p.h, p.Index()++, false, &p.m);
+		InsertMenuItemW(p.h, p.Index()++, false, &p.m);
 		p.m.fType = t;
 		return true;
 	}
@@ -199,7 +199,7 @@ template<class P, int N>struct __insert_item_menu__<Separator<N>, P>
 	{        	
 		unsigned t = p.m.fType;
 		p.m.fType = MFT_SEPARATOR;
-		InsertMenuItem(p.h, p.Index()++, false, &p.m);
+		InsertMenuItemW(p.h, p.Index()++, false, &p.m);
 		p.m.fType = t;
 		return true;
 	}

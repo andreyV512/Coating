@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+п»ї#include "MainWindow.h"
 #include "MainWindowMenu.hpp"
 #include "window_tool/MenuAPI.h"
 #include <window_tool/Emptywindow.h>
@@ -101,11 +101,11 @@ void MainWindow::operator()(TClose &l)
 {
 	if (App::IsRun())
 	{
-		MessageBox(l.hwnd, L"Программа находится в режиме сбора данных!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
+		MessageBox(l.hwnd, L"РџСЂРѕРіСЂР°РјРјР° РЅР°С…РѕРґРёС‚СЃСЏ РІ СЂРµР¶РёРјРµ СЃР±РѕСЂР° РґР°РЅРЅС‹С…!", L"CРѕРѕР±С‰РµРЅРёРµ", MB_ICONEXCLAMATION | MB_OK);
 	}
 	else
 	{
-		if (IDYES == MessageBox(l.hwnd, L"Выйти из программы?", L"Cообщение", MB_ICONQUESTION | MB_YESNO))
+		if (IDYES == MessageBox(l.hwnd, L"Р’С‹Р№С‚Рё РёР· РїСЂРѕРіСЂР°РјРјС‹?", L"CРѕРѕР±С‰РµРЅРёРµ", MB_ICONQUESTION | MB_YESNO))
 		{
 			DestroyWindow(l.hwnd);
 		}

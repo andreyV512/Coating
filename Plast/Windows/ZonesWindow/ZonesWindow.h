@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "window_tool/message.h"
 #include "ZonesWindowToolBar.h"
 #include "window_tool/TEvent.h"
