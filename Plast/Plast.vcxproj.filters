@@ -124,6 +124,9 @@
     <Filter Include="Windows\Viewers\ZonesViewer">
       <UniqueIdentifier>{614ca920-60b7-4997-9a16-f7fa652733a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\FFT">
+      <UniqueIdentifier>{2d1f490d-77ef-4e41-ba05-e15ff8becd3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -432,6 +435,9 @@
     <ClInclude Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.h">
       <Filter>Windows\Viewers\ZonesViewer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\FFT\FFT.h">
+      <Filter>Common\FFT</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -667,6 +673,9 @@
     </ClCompile>
     <ClCompile Include="Dlg\UnitDlg.cpp">
       <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\FFT\FFT.cpp">
+      <Filter>Common\FFT</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
