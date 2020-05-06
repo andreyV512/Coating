@@ -1,11 +1,13 @@
 #pragma once
 #include "window_tool/MenuApi.h"
 #include "Dlg/Dlg.h"
+#include "window_tool/OpenWindow.hpp"
+#include "Windows/ZonesWindow/ZonesWindow.h"
 
 namespace MainWindowMenu
 {
 	struct MainFile {};
-	MENU_TEXT(L"Файл", TopMenu<MainFile>)
+	MENU_TEXT(L"Р¤Р°Р№Р»", TopMenu<MainFile>)
 	struct LoadDateFile { static void Do(HWND) {} };
 	struct SaveDateFile {
 		static void Do(HWND) {}
@@ -21,10 +23,10 @@ namespace MainWindowMenu
 		}
 	};
 
-	MENU_ITEM(L"Загрузить данные", LoadDateFile)
-	MENU_ITEM(L"Сохранить данные", SaveDateFile)
-	MENU_ITEM(L"Перерасчёт", Compute)
-	MENU_ITEM(L"Выход", Exit)
+	MENU_ITEM(L"Р—Р°РіСЂСѓР·РёС‚СЊ РґР°РЅРЅС‹Рµ", LoadDateFile)
+	MENU_ITEM(L"РЎРѕС…СЂР°РЅРёС‚СЊ РґР°РЅРЅС‹Рµ", SaveDateFile)
+	MENU_ITEM(L"РџРµСЂРµСЂР°СЃС‡С‘С‚", Compute)
+	MENU_ITEM(L"Р’С‹С…РѕРґ", Exit)
 	//------------------------------------
 	template<>struct TopMenu<MainFile>
 	{
@@ -38,10 +40,10 @@ namespace MainWindowMenu
 	};
 	//-------------------------------------------
 	struct TypeSizeFile {};
-	MENU_TEXT(L"Типоразмер", TopMenu<TypeSizeFile>)
+	MENU_TEXT(L"РўРёРїРѕСЂР°Р·РјРµСЂ", TopMenu<TypeSizeFile>)
 	struct TypeSize { static void Do(HWND) {} };
 
-	MENU_ITEM(L"Типоразмер", TypeSize)
+	MENU_ITEM(L"РўРёРїРѕСЂР°Р·РјРµСЂ", TypeSize)
 	//------------------------------------
 	template<>struct TopMenu<TypeSizeFile>
 	{
@@ -51,7 +53,7 @@ namespace MainWindowMenu
 	};
 	//----------------------------------------------
 	struct MainOptionTypeSize {};
-	MENU_TEXT(L"Типоразмер", TopMenu<MainOptionTypeSize>)
+	MENU_TEXT(L"РўРёРїРѕСЂР°Р·РјРµСЂ", TopMenu<MainOptionTypeSize>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 	struct DeadZones { static void Do(HWND) {} };						 																				   //
 	struct MainCreateTypesize : AddTypeSizeDlg {};
@@ -60,12 +62,12 @@ namespace MainWindowMenu
 	struct DspFiltr : DspFiltrDlg {};
 	struct Tresholds { static void Do(HWND) {} };
 
-	MENU_ITEM(L"Мёртвые зоны", DeadZones)
-	MENU_ITEM(L"Создать типоразмер", MainCreateTypesize)
-	MENU_ITEM(L"Удалить типоразмер", MainDeleteTypeSize)
-	MENU_ITEM(L"Медианный фильтр", MedianFiltre__)
-	MENU_ITEM(L"Настройки аналогового фильтра", DspFiltr)
-	MENU_ITEM(L"Настройки порогов", Tresholds)
+	MENU_ITEM(L"РњС‘СЂС‚РІС‹Рµ Р·РѕРЅС‹", DeadZones)
+	MENU_ITEM(L"РЎРѕР·РґР°С‚СЊ С‚РёРїРѕСЂР°Р·РјРµСЂ", MainCreateTypesize)
+	MENU_ITEM(L"РЈРґР°Р»РёС‚СЊ С‚РёРїРѕСЂР°Р·РјРµСЂ", MainDeleteTypeSize)
+	MENU_ITEM(L"РњРµРґРёР°РЅРЅС‹Р№ С„РёР»СЊС‚СЂ", MedianFiltre__)
+	MENU_ITEM(L"РќР°СЃС‚СЂРѕР№РєРё Р°РЅР°Р»РѕРіРѕРІРѕРіРѕ С„РёР»СЊС‚СЂР°", DspFiltr)
+	MENU_ITEM(L"РќР°СЃС‚СЂРѕР№РєРё РїРѕСЂРѕРіРѕРІ", Tresholds)
 
 	template<>struct TopMenu<MainOptionTypeSize>
 	{
@@ -81,7 +83,7 @@ namespace MainWindowMenu
 	};
 	//-------------------------------------------
 	struct OptionsFile {};
-	MENU_TEXT(L"Настройки", TopMenu<OptionsFile>)
+	MENU_TEXT(L"РќР°СЃС‚СЂРѕР№РєРё", TopMenu<OptionsFile>)
 		struct __LanDlg : LanDlg {};
 
 	struct DiscretePlate {};
@@ -96,15 +98,17 @@ namespace MainWindowMenu
 		>::Result list;
 	};
 
-	MENU_ITEM(L"Настройка аналоговой платы", __LanDlg)
+	MENU_ITEM(L"РќР°СЃС‚СЂРѕР№РєР° Р°РЅР°Р»РѕРіРѕРІРѕР№ РїР»Р°С‚С‹", __LanDlg)
 
-	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
-	MENU_ITEM(L"Входные порты", DiscretePlateInputs)
-	MENU_ITEM(L"Выходные порты", DiscretePlateOutputs)
-	MENU_ITEM(L"Дескриптор дискретной платы", DiscriptorBitDlg)
+	MENU_TEXT(L"Р”РёСЃРєСЂРµС‚РЅР°СЏ РїР»Р°С‚Р°", SubMenu<DiscretePlate>)
+	MENU_ITEM(L"Р’С…РѕРґРЅС‹Рµ РїРѕСЂС‚С‹", DiscretePlateInputs)
+	MENU_ITEM(L"Р’С‹С…РѕРґРЅС‹Рµ РїРѕСЂС‚С‹", DiscretePlateOutputs)
+	MENU_ITEM(L"Р”РµСЃРєСЂРёРїС‚РѕСЂ РґРёСЃРєСЂРµС‚РЅРѕР№ РїР»Р°С‚С‹", DiscriptorBitDlg)
 
 	struct __LirDlg : LirDlg {};
-	MENU_ITEM(L"Датчик ЛИР", __LirDlg)
+	MENU_ITEM(L"Р”Р°С‚С‡РёРє Р›РР ", __LirDlg)
+	struct __Unit : UnitDlg {};
+	MENU_ITEM(L"РЎРјРµС€РµРЅРёРµ РґР°С‚С‡РёРєР°", __Unit)
 	//------------------------------------
 	template<>struct TopMenu<OptionsFile>
 	{
@@ -112,20 +116,24 @@ namespace MainWindowMenu
 			SubMenu<DiscretePlate>
 			, MenuItem<__LanDlg>
 			, MenuItem<__LirDlg>
+			, MenuItem<__Unit>
 		> list;
 	};
 	//-------------------------------------------
 	struct MainTest {};
-	MENU_TEXT(L"Тест", TopMenu<MainTest>)
+	MENU_TEXT(L"РўРµСЃС‚", TopMenu<MainTest>)
 	struct __TestIOPorts : TestIOPorts {};
 	struct AScanWindow : AScanWindowDlg {};
 	struct Message_ : MessageDlg {};
 	struct TestLir_ : TestLirDlg {};
 
-	MENU_ITEM(L"Просмотр дискретных портов", __TestIOPorts)
-	MENU_ITEM(L"Просмотр А-скан сигналов", AScanWindow)
-	MENU_ITEM(L"Просмотр сообщений", Message_)
-	MENU_ITEM(L"Просмотр датчиков ЛИР", TestLir_)
+	MENU_ITEM(L"РџСЂРѕСЃРјРѕС‚СЂ РґРёСЃРєСЂРµС‚РЅС‹С… РїРѕСЂС‚РѕРІ", __TestIOPorts)
+	MENU_ITEM(L"РџСЂРѕСЃРјРѕС‚СЂ Рђ-СЃРєР°РЅ СЃРёРіРЅР°Р»РѕРІ", AScanWindow)
+	MENU_ITEM(L"РџСЂРѕСЃРјРѕС‚СЂ СЃРѕРѕР±С‰РµРЅРёР№", Message_)
+	MENU_ITEM(L"РџСЂРѕСЃРјРѕС‚СЂ РґР°С‚С‡РёРєРѕРІ Р›РР ", TestLir_)
+
+	struct __Zones : OpenTopWindow<ZonesWindow> {};
+	MENU_ITEM(L"РџСЂРѕСЃРјРѕС‚СЂ СЂРµР·СѓР»СЊС‚Р°С‚Р° РїРѕ Р·РѕРЅР°Рј", __Zones)
 	//------------------------------------
 	template<>struct TopMenu<MainTest>
 	{
@@ -134,12 +142,14 @@ namespace MainWindowMenu
 			, MenuItem<AScanWindow>
 			, MenuItem<Message_>
 			, MenuItem<TestLir_>
+			, Separator<0>
+			, MenuItem<__Zones>
 		> list;
 	};
 	//-------------------------------------------
 	struct MainAbout : AboutWindowDlg {};
-	MENU_TEXT(L"О программе", TopMenu<MainAbout>)
-	MENU_ITEM(L"О программе", MainAbout)
+	MENU_TEXT(L"Рћ РїСЂРѕРіСЂР°РјРјРµ", TopMenu<MainAbout>)
+	MENU_ITEM(L"Рћ РїСЂРѕРіСЂР°РјРјРµ", MainAbout)
 	//-----------------------------------
 	template<>struct TopMenu<MainAbout>
 	{

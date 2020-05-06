@@ -13,10 +13,12 @@ INFO Вычисление результата контроля
 class Compute
 {
 	Data::InputData &inputData;
+	int packetSize;
+	int numberPackets;
 	double start;
 	int offsetLir;
 	int offsetFrames;
-	double offsetSensorMM;
+	int offsetSensorBegMM, offsetSensorEndMM;
 public:
 	int countZones;
 	int zoneOffsets[1 + App::count_zones];
@@ -25,7 +27,8 @@ public:
 	bool StartStrobes();
 	bool Strobes();
 	void Frames();
-	void ComputeFrame(int i);
+	void ComputeFrame(int sensor, int zone, char *data);
+	void ComputeZone(int zone);
 	void Update();
 	void Done();
 };

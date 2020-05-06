@@ -16,4 +16,5 @@
    DLG(MessageDlg)
    DLG(LirDlg)
    DLG(TestLirDlg)
+   DLG(UnitDlg)
 #undef DLG

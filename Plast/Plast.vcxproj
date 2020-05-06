@@ -334,6 +334,7 @@
     <ClCompile Include="Dlg\TestIOPorts.cpp" />
     <ClCompile Include="Dlg\TestLir.cpp" />
     <ClCompile Include="Dlg\TypeSizeDlg.cpp" />
+    <ClCompile Include="Dlg\UnitDlg.cpp" />
     <ClCompile Include="Plast.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanKeyHandler.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanWindow.cpp" />

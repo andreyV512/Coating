@@ -12,6 +12,7 @@ CommonSensorViewer::CommonSensorViewer()
 CommonSensorViewer::~CommonSensorViewer()
 {
 	delete backScreen;
+	zprint("\n");
 }
 
 LRESULT CommonSensorViewer::operator()(TCreate &l)

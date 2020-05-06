@@ -22,7 +22,7 @@ namespace App
 		AppBase().Init();
 #if 1
 		MainWindow& w = Singleton<MainWindow>::Instance();
-	//	ZonesWindow &w = Singleton<ZonesWindow>::Instance();
+		//ZonesWindow &w = Singleton<ZonesWindow>::Instance();
 		RECT r;
 		WindowPosition::Get<MainWindow>(r);
 

@@ -133,6 +133,7 @@ namespace {
 		TopMenu<MainWindowMenu::MainFile>
 		, MenuItem<MainWindowMenu::AScanWindow>
 		, TopMenu<MainWindowMenu::OptionsFile>
+		, MenuItem<MainWindowMenu::__Zones>
 	> __menu_enable__;
 }
 

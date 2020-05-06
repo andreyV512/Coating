@@ -72,7 +72,7 @@ namespace Data
 				{
 					int r = rand();
 					t.offsetFrames[i] = f;
-					f += 90 + 10 * (r % 3);
+					f += 986 * 3 * 100;
 					t.offsetsLir[i] = l;
 					l += 17.0 + (r % 6);
 				}

@@ -37,6 +37,19 @@ struct UserTable
 	const wchar_t *name() { return L"UserTable"; }
 };
 
+DEFINE_PARAM(OffsetSensorBegMM, int, 20)
+DEFINE_PARAM(OffsetSensorEndMM, int, 20)
+struct UnitTable
+{
+	typedef Vlst<
+		OffsetSensorBegMM
+		, OffsetSensorEndMM
+	> items_list;
+	typedef VL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name() { return L"UnitTable"; }
+};
+
 DEFINE_PARAM(BelowNominal, double, 3.3)
 struct TresholdsTable
 {
@@ -83,7 +96,7 @@ struct ParametersTable
 };
 #undef PARAM_IDX
 
-struct ParametersBase
+struct ParametersBase  
 {
 	typedef Vlst<
 		ColorTable
@@ -93,6 +106,7 @@ struct ParametersBase
 		, NamePlate1730ParametersTable
 		, LanParametersTable
 		, LirParamTable
+		, UnitTable
 	> one_row_table_list;
 
 	typedef VL::Append<

@@ -135,6 +135,7 @@ namespace Automat
 			}
 			
 		}
+		zprint(" exit loop\n");
 		return 0;
 	}
 }

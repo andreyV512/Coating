@@ -2,9 +2,6 @@
 #include "DlgTemplates/ParamDlgNew.h"
 #include "DlgTemplates/ParamDlg.hpp"
 
-
-
-
 DO_NOT_CHECK(LirDescriptor)
 
 MIN_EQUAL_VALUE(TickPerMMLir0, 0.01)

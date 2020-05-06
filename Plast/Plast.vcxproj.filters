@@ -665,6 +665,9 @@
     <ClCompile Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.cpp">
       <Filter>Windows\Viewers\ZonesViewer</Filter>
     </ClCompile>
+    <ClCompile Include="Dlg\UnitDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc">

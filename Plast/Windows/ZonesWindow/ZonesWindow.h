@@ -38,4 +38,5 @@ public:
 	void operator()(TClose &);
 
 	void ChangeSensor(int);
+	static wchar_t *Title() { return (wchar_t *)L"Просмотр зон"; }
 };
