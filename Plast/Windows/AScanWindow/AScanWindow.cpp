@@ -45,9 +45,9 @@ template<class O, class P>struct __move_window__
 	void operator()(O &o, P &p)
 	{
 		o.tchart.maxAxesX = 512;
-		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
-		SendMessage(MESSAGE(size));
+		//TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
 		MoveWindow(o.hWnd, 0, p.y, p.width, p.height, TRUE);
+		//SendMessage(MESSAGE(size));
 		p.y += p.height;
 	}
 };
