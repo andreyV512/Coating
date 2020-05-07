@@ -5,9 +5,11 @@
 #include <commctrl.h>
 #include "Base/Base.hpp"
 #include "App/App.h"
+#include "window_tool/Emptywindow.h"
 //#include "window_tool/HookKey.h"
 #include <gdiplus.h>
 //#include "tcp/InitTcp.h"
+#include "Windows/MainWindow/MainWindow.h"
 #include "tools_debug/DebugMess.h"
 
 #if defined _M_IX86
@@ -31,7 +33,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	CreateSemaphore(0, 0, 1, typeWindow);
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
-		HWND h = FindWindow(typeWindow, 0);
+		HWND h = FindWindow(WindowClass<MainWindow>()(), 0);
 		SendMessage(h, WM_SYSCOMMAND, SC_RESTORE, 0);
 		SetForegroundWindow(h);
 		return 0;
