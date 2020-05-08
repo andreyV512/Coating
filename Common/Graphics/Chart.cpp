@@ -32,7 +32,7 @@ template<int N>wchar_t *dtow(double v, wchar_t *buf)
 }
 
 Chart::Chart(Gdiplus::Bitmap *&backScreen)
-	: offsetAxesLeft(52)
+	: offsetAxesLeft(25)
 	, offsetAxesBottom(20)
 	, offsetAxesTop(0)
 	, offsetAxesRight(10)
