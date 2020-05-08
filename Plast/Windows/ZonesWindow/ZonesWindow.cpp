@@ -80,17 +80,14 @@ void ZonesWindow::operator()(TSize &l)
 	MoveWindow(hStatuisBar, 0, 0, 0, 0, FALSE);
 	int dy = rt.bottom;
 	MoveWindow(sensor.hWnd, 0, dy, rt.right, 100, TRUE);
-	RepaintWindow(sensor.hWnd);
 	dy += 100;
 	MoveWindow(zone.hWnd, 0, dy, rt.right, 100, TRUE);
-	RepaintWindow(zone.hWnd);
 	dy += 100;
 	RECT r;
 	GetClientRect(l.hwnd, &r);
 	RECT st;
 	GetClientRect(hStatuisBar, &st);
 	MoveWindow(aScan.hWnd, 0, dy, rt.right, r.bottom - dy - st.bottom, TRUE);
-	RepaintWindow(aScan.hWnd);
 }
 
 void ZonesWindow::operator()(TCommand &l)
@@ -152,4 +149,17 @@ void ZonesWindow::ChangeSensor(int id)
 		ItemIni::GetPath(path);
 		ItemIni::Set((wchar_t *)L"ZonesWindow", (wchar_t *)L"SelectedSensor", id, path);
 	}
+}
+
+void ZonesWindow::LeftCursor(HWND h)
+{
+	TMouseWell w{sensor.hWnd, WM_MOUSEWHEEL};
+	w.delta = 120;
+	SendMessage(MESSAGE(w));
+}
+void ZonesWindow::RightCursor(HWND h)
+{
+	TMouseWell w{ sensor.hWnd, WM_MOUSEWHEEL};
+	w.delta = -120;
+	SendMessage(MESSAGE(w));
 }
