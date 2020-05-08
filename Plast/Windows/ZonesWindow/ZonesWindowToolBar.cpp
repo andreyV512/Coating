@@ -3,6 +3,7 @@
 #include "window_tool/InitToolBar.hpp"
 #include "tools_debug/DebugMess.h"
 #include "window_tool/OpenWindow.hpp"
+#include "Windows\ZonesWindow\ZonesWindow.h"
 
 namespace
 {
@@ -28,11 +29,13 @@ namespace
 
 	void Key<IDB_LeftArrow>::Click(HWND h)
 	{
-		dprint("Key<IDB_CycleBtn>::Click\n"); 
+		ZonesWindow *o = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+		o->LeftCursor(h);
 	}
 	void Key<IDB_RightArrow>::Click(HWND h)
 	{
-		dprint("Key<IDB_Reset>::Click\n"); 
+		ZonesWindow *o = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+		o->RightCursor(h);
 	}
 }
 

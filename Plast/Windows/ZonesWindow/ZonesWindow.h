@@ -39,4 +39,6 @@ public:
 
 	void ChangeSensor(int);
 	static wchar_t *Title() { return (wchar_t *)L"Просмотр зон"; }
+	void LeftCursor(HWND h);
+	void RightCursor(HWND h);
 };
