@@ -8,8 +8,8 @@ class AScanZoneViewer : public CommonSensorViewer
 public:
 	typedef CommonSensorViewer Parent;
 	typedef ChartDraw< Chart, Vlst<
-		BottomAxesInt
-		, NoOffsetLeftAxes
+		NoOffsetLeftAxes
+		, BottomAxesInt
 		, LineSeries
 		, FixedGrid
 	> > TChart;
