@@ -56,7 +56,7 @@ public:
   Gdiplus::Bitmap *&backScreen;
   Gdiplus::Graphics *g;
   Chart(Gdiplus::Bitmap *&backScreen);
-  ~Chart();
+  virtual ~Chart() = default;
   int GetCountDigit(double , double, double &, Gdiplus::Font &); 
   bool AxesValues(int, int, double &, double &);
   bool ValuesAxes(double, double, int &, int &);
