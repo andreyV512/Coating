@@ -79,6 +79,8 @@ void CommonSensorViewer::operator()(TMouseMove &l)
 		if (cursor->CrossCursor(l, (VGraphics &)HDCGraphics(l.hwnd, backScreen)))
 		{
 			storedMouseMove = l;
+			int currentY = 0;
+			chart->CoordCell(l.x, l.y, currentX, currentY);
 		}
 	}
 }
