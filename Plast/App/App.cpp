@@ -14,13 +14,14 @@
 #include "Units/Lir/Lir.h"
 #include "Windows/ZonesWindow/ZonesWindow.h"
 #include "window_tool/ItemIni.h"
+#include "window_tool/OpenWindow.hpp"
 namespace App
 {
 	void Init()
 	{
 		Performance::Init();
 		AppBase().Init();
-#if 1
+#if 0
 		MainWindow& w = Singleton<MainWindow>::Instance();
 		//ZonesWindow &w = Singleton<ZonesWindow>::Instance();
 		RECT r;
@@ -68,7 +69,7 @@ namespace App
 		
 #else
 		//DspFiltrDlg::Do(0);
-		TestTest();
+		OpenTopWindow<ZonesWindow>::Do(NULL);
 #endif
 	}
 

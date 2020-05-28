@@ -180,6 +180,7 @@
     <ClInclude Include="..\Common\DlgTemplates\ParamDlgNew.h" />
     <ClInclude Include="..\Common\DspFilters\ChebyshevFiltre.hpp" />
     <ClInclude Include="..\Common\DspFilters\DspFiltrParams.h" />
+    <ClInclude Include="..\Common\DspFilters\Filters.hpp" />
     <ClInclude Include="..\Common\DspFilters\include\DspFilters\Bessel.h" />
     <ClInclude Include="..\Common\DspFilters\include\DspFilters\Biquad.h" />
     <ClInclude Include="..\Common\DspFilters\include\DspFilters\Butterworth.h" />

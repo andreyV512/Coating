@@ -17,6 +17,9 @@ namespace
 
 	KEY(IDB_LeftArrow, NULL)
 	KEY(IDB_RightArrow, NULL)
+
+	KEY(IDB_UpArrow, NULL)
+	KEY(IDB_DownArrow, NULL)
 #undef KEY
 
 	template<int ID>using BTB = ButtonToolbar<ID, Key<ID> >;
@@ -25,6 +28,9 @@ namespace
 		, BTB<IDB_LeftArrow>
 		, BTB<IDB_RightArrow>
 		, SeparatorToolbar<1>
+		, BTB<IDB_UpArrow>
+		, BTB<IDB_DownArrow>
+		, SeparatorToolbar<2>
 	>tool_button_list;
 
 	void Key<IDB_LeftArrow>::Click(HWND h)
@@ -36,6 +42,16 @@ namespace
 	{
 		ZonesWindow *o = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 		o->RightCursor(h);
+	}
+	void Key<IDB_UpArrow>::Click(HWND h)
+	{
+		ZonesWindow *o = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+		o->UpCursor(h);
+	}
+	void Key<IDB_DownArrow>::Click(HWND h)
+	{
+		ZonesWindow *o = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+		o->DownCursor(h);
 	}
 }
 

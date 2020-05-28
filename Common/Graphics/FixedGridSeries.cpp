@@ -60,10 +60,10 @@ void FixedGrid::Draw()
 	Color color(chart.colorGrid);
 	Pen pen(color, 1);
 	pen.SetDashStyle(DashStyleDash);
-	double offs = chart.offsetAxesLeft + dX;
+	double offs = chart.offsetGridX;
 	int y_b = chart.rect.bottom - chart.offsetAxesBottom - 3;
 	int y_t = chart.rect.top + chart.offsetAxesTop + 3;
-	while(offs < chart.rect.right - chart.offsetAxesRight - dY * 0.2)
+	while(offs < chart.rect.right - chart.offsetAxesRight - dX * 0.2)
 	{
 		chart.g->DrawLine(&pen, (int)offs, y_b, (int)offs, y_t);
 		offs += dX;

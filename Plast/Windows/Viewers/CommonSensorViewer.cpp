@@ -50,8 +50,8 @@ void CommonSensorViewer::operator()(TSize &l)
 	g.FillRectangle(&solidBrush, 0, 0, 10, l.Height);
 	g.FillRectangle(&solidBrush, 0, 0, l.Width, 29);
 
-	chart->maxAxesY = 20;
 	chart->Draw(g);
+	label.Draw(g);
 }
 
 void CommonSensorViewer::operator()(TPaint &l)

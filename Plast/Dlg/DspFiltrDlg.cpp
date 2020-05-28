@@ -32,7 +32,7 @@ template<template<class>class X, template<class>class Y>struct __filtr__<X, Y, V
 	typedef Vlst<> Result;
 };
 
-typedef __orders__<FiltersTable::items_list>::Result __orders_list__;
+typedef VL::Append<__orders__<FiltersTable::items_list>::Result, CurrentFilter>::Result __orders_list__;
 
 template<class T>struct __current_filtre_param_data__
 {
@@ -41,24 +41,48 @@ template<class T>struct __current_filtre_param_data__
 	bool close;
 };
 
-MIN_EQUAL_VALUE(Low<ChebyshevI<Order>>, 1)
-MAX_EQUAL_VALUE(Low<ChebyshevI<Order>>, 10)
-DO_NOT_CHECK(Low<ChebyshevI<CutoffFrequency>>)
-DO_NOT_CHECK(Low<ChebyshevI<Ripple>>)
+MIN_EQUAL_VALUE(Low<ChebI<Order>>, 1)
+MAX_EQUAL_VALUE(Low<ChebI<Order>>, 10)
+DO_NOT_CHECK(Low<ChebI<CutoffFrequency>>)
+DO_NOT_CHECK(Low<ChebI<Ripple>>)
 
-MIN_EQUAL_VALUE(High<ChebyshevI<Order>>, 1)
-MAX_EQUAL_VALUE(High<ChebyshevI<Order>>, 10)
-DO_NOT_CHECK(High<ChebyshevI<CutoffFrequency>>)
-DO_NOT_CHECK(High<ChebyshevI<Ripple>>)
+MIN_EQUAL_VALUE(High<ChebI<Order>>, 1)
+MAX_EQUAL_VALUE(High<ChebI<Order>>, 10)
+DO_NOT_CHECK(High<ChebI<CutoffFrequency>>)
+DO_NOT_CHECK(High<ChebI<Ripple>>)
+
+MIN_EQUAL_VALUE(BandPass<ChebI<Order>>, 1)
+MAX_EQUAL_VALUE(BandPass<ChebI<Order>>, 10)
+DO_NOT_CHECK(BandPass<ChebI<CenterFrequency>>)
+DO_NOT_CHECK(BandPass<ChebI<WidthFrequency>>)
+DO_NOT_CHECK(BandPass<ChebI<Ripple>>)
+
+MIN_EQUAL_VALUE(BandStop<ChebI<Order>>, 1)
+MAX_EQUAL_VALUE(BandStop<ChebI<Order>>, 10)
+DO_NOT_CHECK(BandStop<ChebI<CenterFrequency>>)
+DO_NOT_CHECK(BandStop<ChebI<WidthFrequency>>)
+DO_NOT_CHECK(BandStop<ChebI<Ripple>>)
 
 template<class T>struct CbItem;
-template<>struct CbItem<Low<ChebyshevI<Order>>>
+template<>struct CbItem<Low<ChebI<Order>>>
 {
 	wchar_t* operator()() { return (wchar_t *)L"Низкочастотный фильтр"; }
 };
-template<>struct CbItem<High<ChebyshevI<Order>>>
+template<>struct CbItem<High<ChebI<Order>>>
 {
 	wchar_t* operator()() { return (wchar_t*)L"Высокочастотный фильтр"; }
+};
+template<>struct CbItem<BandPass<ChebI<Order>>>
+{
+	wchar_t *operator()() { return (wchar_t *)L"Полосовой фильтр"; }
+};
+template<>struct CbItem<BandStop<ChebI<Order>>>
+{
+	wchar_t *operator()() { return (wchar_t *)L"Режекторный фильтр"; }
+};
+template<>struct CbItem<CurrentFilter>
+{
+	wchar_t *operator()() { return (wchar_t *)L"Отключено"; }
 };
 
 #define TITLE(type, name)template<template<class>class X, template<class>class Y>\
@@ -66,6 +90,9 @@ struct ParamTitle<X<Y<type>>>{wchar_t* operator()() { return (wchar_t*)name; }};
 TITLE(Order              , L"Порядок фильтра")
 TITLE(CutoffFrequency    , L"Частота среза")
 TITLE(Ripple             , L"Неравномерность в полосе пропускания")
+
+TITLE(CenterFrequency, L"Центр полосы")
+TITLE(WidthFrequency, L"Ширина полосы")
 #undef TITLE
 PARAM_TITLE(CurrentFilter, L"Тип фильтра")
 
@@ -143,6 +170,28 @@ template<template<class>class X, template<class>class Y, class O, class P>struct
 		if (VL::IndexOf<__orders_list__, X<Y<O>>>::value == p.obj.items.get<CurrentFilter>().value)
 		{
 			typedef typename VL::Append<typename __filtr__<X, Y, FiltersTable::items_list>::Result, CurrentFilter>::Result list;
+			p.close = true;
+			if (Dialog::Templ<ParametersBase, FiltersTable
+				, list
+				, 550
+				, Vlst<OkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
+				, __current_filtre_param_data__<FiltersTable>
+			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+			{
+				VL::foreach<list, __copy__>()(p.obj.items, Singleton<FiltersTable>::Instance().items);
+			}
+			return false;
+		}
+		return true;
+	}
+};
+template<class P>struct __current_filtre_param__<CurrentFilter, P>
+{
+	bool operator()(P &p)
+	{
+		if (VL::IndexOf<__orders_list__, CurrentFilter>::value == p.obj.items.get<CurrentFilter>().value)
+		{
+			typedef Vlst<CurrentFilter> list;
 			p.close = true;
 			if (Dialog::Templ<ParametersBase, FiltersTable
 				, list

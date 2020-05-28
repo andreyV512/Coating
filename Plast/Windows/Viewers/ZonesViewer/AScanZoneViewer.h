@@ -16,12 +16,10 @@ public:
 	TChart tchart;
 	Cursor tcursor;
 	int numSensor;
-	//Data::ResultData(&data);
+
+	double data[1024];
 
 	AScanZoneViewer();
 
-	//void operator()(TMouseWell &);
-
-//	bool Draw(TMouseMove &, VGraphics &);
-//	bool GetColorCell(int, double &, unsigned &, double &, unsigned &);
+	LRESULT operator()(TCreate &);
 };

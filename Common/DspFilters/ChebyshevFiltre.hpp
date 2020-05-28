@@ -10,7 +10,7 @@ public:
 	typedef X T;
 private:
 	X filtre;
-	typename T::State<Dsp::DirectFormII> state;
+	typename T::template State<Dsp::DirectFormII> state;
 public:
 	double Simple(double value)
 	{
@@ -57,6 +57,3 @@ public:
 		return (o->*ptr)(value);
 	}
 };
-
-
-

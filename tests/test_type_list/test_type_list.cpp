@@ -4,53 +4,76 @@
 #include <iostream>
 #include "templates/typelist.hpp"
 
-template<class List>struct __get_height_tmpl__;
-template<class Head, class ...Tail>struct __get_height_tmpl__<Vlst<Head, Tail...> >
-{
-	static const int value = Head::DY + __get_height_tmpl__<Vlst<Tail...> >::value;
-};
-template<>struct __get_height_tmpl__<Vlst<>>
-{
-	static const int value = 0;
-};
-template<class T, class Owner>struct DlgItem2 { static const int DY = 10; };
+template<class T>struct  Low {};
+template<class T>struct  High {};
+template<class T>struct  BandPass;
+template<class T>struct  PandStop;
+template<class T>struct  ChebI;
+struct Order;
+struct CutoffFrequency;
+struct Ripple;
+struct OnFiltre;
 
-template<class T>struct GroupBox
+struct CurrentFilter {};
+
+struct FiltersTable
 {
-	typedef T Result;
-	static const int DY = __get_height_tmpl__<VL::TypeToTypeLstParam1<Result, DlgItem2, NullType>::Result>::value;
+	typedef Vlst<
+		CurrentFilter
+
+		, Low< ChebI< Order>>
+		, Low< ChebI< CutoffFrequency>>
+		, Low< ChebI< Ripple>>
+
+		, High< ChebI< Order>>
+		, High< ChebI< CutoffFrequency>>
+		, High< ChebI< Ripple>>
+	> items_list;
+	typedef VL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name() { return L"FiltersTable"; }
 };
 
-#define GROUP_BOX(...) GroupBox<Vlst<__VA_ARGS__>>
-
-template<class List>struct __del_group_box__;
-template<class Head, class ...Tail>struct __del_group_box__<Vlst<Head, Tail...>>
+template<class List, class T>struct TstTempl;
+template<template<class>class type, template<class>class sub, class X, class Head, class ...Tail>struct TstTempl<Vlst<Head, Tail...>, type<sub<X>>>
 {
-	typedef typename VL::Append<Head, typename __del_group_box__<Vlst<Tail...>>::Result>::Result Result;
+	typedef typename TstTempl<Vlst<Tail...>, type<sub<X>>>::Result Result;
 };
-template<class List, class ...Tail>struct __del_group_box__<Vlst<GroupBox<List>, Tail...> >
+template<template<class>class type, template<class>class sub, class X, class Head, class ...Tail>struct TstTempl<Vlst<type<sub<Head>>, Tail...>, type<sub<X>>>
 {
-	typedef typename VL::Append<List, typename __del_group_box__<Vlst<Tail...>>::Result>::Result Result;
+	typedef Vlst<> Result;
 };
-template<>struct __del_group_box__<Vlst<> >
+template<template<class>class type, template<class>class sub, class X>struct TstTempl<Vlst<>, type<sub<X>>>
+{
+	typedef type<sub<X>> Result;
+};
+template<class X>struct TstTempl<Vlst<>, X>
+{
+	typedef Vlst<> Result;
+};
+template<class X, class Head, class ...Tail>struct TstTempl<Vlst<Head, Tail...>, X>
 {
 	typedef Vlst<> Result;
 };
 
-struct A {};
-struct B {};
-struct C {};
-struct D {};
-struct E {};
-struct F {};
+template<class List, class tmp = Vlst<>>struct type_filters;
+template<class tmp, class Head, class... Tail>struct type_filters<Vlst<Head, Tail...>, tmp>
+{
+	typedef typename type_filters<Vlst<Tail...>, typename VL::Append<tmp, typename TstTempl<tmp, Head>::Result>::Result>::Result Result;
+};
+template<class tmp>struct type_filters<Vlst<>, tmp>
+{
+	typedef tmp Result;
+};
 
 int main()
 {
-	typedef GROUP_BOX(B, C, D) g;
+	typedef TstTempl<Vlst<High< ChebI< Order>>>, Low< ChebI< CutoffFrequency>>>::Result lst;
+    std::cout << typeid(lst).name() << "\n";
 
-	typedef __del_group_box__<g::Result>::Result t;
+	typedef TstTempl<FiltersTable::items_list, CurrentFilter>::Result lst1;
+	std::cout << typeid(lst1).name() << "\n";
 
-	printf("%s\n", typeid(__del_group_box__ < Vlst<A, g, E, F>>::Result).name());
-
-    std::cout << "Hello World!\n";
+	typedef type_filters<FiltersTable::items_list>::Result lst2;
+	std::cout << typeid(lst2).name() << "\n";
 }

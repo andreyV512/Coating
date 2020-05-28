@@ -16,7 +16,7 @@ namespace ZonesWindowMenu
 			SendMessage(MESSAGE(c));
 		}
 	};
-	
+
 	MENU_ITEM(L"Выход", Exit)
 	//------------------------------------
 	template<>struct TopMenu<MainFile>
@@ -25,9 +25,24 @@ namespace ZonesWindowMenu
 			MenuItem<Exit>
 		> list;
 	};
-	//-----------------------------------------
+	//---------------------------------------
+	struct MainOptionTypeSize {};
+	MENU_TEXT(L"Типоразмер", TopMenu<MainOptionTypeSize>)
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+	struct DspFiltr : DspFiltrDlg {};
+
+	MENU_ITEM(L"Настройки аналогового фильтра", DspFiltr)
+
+	template<>struct TopMenu<MainOptionTypeSize>
+	{
+		typedef Vlst<
+			MenuItem<DspFiltr>
+		> list;
+	};
+
 	typedef Vlst<
 		TopMenu<MainFile>
+		, TopMenu<MainOptionTypeSize>
 	> Menu;
 
 }
