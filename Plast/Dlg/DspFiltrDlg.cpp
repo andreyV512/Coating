@@ -3,6 +3,8 @@
 #include "DlgTemplates/ParamDlgNew.h"
 #include "tools_debug/DebugMess.h"
 #include "DlgTemplates/ParamDlg.hpp"
+#include "Windows/ZonesWindow/ZonesWindow.h"
+#include "window_tool/Emptywindow.h"
 
 template<class List>struct __orders__;
 template<class Head, class ...Tail>struct __orders__<Vlst<Head, Tail...>>
@@ -217,4 +219,106 @@ void DspFiltrDlg::Do(HWND h)
 	};
 	while(!data.close)
 		VL::find<__orders_list__, __current_filtre_param__>()(data);
+}
+
+struct TstOkBtn
+{
+	static const int width = 120;
+	static const int height = 30;
+	static const int ID = IDOK;
+	wchar_t *Title() { return (wchar_t *)L"Применить"; }
+	template<class Owner>void BtnHandler(Owner &owner, HWND h)
+	{
+		__ok_table_btn__<
+			Owner::Base, Owner::Table
+			, typename VL::SubListFromMultyList<typename Owner::Base::multy_type_list, Owner::Table>::Result
+		>x;
+		if (x(h, owner))
+		{
+			EndDialog(h, TRUE);
+		}
+	}
+};
+
+template<class O, class P>struct __Tst_ok_btn__
+{
+	void operator()(O &o)
+	{
+		o.value.value = __data_from_widget__<O, typename VL::Inner<O>::Result::type_value>()(o);
+	}
+};
+
+template<class Base>struct __ok_table_btn__<Base, TstFiltersTable, Vlst<>>
+{
+	template<class T>bool operator()(HWND h, T &t)
+	{
+		if (!VL::find<typename T::list, __test__>()(t.items, h))return false;
+		VL::foreach<typename T::list, __Tst_ok_btn__>()(t.items);
+		return true;
+	}
+};
+
+template<class O, class P>struct __Tst_current_filtre_param__;
+
+template<template<class>class X, template<class>class Y, class O, class P>struct __Tst_current_filtre_param__<X<Y<O>>, P>
+{
+	bool operator()(P &p)
+	{
+		if (VL::IndexOf<__orders_list__, X<Y<O>>>::value == p.obj.items.get<CurrentFilter>().value)
+		{
+			typedef typename VL::Append<typename __filtr__<X, Y, TstFiltersTable::items_list>::Result, CurrentFilter>::Result list;
+			p.close = true;
+			if (Dialog::Templ<ParametersBase, TstFiltersTable
+				, list
+				, 550
+				, Vlst<TstOkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
+				, __current_filtre_param_data__<TstFiltersTable>
+			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+			{
+				VL::foreach<list, __copy__>()(p.obj.items, Singleton<TstFiltersTable>::Instance().items);
+			}
+			return false;
+		}
+		return true;
+	}
+};
+
+template<class P>struct __Tst_current_filtre_param__<CurrentFilter, P>
+{
+	bool operator()(P &p)
+	{
+		if (VL::IndexOf<__orders_list__, CurrentFilter>::value == p.obj.items.get<CurrentFilter>().value)
+		{
+			typedef Vlst<CurrentFilter> list;
+			p.close = true;
+			if (Dialog::Templ<ParametersBase, TstFiltersTable
+				, list
+				, 550
+				, Vlst<TstOkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
+				, __current_filtre_param_data__<TstFiltersTable>
+			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+			{
+				VL::foreach<list, __copy__>()(p.obj.items, Singleton<TstFiltersTable>::Instance().items);
+			}
+			return false;
+		}
+		return true;
+	}
+};
+
+void TstDspFiltrDlg::Do(HWND h)
+{
+	__current_filtre_param_data__<TstFiltersTable> data = {
+		Singleton<TstFiltersTable>::Instance()
+		, h
+		, false
+	};
+	while (!data.close)
+		VL::find<__orders_list__, __Tst_current_filtre_param__>()(data);
+
+	HWND hh = FindWindow(WindowClass<ZonesWindow>()(), 0);
+	if (hh)
+	{
+		((ZonesWindow *)GetWindowLongPtr(hh, GWLP_USERDATA))->Update();
+	}
 }

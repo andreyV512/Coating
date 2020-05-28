@@ -32,7 +32,6 @@ public:
 	//ZoneViewer zone;
 	AScanZoneViewer aScan;
 
-	ZonesWindow();
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
 	void operator()(TSize &);
@@ -47,4 +46,6 @@ public:
 
 	void UpCursor(HWND h);
 	void DownCursor(HWND h);
+
+	void Update();
 };

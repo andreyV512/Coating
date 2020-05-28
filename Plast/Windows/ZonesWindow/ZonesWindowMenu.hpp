@@ -29,7 +29,7 @@ namespace ZonesWindowMenu
 	struct MainOptionTypeSize {};
 	MENU_TEXT(L"Типоразмер", TopMenu<MainOptionTypeSize>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
-	struct DspFiltr : DspFiltrDlg {};
+	struct DspFiltr : TstDspFiltrDlg {};
 
 	MENU_ITEM(L"Настройки аналогового фильтра", DspFiltr)
 

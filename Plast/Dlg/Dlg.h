@@ -17,4 +17,5 @@
    DLG(LirDlg)
    DLG(TestLirDlg)
    DLG(UnitDlg)
+   DLG(TstDspFiltrDlg)
 #undef DLG
