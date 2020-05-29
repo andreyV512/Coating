@@ -212,7 +212,7 @@ void NoOffsetLeftAxes::Draw()
 	}
 	origin.X = (REAL)chart.rect.left;
 	int len;
-	while(offs > chart.rect.top + chart.offsetAxesTop)
+	while(offs > chart.rect.top + chart.offsetAxesTop + 0.2 * deltaTick)
 	{
 		chart.g->DrawLine(&pen, (REAL)x - 5, (REAL)offs, (REAL)x, (REAL)offs);
 		gcvt(digit, 5, buf);
