@@ -441,6 +441,12 @@
     <ClInclude Include="..\Common\DspFilters\Filters.hpp">
       <Filter>Common\DspFilters</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\window_tool\TableIni.hpp">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\ZonesWindow\ZonesAxes.h">
+      <Filter>Windows\ZonesWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -679,6 +685,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\FFT\FFT.cpp">
       <Filter>Common\FFT</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\ZonesWindowDlg.cpp">
+      <Filter>Dlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

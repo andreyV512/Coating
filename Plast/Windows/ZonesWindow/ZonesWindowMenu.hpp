@@ -40,9 +40,25 @@ namespace ZonesWindowMenu
 		> list;
 	};
 
+
+	struct Graph {};
+	MENU_TEXT(L"График", TopMenu<Graph>)
+		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		struct Axes : ZonesAxesDlg {};
+
+	MENU_ITEM(L"Оси графика", Axes)
+
+		template<>struct TopMenu<Graph>
+	{
+		typedef Vlst<
+			MenuItem<Axes>
+		> list;
+	};
+
 	typedef Vlst<
 		TopMenu<MainFile>
 		, TopMenu<MainOptionTypeSize>
+		, TopMenu<Graph>
 	> Menu;
 
 }

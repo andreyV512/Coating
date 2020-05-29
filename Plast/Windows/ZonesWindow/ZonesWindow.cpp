@@ -9,6 +9,8 @@
 
 #include "DspFilters/ChebyshevFiltre.hpp"
 
+#include "window_tool/TableIni.hpp"
+
 double data[32][100000];
 #define READ(type, val)	type val; fread(&val, sizeof(type), 1, f);
 int Load()
@@ -73,7 +75,6 @@ template<class O, class P>struct __init_radio_btn__
 	}
 };
 
-static const int cnt = 512;
 double *Filtre(double *d, int count);
 
 LRESULT ZonesWindow::operator()(TCreate &l)
@@ -108,6 +109,12 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 
 	offsetX = 0;
 	aScan.SetMouseMove(this, &ZonesWindow::MouseMove);
+
+	LoadIniTable nop(zoneAxes);
+
+	aScan.tchart.minAxesY = minAxesY;
+	aScan.tchart.maxAxesY = maxAxesY;
+
 	return 0;
 }
 
@@ -332,6 +339,13 @@ template<template<class>class type, template<class>class sub, class X, class P>s
 	}
 };
 
+ZonesWindow::ZonesWindow()
+	: cnt(zoneAxes.items.get<AxeXWidth>().value)
+	, maxAxesY(zoneAxes.items.get<AxeYTop>().value)
+	, minAxesY(zoneAxes.items.get<AxeYBottom>().value)
+{
+}
+
 double *ZonesWindow::Filtre(double *d, int count)
 {
 	//TstFiltersTable::TItems &xxx = Singleton<TstFiltersTable>::Instance().items;
@@ -386,6 +400,8 @@ void ZonesWindow::Update()
 	wchar_t *buf = aScan.label.buffer;
 	wsprintf(buf, L"<ff>смещение %d  датчик %d", currentOffset + offsetX, currentSensor);
 	aScan.tchart.items.get<LineSeries>().SetData(Filtre(&data[currentSensor][currentOffset], cnt), cnt);
+	aScan.tchart.minAxesY = minAxesY;
+	aScan.tchart.maxAxesY = maxAxesY;
 	RepaintWindow(aScan.hWnd);
 }
 

@@ -18,4 +18,5 @@
    DLG(TestLirDlg)
    DLG(UnitDlg)
    DLG(TstDspFiltrDlg)
+   DLG(ZonesAxesDlg)
 #undef DLG

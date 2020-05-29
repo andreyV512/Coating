@@ -236,6 +236,7 @@
     <ClInclude Include="..\Common\window_tool\Pass.h" />
     <ClInclude Include="..\Common\window_tool\RunExecute.h" />
     <ClInclude Include="..\Common\window_tool\SelectTypeSizeList.h" />
+    <ClInclude Include="..\Common\window_tool\TableIni.hpp" />
     <ClInclude Include="..\Common\window_tool\TEvent.h" />
     <ClInclude Include="..\Common\window_tool\WindowsPosition.h" />
     <ClInclude Include="App\App.h" />
@@ -268,6 +269,7 @@
     <ClInclude Include="Windows\Viewers\MainViewers\SensorViewer.h" />
     <ClInclude Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.h" />
     <ClInclude Include="Windows\Viewers\ZonesViewer\ZoneViewer.h" />
+    <ClInclude Include="Windows\ZonesWindow\ZonesAxes.h" />
     <ClInclude Include="Windows\ZonesWindow\ZonesWindow.h" />
     <ClInclude Include="Windows\ZonesWindow\ZonesWindowMenu.hpp" />
     <ClInclude Include="Windows\ZonesWindow\ZonesWindowToolBar.h" />
@@ -338,6 +340,7 @@
     <ClCompile Include="Dlg\TestLir.cpp" />
     <ClCompile Include="Dlg\TypeSizeDlg.cpp" />
     <ClCompile Include="Dlg\UnitDlg.cpp" />
+    <ClCompile Include="Dlg\ZonesWindowDlg.cpp" />
     <ClCompile Include="Plast.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanKeyHandler.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanWindow.cpp" />

@@ -38,7 +38,13 @@ template<class O, class P>struct __command__
 	}
 };
 
-template<class, class Table>struct TestPassword;
+template<class, class>struct TestPassword
+{
+	bool operator()(HWND h)
+	{
+		return true;
+	}
+};
 template<class Base, class Table, class T>struct __ok_table_btn__;
 
 struct OkBtn

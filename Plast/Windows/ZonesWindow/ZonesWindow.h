@@ -7,6 +7,7 @@
 #include "Windows/Viewers/ZonesViewer/ZoneViewer.h"
 #include "Windows/Viewers/ZonesViewer/AScanZoneViewer.h"
 #include "DspFilters/Filters.hpp"
+#include "Windows/ZonesWindow/ZonesAxes.h"
 
 class ZonesWindow
 {
@@ -22,6 +23,7 @@ public:
 	//};
 	//typedef Vlst<RadioBtn<0>, RadioBtn<1>, RadioBtn<2>> radio_btn_list;
 	//VL::Factory<radio_btn_list> radio_btns;
+	
 	int countSamples;
 	int currentOffset;
 	int currentSensor;
@@ -30,11 +32,16 @@ public:
 	HWND hStatuisBar;
 	ZonesWindowToolBar toolBar;
 
+	ZoneWindowsAxes zoneAxes;
+	int &cnt;
+	double &minAxesY, &maxAxesY;
 	FiltersTable::TItems locFltParams;
 
 	//SensorViewer sensor;
 	//ZoneViewer zone;
 	AScanZoneViewer aScan;
+
+	ZonesWindow();
 
 	double *Filtre(double *d, int count);
 
