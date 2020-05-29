@@ -12,6 +12,9 @@ public:
 	TMouseMove storedMouseMove;
 protected:
 	bool mouseMove;
+	struct XMouseMove {};
+	XMouseMove *objMouseMove;
+	void(XMouseMove::*ptrMouseMove)(int);
 public:
 	HWND hWnd;
 	Gdiplus::Bitmap *backScreen;
@@ -30,4 +33,10 @@ public:
 	void operator()(TMouseWell &);
 	void operator()(TLButtonDown &);
 	void operator()(TLButtonDbClk &);
+
+	template<class T>void SetMouseMove(T *t, void(T:: *ptr)(int))
+	{
+		objMouseMove = (XMouseMove *)t;
+		ptrMouseMove = (void(XMouseMove::*)(int))ptr;
+	}
 };

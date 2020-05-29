@@ -6,7 +6,7 @@
 #include <CommCtrl.h>
 #include "window_tool/ItemIni.h"
 #include "DspFilters/DspFiltrParams.h"
-#include "DspFilters/Filters.hpp"
+
 #include "DspFilters/ChebyshevFiltre.hpp"
 
 double data[32][100000];
@@ -78,7 +78,7 @@ double *Filtre(double *d, int count);
 
 LRESULT ZonesWindow::operator()(TCreate &l)
 {
-	memmove(&Singleton<TstFiltersTable>::Instance().items, &Singleton<FiltersTable>::Instance().items, sizeof(TstFiltersTable::TItems));
+	memmove(&locFltParams, &Singleton<FiltersTable>::Instance().items, sizeof(locFltParams));
 	Menu<ZonesWindowMenu::Menu>().Init(l.hwnd);
 	toolBar.Init(l.hwnd);
 
@@ -105,6 +105,9 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 	aScan.tchart.items.get<LineSeries>().SetData(Filtre(&data[currentSensor][currentOffset], cnt), cnt);
 	currentOffset = 0;
 	currentSensor = 0;
+
+	offsetX = 0;
+	aScan.SetMouseMove(this, &ZonesWindow::MouseMove);
 	return 0;
 }
 
@@ -186,24 +189,24 @@ template<template<class>class type, template<class>class sub>struct __sub_list__
 
 template<class O, class P>struct __test_param__
 {
-	bool operator()() { return true; }
+	bool operator()(P &) { return true; }
 };
 
 template<class P>struct __test_param__<CurrentFilter, P>
 {
-	bool operator()() { return Singleton<FiltersTable>::Instance().items.get<CurrentFilter>().value 
-		== Singleton<TstFiltersTable>::Instance().items.get<CurrentFilter>().value; }
+	bool operator()(P &p) { return Singleton<FiltersTable>::Instance().items.get<CurrentFilter>().value 
+		== p.locFltParams.get<CurrentFilter>().value; }
 };
 
 template<template<class>class type, template<class>class sub, class X, class P>struct __test_param__<type<sub<X>>, P>
 {
 	typedef type<sub<X>> O;
-	bool operator()()
+	bool operator()(P &p)
 	{
-		if (VL::IndexOf<type_flites_list, O>::value == Singleton<TstFiltersTable>::Instance().items.get<CurrentFilter>().value)
+		if (VL::IndexOf<type_flites_list, O>::value == p.locFltParams.get<CurrentFilter>().value)
 		{
-			return VL::find<typename __sub_list__<TstFiltersTable::items_list, type, sub>::Result, __test_sub__>()(
-				Singleton<TstFiltersTable>::Instance().items
+			return VL::find<typename __sub_list__<FiltersTable::items_list, type, sub>::Result, __test_sub__>()(
+				p.locFltParams
 				, Singleton<FiltersTable>::Instance().items
 				);
 		}
@@ -222,21 +225,21 @@ template<class O, class P>struct __save_sub__
 
 template<class O, class P>struct __save_param__
 {
-	void operator()() { }
+	void operator()(P &p) { }
 };
 
 template<template<class>class type, template<class>class sub, class X, class P>struct __save_param__<type<sub<X>>, P>
 {
 	typedef type<sub<X>> O;
-	void operator()()
+	void operator()(P &p)
 	{
-		if (VL::IndexOf<type_flites_list, O>::value == Singleton<TstFiltersTable>::Instance().items.get<CurrentFilter>().value)
+		if (VL::IndexOf<type_flites_list, O>::value == p.locFltParams.get<CurrentFilter>().value)
 		{
 			 Singleton<FiltersTable>::Instance().items.get<CurrentFilter>().value 
-				 = Singleton<TstFiltersTable>::Instance().items.get<CurrentFilter>().value;
-			 VL::foreach<typename __sub_list__<TstFiltersTable::items_list, type, sub>::Result, __save_sub__>()(
+				 = p.locFltParams.get<CurrentFilter>().value;
+			 VL::foreach<typename __sub_list__<FiltersTable::items_list, type, sub>::Result, __save_sub__>()(
 				Singleton<FiltersTable>::Instance().items
-				, Singleton<TstFiltersTable>::Instance().items
+				, p.locFltParams
 				);
 		}
 	}
@@ -244,11 +247,11 @@ template<template<class>class type, template<class>class sub, class X, class P>s
 
 void ZonesWindow::operator()(TClose &l)
 {
-	if ( !VL::find< TstFiltersTable::items_list, __test_param__>()())
+	if ( !VL::find< FiltersTable::items_list, __test_param__>()(*this))
 	{
 		if (IDYES == MessageBox(l.hwnd, L"Сохранить изменения!", L"Cообщение", MB_ICONQUESTION | MB_YESNO))
 		{
-			VL::foreach< FiltersTable::items_list, __save_param__>()();
+			VL::foreach< FiltersTable::items_list, __save_param__>()(*this);
 			CBase base(ParametersBase().name());
 			if (base.IsOpen())
 			{
@@ -301,8 +304,8 @@ struct __init_filtre_data__
 	char buf[2000];
 	FiltersTable::TItems &items;
 	IDSPFlt *filtre;
-	__init_filtre_data__()
-		: items(Singleton<TstFiltersTable>::Instance().items)
+	template<class P>__init_filtre_data__(P &p)
+		: items(p.locFltParams)
 		, filtre(&xfiltre)
 	{}
 };
@@ -329,11 +332,11 @@ template<template<class>class type, template<class>class sub, class X, class P>s
 	}
 };
 
-double *Filtre(double *d, int count)
+double *ZonesWindow::Filtre(double *d, int count)
 {
-	TstFiltersTable::TItems &xxx = Singleton<TstFiltersTable>::Instance().items;
+	//TstFiltersTable::TItems &xxx = Singleton<TstFiltersTable>::Instance().items;
 	memmove(xdata, d - 512, (count + 512) * sizeof(double));
-	__init_filtre_data__ data;
+	__init_filtre_data__ data(*this);
 	VL::foreach<type_flites_list, __init_filtre__>()(data);
 	for (int i = 0; i < count + 512; ++i)
 	{
@@ -381,7 +384,15 @@ void ZonesWindow::DownCursor(HWND h)
 void ZonesWindow::Update()
 {
 	wchar_t *buf = aScan.label.buffer;
-	wsprintf(buf, L"<ff>смещение %d  датчик %d", currentOffset, currentSensor);
+	wsprintf(buf, L"<ff>смещение %d  датчик %d", currentOffset + offsetX, currentSensor);
 	aScan.tchart.items.get<LineSeries>().SetData(Filtre(&data[currentSensor][currentOffset], cnt), cnt);
+	RepaintWindow(aScan.hWnd);
+}
+
+void ZonesWindow::MouseMove(int x)
+{
+	wchar_t *buf = aScan.label.buffer;
+	offsetX = x + 1;
+	wsprintf(buf, L"<ff>смещение %d  датчик %d", currentOffset + offsetX, currentSensor);
 	RepaintWindow(aScan.hWnd);
 }

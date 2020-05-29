@@ -23,3 +23,4 @@ LRESULT AScanZoneViewer::operator()(TCreate &l)
 	return 0;
 }
 
+

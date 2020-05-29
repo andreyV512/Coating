@@ -41,6 +41,7 @@ template<class T>struct __current_filtre_param_data__
 	T obj;
 	HWND h;
 	bool close;
+	ZonesWindow *w;
 };
 
 MIN_EQUAL_VALUE(Low<ChebI<Order>>, 1)
@@ -247,7 +248,7 @@ template<class O, class P>struct __Tst_ok_btn__
 		o.value.value = __data_from_widget__<O, typename VL::Inner<O>::Result::type_value>()(o);
 	}
 };
-
+struct TstFiltersTable : FiltersTable {};
 template<class Base>struct __ok_table_btn__<Base, TstFiltersTable, Vlst<>>
 {
 	template<class T>bool operator()(HWND h, T &t)
@@ -275,7 +276,7 @@ template<template<class>class X, template<class>class Y, class O, class P>struct
 				, __current_filtre_param_data__<TstFiltersTable>
 			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
 			{
-				VL::foreach<list, __copy__>()(p.obj.items, Singleton<TstFiltersTable>::Instance().items);
+				VL::foreach<list, __copy__>()(p.obj.items, p.w->locFltParams);
 			}
 			return false;
 		}
@@ -298,7 +299,7 @@ template<class P>struct __Tst_current_filtre_param__<CurrentFilter, P>
 				, __current_filtre_param_data__<TstFiltersTable>
 			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
 			{
-				VL::foreach<list, __copy__>()(p.obj.items, Singleton<TstFiltersTable>::Instance().items);
+				VL::foreach<list, __copy__>()(p.obj.items, p.w->locFltParams);
 			}
 			return false;
 		}
@@ -308,17 +309,18 @@ template<class P>struct __Tst_current_filtre_param__<CurrentFilter, P>
 
 void TstDspFiltrDlg::Do(HWND h)
 {
+	HWND hh = FindWindow(WindowClass<ZonesWindow>()(), 0);
+	if (NULL == hh)	 return;
+	ZonesWindow *w = ((ZonesWindow *)GetWindowLongPtr(hh, GWLP_USERDATA));
+
 	__current_filtre_param_data__<TstFiltersTable> data = {
-		Singleton<TstFiltersTable>::Instance()
+		w->locFltParams
 		, h
 		, false
+		, w
 	};
 	while (!data.close)
 		VL::find<__orders_list__, __Tst_current_filtre_param__>()(data);
-
-	HWND hh = FindWindow(WindowClass<ZonesWindow>()(), 0);
-	if (hh)
-	{
-		((ZonesWindow *)GetWindowLongPtr(hh, GWLP_USERDATA))->Update();
-	}
+	
+	w->Update();
 }

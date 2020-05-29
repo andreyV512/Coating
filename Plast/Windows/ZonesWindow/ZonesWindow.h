@@ -6,6 +6,7 @@
 #include "Windows/Viewers/MainViewers/SensorViewer.h"
 #include "Windows/Viewers/ZonesViewer/ZoneViewer.h"
 #include "Windows/Viewers/ZonesViewer/AScanZoneViewer.h"
+#include "DspFilters/Filters.hpp"
 
 class ZonesWindow
 {
@@ -24,13 +25,18 @@ public:
 	int countSamples;
 	int currentOffset;
 	int currentSensor;
+	int offsetX;
 	HWND hWnd;
 	HWND hStatuisBar;
 	ZonesWindowToolBar toolBar;
 
+	FiltersTable::TItems locFltParams;
+
 	//SensorViewer sensor;
 	//ZoneViewer zone;
 	AScanZoneViewer aScan;
+
+	double *Filtre(double *d, int count);
 
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
@@ -48,4 +54,6 @@ public:
 	void DownCursor(HWND h);
 
 	void Update();
+
+	void MouseMove(int);
 };

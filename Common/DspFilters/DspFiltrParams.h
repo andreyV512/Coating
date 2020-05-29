@@ -67,6 +67,6 @@ struct FiltersTable
 	const wchar_t* name() { return L"FiltersTable"; }
 };
 
-struct TstFiltersTable : FiltersTable {};
+
 
 

@@ -7,6 +7,8 @@ CommonSensorViewer::CommonSensorViewer()
 	, hWnd()
 	, currentX(0)
 	, mouseMove(true)
+	, objMouseMove(NULL)
+	, ptrMouseMove(NULL)
 {}
 
 CommonSensorViewer::~CommonSensorViewer()
@@ -81,6 +83,7 @@ void CommonSensorViewer::operator()(TMouseMove &l)
 			storedMouseMove = l;
 			int currentY = 0;
 			chart->CoordCell(l.x, l.y, currentX, currentY);
+			if (objMouseMove && ptrMouseMove) (objMouseMove->*ptrMouseMove)(currentX);
 		}
 	}
 }
@@ -98,6 +101,7 @@ void CommonSensorViewer::operator()(TMouseWell &l)
 	int currentY = 0;
 	chart->CellCoord(storedMouseMove.x, storedMouseMove.y, currentX, currentY);
 	cursor->CrossCursor(storedMouseMove, (VGraphics &)HDCGraphics(l.hwnd, backScreen));
+	if (objMouseMove && ptrMouseMove) (objMouseMove->*ptrMouseMove)(currentX);
 }
 
 void CommonSensorViewer::operator()(TLButtonDown &l)
