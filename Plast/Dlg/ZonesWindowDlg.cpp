@@ -26,5 +26,6 @@ void ZonesAxesDlg::Do(HWND h)
 	if (Dialog::Templ<ParametersIni, ZoneWindowsAxes
 	>(w->zoneAxes).Do(h, (wchar_t *)L"Оси графика"))
 	{
+		w->Update();
 	}
 }
