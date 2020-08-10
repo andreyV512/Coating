@@ -75,7 +75,7 @@ template<class O, class P>struct __init_radio_btn__
 	}
 };
 
-double *Filtre(double *d, int count);
+//double *Filtre(double *d, int count);
 
 LRESULT ZonesWindow::operator()(TCreate &l)
 {
