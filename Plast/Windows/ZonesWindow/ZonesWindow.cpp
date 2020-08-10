@@ -102,11 +102,6 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 	//zone.hWnd = CreateChildWindow(l.hwnd, (WNDPROC)&Viewer<ZoneViewer>::Proc, (wchar_t *)L"ZoneViewer", &zone);
 	aScan.hWnd = CreateChildWindow(l.hwnd, (WNDPROC)&Viewer<AScanZoneViewer>::Proc, (wchar_t *)L"AScanZoneViewer", &aScan);
 
-	countSamples = Load();
-	aScan.tchart.items.get<LineSeries>().SetData(Filtre(&data[currentSensor][currentOffset], cnt), cnt);
-	currentOffset = 0;
-	currentSensor = 0;
-
 	offsetX = 0;
 	aScan.SetMouseMove(this, &ZonesWindow::MouseMove);
 
@@ -114,6 +109,11 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 
 	aScan.tchart.minAxesY = minAxesY;
 	aScan.tchart.maxAxesY = maxAxesY;
+
+	countSamples = Load();
+	aScan.tchart.items.get<LineSeries>().SetData(Filtre(&data[currentSensor][currentOffset], cnt), cnt);
+	currentOffset = 0;
+	currentSensor = 0;
 
 	return 0;
 }

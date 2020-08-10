@@ -33,19 +33,19 @@ HWND MyCreateWindow(const wchar_t *windowClass, const wchar_t *title
 					, int width, int height  
 					)
 {
-	return CreateWindowEx(WS_EX_CLIENTEDGE, windowClass, title, style, x, y, width, height, hParent, NULL, (HINSTANCE)::GetModuleHandle(NULL), data);   
+	return CreateWindowEx(0, windowClass, title, style, x, y, width, height, hParent, NULL, (HINSTANCE)::GetModuleHandle(NULL), data);   
 }
 //----------------------------------------------------------------
 HWND CreateChildWindow(HWND hParent, WNDPROC WndProc, wchar_t *classStr, void *data)
 {
 	MyRegisterClass(WndProc, classStr, CS_DBLCLKS);
-	return CreateWindowEx(WS_EX_CLIENTEDGE, classStr, L"", WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, NULL, (HINSTANCE)::GetModuleHandle(NULL), data);  
+	return CreateWindowEx(0, classStr, L"", WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, NULL, (HINSTANCE)::GetModuleHandle(NULL), data);  
 }
 //-----------------------------------------------------------------------------------------------------
 HWND CreateChildWindowBackground(HWND hParent, WNDPROC WndProc, wchar_t *classStr, void *data)
 {
 	MyRegisterClass(WndProc, classStr, CS_DBLCLKS, NULL, NULL, (HBRUSH)COLOR_WINDOW);
-	return CreateWindowEx(WS_EX_CLIENTEDGE, classStr, L"", WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, NULL, (HINSTANCE)::GetModuleHandle(NULL), data);  
+	return CreateWindowEx(0, classStr, L"", WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, NULL, (HINSTANCE)::GetModuleHandle(NULL), data);  
 }
 //----------------------------------------------------------------------------------------------------
 void RepaintWindow(HWND h)

@@ -21,7 +21,7 @@ namespace App
 	{
 		Performance::Init();
 		AppBase().Init();
-#if 0
+#if 1
 		MainWindow& w = Singleton<MainWindow>::Instance();
 		//ZonesWindow &w = Singleton<ZonesWindow>::Instance();
 		RECT r;
