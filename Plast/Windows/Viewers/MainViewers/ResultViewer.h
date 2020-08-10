@@ -8,8 +8,8 @@ class ResultViewer : public CommonSensorViewer
 public:
 	typedef CommonSensorViewer Parent;
 	typedef ChartDraw< Chart, Vlst<
-		BottomAxesInt
-		, NoOffsetLeftAxes
+		NoOffsetLeftAxes
+		, BottomAxesInt
 		, BarSeriesDouble
 		, FixedGrid
 	> > TChart;
