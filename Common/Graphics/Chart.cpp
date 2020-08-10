@@ -80,16 +80,11 @@ void OffsetAxes(int offs, int length, double min, double max, double &digit, dou
 		}
 	}
 	double k[] = {1.0, 2.0, 5.0};
-	digit = k[0] * coeff;
-	tick =  offs * k[0] / dValue;
-	for(int i = 1; i < dimention_of(k); ++i)
+	for(int i = 0; i < dimention_of(k); ++i)
 	{
-		double t = offs * k[i] / dValue;
-		if(t < offs)
-		{
-			digit = k[i] * coeff;
-			tick =  t;
-		}
+		digit = k[i] * coeff;
+		tick = offs * k[i] / dValue;
+		if (tick > offs) break;
 	}
 	double rem = fmod(min, digit);
 	if(rem >= 0.0)
@@ -152,7 +147,7 @@ void LeftAxes::Draw()
 	double digit = 0;
 	double minTick = 0;
 	OffsetAxes(
-		int(height * 2)
+		int(height * 1.5)
 		, chart.rect.bottom - chart.rect.top - chart.offsetAxesBottom - chart.offsetAxesTop
 		, chart.minAxesY
 		, chart.maxAxesY
@@ -226,7 +221,7 @@ void BottomAxes::Draw()
     double digit = 0;
     double minTick = 0;
 	OffsetAxes(
-		int(3.2 * chart.GetCountDigit(minA, maxA, height, font))
+		chart.GetCountDigit(minA, maxA, height, font)
 		, chart.rect.right - chart.rect.left - chart.offsetAxesLeft - chart.offsetAxesRight
 		, chart.minAxesX
 		, chart.maxAxesX
@@ -315,7 +310,7 @@ void BottomAxesMeters::Draw()
     double digit = 0;
     double minTick = 0;
 	OffsetAxes(
-		int(1 * chart.GetCountDigit(0.001 * chart.minAxesX, 0.001 * chart.maxAxesX, height, font))
+		chart.GetCountDigit(0.001 * chart.minAxesX, 0.001 * chart.maxAxesX, height, font)
 		, chart.rect.right - chart.rect.left - chart.offsetAxesLeft - chart.offsetAxesRight
 		, minBorder
 		, maxBorder
@@ -386,7 +381,7 @@ void BottomAxesInt::Draw()
     double digit = 0;
     double minTick = 0;
 	OffsetAxes(
-		int(1.5 * chart.GetCountDigit(minA, maxA, height, font))
+		chart.GetCountDigit(minA, maxA, height, font)
 		, chart.rect.right - chart.rect.left - chart.offsetAxesLeft - chart.offsetAxesRight
 		, chart.minAxesX
 		, chart.maxAxesX

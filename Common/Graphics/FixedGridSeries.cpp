@@ -191,7 +191,7 @@ void NoOffsetLeftAxes::Draw()
 	double digit = 0;
 	double minTick = 0;
 	OffsetAxes(
-		int(height * 3)
+		int(height * 1.5)
 		, chart.rect.bottom - chart.rect.top - chart.offsetAxesBottom - chart.offsetAxesTop
 		, chart.minAxesY
 		, chart.maxAxesY
