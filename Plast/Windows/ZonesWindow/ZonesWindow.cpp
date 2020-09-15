@@ -119,7 +119,6 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 void ZonesWindow::operator()(TDestroy &l)
 {
 	SetWindowLongPtr(l.hwnd, GWLP_USERDATA, 0);
-	PostQuitMessage(0);
 	delete this;
 }
 

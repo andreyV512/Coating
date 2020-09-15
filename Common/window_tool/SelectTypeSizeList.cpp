@@ -38,7 +38,7 @@ void SelectTypeSizeList::Create(HWND h)
 		, WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST|CBS_AUTOHSCROLL |WS_VSCROLL 
 		, 0, 0, 0, 0, h, 0, (HINSTANCE)::GetModuleHandle(NULL), 0
 		);
-	SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG)this);
+	SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)this);
 	HFONT font = CreateFont(40,0,0,90,900,TRUE,0,0,ANSI_CHARSET,0,0,0,0, L"Times New Roman"); 
 	SendMessage(hWnd, WM_SETFONT, (WPARAM)font, (LPARAM)0);
 	FillSelect(hWnd);

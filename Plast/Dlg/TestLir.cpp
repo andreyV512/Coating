@@ -207,7 +207,7 @@ void TestLirDlg::Do(HWND)
 			, (HBRUSH)COLOR_WINDOW
 		);
 
-		DWORD dwStyle = GetWindowLongPtr(h, GWL_STYLE);
+		LONG_PTR dwStyle = GetWindowLongPtr(h, GWL_STYLE);
 		dwStyle &= ~(WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_THICKFRAME);
 		SetWindowLongPtr(h, GWL_STYLE, dwStyle);
 		ShowWindow(h, SW_SHOWNORMAL);

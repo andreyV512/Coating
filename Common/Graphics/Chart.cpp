@@ -79,7 +79,7 @@ void OffsetAxes(int offs, int length, double min, double max, double &digit, dou
 			coeff *= 0.1f;
 		}
 	}
-	double k[] = {1.0, 2.0, 5.0};
+	double k[] = {2.0, 5.0, 10.0};
 	for(int i = 0; i < dimention_of(k); ++i)
 	{
 		digit = k[i] * coeff;
