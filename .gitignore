@@ -8,3 +8,5 @@ Debug/
 /tests/filters/x64/
 /x64/
 *.suo
+/Plast/Version.h
+/Plast/NumVerOld.txt

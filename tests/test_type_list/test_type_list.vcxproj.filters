@@ -13,18 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="MessageText">
+      <UniqueIdentifier>{a134dc80-b7a0-456b-a506-a43c38288917}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test_type_list.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="status.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="..\..\CommonApp\MessageText\status.cpp">
+      <Filter>MessageText</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="status.h">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="..\..\CommonApp\MessageText\status.h">
+      <Filter>MessageText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\CommonApp\MessageText\status.hpp">
+      <Filter>MessageText</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

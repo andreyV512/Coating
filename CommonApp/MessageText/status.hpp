@@ -68,15 +68,15 @@ namespace ZoneStatus
 		static const bool value = false;
 	};
 
-	template<class List>struct Skip;
+	template<class List, class testList = List>struct Skip;
 
-	template<class Head, class ...Tail>struct Skip<Vlst<Head, Tail...>>
+	template<class testList, class Head, class ...Tail>struct Skip<Vlst<Head, Tail...>, testList>
 	{
 		typedef typename SkipList<Head, __skip_list__>::Result skipList;
-		static const bool value = ÑrossLists<Vlst<Tail...>, skipList>::value || Skip<Vlst<Tail...>>::value;
+		static const bool value = ÑrossLists<testList, skipList>::value || Skip<Vlst<Tail...>, testList>::value;
 	};
 
-	template<>struct Skip<Vlst<>>
+	template<class testList>struct Skip<Vlst<>, testList>
 	{
 		static const bool value = false;
 	};

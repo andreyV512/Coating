@@ -2,12 +2,6 @@
 #include "templates/typelist.hpp"
 #include "App/AppBase.h"
 
-//struct Norm {};
-//struct noBottomReflection {};
-//struct defect {};
-//struct deadZone {};
-//struct SensorOff {};
-
 typedef Vlst<Norm, noBottomReflection, defect, deadZone, SensorOff > zone_status_list;
 
 typedef Vlst<
@@ -24,5 +18,4 @@ namespace StatusData
 	unsigned  Color(unsigned char id);
 
 	void UpdateColor();
-	void Test();
 };

@@ -1,5 +1,7 @@
 #include "status.h"
 #include "status.hpp"
+#include <typeinfo>
+#include <stdio.h>
 #include "DlgTemplates/ParamDlg.hpp"
 
 namespace ZoneStatus
@@ -30,7 +32,7 @@ namespace ZoneStatus
 			VL::foreach<status_list, inner>()(d);
 		}
 	};
-	 //Vlst<Norm, noBottomReflection, defect, deadZone, SensorOff > zone_status_list;
+
 	PARAM_TITLE(Vlst<Norm>, L"Норма")
 		PARAM_TITLE(Vlst<noBottomReflection>, L"Нет донного отражения")
 		PARAM_TITLE(Vlst<defect>, L"Дефект")
@@ -66,13 +68,6 @@ namespace ZoneStatus
 			VL::foreach<status_list, init_mess>()(mess);			
 		}
 	} init;
-	template<class O, class P>struct __print__
-	{
-		void operator()(P &p)
-		{
-			printf("%d %s\n\n", p++, typeid(O).name());
-		}
-	};
 }
 
 namespace StatusData
@@ -96,11 +91,6 @@ namespace StatusData
 	void UpdateColor()
 	{
 		VL::foreach<ZoneStatus::status_list, ZoneStatus::init_color>()(ZoneStatus::color);
-	}
-	void Test()
-	{
-		int t = 0;
-		VL::foreach<ZoneStatus::status_list, ZoneStatus::__print__>()(t);
 	}
 }
 
