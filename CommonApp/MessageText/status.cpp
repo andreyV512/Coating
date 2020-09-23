@@ -1,5 +1,6 @@
 #include "status.h"
 #include "status.hpp"
+#include "DlgTemplates/ParamDlg.hpp"
 
 namespace ZoneStatus
 {
@@ -29,20 +30,78 @@ namespace ZoneStatus
 			VL::foreach<status_list, inner>()(d);
 		}
 	};
+	 //Vlst<Norm, noBottomReflection, defect, deadZone, SensorOff > zone_status_list;
+	PARAM_TITLE(Vlst<Norm>, L"Норма")
+		PARAM_TITLE(Vlst<noBottomReflection>, L"Нет донного отражения")
+		PARAM_TITLE(Vlst<defect>, L"Дефект")
+		PARAM_TITLE(Vlst<deadZone>, L"Мертвая зона")
+		PARAM_TITLE(Vlst<SensorOff>, L"Датчик отключен")
+		PARAM_TITLE_LIST(Vlst, L"Дефект и нет донного отражения", noBottomReflection, defect)
+
+		wchar_t *mess[VL::Length<status_list>::value];
+	unsigned color[VL::Length<status_list>::value];
+
+	template<class O, class P>struct init_mess
+	{
+		void operator()(P &p) 
+		{
+			p[VL::IndexOf<status_list, O>::value] = ParamTitle<O>()();
+		}
+	};
+
+	template<class O, class P>struct init_color;
+	template<template<class ...>class W, class ...X, class P>struct init_color<W<X...>, P>
+	{
+		void operator()(P &p)
+		{
+			p[VL::IndexOf<status_list, W<X...>>::value] = Singleton<ColorTable>::Instance().items.get<Clr<X...>>().value;
+		}
+	};
+
+	struct InitStatus
+	{
+		InitStatus()
+		{
+			VL::foreach<status_list, outer>()(st);
+			VL::foreach<status_list, init_mess>()(mess);			
+		}
+	} init;
+	template<class O, class P>struct __print__
+	{
+		void operator()(P &p)
+		{
+			printf("%d %s\n\n", p++, typeid(O).name());
+		}
+	};
 }
 
-Status::Status()
+namespace StatusData
 {
-	VL::foreach<ZoneStatus::status_list, ZoneStatus::outer>()(ZoneStatus::st);
-}
-unsigned char Status::operator()(unsigned char s0, unsigned char s1)
-{
-	return ZoneStatus::st[s0][s1];
-}
+	unsigned char Compute(unsigned char s0, unsigned char s1)
+	{
+		return ZoneStatus::st[s0][s1];
+	}
 
-void Status::Text(unsigned char id, unsigned &color, wchar_t *&txt)
-{
+	void Text(unsigned char id, unsigned &color, const wchar_t *&txt)
+	{
+		color = ZoneStatus::color[id];
+		txt = ZoneStatus::mess[id];
+	}
 
+	unsigned Color(unsigned char id)
+	{
+		return ZoneStatus::color[id];
+	}
+
+	void UpdateColor()
+	{
+		VL::foreach<ZoneStatus::status_list, ZoneStatus::init_color>()(ZoneStatus::color);
+	}
+	void Test()
+	{
+		int t = 0;
+		VL::foreach<ZoneStatus::status_list, ZoneStatus::__print__>()(t);
+	}
 }
 
 

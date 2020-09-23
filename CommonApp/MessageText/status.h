@@ -1,25 +1,28 @@
 #pragma once
 #include "templates/typelist.hpp"
+#include "App/AppBase.h"
 
-struct Norm {};
-struct noBottomReflection {};
-struct defect {};
-struct deadZone {};
-struct SensorOff {};
+//struct Norm {};
+//struct noBottomReflection {};
+//struct defect {};
+//struct deadZone {};
+//struct SensorOff {};
 
 typedef Vlst<Norm, noBottomReflection, defect, deadZone, SensorOff > zone_status_list;
 
 typedef Vlst<
-	Vlst<Norm, noBottomReflection, defect, deadZone, SensorOff>
-	, Vlst<noBottomReflection, deadZone, SensorOff>
-	, Vlst<defect, deadZone, SensorOff>
-	, Vlst<deadZone, SensorOff>
+	Vlst<SensorOff, Norm, noBottomReflection, defect, deadZone>
+	, Vlst<Norm, noBottomReflection, defect, deadZone>
+	, Vlst<noBottomReflection, deadZone>
+	, Vlst<defect, deadZone>
 > __skip_list__;
 
-class Status
+namespace StatusData
 {	
-public:
-	Status();
-	unsigned char operator()(unsigned char s0, unsigned char s1);
-	void Text(unsigned char id, unsigned &color, wchar_t *&txt);
+	unsigned char Compute(unsigned char s0, unsigned char s1);
+	void Text(unsigned char id, unsigned &color, const wchar_t *&txt);
+	unsigned  Color(unsigned char id);
+
+	void UpdateColor();
+	void Test();
 };

@@ -19,7 +19,7 @@ namespace Data
 		int count;
 		double minData[App::count_zones];
 		double maxData[App::count_zones];
-		unsigned char satatus[App::count_zones];
+		unsigned char status[App::count_zones];
 	};
 
 	struct InputData

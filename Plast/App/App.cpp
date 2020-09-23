@@ -15,12 +15,15 @@
 #include "Windows/ZonesWindow/ZonesWindow.h"
 #include "window_tool/ItemIni.h"
 #include "window_tool/OpenWindow.hpp"
+#include "MessageText/status.h"
+
 namespace App
 {
 	void Init()
 	{
 		Performance::Init();
 		AppBase().Init();
+		StatusData::UpdateColor();
 #if 1
 		MainWindow& w = Singleton<MainWindow>::Instance();
 		//ZonesWindow &w = Singleton<ZonesWindow>::Instance();

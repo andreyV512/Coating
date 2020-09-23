@@ -1,4 +1,6 @@
 #include "status.h"
+#include <typeinfo>
+#include <stdio.h>
 
 namespace ZoneStatus
 {
@@ -194,6 +196,21 @@ Status::Status()
 unsigned char Status::operator()(unsigned char s0, unsigned char s1)
 {
 	return ZoneStatus::st[s0][s1];
+}
+
+template<class O, class P>struct __print__
+{
+	void operator()(P &p)
+	{
+		printf("%d %s\n\n", p++, typeid(O).name());
+	}
+};
+
+
+void Status::Test()
+{
+	int t = 0;
+	VL::foreach<ZoneStatus::status_list, __print__>()(t);
 }
 
 

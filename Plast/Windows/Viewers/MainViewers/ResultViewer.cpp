@@ -1,6 +1,7 @@
 #include "ResultViewer.h"
 #include "templates/templates.hpp"
 #include "Windows/MainWindow/MainWindow.h"
+#include "MessageText/status.h"
 
 ResultViewer::ResultViewer()
 	: tchart(backScreen)
@@ -52,7 +53,7 @@ bool ResultViewer::GetColorCell(int zone, double &maxVal, unsigned &maxColor, do
 {
 	maxVal = data.maxData[zone];
 	minVal = data.minData[zone];
-	minColor = zone % 2 ? 0xff00ff00 : 0xff0000ff;
+	minColor = StatusData::Color(data.status[zone]);
 	maxColor = SetMinColor(minColor);
 	return zone < data.count;
 }
@@ -65,9 +66,8 @@ bool ResultViewer::Draw(TMouseMove &l, VGraphics &g)
 	if (drawZones)
 	{
 		unsigned color = 0xff;
-		wchar_t s[256] = L" ok test status";
-		//char st = buffer.status[x];
-		//StatusText()(st, color, s);
+		const wchar_t *s = NULL;
+		StatusData::Text(data.status[x], color, s);
 
 		Wchar_from<double, 1> Y(data.minData[x]);
 

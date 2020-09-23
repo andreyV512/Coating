@@ -562,6 +562,9 @@ struct ShowItem
 #define PARAM_TITLE(type, name)template<>struct ParamTitle<type>\
 {wchar_t *operator()(){return (wchar_t *)name;}};
 
+#define PARAM_TITLE_LIST(type, name, ...)template<>struct ParamTitle<type<__VA_ARGS__>>\
+{wchar_t *operator()(){return (wchar_t *)name;}};
+
 #define TEMPL_MIN_EQUAL_VALUE(sub_type, value)template<template<class>class W>struct LessEqual<W<sub_type>>\
 {typename W<sub_type>::type_value operator()(){return value;}};
 #define TEMPL_MAX_EQUAL_VALUE(sub_type, value)template<template<class>class W>struct LargenEqual<W<sub_type>>\

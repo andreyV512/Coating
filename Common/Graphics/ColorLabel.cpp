@@ -62,10 +62,10 @@ struct __ColorLabel__
 			}
 			else switch(c)
 			{
+		       case '>': Txt(); return;
 	           case 'l': Sys(left);return;
 	           case 't': Sys(top);return;
 	           case 'n': Sys(fontHeight);return;
-			   case '>': Txt(); return;
 			}
 		}	
 	}
@@ -81,10 +81,10 @@ struct __ColorLabel__
 			}			
 			else switch(c)
 			{
+			   case '>': Txt(); return;
 	           case 'l': Sys(left);return;
 	           case 't': Sys(top);return;
 	           case 'n': Sys(fontHeight);return;
-			   case '>': Txt(); return;
 			}
 		}	
 	}
@@ -102,10 +102,7 @@ struct __ColorLabel__
 			}
 		}
 	}
-	inline int Change(int &d)
-	{	
-		return((d & 0xff000000) == 0) ? d |= 0xff000000 : d;
-	} 
+	
 	void SubStr()
 	{
 		point[offs].y = buf - startChar - 1;
@@ -121,7 +118,7 @@ struct __ColorLabel__
 			int len = int(point[i].y - point[i].x);
 			if(len > 0)
 			{
-				Color fc(Change(point[i].color));
+				Color fc(point[i].color | 0xff000000);
 				SolidBrush brushFontColor(fc);
 				wchar_t *s = &startChar[point[i].x];
 				g.MeasureString(s, len, &font, origin, &format, &rect);    

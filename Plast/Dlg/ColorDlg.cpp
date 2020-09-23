@@ -3,6 +3,7 @@
 #include "templates/typelist.hpp"
 #include <GdiPlus.h>
 #include "window_tool/DlgFiles.h"
+#include "MessageText/status.h"
 
 namespace {
 	struct DefaultBtn;
@@ -137,7 +138,7 @@ PARAM_TITLE(n<__VA_ARGS__>, txt)
 				if (base.IsOpen())
 				{
 					ColorTable color;
-					UpdateWhere<ColorTable>(color, base).ID(1).Execute();
+					UpdateWhere<ColorTable>(color, base).ID(__id__).Execute();
 					CopyFromTo(color.items, Singleton<ColorTable>::Instance().items);
 				}
 				EndDialog(h, FALSE);
@@ -154,6 +155,7 @@ void ColorDlg::Do(HWND h)
 	if (ClrDlg(color).Do(h, (wchar_t *)L"Цвета"))
 	{
 		CopyFromTo(color.items, Singleton<ColorTable>::Instance().items);
+		StatusData::UpdateColor();
 	}
 }
 

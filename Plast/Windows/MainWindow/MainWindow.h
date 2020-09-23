@@ -15,7 +15,7 @@ public:
 	public:
 		typedef SensorViewer Parent;
 		Sens() 
-			: SensorViewer(&Singleton<Data::Sensor<N>>::Instance().data)
+			: SensorViewer(Singleton<Data::Sensor<N>>::Instance().data)
 		{ numSensor = N; }
 	};
 	typedef Vlst<Sens<0>, Sens<1>, Sens<2>, ResultViewer>viewers_list;

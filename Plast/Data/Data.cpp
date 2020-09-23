@@ -13,6 +13,7 @@ namespace Data
 				for (int i = 0; i < t.count; ++i)
 				{
 					t.data[i] = rand() % 10;
+					t.status[i] = rand() % 6;
 				}
 			}
 			{
@@ -21,6 +22,7 @@ namespace Data
 				for (int i = 0; i < t.count; ++i)
 				{
 					t.data[i] = rand() % 10;
+					t.status[i] = rand() % 6;
 				}
 			}
 			{
@@ -29,6 +31,7 @@ namespace Data
 				for (int i = 0; i < t.count; ++i)
 				{
 					t.data[i] = rand() % 10;
+					t.status[i] = rand() % 6;
 				}
 			}
 			{
@@ -38,7 +41,7 @@ namespace Data
 				{
 					t.maxData[i] = rand() % 10;
 					t.minData[i] = 0.8 * t.maxData[i];
-					t.satatus[i] = rand() % 5;
+					t.status[i] = rand() % 6;
 				}
 			}
 			{
@@ -68,14 +71,6 @@ namespace Data
 				}
 				unsigned f = 0;
 				double l = 0;
-				//for (int i = 1; i < dimention_of(t.offsetFrames); ++i)
-				//{
-				//	int r = rand();
-				//	t.offsetFrames[i] = f;
-				//	f += 986 * 3 * 100;
-				//	t.offsetsLir[i] = l;
-				//	l += 17.0 + (r % 6);
-				//}
 			}
 		}
 	} x;

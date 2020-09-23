@@ -16,9 +16,9 @@ public:
 	TChart tchart;
 	Cursor tcursor;
 	int numSensor;
-	Data::SensorData *data;
+	Data::SensorData &data;
 
-	SensorViewer(Data::SensorData *);
+	SensorViewer(Data::SensorData &);
 
 	bool Draw(TMouseMove &, VGraphics &);
 	bool GetColorCell(int zone, double &data, unsigned &color);
