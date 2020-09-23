@@ -300,8 +300,9 @@ void ZonesWindow::ChangeSensor(int id)
 	//	ItemIni::Set((wchar_t *)L"ZonesWindow", (wchar_t *)L"SelectedSensor", id, path);
 	//}
 }
-double xdata[2048];
 
+double xdata[2048];
+/*
 struct __init_filtre_data__
 {
 	IDSPFlt xfiltre;
@@ -313,7 +314,7 @@ struct __init_filtre_data__
 		, filtre(&xfiltre)
 	{}
 };
-
+ */
 template<int A, int B, bool>struct A_above_B;
 template<int A, int B>struct A_above_B<A, B, true> {};
 
@@ -345,14 +346,14 @@ ZonesWindow::ZonesWindow()
 
 double *ZonesWindow::Filtre(double *d, int count)
 {
-	//TstFiltersTable::TItems &xxx = Singleton<TstFiltersTable>::Instance().items;
-	memmove(xdata, d - 512, (count + 512) * sizeof(double));
-	__init_filtre_data__ data(*this);
-	VL::foreach<type_flites_list, __init_filtre__>()(data);
-	for (int i = 0; i < count + 512; ++i)
-	{
-		xdata[i] = (*data.filtre)(xdata[i]);
-	}
+	////TstFiltersTable::TItems &xxx = Singleton<TstFiltersTable>::Instance().items;
+	//memmove(xdata, d - 512, (count + 512) * sizeof(double));
+	//__init_filtre_data__ data(*this);
+	//VL::foreach<type_flites_list, __init_filtre__>()(data);
+	//for (int i = 0; i < count + 512; ++i)
+	//{
+	//	xdata[i] = (*data.filtre)(xdata[i]);
+	//}
 	return &xdata[512];
 }
 void ZonesWindow::LeftCursor(HWND h)

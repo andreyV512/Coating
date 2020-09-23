@@ -107,9 +107,8 @@ private:
 		{
 			o.himl = ImageList_Create(Height, Height, ILC_COLOR24|ILC_COLORDDB|ILC_MASK, VL::Length<only_buttons_list>::value, 0);
 			VL::foreach<list, loc>()(o);
-			//TBSTYLE_FLAT |/*| CCS_ADJUSTABLE*/  CCS_NODIVIDER | WS_CHILD | WS_VISIBLE
 			return  CreateToolbarEx(hwnd, TBSTYLE_FLAT | WS_CHILD | WS_VISIBLE
-				, (LONG_PTR)o.tbb
+				, (UINT)(LONG_PTR)o.tbb
 				, VL::Length<typename O::list>::value, (HINSTANCE)::GetModuleHandle(NULL), NULL
 				, (TBBUTTON *)o.tbb, VL::Length<typename O::list>::value,0,0,0,0, sizeof(TBBUTTON)
 				);

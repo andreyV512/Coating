@@ -8,7 +8,7 @@ class Lan
 	struct TObj {};
 	TObj *obj;
 	int(TObj:: *ptr)(char *&);
-	void(TObj:: *confirmPtr)(int);
+	void(TObj:: *confirmPtr)(unsigned);
 	RshDllClient Client;
 public:
 	IRshDevice *device1, *device2;
@@ -27,10 +27,10 @@ public:
 
 	void Frame(IRshDevice *);
 
-	template<class T>void SetHandler(T *t, int(T:: *p)(char *&), void(T:: *c)(int))
+	template<class T>void SetHandler(T *t, int(T:: *p)(char *&), void(T:: *c)(unsigned))
 	{
 		obj = (TObj *)t;
 		ptr = (int(TObj:: *)(char *&))p;
-		confirmPtr = (void(TObj::*)(int))c;
+		confirmPtr = (void(TObj::*)(unsigned))c;
 	}
 };

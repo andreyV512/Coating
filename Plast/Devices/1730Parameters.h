@@ -4,6 +4,7 @@
 DEFINE_PARAM(iCU, unsigned, 1 << 0) //цепи управления
 DEFINE_PARAM(iIn, unsigned, 1 << 1)
 DEFINE_PARAM(iOut, unsigned, 1 << 2)
+DEFINE_PARAM(iStrobe, unsigned, 1 << 3)				 
 
 struct InputBitsTable
 {
@@ -11,6 +12,7 @@ struct InputBitsTable
 		iCU
 		, iIn
 		, iOut
+		, iStrobe
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;

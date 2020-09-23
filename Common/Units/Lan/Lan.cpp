@@ -43,7 +43,7 @@ bool Lan::Err(U32 err, wchar_t(&str)[256])
 	//char str[256];
 	unsigned xerr = err & ~0xffff;
 	wsprintf(str, L"%x ", xerr);
-	int len = wcslen(str);
+	int len = (int)wcslen(str);
 	U32 res = RshError::GetErrorDescription(xerr, &str[len], 256 - len);
 	if (RSH_API_SUCCESS != res)
 	{
@@ -51,7 +51,7 @@ bool Lan::Err(U32 err, wchar_t(&str)[256])
 	}
 	xerr = err & 0xffff;
 	wsprintf(str, L"%x ", xerr);
-	len = wcslen(str);
+	len = (int)wcslen(str);
 	res = RshError::GetSystemErrorDescription(xerr, &str[len], 256 - len);
 	return RSH_API_SUCCESS != res;
 }
@@ -94,7 +94,7 @@ void Lan::Frame(IRshDevice *d)
 		st = d->GetData(&buf);
 		if (RSH_API_SUCCESS == st)
 		{
-			(obj->*confirmPtr)(buf.m_size);
+			(obj->*confirmPtr)((unsigned)buf.m_size);
 		}
 		else
 		{

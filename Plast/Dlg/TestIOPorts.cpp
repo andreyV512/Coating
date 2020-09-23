@@ -21,6 +21,7 @@ namespace TestIOPortsN
 	iCU\
 	, iIn \
 	, iOut  \
+	, iStrobe  
 
 #define OUTPUT_STAT_TYPES_0\
 	oAutomat   \
@@ -45,11 +46,13 @@ namespace TestIOPortsN
 		PARAM_TITLE(InpStat<iCU     >, L"Сигнал ЦЕПИ УПРАВЛЕНИЯ")
 		PARAM_TITLE(InpStat<iIn >, L"Труба на входе")
 		PARAM_TITLE(InpStat<iOut >, L"Труба на выходе")
+		PARAM_TITLE(InpStat<iStrobe >, L"Строб")
 
 		typedef GROUP_BOX(
 		InpStat<iCU     >
 		, InpStat<iIn >
 		, InpStat<iOut >
+		, InpStat<iStrobe >
 		) GBInput;
 	PARAM_TITLE(GBInput , L"Вход")
 
@@ -163,19 +166,6 @@ class TestIOWindow
 		}
 	};
 
-	//template<class T>struct __block_bit__
-	//{
-	//	template<class Owner>bool operator()(Owner *o, HWND h, bool b)
-	//	{
-	//		return DisableCheckItem<typename __test_bit__<T>::Result>()(o, h, b);
-	//	}
-	//};
-
-	//template<class T>struct __test_bit__{typedef NullType Result;};
-	//
-	//template<>struct __test_bit__<oDC_ON1>{typedef oAC_ON Result;};
-	//template<>struct __test_bit__<oAC_ON>{typedef oDC_ON1 Result;};
-
 	template<class T>class CheckBox: public TEvent
 	{
 		TestIOWindow *owner;
@@ -186,8 +176,7 @@ class TestIOWindow
 			typedef VL::Inner<VL::Inner<T>::Result>::Result Tbit;
 			unsigned bit = Singleton<OutputBitsTable>::Instance().items.get<Tbit>().value;
 			bool b = BST_CHECKED == Button_GetCheck(l.hControl);
-			//bool b_enabled = __block_bit__<Tbit>()(owner, l.hControl, b);
-			if(b)// && b_enabled)
+			if(b)
 			{
 				device1730.WriteOutput(bit);
 			}

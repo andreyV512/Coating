@@ -12,7 +12,7 @@ namespace Data
 				t.count = 50;
 				for (int i = 0; i < t.count; ++i)
 				{
-					t.outputData[i] = rand() % 10;
+					t.data[i] = rand() % 10;
 				}
 			}
 			{
@@ -20,7 +20,7 @@ namespace Data
 				t.count = 50;
 				for (int i = 0; i < t.count; ++i)
 				{
-					t.outputData[i] = rand() % 10;
+					t.data[i] = rand() % 10;
 				}
 			}
 			{
@@ -28,7 +28,7 @@ namespace Data
 				t.count = 50;
 				for (int i = 0; i < t.count; ++i)
 				{
-					t.outputData[i] = rand() % 10;
+					t.data[i] = rand() % 10;
 				}
 			}
 			{
@@ -68,14 +68,14 @@ namespace Data
 				}
 				unsigned f = 0;
 				double l = 0;
-				for (int i = 1; i < dimention_of(t.offsetFrames); ++i)
-				{
-					int r = rand();
-					t.offsetFrames[i] = f;
-					f += 986 * 3 * 100;
-					t.offsetsLir[i] = l;
-					l += 17.0 + (r % 6);
-				}
+				//for (int i = 1; i < dimention_of(t.offsetFrames); ++i)
+				//{
+				//	int r = rand();
+				//	t.offsetFrames[i] = f;
+				//	f += 986 * 3 * 100;
+				//	t.offsetsLir[i] = l;
+				//	l += 17.0 + (r % 6);
+				//}
 			}
 		}
 	} x;

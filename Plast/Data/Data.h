@@ -5,7 +5,7 @@ namespace Data
 	struct SensorData
 	{
 		int count;
-		double outputData[App::count_zones];
+		double data[App::count_zones];
 		char status[App::count_zones];
 	};
 
@@ -26,12 +26,11 @@ namespace Data
 	{
 		static const int buffSize = 10 * 120 * 100 * 986 * App::count_sensors;
 		static const int sensorBuffSize = buffSize / 986 / App::count_sensors;
-		int countFrames;
+		unsigned framesCount, strobesTickCount, offsetsTickCount;
 		char buffer[buffSize];
 		double result[App::count_sensors][sensorBuffSize];
 		char status[App::count_sensors][sensorBuffSize];
-		double startOffsetLir;
-		int offsetFrames[2000];
-		double offsetsLir[2000];
+		unsigned strobesTick[1000];
+		unsigned offsetsTick[2000];
 	};
 }

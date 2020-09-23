@@ -14,20 +14,20 @@ class LanDevice
 	int numberPackets;
 	int packetSize;
 	Data::InputData &data;
-	class Lir &lir;
+//	class Lir &lir;
 	class Lan &lan;
 public:
-	LanDevice(int);
+	LanDevice();
 	int Buff(char *&);
-	void Confirm(int);
+	void Confirm(unsigned);
 };
 
 class CollectionData
 {	
 	LanDevice device;
 public:	
-	CollectionData(int);
+	CollectionData();
 	~CollectionData();
 
-	void ChangeLir();
+	//void ChangeLir();
 };

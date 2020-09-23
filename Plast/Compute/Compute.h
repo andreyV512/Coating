@@ -1,33 +1,42 @@
 #pragma once
 #include "App/App.h"
-namespace Data { struct InputData; }
+#include "DspFilters/Filters.hpp"
+#include "MedianFiltre/MedianFiltre.h"
 
-/*
-INFO Вычисление результата контроля
-перед сбором данных вызвать:
- -Start
- -StartStrobes - вычисляет начало прутка с учётом смещения датчика 
- -Strobes - вычисляет разбиение собранных данных АЦП по зонам относительно лира.
- если зона добаляется функция возвращаен true 
-*/
+namespace Data
+{ 
+	struct SensorData;
+	struct InputData; 
+}
+
 class Compute
 {
-	Data::InputData &inputData;
-	int packetSize;
-	int numberPackets;
-	double start;
-	int offsetLir;
-	int offsetFrames;
-	int offsetSensorBegMM, offsetSensorEndMM;
-public:
-	int countZones;
+	Data::InputData &data;
+	unsigned packetSize, numberPackets, framesCount, strobesTickCount, offsetsTickCount, zoneOffsetsIndex;
+	IDSPFlt dspFilt;
+	VL::Factory<filters_list> factoryFilters[App::count_sensors];
+	IDSPFlt *filters[App::count_sensors];
+
+	MedianFiltre median[App::count_sensors];
+	double(MedianFiltre:: *medianProc)(double, char &);
+
 	int zoneOffsets[1 + App::count_zones];
+	Data::SensorData *sensorData[App::count_sensors];
+
+	int offsAlarmStart, offsAlarmStop;
+	double gainAlarmOffs, gainAlarmDelta, threshAlarm;
+
+	int offsReflectionStart, offsReflectionStop;
+	double gainReflectionOffs, gainReflectionDelta, threshReflection;
+public:
+	
 	Compute();
 
-	bool StartStrobes();
+	void Start();
+
 	bool Strobes();
-	void Frames();
-	void ComputeFrame(int sensor, int zone, char *data);
+	void Zone(int zone, int sens);
+	void ComputeFrame(int sensor, char *, double &value, char &status);
 	void ComputeZone(int zone);
 	void Update();
 	void Done();

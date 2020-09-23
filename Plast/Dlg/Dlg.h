@@ -19,4 +19,7 @@
    DLG(UnitDlg)
    DLG(TstDspFiltrDlg)
    DLG(ZonesAxesDlg)
+   DLG(MedianFiltreDlg)
+   DLG(ThresholdsDlg)
+   DLG(ColorDlg)
 #undef DLG

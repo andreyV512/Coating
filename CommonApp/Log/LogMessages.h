@@ -106,6 +106,7 @@ namespace LogMess
 	MESS_BIT(On<iCU  >, void, "Включен сигнал \"Цепи управления\"", red, white);
 	MESS_BIT(On<iIn  >, void, "Включен сигнал \"Труба на входе\"", red, white);
 	MESS_BIT(On<iOut >, void, "Включен сигнал \"Труба на выходе\"", red, white);
+	MESS_BIT(On<iStrobe >, void, "Включен сигнал \"Строб\"", red, white);
 
 	MESS_BIT(On<oAutomat>, void, "On<oAutomat>", red, white);
 	MESS_BIT(On<oSupply >, void, "On<oSupply >", red, white);
@@ -114,6 +115,7 @@ namespace LogMess
 	MESS_BIT(Off<iCU  >, void, "Отключен сигнал \"Цепи управления\"", blue, white);
 	MESS_BIT(Off<iIn  >, void, "Отключен сигнал \"Труба на входе\"", blue, white);
 	MESS_BIT(Off<iOut >, void, "Отключен сигнал \"Труба на выходе\"", blue, white);
+	MESS_BIT(Off<iStrobe >, void, "Отключен сигнал \"Строб\"", blue, white);
 
 	MESS_BIT(Off<oAutomat>, void, "Off<oAutomat>", blue, white);
 	MESS_BIT(Off<oSupply >, void, "Off<oSupply >", blue, white);

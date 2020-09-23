@@ -27,7 +27,7 @@ bool ZoneViewer::Draw(TMouseMove &l, VGraphics &g)
 	if (drawZones)
 	{
 		unsigned color = 0xff;
-		wchar_t s[256] = L" test status";
+		wchar_t s[256] = L" yy test status";
 		//char st = buffer.status[x];
 		//StatusText()(st, color, s);
 

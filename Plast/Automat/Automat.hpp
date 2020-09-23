@@ -231,6 +231,12 @@ namespace Automat
 		template<class Data>bool operator()(Data& data) { return true; }
 	};
 
+	struct ProcParams
+	{
+		Status result;
+		unsigned bits;
+	};
+
 	template<typename... Args> Status Bits(unsigned delay = -1)
 	{
 		if (-1 != delay) delay += Performance::Counter();
@@ -269,10 +275,10 @@ namespace Automat
 		
 				unsigned bitsOr = bitsOn | bitsOff;
 				if (bitsOr && bitsOn == (inputs & bitsOr)) return Status::contine;
-		
-				Status result = Status::contine;
-				WrapFor<proc_list, __proc__>()(result);
-				if (Status::exit_from_procedure == result) return Status::contine;
+						
+				ProcParams procParams = { Status::contine , inputs };
+				WrapFor<proc_list, __proc__>()(procParams);
+				if (Status::exit_from_procedure == procParams.result) return Status::contine;
 		
 				unsigned tstBitsOr = tstBitsOn | tstBitsOff;
 				if (tstBitsOr)

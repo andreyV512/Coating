@@ -127,6 +127,12 @@
     <Filter Include="Common\FFT">
       <UniqueIdentifier>{2d1f490d-77ef-4e41-ba05-e15ff8becd3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\MedianFiltre">
+      <UniqueIdentifier>{ac695a05-fe92-49f9-8f9b-a8c3ccee9b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CommonApp\MessageText">
+      <UniqueIdentifier>{a6ed5841-5ea0-4ee2-a2b7-e18ded8f9b3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -447,6 +453,18 @@
     <ClInclude Include="Windows\ZonesWindow\ZonesAxes.h">
       <Filter>Windows\ZonesWindow</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\MedianFiltre\MedianFiltre.h">
+      <Filter>Common\MedianFiltre</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonApp\MessageText\status.h">
+      <Filter>CommonApp\MessageText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonApp\MessageText\status.hpp">
+      <Filter>CommonApp\MessageText</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\DlgFiles.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -688,6 +706,24 @@
     </ClCompile>
     <ClCompile Include="Dlg\ZonesWindowDlg.cpp">
       <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\MedianFiltre\MedianFiltre.cpp">
+      <Filter>Common\MedianFiltre</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\MedianFiltreDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\ThresholdsDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonApp\MessageText\status.cpp">
+      <Filter>CommonApp\MessageText</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\ColorDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\DlgFiles.cpp">
+      <Filter>Common\window_tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

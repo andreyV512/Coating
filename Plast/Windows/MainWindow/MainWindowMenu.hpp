@@ -58,14 +58,14 @@ namespace MainWindowMenu
 	struct DeadZones { static void Do(HWND) {} };						 																				   //
 	struct MainCreateTypesize : AddTypeSizeDlg {};
 	struct MainDeleteTypeSize : DelTypeSizeDlg {};
-	struct MedianFiltre__ { static void Do(HWND) {} };
+	struct MedianFiltre : MedianFiltreDlg {};
 	struct DspFiltr : DspFiltrDlg {};
-	struct Tresholds { static void Do(HWND) {} };
+	struct Tresholds : ThresholdsDlg {};
 
 	MENU_ITEM(L"Мёртвые зоны", DeadZones)
 	MENU_ITEM(L"Создать типоразмер", MainCreateTypesize)
 	MENU_ITEM(L"Удалить типоразмер", MainDeleteTypeSize)
-	MENU_ITEM(L"Медианный фильтр", MedianFiltre__)
+	MENU_ITEM(L"Медианный фильтр", MedianFiltre)
 	MENU_ITEM(L"Настройки аналогового фильтра", DspFiltr)
 	MENU_ITEM(L"Настройки порогов", Tresholds)
 
@@ -74,7 +74,7 @@ namespace MainWindowMenu
 		typedef Vlst<
 			MenuItem<DeadZones>
 			, MenuItem<Tresholds>
-			, MenuItem<MedianFiltre__>
+			, MenuItem<MedianFiltre>
 			, MenuItem<DspFiltr>
 			, Separator<0>
 			, MenuItem<MainCreateTypesize>
@@ -89,6 +89,7 @@ namespace MainWindowMenu
 	struct DiscretePlate {};
 	struct DiscretePlateInputs : InputBitDlg {};
 	struct DiscretePlateOutputs : OutputBitDlg {};
+	struct Color : ColorDlg {};
 
 	template<>struct SubMenu<DiscretePlate>
 	{
@@ -104,6 +105,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Входные порты", DiscretePlateInputs)
 	MENU_ITEM(L"Выходные порты", DiscretePlateOutputs)
 	MENU_ITEM(L"Дескриптор дискретной платы", DiscriptorBitDlg)
+	MENU_ITEM(L"Цвета", Color)
 
 	struct __LirDlg : LirDlg {};
 	MENU_ITEM(L"Датчик ЛИР", __LirDlg)
@@ -117,6 +119,7 @@ namespace MainWindowMenu
 			, MenuItem<__LanDlg>
 			, MenuItem<__LirDlg>
 			, MenuItem<__Unit>
+			, MenuItem<Color>
 		> list;
 	};
 	//-------------------------------------------

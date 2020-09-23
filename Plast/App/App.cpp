@@ -7,7 +7,7 @@
 #include "Windows/MainWindow/AppKeyHandler.h"
 #include "AppBase.h"
 #include "Dlg/Dlg.h"
-#include "PerformanceCounter\PerformanceCounter.h"
+#include "PerformanceCounter/PerformanceCounter.h"
 #include "Units/Lan/Lan.h"
 #include "Automat/Automat.h"
 #include "Log/LogMessageToTopLabel.h"

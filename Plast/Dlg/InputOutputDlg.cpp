@@ -22,6 +22,7 @@ template<class O, class P>struct __unshift__
 Param(iCU            , L"Сигнал ЦЕПИ УПРАВЛЕНИЯ")
 Param(iIn            , L"Труба на входе")
 Param(iOut           , L"Труба на выходе")
+Param(iStrobe, L"Строб")
 
 Param(oAutomat, L"Автомат")
 Param(oSupply , L"Подвод")

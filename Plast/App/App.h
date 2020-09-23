@@ -5,8 +5,9 @@ namespace App
 {
 	static const int count_zones = 100;
 	static const int count_sensors = 3;
+	static const int size_zone_mm = 50;
+
 	static const int operator_status_section = 3;
-	static const int size_zone_mm = 5;
 	void Init();
 	void Destroy();
 	void TopLabel(wchar_t(&)[128]);

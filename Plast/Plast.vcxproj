@@ -136,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Common;$(SolutionDir)CommonApp;$(SolutionDir)Common\DspFilters\include;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -157,7 +157,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Common;$(SolutionDir)CommonApp;$(SolutionDir)Common\DspFilters\include;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -171,6 +171,8 @@
     <ClInclude Include="..\CommonApp\Log\LogBuffer.h" />
     <ClInclude Include="..\CommonApp\Log\LogMessages.h" />
     <ClInclude Include="..\CommonApp\Log\LogMessageToTopLabel.h" />
+    <ClInclude Include="..\CommonApp\MessageText\status.h" />
+    <ClInclude Include="..\CommonApp\MessageText\status.hpp" />
     <ClInclude Include="..\Common\Base\Base.hpp" />
     <ClInclude Include="..\Common\Base\ExpressBase.hpp" />
     <ClInclude Include="..\Common\Base\tables.hpp" />
@@ -215,6 +217,7 @@
     <ClInclude Include="..\Common\Grid\DataGrid.hpp" />
     <ClInclude Include="..\Common\Grid\GridDetail.h" />
     <ClInclude Include="..\Common\Grid\GridWindow.h" />
+    <ClInclude Include="..\Common\MedianFiltre\MedianFiltre.h" />
     <ClInclude Include="..\Common\PerformanceCounter\PerformanceCounter.h" />
     <ClInclude Include="..\Common\templates\templates.hpp" />
     <ClInclude Include="..\Common\templates\typelist.hpp" />
@@ -226,6 +229,7 @@
     <ClInclude Include="..\Common\Units\Lir\Inc\bdaqctrl.h" />
     <ClInclude Include="..\Common\Units\Lir\Inc\compatibility.h" />
     <ClInclude Include="..\Common\Units\Lir\Lir.h" />
+    <ClInclude Include="..\Common\window_tool\DlgFiles.h" />
     <ClInclude Include="..\Common\window_tool\Emptywindow.h" />
     <ClInclude Include="..\Common\window_tool\GroupBox.h" />
     <ClInclude Include="..\Common\window_tool\HookKey.h" />
@@ -279,6 +283,7 @@
     <ClCompile Include="..\CommonApp\Log\LogBuffer.cpp" />
     <ClCompile Include="..\CommonApp\Log\LogMessages.cpp" />
     <ClCompile Include="..\CommonApp\Log\LogMessageToTopLabel.cpp" />
+    <ClCompile Include="..\CommonApp\MessageText\status.cpp" />
     <ClCompile Include="..\Common\DlgTemplates\ParamDlg.cpp" />
     <ClCompile Include="..\Common\DspFilters\source\Bessel.cpp" />
     <ClCompile Include="..\Common\DspFilters\source\Biquad.cpp" />
@@ -306,12 +311,14 @@
     <ClCompile Include="..\Common\Graphics\TopLabelViewer.cpp" />
     <ClCompile Include="..\Common\Grid\GridDetail.cpp" />
     <ClCompile Include="..\Common\Grid\GridWindow.cpp" />
+    <ClCompile Include="..\Common\MedianFiltre\MedianFiltre.cpp" />
     <ClCompile Include="..\Common\PerformanceCounter\PerformanceCounter.cpp" />
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp" />
     <ClCompile Include="..\Common\Units\1730\Device1730.cpp" />
     <ClCompile Include="..\Common\Units\Lan\include\RshApi.cpp" />
     <ClCompile Include="..\Common\Units\Lan\Lan.cpp" />
     <ClCompile Include="..\Common\Units\Lir\Lir.cpp" />
+    <ClCompile Include="..\Common\window_tool\DlgFiles.cpp" />
     <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp" />
     <ClCompile Include="..\Common\window_tool\GroupBox.cpp" />
     <ClCompile Include="..\Common\window_tool\HookKey.cpp" />
@@ -330,14 +337,17 @@
     <ClCompile Include="Devices\LanDevice.cpp" />
     <ClCompile Include="Dlg\AboutWindow.cpp" />
     <ClCompile Include="Dlg\AScanWindowDlg.cpp" />
+    <ClCompile Include="Dlg\ColorDlg.cpp" />
     <ClCompile Include="Dlg\DspFiltrDlg.cpp" />
     <ClCompile Include="Dlg\InputOutputDlg.cpp" />
     <ClCompile Include="Dlg\LanDlg.cpp" />
     <ClCompile Include="Dlg\LirDlg.cpp" />
+    <ClCompile Include="Dlg\MedianFiltreDlg.cpp" />
     <ClCompile Include="Dlg\MessageDlg.cpp" />
     <ClCompile Include="Dlg\OperatorsDlg.cpp" />
     <ClCompile Include="Dlg\TestIOPorts.cpp" />
     <ClCompile Include="Dlg\TestLir.cpp" />
+    <ClCompile Include="Dlg\ThresholdsDlg.cpp" />
     <ClCompile Include="Dlg\TypeSizeDlg.cpp" />
     <ClCompile Include="Dlg\UnitDlg.cpp" />
     <ClCompile Include="Dlg\ZonesWindowDlg.cpp" />

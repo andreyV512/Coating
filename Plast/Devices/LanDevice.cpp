@@ -6,37 +6,40 @@
 #include "Units/Lir/Lir.h"
 #include "Units/Lan/Lan.h"
 #include "tools_debug/DebugMess.h"
+#include "PerformanceCounter/PerformanceCounter.h"
 
-LanDevice::LanDevice(int numberPackets)
-	: numberPackets(numberPackets)
+LanDevice::LanDevice()
+	: numberPackets(Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value)
 	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
 	, data(Singleton<Data::InputData>::Instance())
-	, lir(Singleton<Lir>::Instance())
 	, lan(Singleton<Lan>::Instance())
 {
-	data.countFrames = 0;
+	data.framesCount = 0;
 }
 
 int LanDevice::Buff(char *&buf)
 {
-	int sizeBuf = packetSize * numberPackets * App::count_sensors;
-	if (data.countFrames + sizeBuf < dimention_of(data.buffer))
+	unsigned short sizeBuf = packetSize * numberPackets * App::count_sensors;
+	if ((__int64)data.framesCount + sizeBuf < dimention_of(data.buffer))
 	{
-		buf = &data.buffer[data.countFrames];
-		
+		buf = &data.buffer[data.framesCount];
 		return sizeBuf;
 	}
 	return 0;
 }
 
-void LanDevice::Confirm(int b)
+void LanDevice::Confirm(unsigned b)
 {
-	data.countFrames += b;
-	lir.Tick();
+	data.framesCount += b;
+	if (++data.offsetsTickCount >= dimention_of(data.offsetsTick))
+	{
+		data.offsetsTickCount = dimention_of(data.offsetsTick) - 1;
+	}
+	
+	data.offsetsTick[data.offsetsTickCount] = Performance::Counter();
 }
 
-CollectionData::CollectionData(int numberPackets)
-	: device(numberPackets)
+CollectionData::CollectionData()
 {
 	device.lan.SetHandler(&device
 		, &LanDevice::Buff
@@ -44,7 +47,6 @@ CollectionData::CollectionData(int numberPackets)
 	);
 	RshInitMemory p{};
 	device.lan.SetParams(p);
-	p.packetNumber = numberPackets * App::count_sensors;
 	U32 st = device.lan.Init(1, device.lan.device1, p);
 	wchar_t mess[256];
 	if (device.lan.Err(st, mess))
@@ -62,7 +64,6 @@ CollectionData::CollectionData(int numberPackets)
 		dprint("2 %s\n", m);
 		return;
 	}
-	device.lir.Clear();
 	device.lan.Start();
 }
 
@@ -71,7 +72,9 @@ CollectionData::~CollectionData()
 	device.lan.Stop();
 }
 
+/*
 void CollectionData::ChangeLir()
 {
 	device.lir.Change();
 }
+*/

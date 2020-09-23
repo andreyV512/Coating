@@ -367,7 +367,7 @@ template<class T, int edit_width = 140>struct EditItems
 			);
 		CreateWindow(L"static", ParamTitle<T>()()
 			, WS_VISIBLE | WS_CHILD
-			, edit_width + 2 * x, dy + 3, width - edit_width - 6 * x, 20, h, 0, (HINSTANCE)::GetModuleHandle(NULL), NULL
+			, edit_width + 2 * x, dy + 3, width - edit_width - 10 * x, 20, h, 0, (HINSTANCE)::GetModuleHandle(NULL), NULL
 			);
 		dy += DY;
 		return hWnd;

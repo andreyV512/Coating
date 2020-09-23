@@ -33,7 +33,7 @@ template<class O, class P>struct __mouse_well__
 void ResultViewer::operator()(TMouseWell &l)
 {
 	__mouse_well_data__ data = {this, l};
-	VL::foreach<VL::EraseItem<MainWindow::viewers_list, ResultViewer>::Result, __mouse_well__>()(
+	VL::foreach<VL::Erase<MainWindow::viewers_list, ResultViewer>::Result, __mouse_well__>()(
 		Singleton<MainWindow>::Instance().viewers
 		, data);
 	(*(Parent *)this)(l);
@@ -65,7 +65,7 @@ bool ResultViewer::Draw(TMouseMove &l, VGraphics &g)
 	if (drawZones)
 	{
 		unsigned color = 0xff;
-		wchar_t s[256] = L" test status";
+		wchar_t s[256] = L" ok test status";
 		//char st = buffer.status[x];
 		//StatusText()(st, color, s);
 

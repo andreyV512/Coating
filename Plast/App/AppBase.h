@@ -7,16 +7,30 @@
 #include "Devices/1730Parameters.h"
 #include "Devices/LirParameters.h"
 
-template<class>struct Clr;
+template<class ...T>struct Clr {};
 
-struct Nominal;
+struct Norm {};
+struct noBottomReflection {};
+struct defect {};
+struct deadZone {};
+struct SensorOff {};
 
-DEFINE_PARAM_WRAP(Clr, Nominal, int, 0xff00ff00)
+DEFINE_PARAM_WRAP(Clr, Norm              , unsigned, 0xff00ff00)
+DEFINE_PARAM_WRAP(Clr, defect			 , unsigned, 0xffff0000)
+DEFINE_PARAM_WRAP(Clr, noBottomReflection, unsigned, 0xff4286f4)
+DEFINE_PARAM_WRAP(Clr, deadZone			 , unsigned, 0xff939393)
+DEFINE_PARAM_WRAP(Clr, SensorOff         , unsigned, 0xff939393)
+DEFINE_PARAM_WRAP_LIST(Clr, unsigned, 0xffffff00, noBottomReflection, defect)
 
 struct ColorTable
 {
 	typedef Vlst<
-		Clr<Nominal>
+		Clr<Norm>											  
+		, Clr<defect			>
+		, Clr<noBottomReflection>
+		, Clr<deadZone			>
+		, Clr<SensorOff			>
+		, Clr<noBottomReflection, defect>		
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;
@@ -50,11 +64,43 @@ struct UnitTable
 	const wchar_t *name() { return L"UnitTable"; }
 };
 
-DEFINE_PARAM(BelowNominal, double, 3.3)
+DEFINE_PARAM(MedianFiltreWidth, int, 5)
+DEFINE_PARAM(MedianFiltreON, bool, true)
+struct MedianFiltreTable
+{
+	typedef Vlst<
+		MedianFiltreWidth
+		, MedianFiltreON
+	> items_list;
+	typedef VL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name() { return L"MedianFiltreTable"; }
+};
+
+DEFINE_PARAM(AlarmThresh              , double, 20)
+DEFINE_PARAM(AlarmThreshStart         , int, 20)
+DEFINE_PARAM(AlarmThreshStop          , int, 520)
+DEFINE_PARAM(AlarmGainStart           , double, 1.0)
+DEFINE_PARAM(AlarmGainStop            , double, 1.0)
+DEFINE_PARAM(BottomReflection         , double, 5)
+DEFINE_PARAM(BottomReflectionStart    , int, 520)
+DEFINE_PARAM(BottomReflectionStop     , int, 600)
+DEFINE_PARAM(BottomReflectionGainStart, double, 1.0)
+DEFINE_PARAM(BottomReflectionGainStop , double, 1.0)
+
 struct TresholdsTable
 {
 	typedef Vlst<
-		BelowNominal
+		AlarmThresh
+		, AlarmThreshStart
+		, AlarmThreshStop
+		, AlarmGainStart
+		, AlarmGainStop
+		, BottomReflection
+		, BottomReflectionStart
+		, BottomReflectionStop
+		, BottomReflectionGainStart
+		, BottomReflectionGainStop
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;
@@ -62,7 +108,7 @@ struct TresholdsTable
 };
 
 static const int __id__ = 2;
-
+																 
 DEFINE_PARAM(CurrentID, int, __id__)
 DEFINE_PARAM(CurrentUserNameID, int, __id__)
 struct CurrentParametersTable
@@ -78,7 +124,7 @@ struct CurrentParametersTable
 
 STR_PARAM(NameParam, 128, L"Noname")
 
-#define PARAM_ID FiltersTable, TresholdsTable
+#define PARAM_ID FiltersTable, TresholdsTable, MedianFiltreTable
 #define PARAM_IDM(n)DEFINE_PARAM_ID(n, int, __id__)
 	FOR_EACH(PARAM_IDM, PARAM_ID)
 #undef PARAM_IDM

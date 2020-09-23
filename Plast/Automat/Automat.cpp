@@ -8,15 +8,15 @@
 #include "Devices/LanDevice.h"
 
 
-struct StartLir {};
-template<> struct Proc<StartLir>
-{
-	template<class P>void operator()(P &p)
-	{
-		Compute &compute = Singleton<Compute>::Instance();
-		if (compute.StartStrobes()) p = Automat::Status::exit_from_procedure;
-	}
-};
+//struct StartLir {};
+//template<> struct Proc<StartLir>
+//{
+//	template<class P>void operator()(P &p)
+//	{
+//		Compute &compute = Singleton<Compute>::Instance();
+//		if (compute.StartStrobes()) p = Automat::Status::exit_from_procedure;
+//	}
+//};
 
 template<> struct Proc<Compute>
 {
@@ -31,6 +31,24 @@ template<> struct Proc<Compute>
 		}
 	}
 };
+
+template<> struct Proc<iStrobe>
+{
+	static bool pred;
+	Data::InputData &data;
+	Proc() : data(Singleton<Data::InputData>::Instance()) {}
+	template<class P>void operator()(P &p) 
+	{
+		bool b = 0 != (p.bits & Singleton<InputBitsTable>::Instance().items.get<iStrobe>().value);
+		if (!pred && b)
+		{
+			if (++data.strobesTickCount > dimention_of(data.strobesTick))  data.strobesTickCount = dimention_of(data.strobesTick) - 1;
+			data.strobesTick[data.strobesTickCount] = Performance::Counter();
+		}
+		pred = b;
+	}
+};
+bool Proc<iStrobe>::pred = false;
 
 namespace Automat
 {	
@@ -91,22 +109,21 @@ namespace Automat
 					AppKeyHandler::Run();
 					startLoop = false;
 				}
+				Proc<iStrobe>::pred = false;
 
 				//TODO Bits<TstOn<iCU> >(); //проверка цепей управления
 				Log::Mess <LogMess::On_iIn>();
-				Bits<On<iIn>, Key<StopBtn>>();
+				Bits<On<iIn>, Key<StopBtn>, Proc<iStrobe>>();
 				{
 					Log::Mess <LogMess::Collection>();
 
-					CollectionData collection(
-						Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value
-					);
+					CollectionData collection; 
 
-					Bits<On<iOut>, Key<StopBtn>, Proc<StartLir> >(120 * 1000);
-					Bits<On<iOut>, Key<StopBtn>, Proc<Compute> >(120 * 1000);
-					Bits<Off<iIn>, Key<StopBtn>, Proc<Compute> >(120 * 1000);
-					collection.ChangeLir();
-					Bits<Off<iOut>, Key<StopBtn>, Proc<Compute> >(20 * 1000);
+					//Bits<On<iOut>, Key<StopBtn>, Proc<StartLir> >(120 * 1000);
+					Bits<On<iOut>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(120 * 1000);
+					Bits<Off<iIn>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(120 * 1000);
+			//		collection.ChangeLir();
+					Bits<Off<iOut>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(20 * 1000);
 				}
 				Log::Mess <LogMess::CollectionDone>();
 				compute.Done();

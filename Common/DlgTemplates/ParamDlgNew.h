@@ -238,7 +238,7 @@ namespace Dialog
 			typedef typename VL::TypeToTypeLstParam1<typename GroupBox<X>::Result, DlgItem2, Owner>::Result list; 
 			int height = 22 + GroupBox<X>::DY;
 			
-			HWND hWnd = GroupBoxWindow(ParamTitle<GroupBox<X>>()(),  p.x, p.height, p.width - 15, height, p.h);
+			HWND hWnd = GroupBoxWindow(ParamTitle<GroupBox<X>>()(),  p.x, p.height, p.width - 30, height, p.h);
      		p.height += height;
 			HWND storeHWND = p.h;
 			int storeHeight = p.height;

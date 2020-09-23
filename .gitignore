@@ -4,3 +4,7 @@ Debug/
 /Doc/~$ УЗК прутков 02-2019.doc
 /ArchiveEvent/
 /enc_temp_folder/
+/tests/test_type_list/x64/
+/tests/filters/x64/
+/x64/
+*.suo

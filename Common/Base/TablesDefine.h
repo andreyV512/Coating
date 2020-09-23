@@ -93,6 +93,20 @@ template<class T>struct ID
 	Wrap() : value(def_val), default_value(def_val) {}\
 };
 
+#define STICK__(n) L ## n ## "X"
+#define STICK_(n) STICK__ (n)
+#define STICK(n) #n##"_"
+#define STICK_TOGETHER(...)  FOR_EACH(STICK, __VA_ARGS__)
+
+#define DEFINE_PARAM_WRAP_LIST(Wrap, type, def_val, ...) template<> struct Wrap<__VA_ARGS__>\
+{\
+	typedef type type_value;\
+	type_value value;\
+	const type_value default_value;\
+	const wchar_t *name(){return L#Wrap STICK_TOGETHER(__VA_ARGS__);}\
+	Wrap() : value(def_val), default_value(def_val) {}\
+};
+
 #define DEFINE_PARAM_WRAP2(Wrap0, Wrap1, z, type, def_val) template<> struct Wrap0<Wrap1<z> >\
 {\
 	typedef type type_value;\

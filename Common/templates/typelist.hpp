@@ -183,6 +183,15 @@ namespace VL
 		typedef B Result;
 	};
 
+	template<class A, class B>struct Equally
+	{
+		static const bool value = false;
+	};
+	template<class A>struct Equally<A, A>
+	{
+		static const bool value = true;
+	};
+
 	template<typename List, template<class>class T>struct EraseAllParam;
 	template<typename Head, typename ...Tail, template<class>class T>struct EraseAllParam<Vlst<Head, Tail...>, T>
 	{
@@ -204,17 +213,44 @@ namespace VL
 	template<class A, class B>struct CompareTypes { typedef A Result; };
 	template<class A>struct CompareTypes<A, A> { typedef Vlst<> Result; };
 
-	template<class List, class T>struct EraseItem;
-	template<class T, class Head, class ...Tail>struct EraseItem<Vlst<Head, Tail...>, T>
+	template<class List, class T>struct Erase;
+	template<class T, class Head, class ...Tail>struct Erase<Vlst<Head, Tail...>, T>
 	{
 		typedef typename Append<
 			typename CompareTypes<Head, T>::Result
-			, typename EraseItem<Vlst<Tail...>, T>::Result
+			, typename Erase<Vlst<Tail...>, T>::Result
 		>::Result Result;
 	};
-	template<class T>struct EraseItem<Vlst<>, T>
+	template<class T>struct Erase<Vlst<>, T>
 	{
 		typedef Vlst<> Result;
+	};
+
+	template<class List, class delList>struct EraseAll;
+	template<class List, class Head, class ...Tail>struct EraseAll<List, Vlst<Head, Tail...>>
+	{
+		typedef typename EraseAll<typename Erase<List, Head>::Result, Vlst<Tail...>>::Result Result;
+	};
+	template<class List>struct EraseAll < List, Vlst<>>
+	{
+		typedef List Result;
+	};
+	template<class List, class T>struct InList;
+	template<class List, class tmp = List>struct EraseDouble;
+	template<class tmp, class Head, class ...Tail>struct EraseDouble<Vlst<Head, Tail...>, tmp>
+	{
+		typedef typename EraseDouble<
+			Vlst<Tail...>
+			, typename _if<
+				InList<Vlst<Tail...>, Head>::value
+				, typename Append<Head, typename Erase<tmp, Head>::Result>::Result
+				, tmp
+			>::Result
+		>::Result  Result;
+	};
+	template<class tmp>struct EraseDouble<Vlst<>, tmp>
+	{
+		typedef tmp Result;
 	};
 
 	template<class T>struct Inner;
@@ -374,6 +410,16 @@ namespace VL
 	template<class T>struct TypeInList<Vlst<>, T>
 	{
 		static const bool value = false;
+	};
+
+	template<class List, template<class>class Wap>struct ListToWapperList;
+	template<class Head, class ...Tail, template<class>class Wap>struct ListToWapperList<Vlst<Head, Tail...>, Wap>
+	{
+		typedef typename Append<Wap<Head>, typename ListToWapperList<Vlst<Tail...>, Wap>::Result>::Result Result;
+	};
+	template<template<class>class Wap>struct ListToWapperList<Vlst<>, Wap>
+	{
+		typedef Vlst<> Result;
 	};
 }
 

@@ -3,6 +3,7 @@
 #include "include/DspFilters/SmoothedFilter.h"
 #include "templates/typelist.hpp"
 #include "DspFiltrParams.h"
+#include "App/AppBase.h"
 
 template<template<class>class TypeFiltre, template<class>class SubTypeFiltre, int MaxOrder>struct DSPFltType;
 template<int MaxOrder>struct DSPFltType<Low, ChebI, MaxOrder>
@@ -109,7 +110,38 @@ template<class tmp>struct type_filters<Vlst<>, tmp>
 
 typedef type_filters<FiltersTable::items_list>::Result type_flites_list;
 
-//typedef DSPFlt<Low, ChebI> LowF;
+template<class List>struct Conv;
+template<template<class>class Type, template<class>class Sub, class T, class ...Tail>struct Conv<Vlst<Type<Sub<T>>, Tail...>>
+{
+	typedef typename VL::Append<DSPFlt<Type, Sub>, typename Conv<Vlst<Tail...>>::Result>::Result Result;
+};
+template<>struct Conv<Vlst<>>
+{
+	typedef Vlst<> Result;
+};
+
+typedef Conv<type_flites_list>::Result filters_list;
+
+template<class Params>struct __init_filtre_data__
+{
+	IDSPFlt *&proc;
+	Params &params;
+	__init_filtre_data__(IDSPFlt *&proc, Params &params) : proc(proc), params(params) {}
+};
+
+template<class O, class P>struct __init_filtre__
+{
+	bool operator()(O &o, P &p)
+	{
+		if (VL::IndexOf<filters_list, O>::value == p.params.get<CurrentFilter>().value)
+		{
+			SetupFiltre<O>()(o, p.params, Singleton<LanParametersTable>::Instance().items.get<Frequency>().value);
+			p.proc = &o;
+			return false;
+		}
+		return true;
+	}
+};
 
 
 

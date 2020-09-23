@@ -15,7 +15,7 @@ SensorViewer::SensorViewer(Data::SensorData *data)
 
 bool SensorViewer::GetColorCell(int zone, double &data_, unsigned &color)
 {
-	data_ = data->outputData[zone];
+	data_ = data->data[zone];
 	color = zone % 2 ? 0xff00ff00 : 0xff0000ff;
 	return zone < data->count;
 }
@@ -28,11 +28,11 @@ bool SensorViewer::Draw(TMouseMove &l, VGraphics &g)
 	if (drawZones)
 	{
 		unsigned color = 0xff;
-		wchar_t s[256] = L" test status";
+		wchar_t s[256] = L" xx test status";
 		//char st = buffer.status[x];
 		//StatusText()(st, color, s);
 
-		Wchar_from<double, 1> Y(data->outputData[x]);
+		Wchar_from<double, 1> Y(data->data[x]);
 
 		wsprintf(label.buffer, L"<ff>зона %d Y %s <%6x>%s"
 			, 1 + x
