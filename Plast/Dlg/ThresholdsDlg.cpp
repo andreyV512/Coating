@@ -17,38 +17,39 @@ typedef GROUP_BOX(
 	, BottomReflectionStop
 	, BottomReflectionGainStart
 	, BottomReflectionGainStop
+	, BottomReflectionOn
 ) GBBottomReflection;
 PARAM_TITLE(GBBottomReflection, L"Порог донного отражения")
 
-MIN_EQUAL_VALUE(AlarmThresh, 10)
-MAX_EQUAL_VALUE(AlarmThresh, 1000)
+MIN_EQUAL_VALUE(AlarmThresh, 0)
+MAX_EQUAL_VALUE(AlarmThresh, 100)
 
-MIN_EQUAL_VALUE(AlarmThreshStart, 20)
-MAX_EQUAL_VALUE(AlarmThreshStart, 200)
+MIN_EQUAL_VALUE(AlarmThreshStart, 0)
+MAX_EQUAL_VALUE(AlarmThreshStart, 100)
 								
-MIN_EQUAL_VALUE(AlarmThreshStop, 200)
-MAX_EQUAL_VALUE(AlarmThreshStop, 500)
+MIN_EQUAL_VALUE(AlarmThreshStop, 0)
+MAX_EQUAL_VALUE(AlarmThreshStop, 100)
 								
-MIN_EQUAL_VALUE(AlarmGainStart, 1)
-MAX_EQUAL_VALUE(AlarmGainStart, 10)
+MIN_EQUAL_VALUE(AlarmGainStart, 0.1)
+MAX_EQUAL_VALUE(AlarmGainStart, 100)
 								
-MIN_EQUAL_VALUE(AlarmGainStop, 1)
-MAX_EQUAL_VALUE(AlarmGainStop, 10)
+MIN_EQUAL_VALUE(AlarmGainStop, 0.1)
+MAX_EQUAL_VALUE(AlarmGainStop, 100)
 							
-MIN_EQUAL_VALUE(BottomReflection, 20)
-MAX_EQUAL_VALUE(BottomReflection, 200)
+MIN_EQUAL_VALUE(BottomReflection, 0)
+MAX_EQUAL_VALUE(BottomReflection, 100)
 						
-MIN_EQUAL_VALUE(BottomReflectionStart, 20)
-MAX_EQUAL_VALUE(BottomReflectionStart, 200)
+MIN_EQUAL_VALUE(BottomReflectionStart, 0)
+MAX_EQUAL_VALUE(BottomReflectionStart, 100)
 						
-MIN_EQUAL_VALUE(BottomReflectionStop, 500)
-MAX_EQUAL_VALUE(BottomReflectionStop, 600)
+MIN_EQUAL_VALUE(BottomReflectionStop, 0)
+MAX_EQUAL_VALUE(BottomReflectionStop, 100)
 							
-MIN_EQUAL_VALUE(BottomReflectionGainStart, 1)
-MAX_EQUAL_VALUE(BottomReflectionGainStart, 10)
+MIN_EQUAL_VALUE(BottomReflectionGainStart, 0.1)
+MAX_EQUAL_VALUE(BottomReflectionGainStart, 100)
 							
-MIN_EQUAL_VALUE(BottomReflectionGainStop, 1)
-MAX_EQUAL_VALUE(BottomReflectionGainStop, 10)
+MIN_EQUAL_VALUE(BottomReflectionGainStop, 0.1)
+MAX_EQUAL_VALUE(BottomReflectionGainStop, 100)
 
 PARAM_TITLE(AlarmThresh				 , L"Порог")
 PARAM_TITLE(AlarmThreshStart		 , L"Начало")
@@ -60,6 +61,7 @@ PARAM_TITLE(BottomReflectionStart	 , L"Начало")
 PARAM_TITLE(BottomReflectionStop	 , L"Конец")
 PARAM_TITLE(BottomReflectionGainStart, L"Усиление начало")
 PARAM_TITLE(BottomReflectionGainStop , L"Усиление конец")	   
+PARAM_TITLE(BottomReflectionOn, L"Использовать метод контроля")
 
 void ThresholdsDlg::Do(HWND h)
 {

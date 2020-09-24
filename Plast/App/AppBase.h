@@ -77,16 +77,17 @@ struct MedianFiltreTable
 	const wchar_t *name() { return L"MedianFiltreTable"; }
 };
 
-DEFINE_PARAM(AlarmThresh              , double, 20)
-DEFINE_PARAM(AlarmThreshStart         , int, 20)
-DEFINE_PARAM(AlarmThreshStop          , int, 520)
+DEFINE_PARAM(AlarmThresh              , double, 50)
+DEFINE_PARAM(AlarmThreshStart         , int, 10)
+DEFINE_PARAM(AlarmThreshStop          , int, 80)
 DEFINE_PARAM(AlarmGainStart           , double, 1.0)
 DEFINE_PARAM(AlarmGainStop            , double, 1.0)
-DEFINE_PARAM(BottomReflection         , double, 5)
-DEFINE_PARAM(BottomReflectionStart    , int, 520)
-DEFINE_PARAM(BottomReflectionStop     , int, 600)
+DEFINE_PARAM(BottomReflection         , double, 15)
+DEFINE_PARAM(BottomReflectionStart    , int, 80)
+DEFINE_PARAM(BottomReflectionStop     , int, 100)
 DEFINE_PARAM(BottomReflectionGainStart, double, 1.0)
 DEFINE_PARAM(BottomReflectionGainStop , double, 1.0)
+DEFINE_PARAM(BottomReflectionOn, bool, true)
 
 struct TresholdsTable
 {
@@ -101,6 +102,7 @@ struct TresholdsTable
 		, BottomReflectionStop
 		, BottomReflectionGainStart
 		, BottomReflectionGainStop
+		, BottomReflectionOn
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;
