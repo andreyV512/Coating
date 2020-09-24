@@ -1,15 +1,15 @@
 ﻿#include <stdio.h>
 #include <typeinfo>
-#include "templates/typelist.hpp"
+//#include "templates/typelist.hpp"
 //H:\projects\Test\Coating\CommonApp\MessageText\status.h
 //H:\projects\Test\Coating\tests\test_type_list\test_type_list.cpp
-#include "H:\projects\Test\Coating\CommonApp\MessageText\status.h"
-#include "H:\projects\Test\Coating\CommonApp\MessageText\status.hpp"
+//#include "H:\projects\Test\Coating\CommonApp\MessageText\status.h"
+//#include "H:\projects\Test\Coating\CommonApp\MessageText\status.hpp"
 
 
 
-
-
+#define MAX2(a, b) (a) > (b) ? (a): (b)
+#define MAX(a, b, c) MAX2(MAX2(a, b), c)
 int main()
 {
 	//int num = 0;
@@ -26,11 +26,14 @@ int main()
 	//printf("result %d\n", t);
 
 	//st.Test();
-	StatusData::Test();
+	//StatusData::Test();
    //typedef Vlst<noBottomReflection, defect, SensorOff, deadZone, Norm > zone_status_list;
 	//ZoneStatus::SkipList<noBottomReflection, __skip_list__>::Result skipList;
 	//printf("%s\n", typeid(skipList).name());
-	bool b = ZoneStatus::Skip<Vlst<Norm, noBottomReflection>>::value;
+	//bool b = ZoneStatus::Skip<Vlst<Norm, noBottomReflection>>::value;
 		
-	printf("%d\n", b);
+	//printf("%d\n", b);
+
+	int x = MAX(2, 3, 1);
+		printf("%d\n", x);
 }

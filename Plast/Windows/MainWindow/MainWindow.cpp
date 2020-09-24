@@ -43,8 +43,8 @@ template<class O, class P>struct __move_window__
 	{
 		o.tchart.maxAxesX = App::count_zones;
 		
-	//	TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
-	//	SendMessage(MESSAGE(size));
+		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
+		SendMessage(MESSAGE(size));
 		MoveWindow(o.hWnd, 0, p.y, p.width, p.height, TRUE);
 		p.y += p.height;
 	}
@@ -56,8 +56,8 @@ template<class P>struct __move_window__<ResultViewer, P>
 	{
 		o.tchart.maxAxesX = App::count_zones;
 		
-		//TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, WORD(p.maxYHeight - p.y) };
-		//SendMessage(MESSAGE(size));
+		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, WORD(p.maxYHeight - p.y) };
+		SendMessage(MESSAGE(size));
 		MoveWindow(o.hWnd, 0, p.y, p.width, p.maxYHeight - p.y, TRUE);
 	}
 };

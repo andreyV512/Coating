@@ -62,6 +62,11 @@ template<class T>HWND WindowTemplate(
 }
 
 void RepaintWindow(HWND h);
+template<class T>void RepaintWindow()
+{
+	HWND h = FindWindow(WindowClass<T>()(), 0);
+	if (NULL != h) RepaintWindow(h);
+}
 void RepaintPostWindow(HWND);
 void SizeWindow(HWND h);
 

@@ -4,6 +4,8 @@
 #include <GdiPlus.h>
 #include "window_tool/DlgFiles.h"
 #include "MessageText/status.h"
+#include "window_tool/Emptywindow.h"
+#include "Windows/MainWindow/MainWindow.h"
 
 namespace {
 	struct DefaultBtn;
@@ -121,8 +123,8 @@ PARAM_TITLE(n<__VA_ARGS__>, txt)
 		DLG_SUB(Clr<deadZone>, L"Мёртвая зона")
 		DLG_SUB(Clr<SensorOff >, L"Датчик отключен")
 		DLG_SUB(Clr<defect   >, L"Дефект")
-		DLG_SUB(Clr<noBottomReflection>, L"Нет донного сигнала")
-		DLG_SUB_LIST(Clr, L"Нет донного сигнала и брак", noBottomReflection, defect)
+		DLG_SUB(Clr<noBottomReflection>, L"Нет донного отражения")
+		DLG_SUB_LIST(Clr, L"Брак, нет донного отражения", noBottomReflection, defect)
 
 	struct DefaultBtn
 	{
@@ -145,9 +147,7 @@ PARAM_TITLE(n<__VA_ARGS__>, txt)
 			}
 		}
 	};
-
 }
-
 void ColorDlg::Do(HWND h)
 {
 	ColorTable color;
@@ -156,6 +156,7 @@ void ColorDlg::Do(HWND h)
 	{
 		CopyFromTo(color.items, Singleton<ColorTable>::Instance().items);
 		StatusData::UpdateColor();
+		RepaintWindow<MainWindow>();
 	}
 }
 

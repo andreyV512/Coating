@@ -21,16 +21,5 @@
     <ClCompile Include="test_type_list.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CommonApp\MessageText\status.cpp">
-      <Filter>MessageText</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\CommonApp\MessageText\status.h">
-      <Filter>MessageText</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\CommonApp\MessageText\status.hpp">
-      <Filter>MessageText</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

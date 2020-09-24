@@ -53,7 +53,7 @@ void RepaintWindow(HWND h)
 	RECT r;
 	GetClientRect(h, &r);
 	SendMessage(h, WM_SIZE, 0, (r.bottom << 16) | r.right); 
-	InvalidateRect(h, NULL, false);
+	InvalidateRect(h, NULL, true);
 }
 
 void RepaintPostWindow(HWND h)
@@ -61,7 +61,7 @@ void RepaintPostWindow(HWND h)
 	RECT r;
 	GetClientRect(h, &r);
 	PostMessage(h, WM_SIZE, 0, (r.bottom << 16) | r.right); 
-	InvalidateRect(h, NULL, false);
+	InvalidateRect(h, NULL, true);
 }
 
 void SizeWindow(HWND h)

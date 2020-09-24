@@ -161,12 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\CommonApp\MessageText\status.cpp" />
     <ClCompile Include="test_type_list.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\CommonApp\MessageText\status.h" />
-    <ClInclude Include="..\..\CommonApp\MessageText\status.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
