@@ -33,12 +33,12 @@ namespace ZoneStatus
 		}
 	};
 
-	PARAM_TITLE(Vlst<Norm>, L"РќРѕСЂРјР°")
-		PARAM_TITLE(Vlst<noBottomReflection>, L"РќРµС‚ РґРѕРЅРЅРѕРіРѕ РѕС‚СЂР°Р¶РµРЅРёСЏ")
-		PARAM_TITLE(Vlst<defect>, L"Р”РµС„РµРєС‚")
-		PARAM_TITLE(Vlst<deadZone>, L"РњРµСЂС‚РІР°СЏ Р·РѕРЅР°")
-		PARAM_TITLE(Vlst<SensorOff>, L"Р”Р°С‚С‡РёРє РѕС‚РєР»СЋС‡РµРЅ")
-		PARAM_TITLE_LIST(Vlst, L"Р”РµС„РµРєС‚, РЅРµС‚ РґРѕРЅРЅРѕРіРѕ РѕС‚СЂР°Р¶РµРЅРёСЏ", noBottomReflection, defect)
+	PARAM_TITLE(Vlst<Norm>, L"Норма")
+		PARAM_TITLE(Vlst<noBottomReflection>, L"Нет донного отражения")
+		PARAM_TITLE(Vlst<defect>, L"Дефект")
+		PARAM_TITLE(Vlst<deadZone>, L"Мертвая зона")
+		PARAM_TITLE(Vlst<SensorOff>, L"Датчик отключен")
+		PARAM_TITLE_LIST(Vlst, L"Дефект, нет донного отражения", noBottomReflection, defect)
 
 		wchar_t *mess[VL::Length<status_list>::value];
 	unsigned color[VL::Length<status_list>::value];
