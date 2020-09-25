@@ -82,9 +82,9 @@ DEFINE_PARAM(AlarmThreshStart         , int, 10)
 DEFINE_PARAM(AlarmThreshStop          , int, 80)
 DEFINE_PARAM(AlarmGainStart           , double, 1.0)
 DEFINE_PARAM(AlarmGainStop            , double, 1.0)
-DEFINE_PARAM(BottomReflection         , double, 15)
-DEFINE_PARAM(BottomReflectionStart    , int, 80)
-DEFINE_PARAM(BottomReflectionStop     , int, 100)
+DEFINE_PARAM(BottomReflectionThresh         , double, 15)
+DEFINE_PARAM(BottomReflectionThreshStart    , int, 80)
+DEFINE_PARAM(BottomReflectionThreshStop     , int, 100)
 DEFINE_PARAM(BottomReflectionGainStart, double, 1.0)
 DEFINE_PARAM(BottomReflectionGainStop , double, 1.0)
 DEFINE_PARAM(BottomReflectionOn, bool, true)
@@ -97,9 +97,9 @@ struct TresholdsTable
 		, AlarmThreshStop
 		, AlarmGainStart
 		, AlarmGainStop
-		, BottomReflection
-		, BottomReflectionStart
-		, BottomReflectionStop
+		, BottomReflectionThresh
+		, BottomReflectionThreshStart
+		, BottomReflectionThreshStop
 		, BottomReflectionGainStart
 		, BottomReflectionGainStop
 		, BottomReflectionOn

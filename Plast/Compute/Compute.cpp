@@ -45,9 +45,9 @@ void Compute::Start()
 	gainAlarmOffs  = t.get<AlarmGainStart>().value - t.get<AlarmGainStop>().value;
 	gainAlarmDelta = gainAlarmOffs / ((_int64)offsAlarmStop - offsAlarmStart);
 
-	threshReflection    = t.get<BottomReflection>().value;
-	offsReflectionStart = t.get<BottomReflectionStart>().value;
-	offsReflectionStop  = t.get<BottomReflectionStop>().value;
+	threshReflection    = t.get<BottomReflectionThresh>().value;
+	offsReflectionStart = t.get<BottomReflectionThreshStart>().value;
+	offsReflectionStop  = t.get<BottomReflectionThreshStop>().value;
 	gainReflectionOffs  = t.get<BottomReflectionGainStart>().value - t.get<BottomReflectionGainStop>().value;
 	gainReflectionDelta = gainReflectionOffs / ((_int64)offsReflectionStop - offsReflectionStart);
 }
