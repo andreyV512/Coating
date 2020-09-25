@@ -210,6 +210,7 @@
     <ClInclude Include="..\Common\DspFilters\include\DspFilters\Utilities.h" />
     <ClInclude Include="..\Common\FFT\FFT.h" />
     <ClInclude Include="..\Common\Graphics\BarSeries.h" />
+    <ClInclude Include="..\Common\Graphics\Borders.h" />
     <ClInclude Include="..\Common\Graphics\Chart.h" />
     <ClInclude Include="..\Common\Graphics\Chart.hpp" />
     <ClInclude Include="..\Common\Graphics\ColorLabel.h" />
@@ -306,6 +307,7 @@
     <ClCompile Include="..\Common\DspFilters\source\State.cpp" />
     <ClCompile Include="..\Common\FFT\FFT.cpp" />
     <ClCompile Include="..\Common\Graphics\BarSeries.cpp" />
+    <ClCompile Include="..\Common\Graphics\Borders.cpp" />
     <ClCompile Include="..\Common\Graphics\Chart.cpp" />
     <ClCompile Include="..\Common\Graphics\ColorLabel.cpp" />
     <ClCompile Include="..\Common\Graphics\EmptyLeftAxes.cpp" />

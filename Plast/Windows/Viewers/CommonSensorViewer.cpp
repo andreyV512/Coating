@@ -22,7 +22,7 @@ LRESULT CommonSensorViewer::operator()(TCreate &l)
 	chart->minAxesX = 0;
 	chart->maxAxesX = 500;
 	chart->minAxesY = 0;
-	chart->maxAxesY = 20;
+	chart->maxAxesY = 100;
 	chart->rect.top = 17;
 	label.fontHeight = 10;
 	label.top = 0;

@@ -17,7 +17,7 @@ namespace Data
 				c[0] = t.status;
 				for (int i = 0; i < t.count; ++i)
 				{
-					t.data[i] = rand() % 10;
+					t.data[i] = rand() % 100;
 					t.status[i] = rand() % 6;
 				}
 			}
@@ -28,7 +28,7 @@ namespace Data
 				c[1] = t.status;
 				for (int i = 0; i < t.count; ++i)
 				{
-					t.data[i] = rand() % 10;
+					t.data[i] = rand() % 100;
 					t.status[i] = rand() % 6;
 				}
 			}
@@ -39,7 +39,7 @@ namespace Data
 				c[2] = t.status;
 				for (int i = 0; i < t.count; ++i)
 				{
-					t.data[i] = rand() % 10;
+					t.data[i] = rand() % 100;
 					t.status[i] = rand() % 6;
 				}
 			}
