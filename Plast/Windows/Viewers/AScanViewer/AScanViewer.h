@@ -1,22 +1,27 @@
 #pragma once 
 #include "Windows/Viewers/CommonSensorViewer.h"
 #include "Graphics/FixedGridSeries.h"
+#include "Graphics/Borders.h"
 #include "Data/Data.h"
 
 class AScanViewer : public CommonSensorViewer
 {
 public:
+	class AlThr : public HOffsBorder { public: AlThr(Chart &c) : HOffsBorder(c) {} };
+	class BtmRefThr : public HOffsBorder { public: BtmRefThr(Chart &c) : HOffsBorder(c) {} };
 	typedef CommonSensorViewer Parent;
 	typedef ChartDraw< Chart, Vlst<
-		BottomAxesInt
-		, NoOffsetLeftAxes
+		NoOffsetLeftAxes
+		, BottomAxesInt
 		, LineSeries
 		, FixedGrid
+		, AlThr
+		, BtmRefThr
 	> > TChart;
 	TChart tchart;
 	Cursor tcursor;
 	int numSensor;
-	//Data::ResultData(&data);
+	Data::InputData &data;
 
 	AScanViewer();
 

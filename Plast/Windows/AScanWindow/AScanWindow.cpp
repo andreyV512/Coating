@@ -6,9 +6,13 @@
 #include "window_tool/Common.h"
 #include "Windows/MainWindow/AppKeyHandler.h"
 #include "AScanKeyHandler.h"
+#include "Windows/AScanWindow/AScanWindow.h"
 
 LRESULT AScanWindow::operator()(TCreate &l)
 {
+	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
+	SetThresh();
+
 	AppKeyHandler::DisableAll();
 	Menu<AScanWindowMenu::Menu>().Init(l.hwnd);
 	toolBar.Init(l.hwnd);
@@ -44,10 +48,10 @@ template<class O, class P>struct __move_window__
 {
 	void operator()(O &o, P &p)
 	{
-		o.tchart.maxAxesX = 512;
-		//TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
-		MoveWindow(o.hWnd, 0, p.y, p.width, p.height, TRUE);
-		//SendMessage(MESSAGE(size));
+		o.tchart.maxAxesX = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
+		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
+		SendMessage(MESSAGE(size));
+		MoveWindow(o.hWnd, 0, p.y, p.width, p.height, TRUE);		
 		p.y += p.height;
 	}
 };
@@ -86,4 +90,91 @@ void AScanWindow::operator()(TGetMinMaxInfo &l)
 		l.pMinMaxInfo->ptMinTrackSize.x = 400;
 		l.pMinMaxInfo->ptMinTrackSize.y = 400;
 	}
+}
+
+template<class O, class P>struct __compare_tresh__
+{
+	bool operator()(O &o, P &p)
+	{
+		return o.value == p.get<O>().value;
+	}
+};
+
+void AScanWindow::operator()(TClose &l)
+{
+	TresholdsTable &t = Singleton<TresholdsTable>::Instance();
+	if (VL::find<TresholdsTable::items_list, __compare_tresh__>()(t.items, treshItems))
+	{
+		DestroyWindow(l.hwnd);
+	}
+	else
+	{
+		if (IDYES == MessageBox(l.hwnd, L"Данные были изменены. Сохранить изменения?", L"Cообщение", MB_ICONQUESTION | MB_YESNO))
+		{
+			VL::CopyFromTo(treshItems, t.items);
+
+			CBase base(ParametersBase().name());
+			if (base.IsOpen())
+			{
+				int id = CurrentId<ID<TresholdsTable> >();
+				if (1 == CountId<ID<TresholdsTable> >(base, id))
+				{
+					UpdateWhere<TresholdsTable>(t, base).ID(id).Execute();	 
+				}
+				else
+				{
+					Insert_Into< TresholdsTable>(t, base).Execute();
+				}
+				MessageBox(l.hwnd, L"Данные сохранены!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
+			}
+			DestroyWindow(l.hwnd);
+		}
+	}
+}
+
+struct __set_thresh_data__
+{
+	unsigned alThr_color	    ;
+	double   alThr_value	    ;
+	int      alThr_startOffs    ;
+	int      alThr_stopOffs	    ;
+	unsigned btmRefThr_color    ;
+	double   btmRefThr_value    ;
+	int      btmRefThr_startOffs;
+	int      btmRefThr_stopOffs	;
+};
+
+template<class O, class P>struct __set_thresh__
+{
+	void operator()(O &o, P &p)
+	{
+		auto &alThr     = o.tchart.items.get<AScanViewer::AlThr>();
+		auto &btmRefThr = o.tchart.items.get<AScanViewer::BtmRefThr>();
+
+		alThr.color	        = p.alThr_color		 ;
+		alThr.value         = p.alThr_value		 ;
+		alThr.startOffs     = p.alThr_startOffs	 ;
+		alThr.stopOffs      = p.alThr_stopOffs	 ;
+		btmRefThr.color     = p.btmRefThr_color	 ;
+		btmRefThr.value     = p.btmRefThr_value	 ;
+		btmRefThr.startOffs = p.btmRefThr_startOffs;
+		btmRefThr.stopOffs  = p.btmRefThr_stopOffs ;
+	}
+};
+
+void AScanWindow::SetThresh()
+{
+	auto &color = Singleton<ColorTable>::Instance().items;
+
+	__set_thresh_data__ data = {
+	   color.get< Clr<defect>>().value
+	   , treshItems.get<AlarmThresh>().value
+	   , treshItems.get<AlarmThreshStart>().value
+	   , treshItems.get<AlarmThreshStop>().value
+	   , color.get< Clr<noBottomReflection>>().value
+	   , treshItems.get<BottomReflectionThresh>().value
+	   , treshItems.get<BottomReflectionThreshStart>().value
+	   , treshItems.get<BottomReflectionThreshStop>().value
+	};
+	VL::foreach<viewers_list, __set_thresh__>()(viewers, data);
 }

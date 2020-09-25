@@ -1,11 +1,12 @@
 #include "AScanViewer.h"
 #include "templates/templates.hpp"
 #include "Windows/MainWindow/MainWindow.h"
+#include "App/AppBase.h"
 
 AScanViewer::AScanViewer()
 	: tchart(backScreen)
 	, tcursor(tchart)
-//	, data(Singleton<Data::ResultData>::Instance())
+	, data(Singleton<Data::InputData>::Instance())
 {
 	chart = &tchart;
 	cursor = &tcursor;
@@ -13,6 +14,8 @@ AScanViewer::AScanViewer()
 	//tchart.items.get<BarSeriesDouble>().SetColorBarHandler(this, &AScanViewer::GetColorCell);
 	//tcursor.SetMouseMoveHandler(this, &AScanViewer::Draw);
 }
+
+
 
 struct __mouse_well_data__
 {

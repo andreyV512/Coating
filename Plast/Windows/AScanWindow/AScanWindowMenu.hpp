@@ -6,14 +6,6 @@ namespace AScanWindowMenu
 {
 	struct MainFile {};
 	MENU_TEXT(L"Файл", TopMenu<MainFile>)
-	struct LoadDateFile { static void Do(HWND) {} };
-	struct SaveDateFile {
-		static void Do(HWND) {
-			//GridOptions<SelectUsers>::Open((wchar_t *)L"Users");
-		}
-	};
-	struct Compute : OperatorsDlg {};
-
 	struct Exit
 	{
 		static void Do(HWND h)
@@ -22,25 +14,30 @@ namespace AScanWindowMenu
 			SendMessage(MESSAGE(c));
 		}
 	};
-
-	MENU_ITEM(L"Загрузить данные", LoadDateFile)
-		MENU_ITEM(L"Сохранить данные", SaveDateFile)
-		MENU_ITEM(L"Перерасчёт", Compute)
-		MENU_ITEM(L"Выход", Exit)
-		//------------------------------------
-		template<>struct TopMenu<MainFile>
+	MENU_ITEM(L"Выход", Exit)
+	template<>struct TopMenu<MainFile>
 	{
 		typedef Vlst<
-			MenuItem<LoadDateFile>
-			, MenuItem<SaveDateFile>
-			, MenuItem<Compute>
-			, Separator<0>
-			, MenuItem<Exit>
+			MenuItem<Exit>
 		> list;
 	};
+	//----------------------------------------------
+	struct OptionsFile {};
+	struct Thresholds : ThreshDlg {};
+
+	MENU_TEXT(L"Настройки", TopMenu<OptionsFile>);
+	MENU_ITEM(L"Пороги", Thresholds);
+	template<>struct TopMenu<OptionsFile>
+	{
+		typedef Vlst<
+			MenuItem<Thresholds>
+		> list;
+	};
+
 	//-------------------------------------------
 	typedef Vlst<
 		TopMenu<MainFile>
+		, TopMenu<OptionsFile>
 	> Menu;
 
 }
