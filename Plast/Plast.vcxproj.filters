@@ -468,6 +468,9 @@
     <ClInclude Include="..\Common\Graphics\Borders.h">
       <Filter>Common\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\templates\impl.hpp">
+      <Filter>Common\templates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">

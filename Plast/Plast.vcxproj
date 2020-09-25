@@ -222,6 +222,7 @@
     <ClInclude Include="..\Common\Grid\GridWindow.h" />
     <ClInclude Include="..\Common\MedianFiltre\MedianFiltre.h" />
     <ClInclude Include="..\Common\PerformanceCounter\PerformanceCounter.h" />
+    <ClInclude Include="..\Common\templates\impl.hpp" />
     <ClInclude Include="..\Common\templates\templates.hpp" />
     <ClInclude Include="..\Common\templates\typelist.hpp" />
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />

@@ -1,7 +1,4 @@
-﻿#include <stdio.h>
-#include <typeinfo>
-#include <string>
-
+#pragma once
 template<class T, int size>struct impl
 {
 	template<int size, bool b> struct the_buffer_size_must_be_larger_than_the_type_size;
@@ -17,6 +14,7 @@ template<class T, int size>struct impl
 	}
 };
 
+/*
 struct A
 {
 	virtual void print() = 0;
@@ -26,7 +24,7 @@ struct A
 struct B: A
 {
 	char buf[128];
-	B(char *b) 
+	B(char *b)
 	{ strcpy_s(buf, b); }
 	void print()override { printf("%s\n", buf); }
 };
@@ -45,5 +43,5 @@ int main()
 	int k = 1234;
 	A &a = impl<A, 272>().Set<C>((char *)"Ok obi", k);
 	a.print();
-	printf("   %d\n", (int)sizeof(B));
 }
+*/
