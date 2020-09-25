@@ -1,5 +1,5 @@
 #include "Borders.h"
-//#include "App/AppBase.h"
+#include <math.h>
 using namespace Gdiplus;
 //------------------------------------------------------------------
 VBorder::VBorder(Chart &c) : chart(c), color(0xffffff00),  widthPen(2), value(0.0), dashStyle(DashStyleSolid)
@@ -43,4 +43,26 @@ void HBorder::Draw()
     int y_t = chart.rect.right - chart.offsetAxesRight - 3;
 
 	chart.g->DrawLine(&pen, y_b, (int)y, y_t, (int)y);
+}
+
+HOffsBorder::HOffsBorder(Chart &c) : chart(c), color(0xffffff00), widthPen(2), value(0.0), dashStyle(DashStyleDash) {}
+
+void HOffsBorder::Draw()
+{
+	Color col(color);
+	Pen pen(col, (Gdiplus::REAL)widthPen);
+	pen.SetDashStyle((Gdiplus::DashStyle)dashStyle);
+	double dY = (double)(chart.rect.bottom - chart.rect.top - chart.offsetAxesBottom - chart.offsetAxesTop) / (chart.maxAxesY - chart.minAxesY);
+	double y = chart.rect.bottom - chart.offsetAxesBottom - (value - chart.minAxesY) * dY;
+
+
+	int y_b = chart.rect.left + chart.offsetAxesLeft;
+	int y_t = chart.rect.right - chart.offsetAxesRight;
+
+	double dwidth = 0.01 * (y_t - y_b);
+
+	int start = (int)round(dwidth * startOffs);
+	int stop = (int)round(dwidth * stopOffs);
+
+	chart.g->DrawLine(&pen, start, (int)y, stop, (int)y);
 }

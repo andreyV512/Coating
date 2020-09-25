@@ -22,7 +22,21 @@ public:
 	int widthPen;
 	int dashStyle;
 public:
+	Chart &chart;
+	HBorder(Chart &chart);
+	void Draw();
+};
+
+class HOffsBorder
+{
+public:
+	double value;
+	int startOffs, stopOffs;
+	int color;
+	int widthPen;
+	int dashStyle;
+public:
   Chart &chart;
-  HBorder(Chart &chart);
+  HOffsBorder(Chart &chart);
   void Draw();
 };
