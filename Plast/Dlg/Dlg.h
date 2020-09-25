@@ -22,4 +22,5 @@
    DLG(MedianFiltreDlg)
    DLG(ThresholdsDlg)
    DLG(ColorDlg)
+   DLG(ThreshDlg)
 #undef DLG
