@@ -40,6 +40,12 @@ namespace App
 		StatusBar(App::operator_status_section, name);
 
 		StartKeyHook(&AppKeyHandler::KeyPressed);
+
+		if (!device1730.Init(Singleton<NamePlate1730ParametersTable>::Instance().items.get<NamePlate1730>().value))
+		{
+			MessageBox(h, L"Не могу инициировать плату 1730", L"Ошибка !!!", MB_ICONERROR);
+			return;
+		}
  //инициализация АЦП
 		Lan &l = Singleton<Lan>::Instance();
 	    //l.SetHandler
