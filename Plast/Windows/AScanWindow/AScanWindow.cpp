@@ -7,6 +7,7 @@
 #include "Windows/MainWindow/AppKeyHandler.h"
 #include "AScanKeyHandler.h"
 #include "Windows/AScanWindow/AScanWindow.h"
+#include "window_tool/Pass.h"
 
 LRESULT AScanWindow::operator()(TCreate &l)
 {
@@ -37,6 +38,7 @@ void AScanWindow::operator()(TDestroy &l)
 {
 	SetWindowLongPtr(l.hwnd, GWLP_USERDATA, 0);
 	AppKeyHandler::Stop();
+	delete this;
 }
 
 struct __move_window_data__
@@ -51,7 +53,7 @@ template<class O, class P>struct __move_window__
 		o.tchart.maxAxesX = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
 		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
 		SendMessage(MESSAGE(size));
-		MoveWindow(o.hWnd, 0, p.y, p.width, p.height, TRUE);		
+		MoveWindow(o.hWnd, 0, p.y, p.width, p.height, TRUE);
 		p.y += p.height;
 	}
 };
@@ -111,54 +113,57 @@ void AScanWindow::operator()(TClose &l)
 	{
 		if (IDYES == MessageBox(l.hwnd, L"Данные были изменены. Сохранить изменения?", L"Cообщение", MB_ICONQUESTION | MB_YESNO))
 		{
-			VL::CopyFromTo(treshItems, t.items);
-
-			CBase base(ParametersBase().name());
-			if (base.IsOpen())
+			if (TypesizePasswordDlg().Do(l.hwnd))
 			{
-				int id = CurrentId<ID<TresholdsTable> >();
-				if (1 == CountId<ID<TresholdsTable> >(base, id))
+				VL::CopyFromTo(treshItems, t.items);
+
+				CBase base(ParametersBase().name());
+				if (base.IsOpen())
 				{
-					UpdateWhere<TresholdsTable>(t, base).ID(id).Execute();	 
+					int id = CurrentId<ID<TresholdsTable> >();
+					if (1 == CountId<ID<TresholdsTable> >(base, id))
+					{
+						UpdateWhere<TresholdsTable>(t, base).ID(id).Execute();
+					}
+					else
+					{
+						Insert_Into< TresholdsTable>(t, base).Execute();
+					}
+					MessageBox(l.hwnd, L"Данные сохранены!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
 				}
-				else
-				{
-					Insert_Into< TresholdsTable>(t, base).Execute();
-				}
-				MessageBox(l.hwnd, L"Данные сохранены!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
 			}
-			DestroyWindow(l.hwnd);
 		}
+		DestroyWindow(l.hwnd);
 	}
 }
 
 struct __set_thresh_data__
 {
-	unsigned alThr_color	    ;
-	double   alThr_value	    ;
-	int      alThr_startOffs    ;
-	int      alThr_stopOffs	    ;
-	unsigned btmRefThr_color    ;
-	double   btmRefThr_value    ;
+	unsigned alThr_color;
+	double   alThr_value;
+	int      alThr_startOffs;
+	int      alThr_stopOffs;
+	unsigned btmRefThr_color;
+	double   btmRefThr_value;
 	int      btmRefThr_startOffs;
-	int      btmRefThr_stopOffs	;
+	int      btmRefThr_stopOffs;
 };
 
 template<class O, class P>struct __set_thresh__
 {
 	void operator()(O &o, P &p)
 	{
-		auto &alThr     = o.tchart.items.get<AScanViewer::AlThr>();
+		auto &alThr = o.tchart.items.get<AScanViewer::AlThr>();
 		auto &btmRefThr = o.tchart.items.get<AScanViewer::BtmRefThr>();
 
-		alThr.color	        = p.alThr_color		 ;
-		alThr.value         = p.alThr_value		 ;
-		alThr.startOffs     = p.alThr_startOffs	 ;
-		alThr.stopOffs      = p.alThr_stopOffs	 ;
-		btmRefThr.color     = p.btmRefThr_color	 ;
-		btmRefThr.value     = p.btmRefThr_value	 ;
+		alThr.color = p.alThr_color;
+		alThr.value = p.alThr_value;
+		alThr.startOffs = p.alThr_startOffs;
+		alThr.stopOffs = p.alThr_stopOffs;
+		btmRefThr.color = p.btmRefThr_color;
+		btmRefThr.value = p.btmRefThr_value;
 		btmRefThr.startOffs = p.btmRefThr_startOffs;
-		btmRefThr.stopOffs  = p.btmRefThr_stopOffs ;
+		btmRefThr.stopOffs = p.btmRefThr_stopOffs;
 	}
 };
 
@@ -177,4 +182,36 @@ void AScanWindow::SetThresh()
 	   , treshItems.get<BottomReflectionThreshStop>().value
 	};
 	VL::foreach<viewers_list, __set_thresh__>()(viewers, data);
+}
+
+struct __update_sens_data__
+{
+	AScanWindow &owner;
+	int offs;
+	__update_sens_data__(AScanWindow &owner, int offs)
+		: owner(owner)
+		, offs(offs)
+	{}
+};
+template<class O, class P>struct __update_sens__;
+template<int N, class P>struct __update_sens__<AScanWindow::Sens<N>, P>
+{
+	typedef AScanWindow::Sens<N> O;
+	void operator()(O &o, P &p)
+	{
+		auto &w = p.owner.viewers.get<O>();
+		p.owner.computeFrame.Frame(N, p.offs, w.data);
+		RepaintWindow(w.hWnd);
+	}
+};
+
+void AScanWindow::Update()
+{
+	int offs = computeFrame.framesCount / computeFrame.packetSize;
+	offs /= App::count_sensors;
+	offs -= 10;
+	if (offs < 0) offs = 0;
+
+	__update_sens_data__ data(*this, offs);
+	VL::foreach<viewers_list, __update_sens__>()(viewers, data);
 }

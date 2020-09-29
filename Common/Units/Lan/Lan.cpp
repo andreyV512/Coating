@@ -30,8 +30,6 @@ Lan::Lan()
 Lan::~Lan()
 {
 	terminate = true;
-	//WaitForSingleObject(hTresh1, INFINITE);
-	//WaitForSingleObject(hTresh2, INFINITE);
 	SuspendThread(hTresh1);
 	SuspendThread(hTresh2);
 	CloseHandle(hTresh1);
@@ -40,7 +38,6 @@ Lan::~Lan()
 
 bool Lan::Err(U32 err, wchar_t(&str)[256])
 {
-	//char str[256];
 	unsigned xerr = err & ~0xffff;
 	wsprintf(str, L"%x ", xerr);
 	int len = (int)wcslen(str);
@@ -121,7 +118,11 @@ unsigned Lan::Init(int numDevece, IRshDevice *&d, RshInitMemory &p)
 #define q(tpe)Singleton<LanParametersTable>::Instance().items.get<tpe>().value
 void Lan::SetParams(RshInitMemory &p)
 {
+#ifndef TEST_LAN10
 	p.startType = RshInitMemory::External;
+#else 
+	p.startType = RshInitMemory::Program;
+#endif // !TEST_LAN10
 	p.controlSynchro = q(SynchronizationEdge) ? RshInitMemory::SlopeDecline : 0;
 	p.bufferSize = q(PacketSize);
 	p.frequency = 1e6 * q(Frequency);

@@ -48,19 +48,20 @@ CollectionData::CollectionData()
 	RshInitMemory p{};
 	device.lan.SetParams(p);
 	U32 st = device.lan.Init(1, device.lan.device1, p);
-	wchar_t mess[256];
+	static const int buf_len = 256;
+	wchar_t mess[buf_len];
 	if (device.lan.Err(st, mess))
 	{
-		char m[256];
-		wcstombs(m, mess, dimention_of(m));
+		char m[buf_len];
+		wcstombs(m, mess, buf_len);
 		dprint("1 %s\n", m);
 		return;
 	}
 	st = device.lan.Init(2, device.lan.device2, p);
 	if (device.lan.Err(st, mess))
 	{
-		char m[256];
-		wcstombs(m, mess, dimention_of(m));
+		char m[buf_len];
+		wcstombs(m, mess, buf_len);
 		dprint("2 %s\n", m);
 		return;
 	}
@@ -72,9 +73,4 @@ CollectionData::~CollectionData()
 	device.lan.Stop();
 }
 
-/*
-void CollectionData::ChangeLir()
-{
-	device.lir.Change();
-}
-*/
+

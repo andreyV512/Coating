@@ -7,17 +7,6 @@
 #include "Compute/Compute.h"
 #include "Devices/LanDevice.h"
 
-
-//struct StartLir {};
-//template<> struct Proc<StartLir>
-//{
-//	template<class P>void operator()(P &p)
-//	{
-//		Compute &compute = Singleton<Compute>::Instance();
-//		if (compute.StartStrobes()) p = Automat::Status::exit_from_procedure;
-//	}
-//};
-
 template<> struct Proc<Compute>
 {
 	template<class P>void operator()(P &p)
@@ -119,10 +108,8 @@ namespace Automat
 
 					CollectionData collection; 
 
-					//Bits<On<iOut>, Key<StopBtn>, Proc<StartLir> >(120 * 1000);
 					Bits<On<iOut>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(120 * 1000);
 					Bits<Off<iIn>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(120 * 1000);
-			//		collection.ChangeLir();
 					Bits<Off<iOut>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(20 * 1000);
 				}
 				Log::Mess <LogMess::CollectionDone>();

@@ -14,6 +14,8 @@ template<class T, int size>struct Impl
 	~Impl() { 
 		if (0 != *(unsigned *)buf)((T *)buf)->~T();
 	}
+	T &operator *()const { return *(T *)buf; }
+	T *operator ->()const { return (T *)buf; }
 };
 
 /*

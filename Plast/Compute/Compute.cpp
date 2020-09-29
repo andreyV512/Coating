@@ -18,19 +18,32 @@ Compute::Compute()
 	VL::foreach<VL::CreateNumList< Data::Sensor, 0, 2>::Result, __compute_set_data__>()(sensorData);
 }
 
+template<class O, class P>struct __init_filtre_X__
+{
+	bool operator()(P &p)
+	{
+		auto &items = Singleton<FiltersTable>::Instance().items;
+		if (VL::IndexOf<filters_list, O>::value == items.get<CurrentFilter>().value)
+		{
+			p.Init<O>();
+			SetupFiltre<O>()(
+				(O &)p
+				, items
+				, Singleton<LanParametersTable>::Instance().items.get<Frequency>().value
+				);
+			return false;
+		}
+		return true;
+	}
+};
+
 void Compute::Start()
 {
 	packetSize = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
 	numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
 
-	auto &params = Singleton<FiltersTable>::Instance().items;
-	for (int i = 0; i < dimention_of(filters); ++i)
-	{
-		filters[i] = &dspFilt;
-		__init_filtre_data__ data(filters[i], params);
-		VL::foreach<filters_list, __init_filtre__>()(factoryFilters[i], data);
-	}
+	if (VL::find<filters_list, __init_filtre_X__>()(filter)) filter.Init<IDSPFlt>();
 
 	auto medianParams = Singleton<MedianFiltreTable>::Instance().items;
 	medianProc = medianParams.get<MedianFiltreON>().value ? &MedianFiltre::Val: &MedianFiltre::noop;
@@ -63,7 +76,7 @@ bool Compute::Strobes()
 		char status = 0;
 		int sensor = i % App::count_zones;
 		int zone = i / App::count_zones;
-		ComputeFrame(sensor, &data.buffer[i], result, status);
+		ComputeFrame((IDSPFlt *)&filter, sensor, &data.buffer[i], result, status);
 		data.result[sensor][zone] = result;
 		data.status[sensor][zone] = status;
 	}
@@ -119,10 +132,9 @@ void Compute::Zone(int zone, int sens)
 	sensorData[sens]->count        = zone;
 }
 
-void Compute::ComputeFrame(int sensor, char *d, double &value, char &status)
+void Compute::ComputeFrame(IDSPFlt *f, int sensor, char *d, double &value, char &status)
 {
 	status = 0;
-	auto f = filters[sensor];
 	int i = 0;
 	for (; i < offsAlarmStart; ++i)
 	{

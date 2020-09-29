@@ -1,25 +1,12 @@
 ﻿#include <stdio.h>
 #include <typeinfo>
 #include <string>
-
-template<class T, int size>struct impl
-{
-	template<int size, bool b> struct the_buffer_size_must_be_larger_than_the_type_size;
-	template<int size> struct the_buffer_size_must_be_larger_than_the_type_size<size, true> {};
-	union {
-		T *o;
-		char buf[size];
-	}inner;
-	template<class Z, class ...Params>Z &Set(Params... p)
-	{
-		the_buffer_size_must_be_larger_than_the_type_size<sizeof(Z), sizeof(Z) <= size>();
-		return *new(inner.buf)Z(p...);
-	}
-};
+#include "templates/impl.hpp"
 
 struct A
 {
-	virtual void print() = 0;
+	virtual void print() { printf("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"); }
+	virtual ~A() { printf("%s\n", __FUNCTION__); };
 };
 
 
@@ -29,6 +16,7 @@ struct B: A
 	B(char *b) 
 	{ strcpy_s(buf, b); }
 	void print()override { printf("%s\n", buf); }
+	~B()override { printf("%s\n", __FUNCTION__); }
 };
 
 struct C : B
@@ -36,14 +24,24 @@ struct C : B
 	int k;
 	C(char *b, int &k): B(b),k(k) {}
 	void print()override { printf("%s  %d\n", buf, k); }
+	~C()override { printf("%s\n", __FUNCTION__); }
 };
 
 
 
 int main()
 {
-	int k = 1234;
-	A &a = impl<A, 272>().Set<C>((char *)"Ok obi", k);
-	a.print();
-	printf("   %d\n", (int)sizeof(B));
+	int k = 0;
+	{
+		Impl<A, 272> impl;
+		A &a = impl.Init<C>((char *)"Ok obi", k);
+		a.print();
+		impl.Init<B>((char *)"HI Ok obi");
+		a.print();
+		printf("   %d\n", (int)sizeof(B));
+		impl->print();
+		(*impl).print();
+
+
+	}
 }

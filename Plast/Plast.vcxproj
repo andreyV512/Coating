@@ -254,6 +254,7 @@
     <ClInclude Include="Automat\Automat.h" />
     <ClInclude Include="Automat\Automat.hpp" />
     <ClInclude Include="Compute\Compute.h" />
+    <ClInclude Include="Compute\ComputeFrame.h" />
     <ClInclude Include="Data\Data.h" />
     <ClInclude Include="Devices\1730Parameters.h" />
     <ClInclude Include="Devices\LanDevice.h" />
@@ -338,6 +339,7 @@
     <ClCompile Include="AScanAuto\AScanAuto.cpp" />
     <ClCompile Include="Automat\Automat.cpp" />
     <ClCompile Include="Compute\Compute.cpp" />
+    <ClCompile Include="Compute\ComputeFrame.cpp" />
     <ClCompile Include="Data\Data.cpp" />
     <ClCompile Include="Devices\LanDevice.cpp" />
     <ClCompile Include="Dlg\AboutWindow.cpp" />

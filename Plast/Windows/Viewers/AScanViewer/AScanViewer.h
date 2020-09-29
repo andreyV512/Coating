@@ -21,7 +21,8 @@ public:
 	TChart tchart;
 	Cursor tcursor;
 	int numSensor;
-	Data::InputData &data;
+	//Data::InputData &data;
+	double data[5000];
 
 	AScanViewer();
 

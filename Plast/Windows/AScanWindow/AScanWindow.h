@@ -5,6 +5,8 @@
 #include "Graphics/TopLabelViewer.h"
 #include "Windows/Viewers/AScanViewer/AScanViewer.h"
 #include "App/AppBase.h"
+#include "AScanAuto/AScanAuto.h"
+#include "Compute/ComputeFrame.h"
 
 class AScanWindow
 {
@@ -22,6 +24,8 @@ public:
 	HWND hStatuisBar;
 	AScanWindowToolBar toolBar;
 	TopLabelViewer topLabelViewer;
+	AScanAuto aScanAuto;
+	ComputeFrame computeFrame;
 
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
@@ -34,4 +38,6 @@ public:
 	void SetThresh();
 
 	static wchar_t *Title() { return (wchar_t *)L"AScan"; }
+
+	void Update();
 };

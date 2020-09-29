@@ -43,8 +43,8 @@ void WindowPosition::Set_(const char *n, RECT &r)
 	wchar_t name[256];
 	mbstowcs(name, &n[6], dimention_of(name));
 
-	ItemIni::Set(name, (wchar_t *)L"X"     , r.left  , path);
-	ItemIni::Set(name, (wchar_t *)L"Y"     , r.top   , path);				 
-	ItemIni::Set(name, (wchar_t *)L"Width" , r.right - r.left, path);
-	ItemIni::Set(name, (wchar_t *)L"Height", r.bottom - r.top, path);
+	ItemIni::Set(name, (wchar_t *)L"X"     , (int)r.left  , path);
+	ItemIni::Set(name, (wchar_t *)L"Y"     , (int)r.top   , path);				 
+	ItemIni::Set(name, (wchar_t *)L"Width" , int(r.right - r.left), path);
+	ItemIni::Set(name, (wchar_t *)L"Height", int(r.bottom - r.top), path);
 }

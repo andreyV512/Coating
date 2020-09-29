@@ -1,7 +1,6 @@
 #pragma once
 /*
 * INFO —бор данных в цикле
-void CollectionData::ChangeLir(); - мен€ет лир 
 */
 namespace Data
 {
@@ -14,7 +13,6 @@ class LanDevice
 	int numberPackets;
 	int packetSize;
 	Data::InputData &data;
-//	class Lir &lir;
 	class Lan &lan;
 public:
 	LanDevice();
@@ -28,6 +26,4 @@ class CollectionData
 public:	
 	CollectionData();
 	~CollectionData();
-
-	//void ChangeLir();
 };

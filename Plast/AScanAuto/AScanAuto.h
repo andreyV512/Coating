@@ -1,28 +1,24 @@
 #pragma once
-#include <Windows.h>
+#include "templates/impl.hpp"
+
 
 class AScanAuto
 {
-	static const int frame_size = 512;
-	double data[frame_size * 3];
-	struct Obj {};
-	Obj *obj;
-	void(Obj::*ptr)(double(&)[frame_size * 3]);
-	HANDLE hTresh;
-	bool terminate;
 public:
-	void Run();
+	struct TObj {};
+	TObj *obj;
+	void (TObj::*Update)();
 public:
-	
+	class IScan { public: virtual ~IScan() {} };
+private:
+	Impl<IScan, 32> impl;
+public:
 	AScanAuto();
-	~AScanAuto();
-	void Init();
 	void Start();
 	void Stop();
-
-	template<class T> void SetHandler(T *t, void(T::*p)(double(&)[frame_size * 3]))
+	template<class T>void SetHandle(T *o, void (T::*ptr)())
 	{
-		obj = (Obj *)t;
-		ptr = (void(T:: *)(double(&)[frame_size * 3]))p;
+		o = (TObj *)obj;
+		Update = (void (TObj:: *)())ptr;
 	}
 };

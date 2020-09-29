@@ -1,7 +1,9 @@
 #include "AScanWindowToolBar.h"
 #include "Resource.h"
 #include "window_tool/InitToolBar.hpp"
+#include "AScanWindow.h"
 #include "tools_debug/DebugMess.h"
+
 
 namespace
 {
@@ -27,11 +29,14 @@ namespace
 
 	void Key<IDB_CycleBtn>::Click(HWND h) 
 	{
-		dprint("Key<IDB_CycleBtn>::Click\n"); 
+		AScanWindow *w = (AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+		w->aScanAuto.Start();
+
 	}
 	void Key<IDB_Reset>::Click(HWND h) 
 	{
-		dprint("Key<IDB_Reset>::Click\n"); 
+		AScanWindow *w = (AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+		w->aScanAuto.Stop();
 	}
 }
 

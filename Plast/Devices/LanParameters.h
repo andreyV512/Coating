@@ -1,6 +1,6 @@
 #pragma once
 #include "Base/TablesDefine.h"
-DEFINE_PARAM(PacketSize, int, 474)
+DEFINE_PARAM(PacketSize, int, 4058)
 DEFINE_PARAM(Gain0, int, 40)
 DEFINE_PARAM(SyncLevel, int, 80)
 DEFINE_PARAM(SyncGain, int, 10)

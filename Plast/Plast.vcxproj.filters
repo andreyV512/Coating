@@ -471,6 +471,9 @@
     <ClInclude Include="..\Common\templates\impl.hpp">
       <Filter>Common\templates</Filter>
     </ClInclude>
+    <ClInclude Include="Compute\ComputeFrame.h">
+      <Filter>Compute</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -733,6 +736,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\Graphics\Borders.cpp">
       <Filter>Common\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\ComputeFrame.cpp">
+      <Filter>Compute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

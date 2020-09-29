@@ -27,9 +27,10 @@ class IDSPFlt
 {
 public:
 	virtual double operator()(double value) { return value; };
+	virtual void Clean() {};
 };
 
-template<template<class>class TypeFiltre, template<class>class SubTypeFiltre, int MaxOrder = 10>class DSPFlt: public IDSPFlt
+template<template<class>class TypeFiltre, template<class>class SubTypeFiltre, int MaxOrder = 5>class DSPFlt: public IDSPFlt
 {
 public:
 	typedef typename DSPFltType<TypeFiltre,SubTypeFiltre, MaxOrder>::Result T;
@@ -40,6 +41,10 @@ public:
 	double operator()(double value)override 
 	{
 		return state.process(value, filtre);
+	}
+	void Clean()override
+	{
+
 	}
 };
 
@@ -122,26 +127,26 @@ template<>struct Conv<Vlst<>>
 
 typedef Conv<type_flites_list>::Result filters_list;
 
-template<class Params>struct __init_filtre_data__
-{
-	IDSPFlt *&proc;
-	Params &params;
-	__init_filtre_data__(IDSPFlt *&proc, Params &params) : proc(proc), params(params) {}
-};
-
-template<class O, class P>struct __init_filtre__
-{
-	bool operator()(O &o, P &p)
-	{
-		if (VL::IndexOf<filters_list, O>::value == p.params.get<CurrentFilter>().value)
-		{
-			SetupFiltre<O>()(o, p.params, Singleton<LanParametersTable>::Instance().items.get<Frequency>().value);
-			p.proc = &o;
-			return false;
-		}
-		return true;
-	}
-};
+//template<class Params>struct __init_filtre_data__
+//{
+//	IDSPFlt *&proc;
+//	Params &params;
+//	__init_filtre_data__(IDSPFlt *&proc, Params &params) : proc(proc), params(params) {}
+//};
+//
+//template<class O, class P>struct __init_filtre__
+//{
+//	bool operator()(O &o, P &p)
+//	{
+//		if (VL::IndexOf<filters_list, O>::value == p.params.get<CurrentFilter>().value)
+//		{
+//			SetupFiltre<O>()(o, p.params, Singleton<LanParametersTable>::Instance().items.get<Frequency>().value);
+//			p.proc = &o;
+//			return false;
+//		}
+//		return true;
+//	}
+//};
 
 
 

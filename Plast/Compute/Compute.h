@@ -2,6 +2,7 @@
 #include "App/App.h"
 #include "DspFilters/Filters.hpp"
 #include "MedianFiltre/MedianFiltre.h"
+#include "templates/impl.hpp"
 
 namespace Data
 { 
@@ -28,6 +29,7 @@ class Compute
 
 	int offsReflectionStart, offsReflectionStop;
 	double gainReflectionOffs, gainReflectionDelta, threshReflection;
+	Impl<IDSPFlt, 1032> filter;
 public:
 	
 	Compute();
@@ -36,7 +38,7 @@ public:
 
 	bool Strobes();
 	void Zone(int zone, int sens);
-	void ComputeFrame(int sensor, char *, double &value, char &status);
+	void ComputeFrame(IDSPFlt *f, int sensor, char *d, double &value, char &status);
 	void ComputeZone(int zone);
 	void Update();
 	void Done();

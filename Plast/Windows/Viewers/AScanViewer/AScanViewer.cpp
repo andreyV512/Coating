@@ -6,7 +6,6 @@
 AScanViewer::AScanViewer()
 	: tchart(backScreen)
 	, tcursor(tchart)
-	, data(Singleton<Data::InputData>::Instance())
 {
 	chart = &tchart;
 	cursor = &tcursor;
