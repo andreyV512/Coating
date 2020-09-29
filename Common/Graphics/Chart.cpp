@@ -118,7 +118,7 @@ int Chart::GetCountDigit(double min, double max, double &height, Font &font)
 void Chart::Draw(Gdiplus::Graphics &graph)
 {
 	g = &graph;
-	graph.FillRectangle(&SolidBrush(Color((ARGB)BACK_GROUND)), rect.left, rect.top, rect.right, rect.bottom);
+	graph.FillRectangle(&SolidBrush(Color((ARGB)BACK_GROUND)), (int)rect.left, rect.top, rect.right, rect.bottom);
 }
 //------------------------------------------------------------------------------
 LeftAxes::LeftAxes(Chart &chart) 

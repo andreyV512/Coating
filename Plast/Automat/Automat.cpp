@@ -79,7 +79,7 @@ namespace Automat
 
 	DWORD WINAPI Loop(PVOID)
 	{
-		Lir &lir = Singleton<Lir>::Instance();
+	//	Lir &lir = Singleton<Lir>::Instance();
 		Compute &compute = Singleton<Compute>::Instance();
 		bool startLoop = true;
 		while (true)

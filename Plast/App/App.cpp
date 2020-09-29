@@ -42,7 +42,6 @@ namespace App
 		StartKeyHook(&AppKeyHandler::KeyPressed);
  //инициализация АЦП
 		Lan &l = Singleton<Lan>::Instance();
-	    //l.SetHandler
 		RshInitMemory p{};
 		l.SetParams(p);
 		wchar_t mess[256];
@@ -59,13 +58,13 @@ namespace App
 			return;
 		}
 
-		Lir &lir = Singleton<Lir>::Instance();
-
-		if (!lir.Init(Singleton<LirParamTable>::Instance().items.get<LirDescriptor>().value))
-		{
-			MessageBox(h, L"Плата не инициализирована", (wchar_t *)L"Ошибка платы ЛИР", MB_ICONEXCLAMATION);
-			return;
-		}
+		//Lir &lir = Singleton<Lir>::Instance();
+		//
+		//if (!lir.Init(Singleton<LirParamTable>::Instance().items.get<LirDescriptor>().value))
+		//{
+		//	MessageBox(h, L"Плата не инициализирована", (wchar_t *)L"Ошибка платы ЛИР", MB_ICONEXCLAMATION);
+		//	return;
+		//}
 
 		Singleton<LogMessageToTopLabel>::Instance().Run();
 		Automat::Init();

@@ -1,4 +1,4 @@
 #pragma once
 
-#define DEBUG_ITEMS
+#undef DEBUG_ITEMS
 #define TEST_LAN10

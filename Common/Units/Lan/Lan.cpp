@@ -1,6 +1,7 @@
 #include "Lan.h"
 #include "Devices/LanParameters.h"
 #include "App/App.h"
+#include "App/Config.h"
 const char *BoardName = "LAn10M8PCI";
 #define dprint printf
 
