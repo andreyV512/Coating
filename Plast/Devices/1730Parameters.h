@@ -35,7 +35,7 @@ struct OutputBitsTable
 	const wchar_t *name() { return L"OutputBitsTable"; }
 };
 
-STR_PARAM(NamePlate1730, 64, L"PCI-1730,BID#12")
+STR_PARAM(NamePlate1730, 64, L"PCIE-1730,BID#0")
 struct NamePlate1730ParametersTable
 {
 	typedef Vlst<
