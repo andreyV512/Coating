@@ -18,7 +18,7 @@ public:
 	void Stop();
 	template<class T>void SetHandle(T *o, void (T::*ptr)())
 	{
-		o = (TObj *)obj;
+		obj = (TObj *)o;
 		Update = (void (TObj:: *)())ptr;
 	}
 };

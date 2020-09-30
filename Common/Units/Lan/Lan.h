@@ -3,13 +3,14 @@
 
 class Lan
 {
-	friend DWORD WINAPI __frame1__(PVOID);
-	friend DWORD WINAPI __frame2__(PVOID);
+	static DWORD WINAPI __frame1__(PVOID);
+	static DWORD WINAPI __frame2__(PVOID);
 	struct TObj {};
 	TObj *obj;
 	int(TObj:: *ptr)(char *&);
 	void(TObj:: *confirmPtr)(unsigned);
 	RshDllClient Client;
+	CRITICAL_SECTION cs;
 public:
 	IRshDevice *device1, *device2;
 private:

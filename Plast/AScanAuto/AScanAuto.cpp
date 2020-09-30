@@ -9,13 +9,13 @@
 
 class Scan: public AScanAuto::IScan
 {
-	AScanAuto &owner;
+	AScanAuto *owner;
 public:
 	HANDLE hThread, hEvent;
 	void Run();
 	static DWORD WINAPI __run__(_In_ LPVOID lpParameter) { ((Scan *)lpParameter)->Run(); return 0; }
 public:
-	Scan(AScanAuto &owner)
+	Scan(AScanAuto *owner)
 		: owner(owner)
 		, hThread(NULL)
 	{
@@ -37,7 +37,7 @@ void Scan::Run()
 	while (true)
 	{
 		//TODO Доделать сбор данных
-		switch (WaitForSingleObject(hEvent, 100))
+		switch (WaitForSingleObject(hEvent, 1000))
 		{
 		case WAIT_OBJECT_0:
 			dprint("WAIT_OBJECT_0\n");
@@ -46,7 +46,7 @@ void Scan::Run()
 			return;
 		case WAIT_TIMEOUT: 
 		{
-			(owner.obj->*owner.Update)();
+			(owner->obj->*owner->Update)();
 			unsigned t = Performance::Counter();
 			if (time - t > 3000)
 			{
@@ -54,9 +54,11 @@ void Scan::Run()
 			}
 		}
 			break;
-		case WAIT_ABANDONED: 
-			[[fallthrough]];
+		case WAIT_ABANDONED:
+			dprint("WAIT_ABANDONED\n");
+		[[fallthrough]];
 		case WAIT_FAILED:
+			dprint("WAIT_FAILED\n");
 			return;
 		}
 	}
@@ -64,13 +66,14 @@ void Scan::Run()
 
 AScanAuto::AScanAuto()
 {
-	impl.Init<Scan>(*this);
+	impl.Init<Scan>(this);
 }
 
 void AScanAuto::Start() 
 {
 	AScanKeyHandler::Run();
-	((Scan *)&impl)->hThread = CreateThread(NULL, 0, ((Scan *)&impl)->__run__, this, 0, NULL);
+	Scan *s = (Scan *)&impl;
+    s->hThread = CreateThread(NULL, 0, s->__run__, s, 0, NULL);
 }
 void AScanAuto::Stop() 
 {

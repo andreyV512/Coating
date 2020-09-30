@@ -52,14 +52,16 @@ namespace App
 		l.SetParams(p);
 		wchar_t mess[256];
 		U32 st = l.Init(1, l.device1, p);
-		if (l.Err(st, mess)) 
+		if (RSH_API_SUCCESS != st)
 		{
+			l.Err(st, mess);
 			MessageBox(h, mess, (wchar_t *)L"Ошибка платы La-n108-100PCI(1)!!!", MB_ICONEXCLAMATION);
 			return;
 		}
 		st = l.Init(2, l.device2, p);
-		if (l.Err(st, mess))
+		if (RSH_API_SUCCESS != st)
 		{
+			l.Err(st, mess);
 			MessageBox(h, mess, (wchar_t *)L"Ошибка платы La-n108-100PCI(2)!!!", MB_ICONEXCLAMATION);
 			return;
 		}

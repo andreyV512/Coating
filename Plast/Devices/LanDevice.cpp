@@ -30,13 +30,15 @@ int LanDevice::Buff(char *&buf)
 
 void LanDevice::Confirm(unsigned b)
 {
-	data.framesCount += b;
-	if (++data.offsetsTickCount >= dimention_of(data.offsetsTick))
-	{
-		data.offsetsTickCount = dimention_of(data.offsetsTick) - 1;
-	}
+	unsigned t = data.framesCount + b;
+	if (t < dimention_of(data.buffer)) data.framesCount = t;
 	
-	data.offsetsTick[data.offsetsTickCount] = Performance::Counter();
+	if (data.offsetsTickCount < dimention_of(data.offsetsTick))
+	{
+		data.offsetsTick[data.offsetsTickCount] = Performance::Counter();
+		++data.offsetsTickCount;
+	}
+	dprint("framesCount %d\n", data.framesCount);
 }
 
 CollectionData::CollectionData()
@@ -47,22 +49,21 @@ CollectionData::CollectionData()
 	);
 	RshInitMemory p{};
 	device.lan.SetParams(p);
-	U32 st = device.lan.Init(1, device.lan.device1, p);
-	static const int buf_len = 256;
-	wchar_t mess[buf_len];
-	if (device.lan.Err(st, mess))
+	U32 st;
+	st = device.lan.device1->Init(&p);
+	if (RSH_API_SUCCESS != st)
 	{
-		char m[buf_len];
-		wcstombs(m, mess, buf_len);
-		dprint("1 %s\n", m);
+		wchar_t mess[256];
+		device.lan.Err(st, mess);
+		dprint("1 %S\n", mess);
 		return;
 	}
-	st = device.lan.Init(2, device.lan.device2, p);
-	if (device.lan.Err(st, mess))
+	st = device.lan.device2->Init(&p);
+	if (RSH_API_SUCCESS != st)
 	{
-		char m[buf_len];
-		wcstombs(m, mess, buf_len);
-		dprint("2 %s\n", m);
+		wchar_t mess[256];
+		device.lan.Err(st, mess);
+		dprint("2 %S\n", mess);
 		return;
 	}
 	device.lan.Start();

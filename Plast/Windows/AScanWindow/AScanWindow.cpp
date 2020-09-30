@@ -13,6 +13,8 @@ LRESULT AScanWindow::operator()(TCreate &l)
 {
 	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
 	SetThresh();
+	aScanAuto.SetHandle(this, &AScanWindow::Update);
+
 
 	AppKeyHandler::DisableAll();
 	Menu<AScanWindowMenu::Menu>().Init(l.hwnd);
@@ -104,6 +106,7 @@ template<class O, class P>struct __compare_tresh__
 
 void AScanWindow::operator()(TClose &l)
 {
+	aScanAuto.Stop();
 	TresholdsTable &t = Singleton<TresholdsTable>::Instance();
 	if (VL::find<TresholdsTable::items_list, __compare_tresh__>()(t.items, treshItems))
 	{
