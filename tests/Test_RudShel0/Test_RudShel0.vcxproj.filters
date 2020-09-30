@@ -122,5 +122,8 @@
     <ClInclude Include="Lan\INTERFACES\UniDriver4LV.h">
       <Filter>Lan\INTERFACES</Filter>
     </ClInclude>
+    <ClInclude Include="Lan\stdafx.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
