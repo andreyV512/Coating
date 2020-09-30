@@ -21,7 +21,7 @@ public:
 	~Lan();
 	unsigned Init(int numDevece, IRshDevice *&d, RshInitMemory &p);
 	void SetParams(RshInitMemory &);
-	bool Err(U32 err, wchar_t(&str)[256]);
+	void Err(U32 err, wchar_t(&str)[256]);
 
 	void Start();
 	void Stop();

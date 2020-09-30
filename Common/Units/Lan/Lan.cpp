@@ -2,17 +2,18 @@
 #include "Devices/LanParameters.h"
 #include "App/App.h"
 #include "App/Config.h"
+#include "tools_debug/DebugMess.h"
 const char *BoardName = "LAn10M8PCI";
-#define dprint printf
 
-DWORD WINAPI __frame1__(PVOID p)
+
+DWORD WINAPI Lan::__frame1__(PVOID p)
 {
 	Lan *l = (Lan *)p;
 	l->Frame(l->device1);
 	return 0;
 }
 
-DWORD WINAPI __frame2__(PVOID p)
+DWORD WINAPI Lan::__frame2__(PVOID p)
 {
 	Lan *l = (Lan *)p;
 	l->Frame(l->device2);
@@ -38,21 +39,17 @@ Lan::~Lan()
 	CloseHandle(hTresh2);
 }
 
-bool Lan::Err(U32 err, wchar_t(&str)[256])
+void Lan::Err(U32 err, wchar_t(&str)[256])
 {
 	unsigned xerr = err & ~0xffff;
 	wsprintf(str, L"%x ", xerr);
 	int len = (int)wcslen(str);
 	U32 res = RshError::GetErrorDescription(xerr, &str[len], 256 - len);
-	if (RSH_API_SUCCESS != res)
-	{
-		return true;
-	}
+	if (RSH_API_SUCCESS == res) return;
 	xerr = err & 0xffff;
 	wsprintf(str, L"%x ", xerr);
 	len = (int)wcslen(str);
 	res = RshError::GetSystemErrorDescription(xerr, &str[len], 256 - len);
-	return RSH_API_SUCCESS != res;
 }
 
 void Lan::Start()
@@ -73,7 +70,7 @@ struct Tbuf: RshBaseType
 	size_t m_size;
 	size_t m_psize;
 	Tbuf(char *ptr, size_t m_psize)
-		: RshBaseType(rshBufferTypeDouble, sizeof(RshBufferType<char, rshBufferTypeDouble>))
+		: RshBaseType(rshBufferTypeU8, sizeof(RshBufferType<char, rshBufferTypeU8>))
 		, ptr(ptr)
 		, m_size(0)
 		, m_psize(m_psize)
@@ -85,11 +82,12 @@ void Lan::Frame(IRshDevice *d)
 	RSH_U32 waitTime = 10000;
 	while (!terminate)
 	{
+		EnterCriticalSection(&cs);
 		S32 st = d->Start();
 		if (RSH_API_SUCCESS == st)
 		{
 			st = d->Get(RSH_GET_WAIT_BUFFER_READY_EVENT, &waitTime);
-			EnterCriticalSection(&cs);
+			
 			if (RSH_API_SUCCESS == st)
 			{
 				char *addr = NULL;
@@ -101,8 +99,7 @@ void Lan::Frame(IRshDevice *d)
 					(obj->*confirmPtr)((unsigned)buf.m_size);
 				}
 			}
-			st = d->Stop();
-			LeaveCriticalSection(&cs);
+			d->Stop();
 		}
 		if (RSH_API_SUCCESS != st)
 		{
@@ -111,6 +108,7 @@ void Lan::Frame(IRshDevice *d)
 			int num = d == device1 ? 1 : 2;
 			dprint("%d %S\n", num, m);
 		}
+		LeaveCriticalSection(&cs);
 	}
 }
 
