@@ -24,6 +24,7 @@ Lan::Lan()
 	, device1(NULL)
 	, device2(NULL)
 {
+	InitializeCriticalSection(&cs);
 	hTresh1 = CreateThread(NULL, 0, __frame1__, this, CREATE_SUSPENDED, NULL);
 	hTresh2 = CreateThread(NULL, 0, __frame2__, this, CREATE_SUSPENDED, NULL);
 }
@@ -85,23 +86,30 @@ void Lan::Frame(IRshDevice *d)
 	while (!terminate)
 	{
 		S32 st = d->Start();
-		st = d->Get(RSH_GET_WAIT_BUFFER_READY_EVENT, &waitTime);
-		char *addr = NULL;
-		size_t count = (obj->*ptr)(addr);
-		Tbuf buf(addr, count);
-		st = d->GetData(&buf);
 		if (RSH_API_SUCCESS == st)
 		{
-			(obj->*confirmPtr)((unsigned)buf.m_size);
+			st = d->Get(RSH_GET_WAIT_BUFFER_READY_EVENT, &waitTime);
+			EnterCriticalSection(&cs);
+			if (RSH_API_SUCCESS == st)
+			{
+				char *addr = NULL;
+				size_t count = (obj->*ptr)(addr);
+				Tbuf buf(addr, count);
+				st = d->GetData(&buf);
+				if (RSH_API_SUCCESS == st)
+				{
+					(obj->*confirmPtr)((unsigned)buf.m_size);
+				}
+			}
+			st = d->Stop();
+			LeaveCriticalSection(&cs);
 		}
-		else
+		if (RSH_API_SUCCESS != st)
 		{
 			wchar_t m[256];
-			char c[256];
 			Err(st, m);
-			wcstombs(c, m, dimention_of(m));
 			int num = d == device1 ? 1 : 2;
-			dprint("%d %s\n", num, c);
+			dprint("%d %S\n", num, m);
 		}
 	}
 }
