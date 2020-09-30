@@ -12,6 +12,13 @@ SensorViewer::SensorViewer(Data::SensorData &data)
 	tcursor.horizontalLine = false;
 	tchart.items.get<BarSeriesNoFixed>().SetColorBarHandler(this, &SensorViewer::GetColorCell);
 	tcursor.SetMouseMoveHandler(this, &SensorViewer::Draw);
+	chart->minAxesX = 0;
+	chart->maxAxesX = 500;
+	chart->minAxesY = 0;
+	chart->maxAxesY = 100;
+	chart->rect.top = 17;
+	label.fontHeight = 10;
+	label.top = 0;
 }
 
 bool SensorViewer::GetColorCell(int zone, double &data_, unsigned &color)

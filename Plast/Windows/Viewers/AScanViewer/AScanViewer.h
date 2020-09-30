@@ -9,6 +9,8 @@ class AScanViewer : public CommonSensorViewer
 public:
 	class AlThr : public HOffsBorder { public: AlThr(Chart &c) : HOffsBorder(c) {} };
 	class BtmRefThr : public HOffsBorder { public: BtmRefThr(Chart &c) : HOffsBorder(c) {} };
+	class NAlThr : public HOffsBorder { public: NAlThr(Chart &c); void Draw(); };
+	class NBtmRefThr : public HOffsBorder { public: NBtmRefThr(Chart &c); void Draw(); };
 	typedef CommonSensorViewer Parent;
 	typedef ChartDraw< Chart, Vlst<
 		NoOffsetLeftAxes
@@ -17,12 +19,14 @@ public:
 		, FixedGrid
 		, AlThr
 		, BtmRefThr
+		, NAlThr
+		, NBtmRefThr
 	> > TChart;
 	TChart tchart;
 	Cursor tcursor;
 	int numSensor;
 	//Data::InputData &data;
-	double data[5000];
+	
 
 	AScanViewer();
 

@@ -204,13 +204,15 @@ template<int N, class P>struct __update_sens__<AScanWindow::Sens<N>, P>
 	{
 		auto &w = p.owner.viewers.get<O>();
 		p.owner.computeFrame.Frame(N, p.offs, w.data);
+		w.line.count = p.owner.computeFrame.packetSize;
 		RepaintWindow(w.hWnd);
 	}
 };
 
 void AScanWindow::Update()
 {
-	int offs = computeFrame.framesCount / computeFrame.packetSize;
+	int offs = computeFrame.framesCount;
+	offs /= computeFrame.packetSize;
 	offs /= App::count_sensors;
 	offs -= 10;
 	if (offs < 0) offs = 0;

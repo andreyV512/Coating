@@ -38,7 +38,6 @@ void LanDevice::Confirm(unsigned b)
 		data.offsetsTick[data.offsetsTickCount] = Performance::Counter();
 		++data.offsetsTickCount;
 	}
-	dprint("framesCount %d\n", data.framesCount);
 }
 
 CollectionData::CollectionData()

@@ -70,7 +70,7 @@ struct Tbuf: RshBaseType
 	size_t m_size;
 	size_t m_psize;
 	Tbuf(char *ptr, size_t m_psize)
-		: RshBaseType(rshBufferTypeU8, sizeof(RshBufferType<char, rshBufferTypeU8>))
+		: RshBaseType(rshBufferTypeS8, sizeof(RshBufferType<char, rshBufferTypeS8>))
 		, ptr(ptr)
 		, m_size(0)
 		, m_psize(m_psize)
@@ -80,6 +80,7 @@ struct Tbuf: RshBaseType
 void Lan::Frame(IRshDevice *d)
 {
 	RSH_U32 waitTime = 10000;
+	
 	while (!terminate)
 	{
 		EnterCriticalSection(&cs);
@@ -87,6 +88,8 @@ void Lan::Frame(IRshDevice *d)
 		if (RSH_API_SUCCESS == st)
 		{
 			st = d->Get(RSH_GET_WAIT_BUFFER_READY_EVENT, &waitTime);
+			d->Stop();
+			
 			
 			if (RSH_API_SUCCESS == st)
 			{
@@ -99,8 +102,8 @@ void Lan::Frame(IRshDevice *d)
 					(obj->*confirmPtr)((unsigned)buf.m_size);
 				}
 			}
-			d->Stop();
 		}
+		LeaveCriticalSection(&cs);
 		if (RSH_API_SUCCESS != st)
 		{
 			wchar_t m[256];
@@ -108,7 +111,7 @@ void Lan::Frame(IRshDevice *d)
 			int num = d == device1 ? 1 : 2;
 			dprint("%d %S\n", num, m);
 		}
-		LeaveCriticalSection(&cs);
+		
 	}
 }
 

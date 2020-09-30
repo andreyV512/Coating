@@ -44,7 +44,7 @@ public:
 	}
 	void Clean()override
 	{
-
+		state.Clean(filtre);
 	}
 };
 

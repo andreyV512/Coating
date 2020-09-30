@@ -31,16 +31,19 @@ ComputeFrame::ComputeFrame()
 
 void ComputeFrame::UpdateFiltre()
 {
-	VL::find<filters_list, __init_filtre_XX__>()(*this);
+	if(VL::find<filters_list, __init_filtre_XX__>()(*this)) filter.Init<IDSPFlt>();
 }
 
 void ComputeFrame::Frame(int sensor, int offs, double *data)
 {
+
 	offs *= packetSize * App::count_sensors;
 	offs += sensor * packetSize;
 	filter->Clean();
 	for (int i = 0; i < packetSize; ++i, ++offs)
 	{
-		data[i] = (*filter)(buffer[offs]);
+		double t = (*filter)(buffer[offs]);
+		//data[i] = buffer[offs];
+		data[i] = t;// > 0 ? t : -t;
 	}
 }

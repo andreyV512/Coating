@@ -13,6 +13,10 @@ ResultViewer::ResultViewer()
 	tcursor.horizontalLine = false;
 	tchart.items.get<BarSeriesDouble>().SetColorBarHandler(this, &ResultViewer::GetColorCell);
 	tcursor.SetMouseMoveHandler(this, &ResultViewer::Draw);
+	chart->minAxesX = 0;
+	chart->maxAxesX = 500;
+	chart->minAxesY = 0;
+	chart->maxAxesY = 100;
 }
 
 struct __mouse_well_data__

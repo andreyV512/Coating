@@ -15,7 +15,13 @@ public:
 	{
 	public:
 		typedef AScanViewer Parent;
-		Sens(){numSensor = N;}
+		LineSeries &line;
+		double data[8154];
+		Sens():line(tchart.items.get<LineSeries>())
+		{
+			numSensor = N;
+			line.data = data;
+		}
 	};
 	TresholdsTable::TItems treshItems;
 	typedef Vlst<Sens<0>, Sens<1>, Sens<2> >viewers_list;

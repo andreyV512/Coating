@@ -12,6 +12,8 @@ AScanViewer::AScanViewer()
 	tcursor.horizontalLine = false;
 	//tchart.items.get<BarSeriesDouble>().SetColorBarHandler(this, &AScanViewer::GetColorCell);
 	//tcursor.SetMouseMoveHandler(this, &AScanViewer::Draw);
+	chart->minAxesY = -127;
+	chart->maxAxesY = 127;
 }
 
 
@@ -83,3 +85,13 @@ template<class O, class P>struct __mouse_well__
 //	}
 //	return drawZones;
 //}
+AScanViewer::NBtmRefThr::NBtmRefThr(Chart &c) : HOffsBorder(c) {}
+void AScanViewer::NBtmRefThr::Draw()
+{
+	if (value < 0) HOffsBorder::Draw();
+}
+AScanViewer::NAlThr::NAlThr(Chart &c) : HOffsBorder(c) {}
+void AScanViewer::NAlThr::Draw()
+{
+	if (value < 0) HOffsBorder::Draw();
+}

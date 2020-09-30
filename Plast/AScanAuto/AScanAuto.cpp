@@ -37,7 +37,7 @@ void Scan::Run()
 	while (true)
 	{
 		//TODO Доделать сбор данных
-		switch (WaitForSingleObject(hEvent, 1000))
+		switch (WaitForSingleObject(hEvent, 50))
 		{
 		case WAIT_OBJECT_0:
 			dprint("WAIT_OBJECT_0\n");
