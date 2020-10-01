@@ -104,31 +104,32 @@ template<class O, class P>struct __compare_tresh__
 	}
 };
 
-template<class T>struct StoreBaseX
+template<class T>void StoreBaseX(CBase &base, typename T::TItems &from)
 {
-	void operator()(CBase &base, typename T::TItems &from)
+	auto &to = Singleton<T>::Instance();
+	VL::CopyFromTo(from, to.items);
+	int id = CurrentId<ID<T> >();
+	if (1 == CountId<ID<T> >(base, id))
 	{
-		auto &to = Singleton<T>::Instance();
-		VL::CopyFromTo(from, to.items);
-		int id = CurrentId<ID<T> >();
-		if (1 == CountId<ID<T> >(base, id))
-		{
-			UpdateWhere<T>(to, base).ID(id).Execute();
-		}
-		else
-		{
-			Insert_Into< T>(to, base).Execute();
-		}
+		UpdateWhere<T>(to, base).ID(id).Execute();
 	}
-};
+	else
+	{
+		Insert_Into<T>(to, base).Execute();
+	}
+}
+
+template<class T>bool TestX(typename T::TItems &x)
+{
+	return !VL::find<T::items_list, __compare_tresh__>()(Singleton<T>::Instance().items, x);
+}
 
 void AScanWindow::operator()(TClose &l)
 {
 	aScanAuto.Stop();
-	//TresholdsTable &t = Singleton<TresholdsTable>::Instance();
-	bool tresh = !VL::find<TresholdsTable::items_list, __compare_tresh__>()(Singleton<TresholdsTable>::Instance().items, treshItems);
-//	FiltersTable &f = Singleton<FiltersTable>::Instance();
-	bool flt = !VL::find<FiltersTable::items_list, __compare_tresh__>()(Singleton<FiltersTable>::Instance().items, computeFrame.paramFlt);
+	bool tresh = TestX<TresholdsTable>(treshItems);
+	bool flt   = TestX<FiltersTable>(computeFrame.paramFlt);
+
 	if (tresh && flt)
 	{
 		DestroyWindow(l.hwnd);
@@ -142,14 +143,8 @@ void AScanWindow::operator()(TClose &l)
 				CBase base(ParametersBase().name());
 				if (base.IsOpen())
 				{
-					if (tresh)
-					{
-						StoreBaseX<TresholdsTable>()(base, treshItems);
-					}
-					if (flt)
-					{
-						StoreBaseX<FiltersTable>()(base, computeFrame.paramFlt);
-					}
+					if (tresh) StoreBaseX<TresholdsTable>(base, treshItems);
+					if (flt)StoreBaseX<FiltersTable>(base, computeFrame.paramFlt);
 					MessageBox(l.hwnd, L"Данные сохранены!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
 				}
 			}
