@@ -263,5 +263,18 @@ template<class T>bool SwitchMenu(HWND h)
 	}
 	return false;
 }
+template<class T>bool TestMenu(HWND h)
+{
+	MENUITEMINFO mii = {};
+	mii.cbSize = sizeof(MENUITEMINFO);
+	mii.fMask = MIIM_STATE;
+	HMENU hMenu = GetMenu(h);
+	static const unsigned short id = (unsigned short)(LONG_PTR)Event<T>::Do;
+	if (GetMenuItemInfo(hMenu, id, false, &mii))
+	{
+		return 0 != (mii.fState & MFS_CHECKED);
+	}
+	return false;
+}
 
 #undef index

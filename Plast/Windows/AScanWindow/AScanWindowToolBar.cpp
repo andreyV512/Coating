@@ -30,13 +30,13 @@ namespace
 	void Key<IDB_CycleBtn>::Click(HWND h) 
 	{
 		AScanWindow *w = (AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-		w->aScanAuto.Start();
+		w->Start();
 
 	}
 	void Key<IDB_Reset>::Click(HWND h) 
 	{
 		AScanWindow *w = (AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-		w->aScanAuto.Stop();
+		w->Stop();
 	}
 }
 

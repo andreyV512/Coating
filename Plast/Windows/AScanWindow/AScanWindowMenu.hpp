@@ -29,7 +29,7 @@ namespace AScanWindowMenu
 
 	MENU_TEXT(L"Настройки", TopMenu<OptionsFile>);
 	MENU_ITEM(L"Пороги", Thresholds);
-	MENU_ITEM(L"Аналоглвый фильтр", DspFiltr);
+	MENU_ITEM(L"Аналоговый фильтр", DspFiltr);
 	MENU_ITEM(L"Биполярный сигнал", BiPolar);
 	template<>struct TopMenu<OptionsFile>
 	{

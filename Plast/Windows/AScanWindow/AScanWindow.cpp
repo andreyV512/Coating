@@ -121,7 +121,7 @@ template<class T>void StoreBaseX(CBase &base, typename T::TItems &from)
 
 template<class T>bool TestX(typename T::TItems &x)
 {
-	return !VL::find<T::items_list, __compare_tresh__>()(Singleton<T>::Instance().items, x);
+	return VL::find<T::items_list, __compare_tresh__>()(Singleton<T>::Instance().items, x);
 }
 
 void AScanWindow::operator()(TClose &l)
@@ -143,8 +143,8 @@ void AScanWindow::operator()(TClose &l)
 				CBase base(ParametersBase().name());
 				if (base.IsOpen())
 				{
-					if (tresh) StoreBaseX<TresholdsTable>(base, treshItems);
-					if (flt)StoreBaseX<FiltersTable>(base, computeFrame.paramFlt);
+					if (!tresh) StoreBaseX<TresholdsTable>(base, treshItems);
+					if (!flt)StoreBaseX<FiltersTable>(base, computeFrame.paramFlt);
 					MessageBox(l.hwnd, L"Данные сохранены!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
 				}
 			}
@@ -198,6 +198,11 @@ void AScanWindow::SetThresh()
 	   , treshItems.get<BottomReflectionThreshStop>().value
 	};
 	VL::foreach<viewers_list, __set_thresh__>()(viewers, data);
+}
+
+void AScanWindow::SetBipolar()
+{
+	computeFrame.bipolar = TestMenu<MenuItem<AScanWindowMenu::BiPolar>>(hWnd);
 }
 
 struct __update_sens_data__
@@ -269,6 +274,16 @@ template<class O, class P>struct __switch_bipolar__
 
 void AScanWindow::SwitchBipolar(bool b)
 {
-	dprint("SwitchBipolar %d\n", b);
 	VL::foreach<viewers_list, __switch_bipolar__>()(viewers, b);
+}
+
+void AScanWindow::Start()
+{
+	SetBipolar();
+	aScanAuto.Start();
+}
+
+void AScanWindow::Stop()
+{
+	aScanAuto.Stop();
 }

@@ -66,7 +66,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Создать типоразмер", MainCreateTypesize)
 	MENU_ITEM(L"Удалить типоразмер", MainDeleteTypeSize)
 	MENU_ITEM(L"Медианный фильтр", MedianFiltre)
-	MENU_ITEM(L"Настройки аналогового фильтра", DspFiltr)
+	MENU_ITEM(L"Аналоговый фильтр", DspFiltr)
 	MENU_ITEM(L"Настройки порогов", Tresholds)
 
 	template<>struct TopMenu<MainOptionTypeSize>

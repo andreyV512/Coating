@@ -24,6 +24,7 @@ ComputeFrame::ComputeFrame()
 	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
 	, framesCount(Singleton<Data::InputData>::Instance().framesCount)
 	, buffer(Singleton<Data::InputData>::Instance().buffer)
+	, bipolar(false)
 {
 	VL::CopyFromTo(Singleton<FiltersTable>::Instance().items, paramFlt);
 	UpdateFiltre();
@@ -40,10 +41,19 @@ void ComputeFrame::Frame(int sensor, int offs, double *data)
 	offs *= packetSize * App::count_sensors;
 	offs += sensor * packetSize;
 	filter->Clean();
-	for (int i = 0; i < packetSize; ++i, ++offs)
+	if (bipolar)
 	{
-		double t = (*filter)(buffer[offs]);
-		//data[i] = buffer[offs];
-		data[i] = t;// > 0 ? t : -t;
+		for (int i = 0; i < packetSize; ++i, ++offs)
+		{
+			data[i] = (*filter)(buffer[offs]);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < packetSize; ++i, ++offs)
+		{
+			double t = (*filter)(buffer[offs]);
+			data[i] = t > 0 ? t : -t;
+		}
 	}
 }
