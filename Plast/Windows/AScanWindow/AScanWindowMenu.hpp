@@ -24,13 +24,16 @@ namespace AScanWindowMenu
 	//----------------------------------------------
 	struct OptionsFile {};
 	struct Thresholds : ThreshDlg {};
+	struct BiPolar : BiPolarDlg {};
 
 	MENU_TEXT(L"Настройки", TopMenu<OptionsFile>);
 	MENU_ITEM(L"Пороги", Thresholds);
+	MENU_ITEM(L"Биполярный сигнал", BiPolar);
 	template<>struct TopMenu<OptionsFile>
 	{
 		typedef Vlst<
 			MenuItem<Thresholds>
+			, MenuItem<BiPolar>
 		> list;
 	};
 

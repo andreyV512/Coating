@@ -740,6 +740,9 @@
     <ClCompile Include="Compute\ComputeFrame.cpp">
       <Filter>Compute</Filter>
     </ClCompile>
+    <ClCompile Include="Dlg\BiPolarDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc">

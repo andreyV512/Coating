@@ -23,4 +23,5 @@
    DLG(ThresholdsDlg)
    DLG(ColorDlg)
    DLG(ThreshDlg)
+   DLG(BiPolarDlg)
 #undef DLG

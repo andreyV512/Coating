@@ -46,4 +46,5 @@ public:
 	static wchar_t *Title() { return (wchar_t *)L"AScan"; }
 
 	void Update();
+	void SwitchBipolar(bool);
 };

@@ -220,3 +220,42 @@ void AScanWindow::Update()
 	__update_sens_data__ data(*this, offs);
 	VL::foreach<viewers_list, __update_sens__>()(viewers, data);
 }
+
+template<class A, class B>void __assignment_param__(A &a, B &b)
+{
+	a.value =     b.value;
+	a.startOffs = b.startOffs;
+	a.stopOffs =  b.stopOffs;
+	a.color =     b.color;
+	a.widthPen =  b.widthPen;
+	a.dashStyle = b.dashStyle;
+}
+
+template<class O, class P>struct __switch_bipolar__
+{
+	void operator()(O &o, P &p)
+	{
+		auto &c = o.tchart.items;
+		auto &chart = o.tchart;
+		if (p)
+		{
+			__assignment_param__(c.get<AScanViewer::NAlThr>(), c.get<AScanViewer::AlThr>());
+			c.get<AScanViewer::NAlThr>().value *= -1;
+			__assignment_param__(c.get<AScanViewer::NBtmRefThr>(), c.get<AScanViewer::BtmRefThr>());
+			c.get<AScanViewer::NBtmRefThr>().value *= -1;
+			chart.minAxesY = -100;
+		}
+		else
+		{
+			c.get<AScanViewer::NAlThr>().value = 0;
+			c.get<AScanViewer::NBtmRefThr>().value = 0;
+			chart.minAxesY = 0;
+		}
+	}
+};
+
+void AScanWindow::SwitchBipolar(bool b)
+{
+	dprint("SwitchBipolar %d\n", b);
+	VL::foreach<viewers_list, __switch_bipolar__>()(viewers, b);
+}

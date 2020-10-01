@@ -239,7 +239,7 @@ template<class T>void CheckMenu(HWND h, bool state = true)
 	mii.cbSize = sizeof(MENUITEMINFO);
 	mii.fMask = MIIM_STATE;
 	HMENU hMenu = GetMenu(h);
-	static const unsigned short id = (unsigned short)Event<T>::Do;
+	static const unsigned short id = (unsigned short)(LONG_PTR)Event<T>::Do;
 	if(GetMenuItemInfo(hMenu, id, false, &mii))
 	{
 		mii.fState = state ? MFS_CHECKED : MFS_UNCHECKED;
@@ -253,7 +253,7 @@ template<class T>bool SwitchMenu(HWND h)
 	mii.cbSize = sizeof(MENUITEMINFO);
 	mii.fMask = MIIM_STATE;
 	HMENU hMenu = GetMenu(h);
-	static const unsigned short id = (unsigned short)Event<T>::Do;	
+	static const unsigned short id = (unsigned short)(LONG_PTR)Event<T>::Do;	
 	if(GetMenuItemInfo(hMenu, id, false, &mii))
 	{
 		bool result = 0 != (mii.fState & MFS_CHECKED );

@@ -12,8 +12,8 @@ AScanViewer::AScanViewer()
 	tcursor.horizontalLine = false;
 	//tchart.items.get<BarSeriesDouble>().SetColorBarHandler(this, &AScanViewer::GetColorCell);
 	//tcursor.SetMouseMoveHandler(this, &AScanViewer::Draw);
-	chart->minAxesY = -127;
-	chart->maxAxesY = 127;
+	chart->minAxesY = -100;
+	chart->maxAxesY = 100;
 }
 
 
