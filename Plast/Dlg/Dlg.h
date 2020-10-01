@@ -24,4 +24,5 @@
    DLG(ColorDlg)
    DLG(ThreshDlg)
    DLG(BiPolarDlg)
+   DLG(AScanDspFiltrDlg)
 #undef DLG

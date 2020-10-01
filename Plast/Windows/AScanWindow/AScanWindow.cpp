@@ -104,11 +104,32 @@ template<class O, class P>struct __compare_tresh__
 	}
 };
 
+template<class T>struct StoreBaseX
+{
+	void operator()(CBase &base, typename T::TItems &from)
+	{
+		auto &to = Singleton<T>::Instance();
+		VL::CopyFromTo(from, to.items);
+		int id = CurrentId<ID<T> >();
+		if (1 == CountId<ID<T> >(base, id))
+		{
+			UpdateWhere<T>(to, base).ID(id).Execute();
+		}
+		else
+		{
+			Insert_Into< T>(to, base).Execute();
+		}
+	}
+};
+
 void AScanWindow::operator()(TClose &l)
 {
 	aScanAuto.Stop();
-	TresholdsTable &t = Singleton<TresholdsTable>::Instance();
-	if (VL::find<TresholdsTable::items_list, __compare_tresh__>()(t.items, treshItems))
+	//TresholdsTable &t = Singleton<TresholdsTable>::Instance();
+	bool tresh = !VL::find<TresholdsTable::items_list, __compare_tresh__>()(Singleton<TresholdsTable>::Instance().items, treshItems);
+//	FiltersTable &f = Singleton<FiltersTable>::Instance();
+	bool flt = !VL::find<FiltersTable::items_list, __compare_tresh__>()(Singleton<FiltersTable>::Instance().items, computeFrame.paramFlt);
+	if (tresh && flt)
 	{
 		DestroyWindow(l.hwnd);
 	}
@@ -118,19 +139,16 @@ void AScanWindow::operator()(TClose &l)
 		{
 			if (TypesizePasswordDlg().Do(l.hwnd))
 			{
-				VL::CopyFromTo(treshItems, t.items);
-
 				CBase base(ParametersBase().name());
 				if (base.IsOpen())
 				{
-					int id = CurrentId<ID<TresholdsTable> >();
-					if (1 == CountId<ID<TresholdsTable> >(base, id))
+					if (tresh)
 					{
-						UpdateWhere<TresholdsTable>(t, base).ID(id).Execute();
+						StoreBaseX<TresholdsTable>()(base, treshItems);
 					}
-					else
+					if (flt)
 					{
-						Insert_Into< TresholdsTable>(t, base).Execute();
+						StoreBaseX<FiltersTable>()(base, computeFrame.paramFlt);
 					}
 					MessageBox(l.hwnd, L"Данные сохранены!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
 				}
