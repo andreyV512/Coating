@@ -25,14 +25,18 @@ namespace AScanWindowMenu
 	struct OptionsFile {};
 	struct Thresholds : ThreshDlg {};
 	struct BiPolar : BiPolarDlg {};
+	struct DspFiltr : AScanDspFiltrDlg {};
 
 	MENU_TEXT(L"Настройки", TopMenu<OptionsFile>);
 	MENU_ITEM(L"Пороги", Thresholds);
+	MENU_ITEM(L"Аналоглвый фильтр", DspFiltr);
 	MENU_ITEM(L"Биполярный сигнал", BiPolar);
 	template<>struct TopMenu<OptionsFile>
 	{
 		typedef Vlst<
 			MenuItem<Thresholds>
+			, MenuItem<DspFiltr>
+			, Separator<0>
 			, MenuItem<BiPolar>
 		> list;
 	};
