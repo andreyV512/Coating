@@ -20,7 +20,7 @@ public:
 		, hThread(NULL)
 	{
 		hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-		
+		hThread = CreateThread(NULL, 0, __run__, this, CREATE_SUSPENDED, NULL);
 	}
 	~Scan()
 	{
@@ -36,13 +36,10 @@ void Scan::Run()
 	CollectionData data;
 	while (true)
 	{
-		//TODO Доделать сбор данных
 		switch (WaitForSingleObject(hEvent, 50))
 		{
 		case WAIT_OBJECT_0:
 			dprint("WAIT_OBJECT_0\n");
-			CloseHandle(hThread);
-			hThread = NULL;
 			return;
 		case WAIT_TIMEOUT: 
 		{
@@ -72,11 +69,10 @@ AScanAuto::AScanAuto()
 void AScanAuto::Start() 
 {
 	AScanKeyHandler::Run();
-	Scan *s = (Scan *)&impl;
-    s->hThread = CreateThread(NULL, 0, s->__run__, s, 0, NULL);
+	while (!ResumeThread(((Scan *)&impl)->hThread));
 }
 void AScanAuto::Stop() 
 {
 	AScanKeyHandler::Stop();
-	SetEvent(((Scan *)&impl)->hEvent);
+	SuspendThread(((Scan *)&impl)->hThread);
 }

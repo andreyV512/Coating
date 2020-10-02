@@ -10,9 +10,7 @@ AScanViewer::AScanViewer()
 	chart = &tchart;
 	cursor = &tcursor;
 	tcursor.horizontalLine = false;
-	//tchart.items.get<BarSeriesDouble>().SetColorBarHandler(this, &AScanViewer::GetColorCell);
-	//tcursor.SetMouseMoveHandler(this, &AScanViewer::Draw);
-	chart->minAxesY = -100;
+	chart->minAxesY = 0;
 	chart->maxAxesY = 100;
 }
 
