@@ -10,7 +10,6 @@
 
 class AScanWindow
 {
-	void SetBipolar();
 public: 
 	template<int N>class Sens : public AScanViewer
 	{

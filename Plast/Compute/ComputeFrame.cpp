@@ -45,14 +45,16 @@ void ComputeFrame::Frame(int sensor, int offs, double *data)
 	{
 		for (int i = 0; i < packetSize; ++i, ++offs)
 		{
-			data[i] = (*filter)(buffer[offs]);
+			double t = 100.0 * buffer[offs];
+			data[i] = (*filter)(t / 128);
 		}
 	}
 	else
 	{
 		for (int i = 0; i < packetSize; ++i, ++offs)
 		{
-			double t = (*filter)(buffer[offs]);
+			double t = 100.0 * buffer[offs];
+			t = (*filter)(t / 128);
 			data[i] = t > 0 ? t : -t;
 		}
 	}
