@@ -96,7 +96,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Common;$(SolutionDir)CommonApp;$(SolutionDir)Common\DspFilters\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
