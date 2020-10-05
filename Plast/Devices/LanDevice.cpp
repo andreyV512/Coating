@@ -66,11 +66,13 @@ CollectionData::CollectionData()
 		return;
 	}
 	device.lan.Start();
+	dprint("START LAN\n");
 }
 
 CollectionData::~CollectionData()
 {
 	device.lan.Stop();
+	dprint("STOP LAN\n");
 }
 
 

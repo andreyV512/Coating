@@ -424,7 +424,7 @@ void AScanDspFiltrDlg::Do(HWND h)
 	while (!data.close)
 		VL::find<__orders_list__, __Xcurrent_filtre_param__>()(data);
 	w->computeFrame.UpdateFiltre();
-	w->Update();
+	RepaintWindow(w->hWnd);
 }
 
 

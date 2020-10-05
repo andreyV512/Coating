@@ -11,7 +11,7 @@ public:
 	bool bipolar;
 	Impl<IDSPFlt, 1032> filter;
 	FiltersTable::TItems paramFlt;
-	const unsigned &framesCount;
+	unsigned &framesCount;
 	char *buffer;
 public:
 	ComputeFrame();

@@ -5,11 +5,12 @@
 #include "Graphics/TopLabelViewer.h"
 #include "Windows/Viewers/AScanViewer/AScanViewer.h"
 #include "App/AppBase.h"
-#include "AScanAuto/AScanAuto.h"
 #include "Compute/ComputeFrame.h"
+#include "Devices/LanDevice.h"
 
 class AScanWindow
 {
+	int idTimer;
 public: 
 	template<int N>class Sens : public AScanViewer
 	{
@@ -30,14 +31,14 @@ public:
 	HWND hStatuisBar;
 	AScanWindowToolBar toolBar;
 	TopLabelViewer topLabelViewer;
-	AScanAuto aScanAuto;
 	ComputeFrame computeFrame;
-
+	CollectionData data;
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
 	void operator()(TSize &);
 	void operator()(TCommand &);
 	void operator()(TGetMinMaxInfo &);
+	void operator()(TTimer &);
 
 	void operator()(TClose &);
 
@@ -45,7 +46,6 @@ public:
 
 	static wchar_t *Title() { return (wchar_t *)L"AScan"; }
 
-	void Update();
 	void SwitchBipolar(bool);
 	void Start();
 	void Stop();

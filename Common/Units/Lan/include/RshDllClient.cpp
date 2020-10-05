@@ -44,6 +44,7 @@ U32 RshDllClient::LoadRegistered(const std::string& szRegistryBranchPath, const 
 
         WCHAR szPath[512];
 
+	//	std::string registryPath("SOFTWARE\\WOW6432Node");
 		std::string registryPath("SOFTWARE");
 		registryPath += "\\" + szRegistryBranchPath;	
 		registryPath += "\\" + szModuleName;

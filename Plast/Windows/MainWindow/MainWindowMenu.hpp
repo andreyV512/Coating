@@ -107,9 +107,9 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Дескриптор дискретной платы", DiscriptorBitDlg)
 	MENU_ITEM(L"Цвета", Color)
 
-	struct __LirDlg : LirDlg {};
-	MENU_ITEM(L"Датчик ЛИР", __LirDlg)
-	struct __Unit : UnitDlg {};
+	//struct __LirDlg : LirDlg {};
+	//MENU_ITEM(L"Датчик ЛИР", __LirDlg)
+	struct __Unit : UnitDlg {};									  
 	MENU_ITEM(L"Смешение датчика", __Unit)
 	//------------------------------------
 	template<>struct TopMenu<OptionsFile>
@@ -117,7 +117,7 @@ namespace MainWindowMenu
 		typedef Vlst<
 			SubMenu<DiscretePlate>
 			, MenuItem<__LanDlg>
-			, MenuItem<__LirDlg>
+			//, MenuItem<__LirDlg>
 			, MenuItem<__Unit>
 			, MenuItem<Color>
 		> list;
@@ -128,12 +128,12 @@ namespace MainWindowMenu
 	struct __TestIOPorts : TestIOPorts {};
 	struct AScanWindow : AScanWindowDlg {};
 	struct Message_ : MessageDlg {};
-	struct TestLir_ : TestLirDlg {};
+//	struct TestLir_ : TestLirDlg {};
 
 	MENU_ITEM(L"Просмотр дискретных портов", __TestIOPorts)
 	MENU_ITEM(L"Просмотр А-скан сигналов", AScanWindow)
 	MENU_ITEM(L"Просмотр сообщений", Message_)
-	MENU_ITEM(L"Просмотр датчиков ЛИР", TestLir_)
+//	MENU_ITEM(L"Просмотр датчиков ЛИР", TestLir_)
 
 	struct __Zones : OpenTopWindow<ZonesWindow> {};
 	MENU_ITEM(L"Просмотр результата по зонам", __Zones)
@@ -144,7 +144,7 @@ namespace MainWindowMenu
 			MenuItem<__TestIOPorts>
 			, MenuItem<AScanWindow>
 			, MenuItem<Message_>
-			, MenuItem<TestLir_>
+		//	, MenuItem<TestLir_>
 			, Separator<0>
 			, MenuItem<__Zones>
 		> list;

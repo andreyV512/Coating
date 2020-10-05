@@ -88,9 +88,6 @@
     <Filter Include="Automat\Auto">
       <UniqueIdentifier>{9d1af5bd-32fd-4416-81ea-949e9749f117}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Automat\AScanAuto">
-      <UniqueIdentifier>{95b742a6-de2f-48dc-9c86-a1286898236a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Units">
       <UniqueIdentifier>{e0e33284-5074-4e87-b9bb-6741e5aa6148}</UniqueIdentifier>
     </Filter>
@@ -378,9 +375,6 @@
     <ClInclude Include="Automat\Automat.h">
       <Filter>Automat\Auto</Filter>
     </ClInclude>
-    <ClInclude Include="AScanAuto\AScanAuto.h">
-      <Filter>Automat\AScanAuto</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\Units\1730\inc\bdaqctrl.h">
       <Filter>Common\Units\1730\inc</Filter>
     </ClInclude>
@@ -643,9 +637,6 @@
     </ClCompile>
     <ClCompile Include="Automat\Automat.cpp">
       <Filter>Automat\Auto</Filter>
-    </ClCompile>
-    <ClCompile Include="AScanAuto\AScanAuto.cpp">
-      <Filter>Automat\AScanAuto</Filter>
     </ClCompile>
     <ClCompile Include="..\Common\Units\1730\Device1730.cpp">
       <Filter>Common\Units\1730</Filter>

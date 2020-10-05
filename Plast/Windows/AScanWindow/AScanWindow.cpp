@@ -13,8 +13,6 @@ LRESULT AScanWindow::operator()(TCreate &l)
 {
 	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
 	SetThresh();
-	aScanAuto.SetHandle(this, &AScanWindow::Update);
-
 
 	AppKeyHandler::DisableAll();
 	Menu<AScanWindowMenu::Menu>().Init(l.hwnd);
@@ -96,6 +94,8 @@ void AScanWindow::operator()(TGetMinMaxInfo &l)
 	}
 }
 
+
+
 template<class O, class P>struct __compare_tresh__
 {
 	bool operator()(O &o, P &p)
@@ -126,7 +126,7 @@ template<class T>bool TestX(typename T::TItems &x)
 
 void AScanWindow::operator()(TClose &l)
 {
-	//Stop();
+	KillTimer(l.hwnd, idTimer);
 	bool tresh = TestX<TresholdsTable>(treshItems);
 	bool flt   = TestX<FiltersTable>(computeFrame.paramFlt);
 
@@ -218,8 +218,9 @@ template<int N, class P>struct __update_sens__<AScanWindow::Sens<N>, P>
 	}
 };
 
-void AScanWindow::Update()
+void AScanWindow::operator()(TTimer &l)
 {
+	if (computeFrame.framesCount > 100000) computeFrame.framesCount = 0;
 	int offs = computeFrame.framesCount;
 	offs /= computeFrame.packetSize;
 	offs /= App::count_sensors;
@@ -271,10 +272,12 @@ void AScanWindow::SwitchBipolar(bool b)
 
 void AScanWindow::Start()
 {
-	aScanAuto.Start();
+	idTimer = SetTimer(hWnd, 200, 123, NULL);
+	AScanKeyHandler::Run();
 }
 
 void AScanWindow::Stop()
 {
-	aScanAuto.Stop();
+	KillTimer(hWnd, idTimer);
+	AScanKeyHandler::Stop();
 }
