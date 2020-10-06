@@ -4,6 +4,9 @@
 #include <math.h> 
 #include "MessageText/status.h"
 #include "tools_debug/DebugMess.h"
+#include "Windows/MainWindow/MainWindow.h"
+#include "window_tool/Emptywindow.h"
+#include "Log/LogBuffer.h"
 
 template<class O, class P>struct __compute_set_data__;
 template<template<int>class W, int N, class P>struct __compute_set_data__<W<N>, P>
@@ -14,10 +17,25 @@ template<template<int>class W, int N, class P>struct __compute_set_data__<W<N>, 
 	}
 };
 
+DWORD __stdcall Compute::__run__(PVOID p)
+{
+	((Compute *)p)->Run();
+	return 0;
+}
+
 Compute::Compute()
 	: data(Singleton<Data::InputData>::Instance())
 {
 	VL::foreach<VL::CreateNumList< Data::Sensor, 0, 2>::Result, __compute_set_data__>()(sensorData);
+	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hThread = CreateThread(NULL, 0, __run__, this, 0, NULL);
+}
+
+Compute::~Compute()
+{
+	CloseHandle(hEvent);
+	WaitForSingleObject(hThread, INFINITE);
+	CloseHandle(hThread);
 }
 
 template<class O, class P>struct __init_filtre_X__
@@ -49,7 +67,7 @@ void Compute::Start()
 	numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
 
-	if (VL::find<filters_list, __init_filtre_X__>()(filter)) filter.Init<IDSPFlt>();
+	if (VL::find<filters_list, __init_filtre_X__>()(filter)) filter.Init<DSPFltDump>();
 
 	auto medianParams = Singleton<MedianFiltreTable>::Instance().items;
 	medianProc = medianParams.get<MedianFiltreON>().value ? &MedianFiltre::Val: &MedianFiltre::noop;
@@ -88,7 +106,7 @@ bool Compute::Strobes()
 		int frame = i / packetSize;
 		int sensor = frame % App::count_sensors;
 		int zone = frame / App::count_sensors;
-	ComputeFrame((IDSPFlt &)filter, sensor, &data.buffer[i], result, status);
+	ComputeFrame(sensor, &data.buffer[i], result, status);
 		data.result[sensor][zone] = result;
 		data.status[sensor][zone] = status;
 	}
@@ -144,8 +162,9 @@ void Compute::Zone(int zone, int sens)
 	sensorData[sens]->count        = zone;
 }
 
-void Compute::ComputeFrame(IDSPFlt &f, int sensor, char *d, double &value, char &status)
+void Compute::ComputeFrame(int sensor, char *d, double &value, char &status)
 {
+	IDSPFlt &f = (IDSPFlt &)filter;
 	f.Clean();
 	status = StatusData::norm;
 	value = 0;
@@ -199,11 +218,7 @@ void Compute::ComputeZone(int zone)
 
 void Compute::Update()
 {
-	if (Strobes())
-	{
-		//Frames();
-	}
-
+	SetEvent(hEvent);
 }
 
 void Compute::Done()
@@ -212,11 +227,32 @@ void Compute::Done()
 
 void Compute::Recalculation()
 {
+	Log::Mess <LogMess::Recalculation>();
 	Start();
 	framesCount = 0;
 	offsetsTickCount = 0;
-	if (Strobes())
-	{
+	//if (Strobes())
+	//{
+	//	RepaintWindow<MainWindow>();
+	//}
+	Update();
+}
 
+void Compute::Run()
+{
+	switch (WaitForSingleObject(hEvent, INFINITE))
+	{
+	case WAIT_OBJECT_0:
+		if (Strobes())
+		{
+			RepaintWindow<MainWindow>();
+		}
+		break;
+	case WAIT_ABANDONED:
+		dprint("WAIT_ABANDONED\n");
+		break;
+	case WAIT_FAILED:
+		dprint("WAIT_FAILED\n");
+		break;
 	}
 }

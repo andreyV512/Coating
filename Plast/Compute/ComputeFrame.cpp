@@ -32,7 +32,7 @@ ComputeFrame::ComputeFrame()
 
 void ComputeFrame::UpdateFiltre()
 {
-	if(VL::find<filters_list, __init_filtre_XX__>()(*this)) filter.Init<IDSPFlt>();
+	if(VL::find<filters_list, __init_filtre_XX__>()(*this)) filter.Init<DSPFltDump>();
 }
 
 void ComputeFrame::Frame(int sensor, int offs, double *data)

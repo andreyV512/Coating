@@ -12,11 +12,11 @@ namespace Data
 
 class Compute
 {
+	HANDLE hThread, hEvent;
+	static DWORD WINAPI __run__(PVOID);
+	void Run();
 	Data::InputData &data;
 	unsigned packetSize, numberPackets, framesCount, strobesTickCount, offsetsTickCount, zoneOffsetsIndex;
-	IDSPFlt dspFilt;
-	VL::Factory<filters_list> factoryFilters[App::count_sensors];
-	IDSPFlt *filters[App::count_sensors];
 
 	MedianFiltre median[App::count_sensors];
 	double(MedianFiltre:: *medianProc)(double, char &);
@@ -34,12 +34,13 @@ class Compute
 public:
 	
 	Compute();
+	~Compute();
 
 	void Start();
 
 	bool Strobes();
 	void Zone(int zone, int sens);
-	void ComputeFrame(IDSPFlt &f, int sensor, char *d, double &value, char &status);
+	void ComputeFrame(int sensor, char *d, double &value, char &status);
 	void ComputeZone(int zone);
 	void Update();
 	void Done();

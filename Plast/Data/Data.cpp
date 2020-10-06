@@ -104,14 +104,17 @@ namespace Data
 			char *buffer = d.buffer;
 			d.framesCount = InputData::buffSize;
 			ZeroMemory(buffer, InputData::buffSize);
-
-			for (int i = 0; i < InputData::buffSize; i += 4058)
+			int k = 0;
+			for (int i = 0; i < InputData::buffSize; i += 4058, ++k)
 			{
+				int x = k % 3;
+				++x;
 				int j = 0;
 				int k = rand() % 300;
-				for (; j < k; ++j) buffer[j] = j % 10;
-				for (; j < k + 100; ++j) buffer[j] = 70;
-				for (; j < 4058; ++j) buffer[j] = j % 30;
+				for (; j < k; ++j) buffer[i + j] = 10 * x;
+				k += 100;
+				for (; j < k; ++j) buffer[i + j] = 90;
+				for (; j < 4058; ++j) buffer[i + j] = 10 * x;
 			}
 
 			unsigned (&strobesTick)[100] = d.strobesTick;

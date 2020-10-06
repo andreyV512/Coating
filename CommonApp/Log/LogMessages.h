@@ -171,6 +171,12 @@ namespace LogMess
 
 	MESS(BaseLengthError, void, "Необходимо уменьшить параметр \"Базовое расстояние\"", red, yellow)
 
+	MESS(Recalculation, void, "Перерасчёт", blue, white)
+	MESS(RecalculationStop, void, "Расчёт окончен", blue, white)
+
+		
+
+
     static const int MAX_MESS_ID = __COUNTER__;
 
 	class FactoryMessages

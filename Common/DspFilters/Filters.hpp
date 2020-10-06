@@ -26,8 +26,15 @@ template<int MaxOrder>struct DSPFltType<BandStop, ChebI, MaxOrder>
 class IDSPFlt
 {
 public:
-	virtual double operator()(double value) { return value; };
-	virtual void Clean() {};
+	virtual double operator()(double value) = 0;
+	virtual void Clean() = 0;
+};
+
+class DSPFltDump: public IDSPFlt
+{
+public:
+	double operator()(double value)override { return value; };
+	void Clean()override {};
 };
 
 template<template<class>class TypeFiltre, template<class>class SubTypeFiltre, int MaxOrder = 5>class DSPFlt: public IDSPFlt

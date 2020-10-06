@@ -3,7 +3,6 @@
 #include "Windows/MainWindow/AppKeyHandler.h"
 #include "Windows/MainWindow/MainWindow.h"
 #include "tools_debug/DebugMess.h"
-#include "Units/Lir/Lir.h"
 #include "Compute/Compute.h"
 #include "Devices/LanDevice.h"
 
@@ -79,7 +78,6 @@ namespace Automat
 
 	DWORD WINAPI Loop(PVOID)
 	{
-	//	Lir &lir = Singleton<Lir>::Instance();
 		Compute &compute = Singleton<Compute>::Instance();
 		bool startLoop = true;
 		while (true)
