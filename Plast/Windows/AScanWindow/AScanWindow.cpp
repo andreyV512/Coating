@@ -132,7 +132,7 @@ void AScanWindow::operator()(TClose &l)
 
 	if (tresh || flt)
 	{
-		if (IDYES == MessageBox(l.hwnd, L"Данные были изменены. Сохранить изменения?", L"Cообщение", MB_ICONQUESTION | MB_YESNO))
+		if (IDYES == MessageBox(l.hwnd, L"Р”Р°РЅРЅС‹Рµ Р±С‹Р»Рё РёР·РјРµРЅРµРЅС‹. РЎРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ?", L"CРѕРѕР±С‰РµРЅРёРµ", MB_ICONQUESTION | MB_YESNO))
 		{
 			if (TypesizePasswordDlg().Do(l.hwnd))
 			{
@@ -141,7 +141,7 @@ void AScanWindow::operator()(TClose &l)
 				{
 					if (tresh) StoreBaseX<TresholdsTable>(base, treshItems);
 					if (flt)StoreBaseX<FiltersTable>(base, computeFrame.paramFlt);
-					MessageBox(l.hwnd, L"Данные сохранены!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
+					MessageBox(l.hwnd, L"Р”Р°РЅРЅС‹Рµ СЃРѕС…СЂР°РЅРµРЅС‹!", L"CРѕРѕР±С‰РµРЅРёРµ", MB_ICONEXCLAMATION | MB_OK);
 				}
 			}
 		}
@@ -184,11 +184,11 @@ void AScanWindow::SetThresh()
 	auto &color = Singleton<ColorTable>::Instance().items;
 
 	__set_thresh_data__ data = {
-	   color.get< Clr<defect>>().value
+	   color.get< Clr<Defect>>().value
 	   , treshItems.get<AlarmThresh>().value
 	   , treshItems.get<AlarmThreshStart>().value
 	   , treshItems.get<AlarmThreshStop>().value
-	   , color.get< Clr<noBottomReflection>>().value
+	   , color.get< Clr<NoBottomReflection>>().value
 	   , treshItems.get<BottomReflectionThresh>().value
 	   , treshItems.get<BottomReflectionThreshStart>().value
 	   , treshItems.get<BottomReflectionThreshStop>().value

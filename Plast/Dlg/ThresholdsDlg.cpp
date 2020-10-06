@@ -12,7 +12,7 @@ typedef GROUP_BOX(
 	, AlarmGainStart
 	, AlarmGainStop
 ) GBThresh;
-PARAM_TITLE(GBThresh, L"Порог брака")
+PARAM_TITLE(GBThresh, L"РџРѕСЂРѕРі Р±СЂР°РєР°")
 
 typedef GROUP_BOX(
 	BottomReflectionThresh
@@ -22,7 +22,7 @@ typedef GROUP_BOX(
 	, BottomReflectionGainStop
 	, BottomReflectionOn
 ) GBBottomReflection;
-PARAM_TITLE(GBBottomReflection, L"Порог донного отражения")
+PARAM_TITLE(GBBottomReflection, L"РџРѕСЂРѕРі РґРѕРЅРЅРѕРіРѕ РѕС‚СЂР°Р¶РµРЅРёСЏ")
 
 MIN_EQUAL_VALUE(AlarmThresh, 0)
 MAX_EQUAL_VALUE(AlarmThresh, 100)
@@ -54,22 +54,22 @@ MAX_EQUAL_VALUE(BottomReflectionGainStart, 100)
 MIN_EQUAL_VALUE(BottomReflectionGainStop, 0.1)
 MAX_EQUAL_VALUE(BottomReflectionGainStop, 100)
 
-PARAM_TITLE(AlarmThresh				 , L"Порог")
-PARAM_TITLE(AlarmThreshStart		 , L"Начало")
-PARAM_TITLE(AlarmThreshStop			 , L"Конец")
-PARAM_TITLE(AlarmGainStart			 , L"Усиление начало")
-PARAM_TITLE(AlarmGainStop			 , L"Усиление конец")
-PARAM_TITLE(BottomReflectionThresh		 , L"Порог")
-PARAM_TITLE(BottomReflectionThreshStart	 , L"Начало")
-PARAM_TITLE(BottomReflectionThreshStop	 , L"Конец")
-PARAM_TITLE(BottomReflectionGainStart, L"Усиление начало")
-PARAM_TITLE(BottomReflectionGainStop , L"Усиление конец")	   
-PARAM_TITLE(BottomReflectionOn, L"Использовать метод контроля")
+PARAM_TITLE(AlarmThresh				 , L"РџРѕСЂРѕРі")
+PARAM_TITLE(AlarmThreshStart		 , L"РќР°С‡Р°Р»Рѕ")
+PARAM_TITLE(AlarmThreshStop			 , L"РљРѕРЅРµС†")
+PARAM_TITLE(AlarmGainStart			 , L"РЈСЃРёР»РµРЅРёРµ РЅР°С‡Р°Р»Рѕ")
+PARAM_TITLE(AlarmGainStop			 , L"РЈСЃРёР»РµРЅРёРµ РєРѕРЅРµС†")
+PARAM_TITLE(BottomReflectionThresh		 , L"РџРѕСЂРѕРі")
+PARAM_TITLE(BottomReflectionThreshStart	 , L"РќР°С‡Р°Р»Рѕ")
+PARAM_TITLE(BottomReflectionThreshStop	 , L"РљРѕРЅРµС†")
+PARAM_TITLE(BottomReflectionGainStart, L"РЈСЃРёР»РµРЅРёРµ РЅР°С‡Р°Р»Рѕ")
+PARAM_TITLE(BottomReflectionGainStop , L"РЈСЃРёР»РµРЅРёРµ РєРѕРЅРµС†")	   
+PARAM_TITLE(BottomReflectionOn, L"РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РјРµС‚РѕРґ РєРѕРЅС‚СЂРѕР»СЏ")
 
 void ThresholdsDlg::Do(HWND h)
 {
 	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection>, 300
-	>(Singleton<TresholdsTable>::Instance()).Do(h, (wchar_t *)L"Пороги"))
+	>(Singleton<TresholdsTable>::Instance()).Do(h, (wchar_t *)L"РџРѕСЂРѕРіРё"))
 	{
 		RepaintWindow<MainWindow>();
 	}
@@ -90,7 +90,7 @@ struct ThreshOkBtn
 	static const int width = 120;
 	static const int height = 30;
 	static const int ID = IDOK;
-	wchar_t *Title() { return (wchar_t *)L"Применить"; }
+	wchar_t *Title() { return (wchar_t *)L"РџСЂРёРјРµРЅРёС‚СЊ"; }
 	template<class Owner>void BtnHandler(Owner &owner, HWND h)
 	{
 		HWND hw = FindWindow(WindowClass<AScanWindow>()(), 0);
@@ -109,7 +109,7 @@ void ThreshDlg::Do(HWND h)
 	VL::CopyFromTo(w.treshItems, t.items);
 	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection>, 300
 		, Vlst<ThreshOkBtn, CancelBtn>
-	>(t).Do(h, (wchar_t *)L"Пороги"))
+	>(t).Do(h, (wchar_t *)L"РџРѕСЂРѕРіРё"))
 	{
 		w.SetThresh();
 		RepaintWindow<AScanWindow>();

@@ -2,9 +2,9 @@
 #include "App/AppBase.h"
 #include "Grid/DataGrid.hpp"
 
-HEADER_TABLE(Num, 60, L"Номер")
-PARAM_TABLE(UserName, 90, L"Оператор")
-PARAM_TABLE(UserPersonnelNumber, 120, L"Табельный номер")
+HEADER_TABLE(Num, 60, L"РќРѕРјРµСЂ")
+PARAM_TABLE(UserName, 90, L"РћРїРµСЂР°С‚РѕСЂ")
+PARAM_TABLE(UserPersonnelNumber, 120, L"РўР°Р±РµР»СЊРЅС‹Р№ РЅРѕРјРµСЂ")
 
 CHECK_EMPTY_STRING(UserName)
 MIN_VALUE(UserPersonnelNumber, 0)
@@ -28,5 +28,5 @@ template<> int CurrentId<ID<UserTable>>()
 
 void OperatorsDlg::Do(HWND)
 {
-	GridOptions<TDataGrid<UserTable, Vlst<UserName>> >::Open((wchar_t *)L"Настройки оператора", 320, 300);
+	GridOptions<TDataGrid<UserTable, Vlst<UserName>> >::Open((wchar_t *)L"РќР°СЃС‚СЂРѕР№РєРё РѕРїРµСЂР°С‚РѕСЂР°", 320, 300);
 }

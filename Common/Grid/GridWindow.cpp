@@ -22,7 +22,7 @@ void DataGrid::OkButton::Do(TCommand &l)
 LRESULT GridWindowX::operator()(TCreate &l)
 {
 	hWnd = l.hwnd;
-	hBtnOk = CreateWindow(L"button", L"Применить"
+	hBtnOk = CreateWindow(L"button", L"РџСЂРёРјРµРЅРёС‚СЊ"
 		, WS_VISIBLE | WS_CHILD | WS_TABSTOP
 		, 0, 0, 0, 0
 		, l.hwnd
@@ -31,7 +31,7 @@ LRESULT GridWindowX::operator()(TCreate &l)
 		, NULL
 	);
 	SetWindowLongPtr(hBtnOk, GWLP_USERDATA, NULL);
-	hBtnCancel = CreateWindow(L"button", L"Отмена"
+	hBtnCancel = CreateWindow(L"button", L"РћС‚РјРµРЅР°"
 		, WS_VISIBLE | WS_CHILD | WS_TABSTOP
 		, 0, 0, 0, 0
 		, l.hwnd

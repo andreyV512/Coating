@@ -16,6 +16,7 @@
 #include "window_tool/ItemIni.h"
 #include "window_tool/OpenWindow.hpp"
 #include "MessageText/status.h"
+#include "Compute/Compute.h"
 
 namespace App
 {
@@ -43,10 +44,10 @@ namespace App
 
 		if (!device1730.Init(Singleton<NamePlate1730ParametersTable>::Instance().items.get<NamePlate1730>().value))
 		{
-			MessageBox(h, L"Не могу инициировать плату 1730", L"Ошибка !!!", MB_ICONERROR);
+			MessageBox(h, L"РќРµ РјРѕРіСѓ РёРЅРёС†РёРёСЂРѕРІР°С‚СЊ РїР»Р°С‚Сѓ 1730", L"РћС€РёР±РєР° !!!", MB_ICONERROR);
 			return;
 		}
- //инициализация АЦП
+ //РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РђР¦Рџ
 		Lan &l = Singleton<Lan>::Instance();
 		RshInitMemory p{};
 		l.SetParams(p);
@@ -55,14 +56,14 @@ namespace App
 		if (RSH_API_SUCCESS != st)
 		{
 			l.Err(st, mess);
-			MessageBox(h, mess, (wchar_t *)L"Ошибка платы La-n108-100PCI(1)!!!", MB_ICONEXCLAMATION);
+			MessageBox(h, mess, (wchar_t *)L"РћС€РёР±РєР° РїР»Р°С‚С‹ La-n108-100PCI(1)!!!", MB_ICONEXCLAMATION);
 			return;
 		}
 		st = l.Init(2, l.device2, p);
 		if (RSH_API_SUCCESS != st)
 		{
 			l.Err(st, mess);
-			MessageBox(h, mess, (wchar_t *)L"Ошибка платы La-n108-100PCI(2)!!!", MB_ICONEXCLAMATION);
+			MessageBox(h, mess, (wchar_t *)L"РћС€РёР±РєР° РїР»Р°С‚С‹ La-n108-100PCI(2)!!!", MB_ICONEXCLAMATION);
 			return;
 		}
 
@@ -70,7 +71,7 @@ namespace App
 		//
 		//if (!lir.Init(Singleton<LirParamTable>::Instance().items.get<LirDescriptor>().value))
 		//{
-		//	MessageBox(h, L"Плата не инициализирована", (wchar_t *)L"Ошибка платы ЛИР", MB_ICONEXCLAMATION);
+		//	MessageBox(h, L"РџР»Р°С‚Р° РЅРµ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅР°", (wchar_t *)L"РћС€РёР±РєР° РїР»Р°С‚С‹ Р›РР ", MB_ICONEXCLAMATION);
 		//	return;
 		//}
 

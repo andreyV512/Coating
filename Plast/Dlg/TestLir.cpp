@@ -91,11 +91,11 @@ LRESULT TestLirWindow::operator()(TCreate &l)
 		, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_LEFT | WS_TABSTOP | ES_READONLY
 		, 10, 15, 80, 25, l.hwnd, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
 	);
-	CreateWindow(L"static", L"Датчик1"
+	CreateWindow(L"static", L"Р”Р°С‚С‡РёРє1"
 		, WS_VISIBLE | WS_CHILD
 		, 95, 20, 60, 25, l.hwnd, 0, (HINSTANCE)::GetModuleHandle(NULL), NULL
 	);
-	hb1 = CreateWindow(L"button", L"Сброс"
+	hb1 = CreateWindow(L"button", L"РЎР±СЂРѕСЃ"
 		, WS_VISIBLE | WS_CHILD | WS_TABSTOP
 		, 160, 15, 80, 25, l.hwnd, NULL, GetModuleHandle(NULL), NULL
 	);
@@ -107,25 +107,25 @@ LRESULT TestLirWindow::operator()(TCreate &l)
 		, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_LEFT | WS_TABSTOP | ES_READONLY
 		, 10, 15 + dy, 80, 25, l.hwnd, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
 	);
-	CreateWindow(L"static", L"Датчик2"
+	CreateWindow(L"static", L"Р”Р°С‚С‡РёРє2"
 		, WS_VISIBLE | WS_CHILD
 		, 95, 20 + dy, 60, 25, l.hwnd, 0, (HINSTANCE)::GetModuleHandle(NULL), NULL
 	);
-	hb2 = CreateWindow(L"button", L"Сброс"
+	hb2 = CreateWindow(L"button", L"РЎР±СЂРѕСЃ"
 		, WS_VISIBLE | WS_CHILD | WS_TABSTOP
 		, 160, 15 + dy, 80, 25, l.hwnd, NULL, GetModuleHandle(NULL), NULL
 	);
 	SetWindowLongPtr(hb2, GWLP_USERDATA, (LONG_PTR)&resetBtn2);
  //----------------------------------------------------
 	dy += 30;
-	hmm = CreateWindow(L"button", L"Миллиметры"
+	hmm = CreateWindow(L"button", L"РњРёР»Р»РёРјРµС‚СЂС‹"
 		, WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON
 		, 10, 15 + dy, 110, 25, l.hwnd, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
 	);
 	Button_SetCheck(hmm, BST_CHECKED);
 	SetWindowLongPtr(hmm, GWLP_USERDATA, (LONG_PTR)&radioBtn1);
 	dy += 20;
-	HWND h = CreateWindow(L"button", L"Отчёты"
+	HWND h = CreateWindow(L"button", L"РћС‚С‡С‘С‚С‹"
 		, WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON
 		, 10, 15 + dy, 110, 25, l.hwnd, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
 	);
@@ -200,7 +200,7 @@ void TestLirDlg::Do(HWND)
 		const int height = 170;
 		h = WindowTemplate(
 			new TestLirWindow
-			, (wchar_t *)L"Тест ЛИР"
+			, (wchar_t *)L"РўРµСЃС‚ Р›РР "
 			, r.left, r.top
 			, width, height
 			, IDI_settings

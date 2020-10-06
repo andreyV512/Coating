@@ -1,12 +1,14 @@
 #include "Data.h"
 #include "templates/typelist.hpp"
 #include "MessageText/status.h"
+#include "Compute/Compute.h"
 
 namespace Data
 {
+	/*
 	struct TestData
 	{
-		TestData() 
+		TestData()
 		{
 			double *d[3];
 			char *c[3];
@@ -65,7 +67,7 @@ namespace Data
 				InputData &t = Singleton<InputData>::Instance();
 				memset(t.buffer, 0, dimention_of(t.buffer));
 				for(int i = 0; i < InputData::buffSize; i += 986)
-				{ 
+				{
 					int offsZ = rand() % 50;
 					int widthZ = rand() % 15 + 5;
 					int amplZ = rand() % 70 + 50;
@@ -91,5 +93,45 @@ namespace Data
 			}
 		}
 	} x;
+	*/
+	struct Init					 
+	{
+
+		Init()
+		{
+			InputData &d = Singleton<InputData>::Instance();
+
+			char *buffer = d.buffer;
+			d.framesCount = InputData::buffSize;
+			ZeroMemory(buffer, InputData::buffSize);
+
+			for (int i = 0; i < InputData::buffSize; i += 4058)
+			{
+				int j = 0;
+				int k = rand() % 300;
+				for (; j < k; ++j) buffer[j] = j % 10;
+				for (; j < k + 100; ++j) buffer[j] = 70;
+				for (; j < 4058; ++j) buffer[j] = j % 30;
+			}
+
+			unsigned (&strobesTick)[100] = d.strobesTick;
+			d.strobesTickCount = 70;
+			unsigned start = 1000;
+			for (int i = 0; i < dimention_of(strobesTick); ++i)
+			{
+				strobesTick[i] = start;
+				start += 1000;
+			}
+			unsigned (&offsetsTick)[12000] = d.offsetsTick;
+			d.offsetsTickCount = 10000;
+			start = 0;
+			for (int i = 0; i < dimention_of(offsetsTick); ++i)
+			{
+				offsetsTick[i] = start;
+				start += 30;
+			}
+			
+		}
+	} init;
 }
 

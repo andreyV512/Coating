@@ -3,18 +3,18 @@
 #include "App/AppBase.h"
 #include "DlgTemplates/ParamDlgNew.h"
 
-PARAM_TITLE(PacketSize, L"Размер пакета данных")
-PARAM_TITLE(Gain0, L"Усиление канала данных")
-PARAM_TITLE(SyncLevel, L"Уровень синхронизации")
-PARAM_TITLE(SyncGain, L"Усиление канала синхронизации")
-PARAM_TITLE(StartDelay, L"Задержка при старте")
+PARAM_TITLE(PacketSize, L"Р Р°Р·РјРµСЂ РїР°РєРµС‚Р° РґР°РЅРЅС‹С…")
+PARAM_TITLE(Gain0, L"РЈСЃРёР»РµРЅРёРµ РєР°РЅР°Р»Р° РґР°РЅРЅС‹С…")
+PARAM_TITLE(SyncLevel, L"РЈСЂРѕРІРµРЅСЊ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё")
+PARAM_TITLE(SyncGain, L"РЈСЃРёР»РµРЅРёРµ РєР°РЅР°Р»Р° СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё")
+PARAM_TITLE(StartDelay, L"Р—Р°РґРµСЂР¶РєР° РїСЂРё СЃС‚Р°СЂС‚Рµ")
 //---------------------------------------------------------------
-PARAM_TITLE(Frequency, L"Частота сбора данных(МГц)")
-PARAM_TITLE(NumberPackets, L"Количество пакетов данных")
+PARAM_TITLE(Frequency, L"Р§Р°СЃС‚РѕС‚Р° СЃР±РѕСЂР° РґР°РЅРЅС‹С…(РњР“С†)")
+PARAM_TITLE(NumberPackets, L"РљРѕР»РёС‡РµСЃС‚РІРѕ РїР°РєРµС‚РѕРІ РґР°РЅРЅС‹С…")
 
-PARAM_TITLE(SyncInput, L"Вход синхронизации открыт")
-PARAM_TITLE(MeasurementInput, L"Измерительный вход открыт")
-PARAM_TITLE(SynchronizationEdge, L"Синхронизация по фронту")
+PARAM_TITLE(SyncInput, L"Р’С…РѕРґ СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёРё РѕС‚РєСЂС‹С‚")
+PARAM_TITLE(MeasurementInput, L"РР·РјРµСЂРёС‚РµР»СЊРЅС‹Р№ РІС…РѕРґ РѕС‚РєСЂС‹С‚")
+PARAM_TITLE(SynchronizationEdge, L"РЎРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ РїРѕ С„СЂРѕРЅС‚Сѓ")
 //.............................................................
 MIN_VALUE(SyncLevel, 1)
 MAX_VALUE(SyncLevel, 255)
@@ -149,7 +149,7 @@ void LanDlg::Do(HWND h)
 	if (Dialog::Templ<ParametersBase, LanParametersTable
 	>(
 		Singleton<LanParametersTable>::Instance()
-	).Do(h, (wchar_t *)L"Настройка аналоговой платы"))
+	).Do(h, (wchar_t *)L"РќР°СЃС‚СЂРѕР№РєР° Р°РЅР°Р»РѕРіРѕРІРѕР№ РїР»Р°С‚С‹"))
 	{
 	}
 }

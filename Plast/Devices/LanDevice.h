@@ -1,6 +1,6 @@
 #pragma once
 /*
-* INFO Сбор данных в цикле
+* INFO вЂ”Р±РѕСЂ РґР°РЅРЅС‹С… РІ С†РёРєР»Рµ
 */
 namespace Data
 {

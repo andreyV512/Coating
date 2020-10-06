@@ -5,7 +5,7 @@
 namespace AScanWindowMenu
 {
 	struct MainFile {};
-	MENU_TEXT(L"Файл", TopMenu<MainFile>)
+	MENU_TEXT(L"Р¤Р°Р№Р»", TopMenu<MainFile>)
 	struct Exit
 	{
 		static void Do(HWND h)
@@ -14,7 +14,7 @@ namespace AScanWindowMenu
 			SendMessage(MESSAGE(c));
 		}
 	};
-	MENU_ITEM(L"Выход", Exit)
+	MENU_ITEM(L"Р’С‹С…РѕРґ", Exit)
 	template<>struct TopMenu<MainFile>
 	{
 		typedef Vlst<
@@ -27,10 +27,10 @@ namespace AScanWindowMenu
 	struct BiPolar : BiPolarDlg {};
 	struct DspFiltr : AScanDspFiltrDlg {};
 
-	MENU_TEXT(L"Настройки", TopMenu<OptionsFile>);
-	MENU_ITEM(L"Пороги", Thresholds);
-	MENU_ITEM(L"Аналоговый фильтр", DspFiltr);
-	MENU_ITEM(L"Биполярный сигнал", BiPolar);
+	MENU_TEXT(L"РќР°СЃС‚СЂРѕР№РєРё", TopMenu<OptionsFile>);
+	MENU_ITEM(L"РџРѕСЂРѕРіРё", Thresholds);
+	MENU_ITEM(L"РђРЅР°Р»РѕРіРѕРІС‹Р№ С„РёР»СЊС‚СЂ", DspFiltr);
+	MENU_ITEM(L"Р‘РёРїРѕР»СЏСЂРЅС‹Р№ СЃРёРіРЅР°Р»", BiPolar);
 	template<>struct TopMenu<OptionsFile>
 	{
 		typedef Vlst<

@@ -430,9 +430,9 @@ private:
 	static inline  T x;
 	Singleton() = delete;
 	~Singleton() = delete;
-	// необходимо также запретить копирование
-	Singleton(Singleton const&) = delete; // реализаци¤ не нужна
-	Singleton& operator= (Singleton const&) = delete;  // и тут
+	// РЅРµРѕР±С…РѕРґРёРјРѕ С‚Р°РєР¶Рµ Р·Р°РїСЂРµС‚РёС‚СЊ РєРѕРїРёСЂРѕРІР°РЅРёРµ
+	Singleton(Singleton const&) = delete; // СЂРµР°Р»РёР·Р°С†РёВ¤ РЅРµ РЅСѓР¶РЅР°
+	Singleton& operator= (Singleton const&) = delete;  // Рё С‚СѓС‚
 };
 
 #define EXPAND(x) x
@@ -478,7 +478,7 @@ private:
 #define FOR_EACH_(N, what, ...) EXPAND(CONCATENATE(FOR_EACH_, N)(what, __VA_ARGS__))
 #define FOR_EACH(what, ...) FOR_EACH_(FOR_EACH_NARG(__VA_ARGS__), what, __VA_ARGS__)
 
-//---------------------------------------------------тест генератора
+//---------------------------------------------------С‚РµСЃС‚ РіРµРЅРµСЂР°С‚РѕСЂР°
 //#define INT_TO_TYPE(n) TL::IntToType<n>,
 //#define INT_TO_TYPE_LIST(...)  TL::MkTlst<FOR_EACH(INT_TO_TYPE, __VA_ARGS__)NullType>::Result
 //typedef INT_TO_TYPE_LIST(1,3, 7, 8, 9) int_to_type_list ;

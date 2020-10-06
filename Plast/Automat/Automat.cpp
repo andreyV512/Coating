@@ -100,7 +100,7 @@ namespace Automat
 				}
 				Proc<iStrobe>::pred = false;
 
-				//TODO Bits<TstOn<iCU> >(); //проверка цепей управления
+				//TODO Bits<TstOn<iCU> >(); //РїСЂРѕРІРµСЂРєР° С†РµРїРµР№ СѓРїСЂР°РІР»РµРЅРёСЏ
 				Log::Mess <LogMess::On_iIn>();
 				Bits<On<iIn>, Key<StopBtn>, Proc<iStrobe>>();
 				{

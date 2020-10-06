@@ -70,35 +70,35 @@ DO_NOT_CHECK(BandStop<ChebI<Ripple>>)
 template<class T>struct CbItem;
 template<>struct CbItem<Low<ChebI<Order>>>
 {
-	wchar_t* operator()() { return (wchar_t *)L"Низкочастотный фильтр"; }
+	wchar_t* operator()() { return (wchar_t *)L"РќРёР·РєРѕС‡Р°СЃС‚РѕС‚РЅС‹Р№ С„РёР»СЊС‚СЂ"; }
 };
 template<>struct CbItem<High<ChebI<Order>>>
 {
-	wchar_t* operator()() { return (wchar_t*)L"Высокочастотный фильтр"; }
+	wchar_t* operator()() { return (wchar_t*)L"Р’С‹СЃРѕРєРѕС‡Р°СЃС‚РѕС‚РЅС‹Р№ С„РёР»СЊС‚СЂ"; }
 };
 template<>struct CbItem<BandPass<ChebI<Order>>>
 {
-	wchar_t *operator()() { return (wchar_t *)L"Полосовой фильтр"; }
+	wchar_t *operator()() { return (wchar_t *)L"РџРѕР»РѕСЃРѕРІРѕР№ С„РёР»СЊС‚СЂ"; }
 };
 template<>struct CbItem<BandStop<ChebI<Order>>>
 {
-	wchar_t *operator()() { return (wchar_t *)L"Режекторный фильтр"; }
+	wchar_t *operator()() { return (wchar_t *)L"Р РµР¶РµРєС‚РѕСЂРЅС‹Р№ С„РёР»СЊС‚СЂ"; }
 };
 template<>struct CbItem<CurrentFilter>
 {
-	wchar_t *operator()() { return (wchar_t *)L"Отключено"; }
+	wchar_t *operator()() { return (wchar_t *)L"РћС‚РєР»СЋС‡РµРЅРѕ"; }
 };
 
 #define TITLE(type, name)template<template<class>class X, template<class>class Y>\
 struct ParamTitle<X<Y<type>>>{wchar_t* operator()() { return (wchar_t*)name; }};
-TITLE(Order              , L"Порядок фильтра")
-TITLE(CutoffFrequency    , L"Частота среза")
-TITLE(Ripple             , L"Неравномерность в полосе пропускания")
+TITLE(Order              , L"РџРѕСЂСЏРґРѕРє С„РёР»СЊС‚СЂР°")
+TITLE(CutoffFrequency    , L"Р§Р°СЃС‚РѕС‚Р° СЃСЂРµР·Р°")
+TITLE(Ripple             , L"РќРµСЂР°РІРЅРѕРјРµСЂРЅРѕСЃС‚СЊ РІ РїРѕР»РѕСЃРµ РїСЂРѕРїСѓСЃРєР°РЅРёСЏ")
 
-TITLE(CenterFrequency, L"Центр полосы")
-TITLE(WidthFrequency, L"Ширина полосы")
+TITLE(CenterFrequency, L"Р¦РµРЅС‚СЂ РїРѕР»РѕСЃС‹")
+TITLE(WidthFrequency, L"РЁРёСЂРёРЅР° РїРѕР»РѕСЃС‹")
 #undef TITLE
-PARAM_TITLE(CurrentFilter, L"Тип фильтра")
+PARAM_TITLE(CurrentFilter, L"РўРёРї С„РёР»СЊС‚СЂР°")
 
 template<>struct FillComboboxList<CurrentFilter>
 {
@@ -180,7 +180,7 @@ template<template<class>class X, template<class>class Y, class O, class P>struct
 				, 550
 				, Vlst<OkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
 				, __current_filtre_param_data__<FiltersTable>
-			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+			>(p.obj, &p).Do(p.h, (wchar_t *)L"Р¤РёР»СЊС‚СЂ"))
 			{
 				VL::CopyFromTo(p.obj.items, *p.pitems);
 			}
@@ -203,7 +203,7 @@ template<class P>struct __current_filtre_param__<CurrentFilter, P>
 				, 550
 				, Vlst<OkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
 				, __current_filtre_param_data__<FiltersTable>
-			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+			>(p.obj, &p).Do(p.h, (wchar_t *)L"Р¤РёР»СЊС‚СЂ"))
 			{
 				VL::CopyFromTo(p.obj.items, *p.pitems);
 			}
@@ -230,7 +230,7 @@ void DspFiltrDlg::Do(HWND h)
 //	static const int width = 120;
 //	static const int height = 30;
 //	static const int ID = IDOK;
-//	wchar_t *Title() { return (wchar_t *)L"Применить"; }
+//	wchar_t *Title() { return (wchar_t *)L"РџСЂРёРјРµРЅРёС‚СЊ"; }
 //	template<class Owner>void BtnHandler(Owner &owner, HWND h)
 //	{
 //		__ok_table_btn__<
@@ -277,7 +277,7 @@ void DspFiltrDlg::Do(HWND h)
 //				, 550
 //				, Vlst<TstOkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
 //				, __current_filtre_param_data__<TstFiltersTable>
-//			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+//			>(p.obj, &p).Do(p.h, (wchar_t *)L"Р¤РёР»СЊС‚СЂ"))
 //			{
 //			//	VL::foreach<list, __copy__>()(p.obj.items, p.w->locFltParams);
 //			}
@@ -300,7 +300,7 @@ void DspFiltrDlg::Do(HWND h)
 //				, 550
 //				, Vlst<TstOkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
 //				, __current_filtre_param_data__<TstFiltersTable>
-//			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+//			>(p.obj, &p).Do(p.h, (wchar_t *)L"Р¤РёР»СЊС‚СЂ"))
 //			{
 //				//VL::foreach<list, __copy__>()(p.obj.items, p.w->locFltParams);
 //			}
@@ -340,7 +340,7 @@ struct NoStoreOkBtn
 	static const int width = 120;
 	static const int height = 30;
 	static const int ID = IDOK;
-	wchar_t *Title() { return (wchar_t *)L"Применить"; }
+	wchar_t *Title() { return (wchar_t *)L"РџСЂРёРјРµРЅРёС‚СЊ"; }
 	template<class Owner>void BtnHandler(Owner &owner, HWND h)
 	{
 		//__ok_table_btn__<
@@ -376,7 +376,7 @@ template<template<class>class X, template<class>class Y, class O, class P>struct
 				, 550
 				, Vlst<NoStoreOkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
 				, __current_filtre_param_data__<FiltersTable>
-			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+			>(p.obj, &p).Do(p.h, (wchar_t *)L"Р¤РёР»СЊС‚СЂ"))
 			{
 				VL::CopyFromTo(p.obj.items, *p.pitems);
 			}
@@ -399,7 +399,7 @@ template<class P>struct __Xcurrent_filtre_param__<CurrentFilter, P>
 				, 550
 				, Vlst<NoStoreOkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
 				, __current_filtre_param_data__<FiltersTable>
-			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+			>(p.obj, &p).Do(p.h, (wchar_t *)L"Р¤РёР»СЊС‚СЂ"))
 			{
 				VL::CopyFromTo(p.obj.items, *p.pitems);
 			}

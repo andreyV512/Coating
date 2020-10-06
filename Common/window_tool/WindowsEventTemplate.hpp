@@ -4,7 +4,7 @@
 #include "templates/typelist.hpp"
 
 namespace WET{
-	///\brief в типе Т присутствует член-тип "Parent"
+	///\brief РІ С‚РёРїРµ Рў РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ С‡Р»РµРЅ-С‚РёРї "Parent"
 	template<class T>struct IsParent
 	{
 		template<bool, class Z>struct Ret
@@ -24,11 +24,11 @@ namespace WET{
 	};
 	template<class T>struct TypeToEvent
 	{
-		///\brief необходимо для типа Т сопоставить сообщение windows
+		///\brief РЅРµРѕР±С…РѕРґРёРјРѕ РґР»СЏ С‚РёРїР° Рў СЃРѕРїРѕСЃС‚Р°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ windows
 		typedef typename T::_must_match_the_class_of_message_windows nonexist;
 	};
 
-	template<>struct TypeToEvent<TMouseMove>{static const int value = WM_MOUSEMOVE;};///<-------см. ниже комментарий
+	template<>struct TypeToEvent<TMouseMove>{static const int value = WM_MOUSEMOVE;};///<-------СЃРј. РЅРёР¶Рµ РєРѕРјРјРµРЅС‚Р°СЂРёР№
 	template<>struct TypeToEvent<TSize>{static const int value = WM_SIZE;};
 	template<>struct TypeToEvent<TPaint>{static const int value = WM_PAINT;};
 	template<>struct TypeToEvent<TActivate>{static const int value = WM_ACTIVATE;};
@@ -55,8 +55,8 @@ namespace WET{
 	template<class O, class P>class IsFuncExist
 	{
 		template<class T, T>struct Helper{};
-		///\bug Необходимо определить в классе unsigned operator()(XXX &){}, где XXX - TMouseMove, TSize ... TTimer(см выше) 
-		///\bug или необходимо определить в классе void operator()(XXX &){}, где XXX - TMouseMove, TSize ... TTimer(см выше) 
+		///\bug РќРµРѕР±С…РѕРґРёРјРѕ РѕРїСЂРµРґРµР»РёС‚СЊ РІ РєР»Р°СЃСЃРµ unsigned operator()(XXX &){}, РіРґРµ XXX - TMouseMove, TSize ... TTimer(СЃРј РІС‹С€Рµ) 
+		///\bug РёР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ РѕРїСЂРµРґРµР»РёС‚СЊ РІ РєР»Р°СЃСЃРµ void operator()(XXX &){}, РіРґРµ XXX - TMouseMove, TSize ... TTimer(СЃРј РІС‹С€Рµ) 
 		template<class Z>static double Is(O *, Helper<void(O::*)(Z &), &O::operator()> * = NULL);
 		template<class Z>static double Is(O *, Helper<LRESULT(O::*)(Z &), &O::operator()> * = NULL);
 		template<class Z>static char Is(...);
@@ -108,7 +108,7 @@ namespace WET{
 		, TGetMinMaxInfo, TMouseWell, TRButtonDown, TMoving, TSizing
 		, TMessage, TTimer, TClose
 		, TCopyData, TDropFiles	, TSysKeyDown
-	> type_events_all_list; //<-------см. ниже комментарий
+	> type_events_all_list; //<-------СЃРј. РЅРёР¶Рµ РєРѕРјРјРµРЅС‚Р°СЂРёР№
 
 	template<class List, class T, class tmp = Vlst<> >struct AddTypeEvent;
 	template<class T, class tmp, class Head, class ...Tail>struct AddTypeEvent<Vlst<Head, Tail...>, T, tmp>
@@ -204,8 +204,8 @@ namespace WET{
 		};
 		template<class T>struct TestNotNullType<Vlst<>, T>
 		{
-			///\brief класс должен иметь обработчик в виде- LRESULT T::operator()(XXX &) или void T::operator()(XXX &);
-			///где: XXX - TMouseMove, TSize, TPaint, TActivate(добавить при необходимости в список type_events_all_list, см. выше)
+			///\brief РєР»Р°СЃСЃ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РѕР±СЂР°Р±РѕС‚С‡РёРє РІ РІРёРґРµ- LRESULT T::operator()(XXX &) РёР»Рё void T::operator()(XXX &);
+			///РіРґРµ: XXX - TMouseMove, TSize, TPaint, TActivate(РґРѕР±Р°РІРёС‚СЊ РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё РІ СЃРїРёСЃРѕРє type_events_all_list, СЃРј. РІС‹С€Рµ)
 			typedef typename T::__class_does_not_have_any_handler__ nonexist;
 		};
 		

@@ -41,7 +41,7 @@ namespace LogMess
 	{
 		static void Func(char *buf, double val)
 		{
-			sprintf(buf, C::mess(), 0.0 != val ? "¬ À" : "Œ“ À");			
+			sprintf(buf, C::mess(), 0.0 != val ? "–í–ö–õ" : "–û–¢–ö–õ");			
 		}
 	};
 	template<class C>struct GenFunc<const char *, C>

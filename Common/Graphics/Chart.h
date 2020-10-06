@@ -158,7 +158,7 @@ public:
 	   ptrMove = (TPtrMove)to;
    }   
 };
-//--------------------для внутреннего использования
+//--------------------РґР»СЏ РІРЅСѓС‚СЂРµРЅРЅРµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ
 void OffsetAxes(int , int , double , double , double &, double &, double &, double &);
 
 

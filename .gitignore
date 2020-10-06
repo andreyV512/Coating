@@ -10,3 +10,5 @@ Debug/
 *.suo
 /Plast/Version.h
 /Plast/NumVerOld.txt
+Release/
+

@@ -5,8 +5,8 @@
 MIN_VALUE(MedianFiltreWidth, 0)
 MAX_EQUAL_VALUE(MedianFiltreWidth, 15)
 
-PARAM_TITLE(MedianFiltreWidth, L"Ширина фильтра")
-PARAM_TITLE(MedianFiltreON, L"Включение фильтра")
+PARAM_TITLE(MedianFiltreWidth, L"РЁРёСЂРёРЅР° С„РёР»СЊС‚СЂР°")
+PARAM_TITLE(MedianFiltreON, L"Р’РєР»СЋС‡РµРЅРёРµ С„РёР»СЊС‚СЂР°")
 
 template<>struct __compare_param__<Less<MedianFiltreWidth>, LargenEqual<MedianFiltreWidth>, MedianFiltreWidth>
 {
@@ -26,15 +26,15 @@ template<>struct ErrMess<MedianFiltreWidth>
 		typedef VL::TypeExist<Vlst<Less<T>, LessEqual<T> > >::Result min_type;
 		typedef VL::TypeExist< Vlst<Largen<T>, LargenEqual<T> > >::Result max_type;
 		SubErrMess<min_type, max_type, T>()(buf);
-		wsprintf(&buf[wcslen(buf)], L", либо параметр должен быть нечётным");
-		MessageBox(h, buf, (wchar_t *)L"Ошибка!!!", MB_ICONEXCLAMATION);
+		wsprintf(&buf[wcslen(buf)], L", Р»РёР±Рѕ РїР°СЂР°РјРµС‚СЂ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РЅРµС‡С‘С‚РЅС‹Рј");
+		MessageBox(h, buf, (wchar_t *)L"РћС€РёР±РєР°!!!", MB_ICONEXCLAMATION);
 	}
 };
 
 void MedianFiltreDlg::Do(HWND h)
 {
 	if (Dialog::Templ<ParametersBase, MedianFiltreTable
-	>(Singleton<MedianFiltreTable>::Instance()).Do(h, (wchar_t *)L"Медианный фильтр"))
+	>(Singleton<MedianFiltreTable>::Instance()).Do(h, (wchar_t *)L"РњРµРґРёР°РЅРЅС‹Р№ С„РёР»СЊС‚СЂ"))
 	{
 	}
 }

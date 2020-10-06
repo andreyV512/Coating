@@ -119,19 +119,19 @@ template<>struct __data_from_widget__<Dialog::DlgItem2<n<__VA_ARGS__>, ClrDlg>, 
 DO_NOT_CHECK(n<__VA_ARGS__>)\
 PARAM_TITLE(n<__VA_ARGS__>, txt)
 
-	DLG_SUB(Clr<Norm>, L"Норма")
-		DLG_SUB(Clr<deadZone>, L"Мёртвая зона")
-		DLG_SUB(Clr<SensorOff >, L"Датчик отключен")
-		DLG_SUB(Clr<defect   >, L"Дефект")
-		DLG_SUB(Clr<noBottomReflection>, L"Нет донного отражения")
-		DLG_SUB_LIST(Clr, L"Брак, нет донного отражения", noBottomReflection, defect)
+	DLG_SUB(Clr<Norm>, L"РќРѕСЂРјР°")
+		DLG_SUB(Clr<DeadZone>, L"РњС‘СЂС‚РІР°СЏ Р·РѕРЅР°")
+		DLG_SUB(Clr<SensorOff >, L"Р”Р°С‚С‡РёРє РѕС‚РєР»СЋС‡РµРЅ")
+		DLG_SUB(Clr<Defect   >, L"Р”РµС„РµРєС‚")
+		DLG_SUB(Clr<NoBottomReflection>, L"РќРµС‚ РґРѕРЅРЅРѕРіРѕ РѕС‚СЂР°Р¶РµРЅРёСЏ")
+		DLG_SUB_LIST(Clr, L"Р‘СЂР°Рє, РЅРµС‚ РґРѕРЅРЅРѕРіРѕ РѕС‚СЂР°Р¶РµРЅРёСЏ", NoBottomReflection, Defect)
 
 	struct DefaultBtn
 	{
 		static const int width = 160;
 		static const int height = 30;
 		static const int ID = IDRETRY;
-		wchar_t *Title() { return (wchar_t *)L"Встроенные настройки"; }
+		wchar_t *Title() { return (wchar_t *)L"Р’СЃС‚СЂРѕРµРЅРЅС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё"; }
 		template<class Owner>void BtnHandler(Owner &o, HWND h)
 		{
 			if (TestPassword<Owner::Base, Owner::Table>()(h))
@@ -152,7 +152,7 @@ void ColorDlg::Do(HWND h)
 {
 	ColorTable color;
 	CopyFromTo(Singleton<ColorTable>::Instance().items, color.items);
-	if (ClrDlg(color).Do(h, (wchar_t *)L"Цвета"))
+	if (ClrDlg(color).Do(h, (wchar_t *)L"Р¦РІРµС‚Р°"))
 	{
 		CopyFromTo(color.items, Singleton<ColorTable>::Instance().items);
 		StatusData::UpdateColor();

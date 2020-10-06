@@ -131,7 +131,7 @@ public:
 	{
 		memset(tbb, 0, sizeof(tbb));
 		HWND hToolBar = CreateToolBar<only_buttons_list>()(*this, hwnd);
-		//Свяжите image list с ToolBar -ом
+		//вЂ”РІВ¤Р¶РёС‚Рµ image list СЃ ToolBar -РѕРј
 		SendMessage(hToolBar, TB_SETIMAGELIST, 0, (LPARAM)himl);
 		SendMessage(hToolBar, TB_AUTOSIZE, 0, 0);
 		return hToolBar;

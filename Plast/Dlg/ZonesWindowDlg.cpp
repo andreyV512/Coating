@@ -15,16 +15,16 @@ MAX_EQUAL_VALUE(AxeYBottom, 1)
 MIN_EQUAL_VALUE(AxeXWidth, 100)
 MAX_EQUAL_VALUE(AxeXWidth, 3000)
 
-PARAM_TITLE(AxeYTop, L"Максимальное значение оси Y")
-PARAM_TITLE(AxeYBottom, L"Минимальное значение оси Y")
-PARAM_TITLE(AxeXWidth, L"Ширина оси Х")
+PARAM_TITLE(AxeYTop, L"РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РѕСЃРё Y")
+PARAM_TITLE(AxeYBottom, L"РњРёРЅРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РѕСЃРё Y")
+PARAM_TITLE(AxeXWidth, L"РЁРёСЂРёРЅР° РѕСЃРё РҐ")
 
 void ZonesAxesDlg::Do(HWND h)
 {
 	HWND hh = FindWindow(WindowClass<ZonesWindow>()(), 0);
 	ZonesWindow *w = (ZonesWindow *)GetWindowLongPtr(hh, GWLP_USERDATA);
 	if (Dialog::Templ<ParametersIni, ZoneWindowsAxes
-	>(w->zoneAxes).Do(h, (wchar_t *)L"Оси графика"))
+	>(w->zoneAxes).Do(h, (wchar_t *)L"РћСЃРё РіСЂР°С„РёРєР°"))
 	{
 		w->Update();
 	}

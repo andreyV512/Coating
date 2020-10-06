@@ -70,62 +70,62 @@ static const int sea = 0xffa279;
 static const int pink = 0xaBa0FF;
 namespace LogMess
 {
-	///\brief сопоставление числу сообщениея
-	///\param тип параметра
-	///\param тип дополнительного параметра
-	///\param сообщение
-	///\param цвет фона
-	///\param цвет шрифта
-	MESS(StartCycle, void, "Пуск цикла", blue, white)
-		//MESS(AirTest		          , void  , "Проверка воздуха"              , blue, white)
-	MESS(ProgramOpen, void, "Программа открыта", black, white)
+	///\brief СЃРѕРїРѕСЃС‚Р°РІР»РµРЅРёРµ С‡РёСЃР»Сѓ СЃРѕРѕР±С‰РµРЅРёРµСЏ
+	///\param С‚РёРї РїР°СЂР°РјРµС‚СЂР°
+	///\param С‚РёРї РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅРѕРіРѕ РїР°СЂР°РјРµС‚СЂР°
+	///\param СЃРѕРѕР±С‰РµРЅРёРµ
+	///\param С†РІРµС‚ С„РѕРЅР°
+	///\param С†РІРµС‚ С€СЂРёС„С‚Р°
+	MESS(StartCycle, void, "РџСѓСЃРє С†РёРєР»Р°", blue, white)
+		//MESS(AirTest		          , void  , "РџСЂРѕРІРµСЂРєР° РІРѕР·РґСѓС…Р°"              , blue, white)
+	MESS(ProgramOpen, void, "РџСЂРѕРіСЂР°РјРјР° РѕС‚РєСЂС‹С‚Р°", black, white)
 	//							          
-	MESS(TimeoutPipe, void, "Превышенно время ожидания", red, yellow)
+	MESS(TimeoutPipe, void, "РџСЂРµРІС‹С€РµРЅРЅРѕ РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ", red, yellow)
 
-	MESS(ProgramClosed, void, "Программа закрыта", red, yellow)
+	MESS(ProgramClosed, void, "РџСЂРѕРіСЂР°РјРјР° Р·Р°РєСЂС‹С‚Р°", red, yellow)
 
-	MESS(ExitMeshuringCycle, void, "Оператор вышел из цикла", red, yellow)
-	MESS(ExitTubeInZoneSensors, void, "Труба в рабочей зоне установки", red, yellow)
+	MESS(ExitMeshuringCycle, void, "РћРїРµСЂР°С‚РѕСЂ РІС‹С€РµР» РёР· С†РёРєР»Р°", red, yellow)
+	MESS(ExitTubeInZoneSensors, void, "РўСЂСѓР±Р° РІ СЂР°Р±РѕС‡РµР№ Р·РѕРЅРµ СѓСЃС‚Р°РЅРѕРІРєРё", red, yellow)
 
-	MESS(DataCollectionDEF, void, "сбор данных", blue, white)
+	MESS(DataCollectionDEF, void, "СЃР±РѕСЂ РґР°РЅРЅС‹С…", blue, white)
 
-	MESS(Alarm502, int, "Ошибка платы L502  ", red, yellow)
+	MESS(Alarm502, int, "РћС€РёР±РєР° РїР»Р°С‚С‹ L502  ", red, yellow)
 
-	MESS(DataCollectionCompleted, void, "Цикл сбора данных закончен", green, white)
+	MESS(DataCollectionCompleted, void, "Р¦РёРєР» СЃР±РѕСЂР° РґР°РЅРЅС‹С… Р·Р°РєРѕРЅС‡РµРЅ", green, white)
 
-	MESS(Copt, int, "Сорт", green, white)
-	MESS(Brak, void, "Брак", red, yellow)
+	MESS(Copt, int, "РЎРѕСЂС‚", green, white)
+	MESS(Brak, void, "Р‘СЂР°Рє", red, yellow)
 
-	MESS(ErrorSpline, void, "Ошибка сплайн", red, yellow)
+	MESS(ErrorSpline, void, "РћС€РёР±РєР° СЃРїР»Р°Р№РЅ", red, yellow)
 
-	MESS(StopBtn, void, "Оператор вышел из цикла", blue, white)
-	MESS(On_iIn, void, "Ожидание прутка", blue, white)
-	MESS(Collection, void, "Сбор данных", blue, white)
-	MESS(CollectionDone, void, "Сбор данных закончен", blue, white)
+	MESS(StopBtn, void, "РћРїРµСЂР°С‚РѕСЂ РІС‹С€РµР» РёР· С†РёРєР»Р°", blue, white)
+	MESS(On_iIn, void, "РћР¶РёРґР°РЅРёРµ РїСЂСѓС‚РєР°", blue, white)
+	MESS(Collection, void, "РЎР±РѕСЂ РґР°РЅРЅС‹С…", blue, white)
+	MESS(CollectionDone, void, "РЎР±РѕСЂ РґР°РЅРЅС‹С… Р·Р°РєРѕРЅС‡РµРЅ", blue, white)
 
-	MESS_BIT(On<iCU  >, void, "Включен сигнал \"Цепи управления\"", red, white);
-	MESS_BIT(On<iIn  >, void, "Включен сигнал \"Труба на входе\"", red, white);
-	MESS_BIT(On<iOut >, void, "Включен сигнал \"Труба на выходе\"", red, white);
-	MESS_BIT(On<iStrobe >, void, "Включен сигнал \"Строб\"", red, white);
+	MESS_BIT(On<iCU  >, void, "Р’РєР»СЋС‡РµРЅ СЃРёРіРЅР°Р» \"Р¦РµРїРё СѓРїСЂР°РІР»РµРЅРёСЏ\"", red, white);
+	MESS_BIT(On<iIn  >, void, "Р’РєР»СЋС‡РµРЅ СЃРёРіРЅР°Р» \"РўСЂСѓР±Р° РЅР° РІС…РѕРґРµ\"", red, white);
+	MESS_BIT(On<iOut >, void, "Р’РєР»СЋС‡РµРЅ СЃРёРіРЅР°Р» \"РўСЂСѓР±Р° РЅР° РІС‹С…РѕРґРµ\"", red, white);
+	MESS_BIT(On<iStrobe >, void, "Р’РєР»СЋС‡РµРЅ СЃРёРіРЅР°Р» \"РЎС‚СЂРѕР±\"", red, white);
 
 	MESS_BIT(On<oAutomat>, void, "On<oAutomat>", red, white);
 	MESS_BIT(On<oSupply >, void, "On<oSupply >", red, white);
-	MESS_BIT(On<oMark>, void, "Включен сигнал \"Отметка\"", red, white);
+	MESS_BIT(On<oMark>, void, "Р’РєР»СЋС‡РµРЅ СЃРёРіРЅР°Р» \"РћС‚РјРµС‚РєР°\"", red, white);
 
-	MESS_BIT(Off<iCU  >, void, "Отключен сигнал \"Цепи управления\"", blue, white);
-	MESS_BIT(Off<iIn  >, void, "Отключен сигнал \"Труба на входе\"", blue, white);
-	MESS_BIT(Off<iOut >, void, "Отключен сигнал \"Труба на выходе\"", blue, white);
-	MESS_BIT(Off<iStrobe >, void, "Отключен сигнал \"Строб\"", blue, white);
+	MESS_BIT(Off<iCU  >, void, "РћС‚РєР»СЋС‡РµРЅ СЃРёРіРЅР°Р» \"Р¦РµРїРё СѓРїСЂР°РІР»РµРЅРёСЏ\"", blue, white);
+	MESS_BIT(Off<iIn  >, void, "РћС‚РєР»СЋС‡РµРЅ СЃРёРіРЅР°Р» \"РўСЂСѓР±Р° РЅР° РІС…РѕРґРµ\"", blue, white);
+	MESS_BIT(Off<iOut >, void, "РћС‚РєР»СЋС‡РµРЅ СЃРёРіРЅР°Р» \"РўСЂСѓР±Р° РЅР° РІС‹С…РѕРґРµ\"", blue, white);
+	MESS_BIT(Off<iStrobe >, void, "РћС‚РєР»СЋС‡РµРЅ СЃРёРіРЅР°Р» \"РЎС‚СЂРѕР±\"", blue, white);
 
 	MESS_BIT(Off<oAutomat>, void, "Off<oAutomat>", blue, white);
 	MESS_BIT(Off<oSupply >, void, "Off<oSupply >", blue, white);
-	MESS_BIT(Off<oMark>, void, "Отключен сигнал \"Отметка\"", blue, white);
+	MESS_BIT(Off<oMark>, void, "РћС‚РєР»СЋС‡РµРЅ СЃРёРіРЅР°Р» \"РћС‚РјРµС‚РєР°\"", blue, white);
 
-	ALARM_BIT(On<iCU  >, void, "Нет сигнала \"Цепи управления\"", red, yellow);
+	ALARM_BIT(On<iCU  >, void, "РќРµС‚ СЃРёРіРЅР°Р»Р° \"Р¦РµРїРё СѓРїСЂР°РІР»РµРЅРёСЏ\"", red, yellow);
 	
-	MESS(TimeOutExteption, void, "Превышено время ожидания", red, yellow);
-	MESS(AlarmBitsExteption, void, "Выход по аварийному биту", red, yellow);
-	MESS(ExitLoopExteption, void, "Выход из программы", red, yellow);
+	MESS(TimeOutExteption, void, "РџСЂРµРІС‹С€РµРЅРѕ РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ", red, yellow);
+	MESS(AlarmBitsExteption, void, "Р’С‹С…РѕРґ РїРѕ Р°РІР°СЂРёР№РЅРѕРјСѓ Р±РёС‚Сѓ", red, yellow);
+	MESS(ExitLoopExteption, void, "Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹", red, yellow);
 
 	template<class T>struct Bits;
 	template<>struct Bits<Vlst<>> {};
@@ -142,14 +142,14 @@ namespace LogMess
 		typedef Bits<Vlst<__VA_ARGS__> > Result;\
 	};
 
-	BITS_XX(sea, "Ожидание сигнала \"ЦЕПИ УПРАВЛЕНИЯ\"", On<iCU>)
-	BITS_XX(sea, "Выставлен сигнал \"Автомат\"", On<oAutomat>)
-	BITS_XX(sea, "Снят сигнал \"Автомат\"", Off<oAutomat>)
+	BITS_XX(sea, "РћР¶РёРґР°РЅРёРµ СЃРёРіРЅР°Р»Р° \"Р¦Р•РџР РЈРџР РђР’Р›Р•РќРРЇ\"", On<iCU>)
+	BITS_XX(sea, "Р’С‹СЃС‚Р°РІР»РµРЅ СЃРёРіРЅР°Р» \"РђРІС‚РѕРјР°С‚\"", On<oAutomat>)
+	BITS_XX(sea, "РЎРЅСЏС‚ СЃРёРіРЅР°Р» \"РђРІС‚РѕРјР°С‚\"", Off<oAutomat>)
 
-	BITS_XX(sea, "Ожидание cнятия сигнала \"Труба на входе\"", Off<iIn>)
-	BITS_XX(sea, "Ожидание cнятия сигнала \"Труба на выходе\"", Off<iOut>)
-	BITS_XX(sea, "Ожидание сигнала \"Труба на входе\"", On<iIn>)
-	BITS_XX(sea, "Ожидание сигнала \"Труба на выходе\"", On<iOut>)
+	BITS_XX(sea, "РћР¶РёРґР°РЅРёРµ cРЅСЏС‚РёСЏ СЃРёРіРЅР°Р»Р° \"РўСЂСѓР±Р° РЅР° РІС…РѕРґРµ\"", Off<iIn>)
+	BITS_XX(sea, "РћР¶РёРґР°РЅРёРµ cРЅСЏС‚РёСЏ СЃРёРіРЅР°Р»Р° \"РўСЂСѓР±Р° РЅР° РІС‹С…РѕРґРµ\"", Off<iOut>)
+	BITS_XX(sea, "РћР¶РёРґР°РЅРёРµ СЃРёРіРЅР°Р»Р° \"РўСЂСѓР±Р° РЅР° РІС…РѕРґРµ\"", On<iIn>)
+	BITS_XX(sea, "РћР¶РёРґР°РЅРёРµ СЃРёРіРЅР°Р»Р° \"РўСЂСѓР±Р° РЅР° РІС‹С…РѕРґРµ\"", On<iOut>)
 #undef BITS_XX
 
 //#define ERR_BITS(color, txt, ...)template<>struct Bits<Bits<Vlst<__VA_ARGS__> >>\
@@ -166,10 +166,10 @@ namespace LogMess
 //		typedef Bits<Bits<Vlst<__VA_ARGS__> >> Result;\
 //	};
 //
-//	//ERR_BITS(red, "Нет сигнала \"ЦЕПИ УПРАВЛЕНИЯ\"", On<iCU>)
+//	//ERR_BITS(red, "РќРµС‚ СЃРёРіРЅР°Р»Р° \"Р¦Р•РџР РЈРџР РђР’Р›Р•РќРРЇ\"", On<iCU>)
 //#undef ERR_BITS
 
-	MESS(BaseLengthError, void, "Необходимо уменьшить параметр \"Базовое расстояние\"", red, yellow)
+	MESS(BaseLengthError, void, "РќРµРѕР±С…РѕРґРёРјРѕ СѓРјРµРЅСЊС€РёС‚СЊ РїР°СЂР°РјРµС‚СЂ \"Р‘Р°Р·РѕРІРѕРµ СЂР°СЃСЃС‚РѕСЏРЅРёРµ\"", red, yellow)
 
     static const int MAX_MESS_ID = __COUNTER__;
 

@@ -73,7 +73,7 @@ template<class O, class P>struct __mouse_well__
 //
 //		Wchar_from<double, 1> Y(data.minData[x]);
 //
-//		wsprintf(label.buffer, L"<ff>зона %d Y %s <%6x>%s"
+//		wsprintf(label.buffer, L"<ff>Р·РѕРЅР° %d Y %s <%6x>%s"
 //			, 1 + x
 //			, Y()
 //			, color

@@ -16,7 +16,7 @@ bool Password(int c)
 	static int index = 0;
 	static MkPass<password_list> pass;	
 	if(c == pass.buffer[index]) ++index; else index = 0;	
-//#pragma message("ВКЛЮЧИТЬ ПАРОЛЬ ")
+//#pragma message("Р’РљР›Р®Р§РРўР¬ РџРђР РћР›Р¬ ")
 	return TL::Length<password_list>::value == index;
 }
 #endif
@@ -82,11 +82,11 @@ LRESULT CALLBACK PasswordDlg::Proc(HWND h, UINT msg, WPARAM wParam, LPARAM lPara
 				,10, 20, 400, 25, h, 0, (HINSTANCE)::GetModuleHandle(NULL), NULL
 				);
 			static const int offs = 100;			
-			CreateWindow(L"button", L"Применить"
+			CreateWindow(L"button", L"РџСЂРёРјРµРЅРёС‚СЊ"
 				, WS_VISIBLE | WS_CHILD | WS_TABSTOP
 				,offs, 50, 110, 30, h, (HMENU)IDOK, (HINSTANCE)::GetModuleHandle(NULL), NULL
 				);
-			CreateWindow(L"button", L"Отмена"
+			CreateWindow(L"button", L"РћС‚РјРµРЅР°"
 				, WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON | WS_TABSTOP
 				,offs + 120, 50, 110, 30, h, (HMENU)IDCANCEL, (HINSTANCE)::GetModuleHandle(NULL), NULL
 				);
@@ -104,7 +104,7 @@ LRESULT CALLBACK PasswordDlg::Proc(HWND h, UINT msg, WPARAM wParam, LPARAM lPara
 }
 //-------------------------------------------------------------------------------------------
 TypesizePasswordDlg::TypesizePasswordDlg()
-	: PasswordDlg(L"1234", L"Пароль для типоразмера"){}
+	: PasswordDlg(L"1234", L"РџР°СЂРѕР»СЊ РґР»СЏ С‚РёРїРѕСЂР°Р·РјРµСЂР°"){}
 //---------------------------------------------------------------------------------------------
 bool TypesizePasswordDlg::Do(HWND h)
 {
@@ -112,7 +112,7 @@ bool TypesizePasswordDlg::Do(HWND h)
 }
 //----------------------------------------------------------------------------------------
 OptionPasswordDlg::OptionPasswordDlg()
-	: PasswordDlg(L"5678", L"Пароль для настроек"){}
+	: PasswordDlg(L"5678", L"РџР°СЂРѕР»СЊ РґР»СЏ РЅР°СЃС‚СЂРѕРµРє"){}
 //------------------------------------------------------------------------------------------------
 bool OptionPasswordDlg::Do(HWND h)
 {

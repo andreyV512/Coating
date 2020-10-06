@@ -17,9 +17,9 @@ namespace
 	static wchar_t *Text(){return (wchar_t *)text;}\
 };
 
-	KEY(IDB_CycleBtn, L"F4 Цикл")
-	KEY(IDB_Reset, L"Esc Стор")
-//		KEY(IDB_QueryBtn, L"Тест")
+	KEY(IDB_CycleBtn, L"F4 Р¦РёРєР»")
+	KEY(IDB_Reset, L"Esc РЎС‚РѕСЂ")
+//		KEY(IDB_QueryBtn, L"РўРµСЃС‚")
 #undef KEY
 
 	template<int ID>using BTB = ButtonToolbar<ID, Key<ID> >;

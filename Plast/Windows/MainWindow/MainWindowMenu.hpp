@@ -3,6 +3,7 @@
 #include "Dlg/Dlg.h"
 #include "window_tool/OpenWindow.hpp"
 #include "Windows/ZonesWindow/ZonesWindow.h"
+#include "Compute/Compute.h"
 
 namespace MainWindowMenu
 {
@@ -12,7 +13,7 @@ namespace MainWindowMenu
 	struct SaveDateFile {
 		static void Do(HWND) {}
 	};
-	struct Compute : OperatorsDlg {};
+	struct Compute__ { static void Do(HWND h) { Singleton<Compute>::Instance().Recalculation(); } };
 
 	struct Exit
 	{
@@ -25,7 +26,7 @@ namespace MainWindowMenu
 
 	MENU_ITEM(L"Загрузить данные", LoadDateFile)
 	MENU_ITEM(L"Сохранить данные", SaveDateFile)
-	MENU_ITEM(L"Перерасчёт", Compute)
+	MENU_ITEM(L"Перерасчёт", Compute__)
 	MENU_ITEM(L"Выход", Exit)
 	//------------------------------------
 	template<>struct TopMenu<MainFile>
@@ -33,7 +34,7 @@ namespace MainWindowMenu
 		typedef Vlst<
 			MenuItem<LoadDateFile>
 			, MenuItem<SaveDateFile>
-			, MenuItem<Compute>
+			, MenuItem<Compute__>
 			, Separator<0>
 			, MenuItem<Exit>
 		> list;

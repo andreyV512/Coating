@@ -58,12 +58,12 @@ namespace ZoneStatus
 		typedef Vlst<> Result;
 	};
 
-	template<class T, class skip>struct 裷ossLists;
-	template<class skip, class Head, class ...Tail>struct 裷ossLists<Vlst<Head, Tail...>, skip>
+	template<class T, class skip>struct 小rossLists;
+	template<class skip, class Head, class ...Tail>struct 小rossLists<Vlst<Head, Tail...>, skip>
 	{
-		static const bool value = VL::InList<skip, Head>::value || 裷ossLists<Vlst<Tail...>, skip>::value;
+		static const bool value = VL::InList<skip, Head>::value || 小rossLists<Vlst<Tail...>, skip>::value;
 	};
-	template<class skip>struct 裷ossLists<Vlst<>, skip>
+	template<class skip>struct 小rossLists<Vlst<>, skip>
 	{
 		static const bool value = false;
 	};
@@ -73,7 +73,7 @@ namespace ZoneStatus
 	template<class testList, class Head, class ...Tail>struct Skip<Vlst<Head, Tail...>, testList>
 	{
 		typedef typename SkipList<Head, __skip_list__>::Result skipList;
-		static const bool value = 裷ossLists<testList, skipList>::value || Skip<Vlst<Tail...>, testList>::value;
+		static const bool value = 小rossLists<testList, skipList>::value || Skip<Vlst<Tail...>, testList>::value;
 	};
 
 	template<class testList>struct Skip<Vlst<>, testList>
@@ -118,7 +118,7 @@ namespace ZoneStatus
 	{
 		typedef typename VL::Erase<List, T>::Result erase;
 		typedef typename SkipList<T, __skip_list__>::Result skipList;
-		typedef typename VL::_if<裷ossLists<erase, skipList>::value
+		typedef typename VL::_if<小rossLists<erase, skipList>::value
 			, Vlst<>
 			, T
 		>::Result Result;

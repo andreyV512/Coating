@@ -29,6 +29,7 @@ class Compute
 
 	int offsReflectionStart, offsReflectionStop;
 	double gainReflectionOffs, gainReflectionDelta, threshReflection;
+	bool bottomReflectionOn;
 	Impl<IDSPFlt, 1032> filter;
 public:
 	
@@ -38,8 +39,9 @@ public:
 
 	bool Strobes();
 	void Zone(int zone, int sens);
-	void ComputeFrame(IDSPFlt *f, int sensor, char *d, double &value, char &status);
+	void ComputeFrame(IDSPFlt &f, int sensor, char *d, double &value, char &status);
 	void ComputeZone(int zone);
 	void Update();
 	void Done();
+	void Recalculation();
 };

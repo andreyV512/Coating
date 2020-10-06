@@ -8,13 +8,13 @@ MAX_EQUAL_VALUE(OffsetSensorBegMM, 100)
 MIN_EQUAL_VALUE(OffsetSensorEndMM, 0)
 MAX_EQUAL_VALUE(OffsetSensorEndMM, 100)
 
-PARAM_TITLE(OffsetSensorBegMM, L"Смещение датчика начало")
-PARAM_TITLE(OffsetSensorEndMM, L"Смещение датчика конец")
+PARAM_TITLE(OffsetSensorBegMM, L"РЎРјРµС‰РµРЅРёРµ РґР°С‚С‡РёРєР° РЅР°С‡Р°Р»Рѕ")
+PARAM_TITLE(OffsetSensorEndMM, L"РЎРјРµС‰РµРЅРёРµ РґР°С‚С‡РёРєР° РєРѕРЅРµС†")
 
 void UnitDlg::Do(HWND h)
 {
 	if (Dialog::Templ<ParametersBase, UnitTable
-	>(Singleton<UnitTable>::Instance()).Do(h, (wchar_t *)L"Смещения датчика"))
+	>(Singleton<UnitTable>::Instance()).Do(h, (wchar_t *)L"РЎРјРµС‰РµРЅРёСЏ РґР°С‚С‡РёРєР°"))
 	{
 	}
 }

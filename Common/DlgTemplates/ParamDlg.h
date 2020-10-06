@@ -52,7 +52,7 @@ struct OkBtn
 	static const int width = 120;
 	static const int height = 30;
 	static const int ID = IDOK;
-	wchar_t *Title(){return (wchar_t *)L"Применить";}
+	wchar_t *Title(){return (wchar_t *)L"РџСЂРёРјРµРЅРёС‚СЊ";}
 	template<class Owner>void BtnHandler(Owner &owner, HWND h)
 	{
 		__ok_table_btn__<
@@ -74,7 +74,7 @@ struct CancelBtn
 	static const int width = 120;
 	static const int height = 30;
 	static const int ID = IDCANCEL;
-	wchar_t *Title(){return (wchar_t *)L"Закрыть";}
+	wchar_t *Title(){return (wchar_t *)L"Р—Р°РєСЂС‹С‚СЊ";}
 	template<class Owner>void BtnHandler(Owner &o, HWND h)
 	{
 		EndDialog(h, FALSE);

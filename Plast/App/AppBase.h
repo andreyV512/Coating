@@ -10,27 +10,27 @@
 template<class ...T>struct Clr {};
 
 struct Norm {};
-struct noBottomReflection {};
-struct defect {};
-struct deadZone {};
+struct NoBottomReflection {};
+struct Defect {};
+struct DeadZone {};
 struct SensorOff {};
 
 DEFINE_PARAM_WRAP(Clr, Norm              , unsigned, 0xff00ff00)
-DEFINE_PARAM_WRAP(Clr, defect			 , unsigned, 0xffff0000)
-DEFINE_PARAM_WRAP(Clr, noBottomReflection, unsigned, 0xff4286f4)
-DEFINE_PARAM_WRAP(Clr, deadZone			 , unsigned, 0xff939393)
+DEFINE_PARAM_WRAP(Clr, Defect			 , unsigned, 0xffff0000)
+DEFINE_PARAM_WRAP(Clr, NoBottomReflection, unsigned, 0xff4286f4)
+DEFINE_PARAM_WRAP(Clr, DeadZone			 , unsigned, 0xff939393)
 DEFINE_PARAM_WRAP(Clr, SensorOff         , unsigned, 0xff939393)
-DEFINE_PARAM_WRAP_LIST(Clr, unsigned, 0xffffff00, noBottomReflection, defect)
+DEFINE_PARAM_WRAP_LIST(Clr, unsigned, 0xffffff00, NoBottomReflection, Defect)
 
 struct ColorTable
 {
 	typedef Vlst<
 		Clr<Norm>											  
-		, Clr<defect			>
-		, Clr<noBottomReflection>
-		, Clr<deadZone			>
+		, Clr<Defect			>
+		, Clr<NoBottomReflection>
+		, Clr<DeadZone			>
 		, Clr<SensorOff			>
-		, Clr<noBottomReflection, defect>		
+		, Clr<NoBottomReflection, Defect>		
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;
