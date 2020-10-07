@@ -10,7 +10,7 @@
 
 class AScanWindow
 {
-	int idTimer;
+	UINT_PTR idTimer;
 public: 
 	template<int N>class Sens : public AScanViewer
 	{

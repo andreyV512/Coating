@@ -12,9 +12,14 @@ namespace Data
 
 class Compute
 {
-	HANDLE hThread, hEvent;
-	static DWORD WINAPI __run__(PVOID);
-	void Run();
+	template<class T, void (T:: *ptr)()>static DWORD __stdcall func(LPVOID Parameter)
+	{
+		(((T *)Parameter)->*ptr)();
+		return 0;
+	}
+	//HANDLE hThread, hEvent;
+	//static DWORD WINAPI __run__(PVOID);
+	//void Run();
 	Data::InputData &data;
 	unsigned packetSize, numberPackets, framesCount, strobesTickCount, offsetsTickCount, zoneOffsetsIndex;
 
@@ -31,6 +36,8 @@ class Compute
 	double gainReflectionOffs, gainReflectionDelta, threshReflection;
 	bool bottomReflectionOn;
 	Impl<IDSPFlt, 1032> filter;
+	void __Update__();
+	void __Recalculation__();
 public:
 	
 	Compute();
@@ -42,7 +49,8 @@ public:
 	void Zone(int zone, int sens);
 	void ComputeFrame(int sensor, char *d, double &value, char &status);
 	void ComputeZone(int zone);
-	void Update();
+	
 	void Done();
+	void Update();
 	void Recalculation();
 };

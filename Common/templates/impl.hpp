@@ -16,6 +16,7 @@ template<class T, int size>struct Impl
 	}
 	T &operator *()const { return *(T *)buf; }
 	T *operator ->()const { return (T *)buf; }
+	template<class Z>Z &get()const { return *(Z *)buf; }
 };
 
 /*
