@@ -1,6 +1,7 @@
 #include "LogMessages.h"
 #include <Windows.h>
 #include "templates/typelist.hpp"
+#include "templates/templates.hpp"
 #include <stdio.h>
 #include "PerformanceCounter\PerformanceCounter.h"
 #include "LogBuffer.h"
@@ -12,43 +13,44 @@ namespace LogMess
 	struct Loc
 	{
 		unsigned backColor, textColor;
-		void(*proc)(char *, double);
+		void(*proc)(wchar_t *, double);
 	};
 	template<class T, class C>struct GenFunc;
 	template<class C>struct GenFunc<void, C>
 	{
-		static void Func(char *buf, double)
+		static void Func(wchar_t *buf, double)
 		{
-			sprintf(buf, C::mess());
+			wsprintf(buf, C::mess());
 		}
 	};
 	
 	template<class C>struct GenFunc<int, C>
 	{
-		static void Func(char *buf, double val)
+		static void Func(wchar_t *buf, double val)
 		{
-			sprintf(buf, C::mess(), (int)val);			
+			wsprintf(buf, C::mess(), (int)val);			
 		}
 	};
 	template<class C>struct GenFunc<double, C>
 	{
-		static void Func(char *buf, double val)
+		static void Func(wchar_t *buf, double val)
 		{
-			sprintf(buf, C::mess(), val);			
+			Wchar_from x;
+			wsprintf(buf, C::mess(), x(val));			
 		}
 	};
 	template<class C>struct GenFunc<bool, C>
 	{
-		static void Func(char *buf, double val)
+		static void Func(wchar_t *buf, double val)
 		{
-			sprintf(buf, C::mess(), 0.0 != val ? "ВКЛ" : "ОТКЛ");			
+			wsprintf(buf, C::mess(), 0.0 != val ? L"ВКЛ" : L"ОТКЛ");			
 		}
 	};
-	template<class C>struct GenFunc<const char *, C>
+	template<class C>struct GenFunc<const wchar_t *, C>
 	{
-		static void Func(char *buf, double val)
+		static void Func(wchar_t *buf, double val)
 		{
-			sprintf(buf, C::mess(), (char *)*(unsigned *)&val);			
+			wsprintf(buf, C::mess(), (wchar_t *)*(unsigned *)&val);			
 		}
 	};
 	
@@ -97,7 +99,7 @@ namespace LogMess
 		}
 		return false;
 	}
-	bool FactoryMessages::Text(int i, char *buf, double val)
+	bool FactoryMessages::Text(int i, wchar_t *buf, double val)
 	{
 		if(i < MAX_MESS_ID) 
 		{

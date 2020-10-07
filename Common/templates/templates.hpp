@@ -282,6 +282,22 @@ template<>struct Wchar_from<double, 1>
 		return buf;
 	}
 };
+template<>struct Wchar_from<double, 2>
+{
+	wchar_t buf[_CVTBUFSIZE];
+	Wchar_from(double data)
+	{
+		(*this)(data);
+	}
+	wchar_t *operator()() { return buf; }
+	wchar_t *operator()(double data)
+	{
+		char c[dimention_of(buf)];
+		sprintf(c, "%.2f", data);
+		wsprintf(buf, L"%S", c);
+		return buf;
+	}
+};
 
 template<int NUM>struct Wchar_from<float, NUM>
 {

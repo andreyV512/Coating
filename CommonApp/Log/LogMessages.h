@@ -9,12 +9,12 @@ template<int N>struct IDtoMess;
 template<class>struct On;
 template<class>struct Off;
 
-#define __double_1 " %.1f" 
-#define __double_2 " %.2f"
-#define __int " %d"
-#define __void ""
-#define __bool " %s"
-#define __const_char_ptr " %s"
+#define __double_1 L" %s" 
+#define __double_2 L" %s"
+#define __int L" %d"
+#define __void L""
+#define __bool L" %s"
+#define __const_char_ptr L" %s"
 #define _cat(a, b) a b
 
 #define MESS(name, tpe, txt, bc, tc)struct name\
@@ -22,8 +22,8 @@ template<class>struct Off;
 	static const int ID = __COUNTER__;\
 	typedef tpe type;\
 	static const unsigned backColor = bc;\
-    static const unsigned textColor = tc;\
-	static const char *mess(){return _cat(txt, __##tpe);}\
+	static const unsigned textColor = tc;\
+	static const wchar_t *mess(){return _cat(txt, __##tpe);}\
 };\
 template<>struct IDtoMess<name::ID>{typedef name Result;};
 
@@ -32,8 +32,8 @@ template<>struct IDtoMess<name::ID>{typedef name Result;};
 	static const int ID = __COUNTER__;\
 	typedef tpe type;\
 	static const unsigned backColor = bc;\
-    static const unsigned textColor = tc;\
-	static const char *mess(){return _cat(txt, __##tpe##_1);}\
+	static const unsigned textColor = tc;\
+	static const wchar_t *mess(){return _cat(txt, __##tpe##_1);}\
 };\
 template<>struct IDtoMess<name::ID>{typedef name Result;};
 
@@ -44,8 +44,8 @@ template<class T>struct MessBit;
 	static const int ID = __COUNTER__;\
 	typedef tpe type;\
 	static const unsigned backColor = bc;\
-    static const unsigned textColor = tc;\
-	static const char *mess(){return _cat(txt, __##tpe);}\
+	static const unsigned textColor = tc;\
+	static const wchar_t *mess(){return _cat(txt, __##tpe);}\
 };\
 template<>struct IDtoMess<MessBit<name>::ID>{typedef MessBit<name> Result;};
 
@@ -55,8 +55,8 @@ template<class T>struct AlarmBit;
 	static const int ID = __COUNTER__;\
 	typedef tpe type;\
 	static const unsigned backColor = bc;\
-    static const unsigned textColor = tc;\
-	static const char *mess(){return _cat(txt, __##tpe);}\
+	static const unsigned textColor = tc;\
+	static const wchar_t *mess(){return _cat(txt, __##tpe);}\
 };\
 template<>struct IDtoMess<AlarmBit<name>::ID>{typedef AlarmBit<name> Result;};
 
@@ -76,56 +76,56 @@ namespace LogMess
 	///\param сообщение
 	///\param цвет фона
 	///\param цвет шрифта
-	MESS(StartCycle, void, "Пуск цикла", blue, white)
+	MESS(StartCycle, void, L"Пуск цикла", blue, white)
 		//MESS(AirTest		          , void  , "Проверка воздуха"              , blue, white)
-	MESS(ProgramOpen, void, "Программа открыта", black, white)
+	MESS(ProgramOpen, void, L"Программа открыта", black, white)
 	//							          
-	MESS(TimeoutPipe, void, "Превышенно время ожидания", red, yellow)
+	MESS(TimeoutPipe, void, L"Превышенно время ожидания", red, yellow)
 
-	MESS(ProgramClosed, void, "Программа закрыта", red, yellow)
+	MESS(ProgramClosed, void, L"Программа закрыта", red, yellow)
 
-	MESS(ExitMeshuringCycle, void, "Оператор вышел из цикла", red, yellow)
-	MESS(ExitTubeInZoneSensors, void, "Труба в рабочей зоне установки", red, yellow)
+	MESS(ExitMeshuringCycle, void, L"Оператор вышел из цикла", red, yellow)
+	MESS(ExitTubeInZoneSensors, void, L"Труба в рабочей зоне установки", red, yellow)
 
-	MESS(DataCollectionDEF, void, "сбор данных", blue, white)
+	MESS(DataCollectionDEF, void, L"сбор данных", blue, white)
 
-	MESS(Alarm502, int, "Ошибка платы L502  ", red, yellow)
+	MESS(Alarm502, int, L"Ошибка платы L502  ", red, yellow)
 
-	MESS(DataCollectionCompleted, void, "Цикл сбора данных закончен", green, white)
+	MESS(DataCollectionCompleted, void, L"Цикл сбора данных закончен", green, white)
 
-	MESS(Copt, int, "Сорт", green, white)
-	MESS(Brak, void, "Брак", red, yellow)
+	MESS(Copt, int, L"Сорт", green, white)
+	MESS(Brak, void, L"Брак", red, yellow)
 
-	MESS(ErrorSpline, void, "Ошибка сплайн", red, yellow)
+	MESS(ErrorSpline, void, L"Ошибка сплайн", red, yellow)
 
-	MESS(StopBtn, void, "Оператор вышел из цикла", blue, white)
-	MESS(On_iIn, void, "Ожидание прутка", blue, white)
-	MESS(Collection, void, "Сбор данных", blue, white)
-	MESS(CollectionDone, void, "Сбор данных закончен", blue, white)
+	MESS(StopBtn, void, L"Оператор вышел из цикла", blue, white)
+	MESS(On_iIn, void, L"Ожидание прутка", blue, white)
+	MESS(Collection, void, L"Сбор данных", blue, white)
+	MESS(CollectionDone, void, L"Сбор данных закончен", blue, white)
 
-	MESS_BIT(On<iCU  >, void, "Включен сигнал \"Цепи управления\"", red, white);
-	MESS_BIT(On<iIn  >, void, "Включен сигнал \"Труба на входе\"", red, white);
-	MESS_BIT(On<iOut >, void, "Включен сигнал \"Труба на выходе\"", red, white);
-	MESS_BIT(On<iStrobe >, void, "Включен сигнал \"Строб\"", red, white);
+	MESS_BIT(On<iCU  >, void, L"Включен сигнал \"Цепи управления\"", red, white);
+	MESS_BIT(On<iIn  >, void, L"Включен сигнал \"Труба на входе\"", red, white);
+	MESS_BIT(On<iOut >, void, L"Включен сигнал \"Труба на выходе\"", red, white);
+	MESS_BIT(On<iStrobe >, void, L"Включен сигнал \"Строб\"", red, white);
 
-	MESS_BIT(On<oAutomat>, void, "On<oAutomat>", red, white);
-	MESS_BIT(On<oSupply >, void, "On<oSupply >", red, white);
+	MESS_BIT(On<oAutomat>, void, L"On<oAutomat>", red, white);
+	MESS_BIT(On<oSupply >, void, L"On<oSupply >", red, white);
 	MESS_BIT(On<oMark>, void, "Включен сигнал \"Отметка\"", red, white);
 
-	MESS_BIT(Off<iCU  >, void, "Отключен сигнал \"Цепи управления\"", blue, white);
-	MESS_BIT(Off<iIn  >, void, "Отключен сигнал \"Труба на входе\"", blue, white);
-	MESS_BIT(Off<iOut >, void, "Отключен сигнал \"Труба на выходе\"", blue, white);
-	MESS_BIT(Off<iStrobe >, void, "Отключен сигнал \"Строб\"", blue, white);
+	MESS_BIT(Off<iCU  >, void, L"Отключен сигнал \"Цепи управления\"", blue, white);
+	MESS_BIT(Off<iIn  >, void, L"Отключен сигнал \"Труба на входе\"", blue, white);
+	MESS_BIT(Off<iOut >, void, L"Отключен сигнал \"Труба на выходе\"", blue, white);
+	MESS_BIT(Off<iStrobe >, void, L"Отключен сигнал \"Строб\"", blue, white);
 
-	MESS_BIT(Off<oAutomat>, void, "Off<oAutomat>", blue, white);
-	MESS_BIT(Off<oSupply >, void, "Off<oSupply >", blue, white);
-	MESS_BIT(Off<oMark>, void, "Отключен сигнал \"Отметка\"", blue, white);
+	MESS_BIT(Off<oAutomat>, void, L"Off<oAutomat>", blue, white);
+	MESS_BIT(Off<oSupply >, void, L"Off<oSupply >", blue, white);
+	MESS_BIT(Off<oMark>, void, L"Отключен сигнал \"Отметка\"", blue, white);
 
-	ALARM_BIT(On<iCU  >, void, "Нет сигнала \"Цепи управления\"", red, yellow);
+	ALARM_BIT(On<iCU  >, void, L"Нет сигнала \"Цепи управления\"", red, yellow);
 	
-	MESS(TimeOutExteption, void, "Превышено время ожидания", red, yellow);
-	MESS(AlarmBitsExteption, void, "Выход по аварийному биту", red, yellow);
-	MESS(ExitLoopExteption, void, "Выход из программы", red, yellow);
+	MESS(TimeOutExteption, void, L"Превышено время ожидания", red, yellow);
+	MESS(AlarmBitsExteption, void, L"Выход по аварийному биту", red, yellow);
+	MESS(ExitLoopExteption, void, L"Выход из программы", red, yellow);
 
 	template<class T>struct Bits;
 	template<>struct Bits<Vlst<>> {};
@@ -135,21 +135,21 @@ namespace LogMess
 		typedef int type;\
 		static const unsigned backColor = color;\
 		static const unsigned textColor = black;\
-		static const char *mess(){return txt;}\
+		static const wchar_t *mess(){return txt;}\
 	};\
 	template<>struct IDtoMess<Bits<Vlst<__VA_ARGS__> >::ID>\
 	{\
 		typedef Bits<Vlst<__VA_ARGS__> > Result;\
 	};
 
-	BITS_XX(sea, "Ожидание сигнала \"ЦЕПИ УПРАВЛЕНИЯ\"", On<iCU>)
-	BITS_XX(sea, "Выставлен сигнал \"Автомат\"", On<oAutomat>)
-	BITS_XX(sea, "Снят сигнал \"Автомат\"", Off<oAutomat>)
-
-	BITS_XX(sea, "Ожидание cнятия сигнала \"Труба на входе\"", Off<iIn>)
-	BITS_XX(sea, "Ожидание cнятия сигнала \"Труба на выходе\"", Off<iOut>)
-	BITS_XX(sea, "Ожидание сигнала \"Труба на входе\"", On<iIn>)
-	BITS_XX(sea, "Ожидание сигнала \"Труба на выходе\"", On<iOut>)
+	BITS_XX(sea, L"Ожидание сигнала \"ЦЕПИ УПРАВЛЕНИЯ\"", On<iCU>)
+	BITS_XX(sea, L"Выставлен сигнал \"Автомат\"", On<oAutomat>)
+	BITS_XX(sea, L"Снят сигнал \"Автомат\"", Off<oAutomat>)
+				 
+	BITS_XX(sea, L"Ожидание cнятия сигнала \"Труба на входе\"", Off<iIn>)
+	BITS_XX(sea, L"Ожидание cнятия сигнала \"Труба на выходе\"", Off<iOut>)
+	BITS_XX(sea, L"Ожидание сигнала \"Труба на входе\"", On<iIn>)
+	BITS_XX(sea, L"Ожидание сигнала \"Труба на выходе\"", On<iOut>)
 #undef BITS_XX
 
 //#define ERR_BITS(color, txt, ...)template<>struct Bits<Bits<Vlst<__VA_ARGS__> >>\
@@ -169,15 +169,13 @@ namespace LogMess
 //	//ERR_BITS(red, "Нет сигнала \"ЦЕПИ УПРАВЛЕНИЯ\"", On<iCU>)
 //#undef ERR_BITS
 
-	MESS(BaseLengthError, void, "Необходимо уменьшить параметр \"Базовое расстояние\"", red, yellow)
+	MESS(BaseLengthError, void, L"Необходимо уменьшить параметр \"Базовое расстояние\"", red, yellow)
 
-	MESS(Recalculation, void, "Перерасчёт", blue, white)
-	MESS(RecalculationStop, void, "Расчёт окончен", blue, white)
-
-		
+	MESS(Recalculation, void, L"Перерасчёт", blue, white)
+	MESS(RecalculationStop, void, L"Расчёт окончен", blue, white)
 
 
-    static const int MAX_MESS_ID = __COUNTER__;
+	static const int MAX_MESS_ID = __COUNTER__;
 
 	class FactoryMessages
 	{
@@ -187,7 +185,7 @@ namespace LogMess
 	public:
 		void StartTime();
 		bool Color(int i, unsigned &backColor, unsigned &textColor);
-		bool Text(int i, char *buf, double val);
+		bool Text(int i, wchar_t *buf, double val);
 		static FactoryMessages &Instance();
 	};
 
