@@ -7,6 +7,7 @@
 #include "Windows/MainWindow/MainWindow.h"
 #include "window_tool/Emptywindow.h"
 #include "Log/LogBuffer.h"
+#include "Windows/MainWindow/AppKeyHandler.h"
 
 template<class O, class P>struct __compute_set_data__;
 template<template<int>class W, int N, class P>struct __compute_set_data__<W<N>, P>
@@ -26,6 +27,7 @@ template<template<int>class W, int N, class P>struct __compute_set_data__<W<N>, 
 
 Compute::Compute()
 	: data(Singleton<Data::InputData>::Instance())
+	, result(Singleton<Data::ResultData>::Instance())
 {
 	VL::foreach<VL::CreateNumList< Data::Sensor, 0, 2>::Result, __compute_set_data__>()(sensorData);
 //	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -91,6 +93,9 @@ void Compute::Start()
 	bottomReflectionOn = t.get<BottomReflectionOn>().value;
 }
 
+#define MAX(a, b) a > b ? a: b
+#define MIN(a, b) a < b ? a: b
+
 bool Compute::Strobes()
 {
 	unsigned frameStop = data.framesCount;
@@ -132,10 +137,32 @@ bool Compute::Strobes()
 		if (0 == i) continue;
 		for (int sens = 0; sens < App::count_sensors; ++sens)  Zone(i, sens);
 	}
+	for (int i = zoneOffsetsIndex; i < (int)zoneOffsetsIndexStart; ++i)
+	{
+		result.status[i] = StatusData::Compute(
+			StatusData::Compute(sensorData[0]->status[i], sensorData[1]->status[i])
+			, sensorData[2]->status[i]
+		);
+		double _0 = sensorData[0]->data[i];
+		double _1 = sensorData[1]->data[i];
+		double _2 = sensorData[2]->data[i];
+		result.minData[i] = MIN(
+			MIN(_0, _1)
+			, _2
+		);
+		result.maxData[i] = MAX(
+			MAX(_0, _1)
+			, _2
+		);
+	}
+	result.count = zoneOffsetsIndexStart - 1;
 
 	zoneOffsetsIndex = zoneOffsetsIndexStart;
 	return true;
 }
+
+#undef MAX
+#undef MIN
 
 void Compute::Zone(int zone, int sens)
 {
@@ -156,8 +183,8 @@ void Compute::Zone(int zone, int sens)
 			lstatus = status;
 		}
 	}
-	sensorData[sens]->data[zone]   = ldata;
-	sensorData[sens]->status[zone] = lstatus;
+	sensorData[sens]->data[startZone]   = ldata;
+	sensorData[sens]->status[startZone] = lstatus;
 	sensorData[sens]->count        = zone;
 }
 
@@ -219,17 +246,17 @@ void Compute::ComputeZone(int zone)
 
 void Compute::Update()
 {
-	//QueueUserAPC(Papcfunc<Compute, &Compute::__Update__>, hThread, (ULONG_PTR)this);
 	QueueUserWorkItem(func<Compute, &Compute::__Update__>, (LPVOID)this, WT_EXECUTEDEFAULT);
 }
 
 void Compute::Recalculation()
 {
 	Log::Mess <LogMess::Recalculation>();
+	MainWindow::EnableMenu(false);
+	AppKeyHandler::DisableAll();
 	Start();
 	framesCount = 0;
 	offsetsTickCount = 0;	
-	//QueueUserAPC(Papcfunc<Compute, &Compute::__Recalculation__>, hThread, (ULONG_PTR)this);
 	QueueUserWorkItem(func<Compute, &Compute::__Recalculation__>, (LPVOID)this, WT_EXECUTEDEFAULT);
 }
 
@@ -246,6 +273,8 @@ void Compute::__Recalculation__()
 	if (Strobes())
 	{
 		RepaintWindow<MainWindow>();
+		MainWindow::EnableMenu(true);
+		AppKeyHandler::Stop();
 		Log::Mess <LogMess::RecalculationStop>();
 	}
 }

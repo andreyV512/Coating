@@ -8,6 +8,7 @@ namespace Data
 { 
 	struct SensorData;
 	struct InputData; 
+	struct ResultData;
 }
 
 class Compute
@@ -21,6 +22,7 @@ class Compute
 	//static DWORD WINAPI __run__(PVOID);
 	//void Run();
 	Data::InputData &data;
+	Data::ResultData &result;
 	unsigned packetSize, numberPackets, framesCount, strobesTickCount, offsetsTickCount, zoneOffsetsIndex;
 
 	MedianFiltre median[App::count_sensors];

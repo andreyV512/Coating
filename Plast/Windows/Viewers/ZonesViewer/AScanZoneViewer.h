@@ -17,7 +17,7 @@ public:
 	Cursor tcursor;
 	int numSensor;
 
-	double data[1024];
+	double data[8154];
 
 	AScanZoneViewer();
 

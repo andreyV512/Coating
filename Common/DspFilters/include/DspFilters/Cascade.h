@@ -54,29 +54,31 @@ class Cascade
 {
 public:
   template <class StateType>
-  class StateBase : private DenormalPrevention
+  class StateBase// : private DenormalPrevention
   {
   public:
     template <typename Sample>
     inline Sample process (const Sample in, const Cascade& c)
     {
       double out = in;
-  //    StateType* state = m_stateArray;
-  //   // /*
-  //    Biquad const* stage = c.m_stageArray;
-  //    const double vsa = ac();
-  //    int i = c.m_numStages - 1;
-  //    out = (state++)->process1 (out, *stage++, vsa);
-  //    for (; --i >= 0;)
-  //      out = (state++)->process1 (out, *stage++, 0);
-  //    //  */
-      for (int i = 0; i < c.m_numStages; ++i) out = m_stateArray[i].process1(out, c.m_stageArray[i], 0);
+      StateType* state = m_stateArray;
+     // /*
+      Biquad const* stage = c.m_stageArray;
+    //  const double vsa = ac();
+      int i = c.m_numStages - 1;
+      out = (state++)->process1(out, *stage++, 0);// vsa);
+      for (; --i >= 0;)
+        out = (state++)->process1 (out, *stage++, 0);
+      //  */
+     // for (int i = 0; i < c.m_numStages; ++i) out = m_stateArray[i].process1(out, c.m_stageArray[i], 0);
       return static_cast<Sample> (out);
     }
 
     void Clean(const Cascade &c)
     {
-        for (int i = 0; i < c.m_numStages; ++i) m_stateArray[i].reset();
+        //for (int i = 0; i < c.m_numStages; ++i) m_stateArray[i].reset();
+        StateType *state = m_stateArray;
+        (state++)->reset();
     }
 
   protected:

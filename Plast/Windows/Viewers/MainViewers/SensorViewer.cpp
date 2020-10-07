@@ -42,7 +42,7 @@ bool SensorViewer::Draw(TMouseMove &l, VGraphics &g)
 
 		Wchar_from<double, 1> Y(data.data[x]);
 
-		wsprintf(label.buffer, L"<ff>зона %d Y %s <%6x>%s"
+		wsprintf(label.buffer, L"<ff>зона %d Y %s <%6x>%s                         "
 			, 1 + x
 			, Y()
 			, color

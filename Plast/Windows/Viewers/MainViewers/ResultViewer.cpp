@@ -74,10 +74,12 @@ bool ResultViewer::Draw(TMouseMove &l, VGraphics &g)
 		StatusData::Text(data.status[x], color, s);
 
 		Wchar_from<double, 1> Y(data.minData[x]);
+		Wchar_from<double, 1> YY(data.maxData[x]);
 
-		wsprintf(label.buffer, L"<ff>зона %d Y %s <%6x>%s"
+		wsprintf(label.buffer, L"<ff>зона %d мин.%s мах.%s<%6x>%s              "
 			, 1 + x
 			, Y()
+			, YY()
 			, color
 			, s
 		);

@@ -10,7 +10,7 @@
 #include "DspFilters/ChebyshevFiltre.hpp"
 
 #include "window_tool/TableIni.hpp"
-
+/*
 double data[32][100000];
 #define READ(type, val)	type val; fread(&val, sizeof(type), 1, f);
 int Load()
@@ -47,33 +47,33 @@ int Load()
 	return offs;
 }
 #undef READ
-
-struct __init_radio_btn_data__
-{
-	int offs;
-	int id;
-	ZonesWindow *owner;
-};
-template<class O, class P>struct __init_radio_btn__
-{
-	void operator()(O &o, P &p)
-	{
-		wchar_t buf[32];
-		_itow_s(O::ID + 1, buf, 10);
-		HWND h = CreateWindow(L"button", buf
-			, WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON
-			, p.offs, 1, 50, 25, p.owner->toolBar.hWnd, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
-		);
-		p.offs += 50;
-		SetWindowLongPtr(h, GWLP_USERDATA, (LONG_PTR)&o);
-		if (O::ID == p.id)
-		{
-			Button_SetCheck(h, BST_CHECKED);
-			p.owner->sensor.data = &Singleton<Data::Sensor<O::ID>>::Instance().data;
-		}
-		o.owner = p.owner;
-	}
-};
+ */
+//struct __init_radio_btn_data__
+//{
+//	int offs;
+//	int id;
+//	ZonesWindow *owner;
+//};
+//template<class O, class P>struct __init_radio_btn__
+//{
+//	void operator()(O &o, P &p)
+//	{
+//		wchar_t buf[32];
+//		_itow_s(O::ID + 1, buf, 10);
+//		HWND h = CreateWindow(L"button", buf
+//			, WS_CHILD | WS_VISIBLE | BS_AUTORADIOBUTTON
+//			, p.offs, 1, 50, 25, p.owner->toolBar.hWnd, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
+//		);
+//		p.offs += 50;
+//		SetWindowLongPtr(h, GWLP_USERDATA, (LONG_PTR)&o);
+//		if (O::ID == p.id)
+//		{
+//			Button_SetCheck(h, BST_CHECKED);
+//			p.owner->sensor.data = &Singleton<Data::Sensor<O::ID>>::Instance().data;
+//		}
+//		o.owner = p.owner;
+//	}
+//};
 
 LRESULT ZonesWindow::operator()(TCreate &l)
 {
@@ -108,8 +108,8 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 	aScan.tchart.minAxesY = minAxesY;
 	aScan.tchart.maxAxesY = maxAxesY;
 
-	countSamples = Load();
-	aScan.tchart.items.get<LineSeries>().SetData(Filtre(&data[currentSensor][currentOffset], cnt), cnt);
+	//countSamples = Load();
+	//.tchart.items.get<LineSeries>().SetData(Filtre(&data[currentSensor][currentOffset], cnt), cnt);
 	currentOffset = 0;
 	currentSensor = 0;
 
@@ -397,7 +397,7 @@ void ZonesWindow::Update()
 {
 	wchar_t *buf = aScan.label.buffer;
 	wsprintf(buf, L"<ff>смещение %d  датчик %d", currentOffset + offsetX, currentSensor);
-	aScan.tchart.items.get<LineSeries>().SetData(Filtre(&data[currentSensor][currentOffset], cnt), cnt);
+//	aScan.tchart.items.get<LineSeries>().SetData(Filtre(&data[currentSensor][currentOffset], cnt), cnt);
 	aScan.tchart.minAxesY = minAxesY;
 	aScan.tchart.maxAxesY = maxAxesY;
 	RepaintWindow(aScan.hWnd);
