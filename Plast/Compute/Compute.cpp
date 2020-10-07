@@ -17,25 +17,24 @@ template<template<int>class W, int N, class P>struct __compute_set_data__<W<N>, 
 	}
 };
 
-DWORD __stdcall Compute::__run__(PVOID p)
-{
-	((Compute *)p)->Run();
-	return 0;
-}
+//DWORD __stdcall Compute::__run__(PVOID )
+//{
+//	//((Compute *)p)->Run();
+//	while (true) SleepEx(INFINITE, TRUE);
+//	return 0;
+//}
 
 Compute::Compute()
 	: data(Singleton<Data::InputData>::Instance())
 {
 	VL::foreach<VL::CreateNumList< Data::Sensor, 0, 2>::Result, __compute_set_data__>()(sensorData);
-	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	hThread = CreateThread(NULL, 0, __run__, this, 0, NULL);
+//	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	//hThread = CreateThread(NULL, 0, __run__, this, 0, NULL);
 }
 
 Compute::~Compute()
 {
-	CloseHandle(hEvent);
-	WaitForSingleObject(hThread, INFINITE);
-	CloseHandle(hThread);
+	//TerminateThread(hThread, 0);
 }
 
 template<class O, class P>struct __init_filtre_X__
@@ -216,13 +215,12 @@ void Compute::ComputeZone(int zone)
 	//TODO ...
 }
 
+
+
 void Compute::Update()
 {
-	SetEvent(hEvent);
-}
-
-void Compute::Done()
-{
+	//QueueUserAPC(Papcfunc<Compute, &Compute::__Update__>, hThread, (ULONG_PTR)this);
+	QueueUserWorkItem(func<Compute, &Compute::__Update__>, (LPVOID)this, WT_EXECUTEDEFAULT);
 }
 
 void Compute::Recalculation()
@@ -230,29 +228,29 @@ void Compute::Recalculation()
 	Log::Mess <LogMess::Recalculation>();
 	Start();
 	framesCount = 0;
-	offsetsTickCount = 0;
-	//if (Strobes())
-	//{
-	//	RepaintWindow<MainWindow>();
-	//}
-	Update();
+	offsetsTickCount = 0;	
+	//QueueUserAPC(Papcfunc<Compute, &Compute::__Recalculation__>, hThread, (ULONG_PTR)this);
+	QueueUserWorkItem(func<Compute, &Compute::__Recalculation__>, (LPVOID)this, WT_EXECUTEDEFAULT);
 }
 
-void Compute::Run()
+void Compute::__Update__()
 {
-	switch (WaitForSingleObject(hEvent, INFINITE))
+	if (Strobes())
 	{
-	case WAIT_OBJECT_0:
-		if (Strobes())
-		{
-			RepaintWindow<MainWindow>();
-		}
-		break;
-	case WAIT_ABANDONED:
-		dprint("WAIT_ABANDONED\n");
-		break;
-	case WAIT_FAILED:
-		dprint("WAIT_FAILED\n");
-		break;
+		RepaintWindow<MainWindow>();
 	}
+}
+
+void Compute::__Recalculation__()
+{
+	if (Strobes())
+	{
+		RepaintWindow<MainWindow>();
+		Log::Mess <LogMess::RecalculationStop>();
+	}
+}
+
+void Compute::Done()
+{
+
 }
