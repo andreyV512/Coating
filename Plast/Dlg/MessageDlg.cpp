@@ -10,5 +10,5 @@ void MessageDlg::Do(HWND )
 	GetModuleFileName(0, path, dimention_of(path));
 	PathRemoveFileSpec(path);
 	wcscat(path, L"\\Messages.exe");
-	RunExecute()(path);
+	RunExecute(path);
 }
