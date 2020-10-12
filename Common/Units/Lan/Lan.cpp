@@ -3,8 +3,8 @@
 #include "App/App.h"
 #include "App/Config.h"
 #include "tools_debug/DebugMess.h"
-const char *BoardName = "LAn10M8PCI";
 
+const char *BoardName = "LAn10M8PCI";
 
 DWORD WINAPI Lan::__frame1__(PVOID p)
 {
