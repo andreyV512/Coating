@@ -1,7 +1,7 @@
 ﻿#include "RunExecute.h"
 #include <Windows.h>
 
-bool RunExecute::operator()(wchar_t *path)
+bool RunExecute(wchar_t *path)
 {
 	PROCESS_INFORMATION pi;
 	STARTUPINFO si = {};
@@ -9,7 +9,7 @@ bool RunExecute::operator()(wchar_t *path)
 	si.wShowWindow =  SW_SHOWNORMAL;
 	si.cb = sizeof(STARTUPINFO);
 	
-	if(CreateProcess(NULL, path, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+	if(CreateProcess(NULL, path, NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi))
 	{
 		CloseHandle(pi.hThread); 
 		CloseHandle(pi.hProcess);
