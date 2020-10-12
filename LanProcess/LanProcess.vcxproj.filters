@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="LanDirect">
+      <UniqueIdentifier>{9c911bd9-577a-4738-862a-f243de3fe226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{028eeeee-cecc-4f18-a4fe-7a0b0782b6bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App">
+      <UniqueIdentifier>{e0df0b90-6ba7-48ad-bd9d-27debd67eb5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{083826cc-5afe-41dc-9051-543946d885cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Lan">
+      <UniqueIdentifier>{22baba5f-7915-426c-a8cd-08dceb53ba7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Lan\include">
+      <UniqueIdentifier>{d5e2ce8a-9cec-40d2-b17e-76b3bdc14eca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\PerformanceCounter">
+      <UniqueIdentifier>{a35a703c-8d1a-40a3-af7b-b880a87f8c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\tools_debug">
+      <UniqueIdentifier>{c8067241-37c4-4bdd-82eb-2b7f4f66740c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\window_tool">
+      <UniqueIdentifier>{3cd3bc98-c540-4d13-8dc5-215d00aa15a7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LanProcess.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Units\Lan\Lan.cpp">
+      <Filter>Common\Lan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Units\Lan\include\RshApi.cpp">
+      <Filter>Common\Lan\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\tools_debug\DebugMess.cpp">
+      <Filter>Common\tools_debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Plast\Data\Data.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="LanDirect\LanDirect.cpp">
+      <Filter>LanDirect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Plast\App\AppBase.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\PerformanceCounter\PerformanceCounter.cpp">
+      <Filter>Common\PerformanceCounter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\RunExecute.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Common\Units\Lan\Lan.h">
+      <Filter>Common\Lan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\include\RshApi.h">
+      <Filter>Common\Lan\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\tools_debug\DebugMess.h">
+      <Filter>Common\tools_debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Plast\Data\Data.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="LanDirect\LanDirect.h">
+      <Filter>LanDirect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Plast\App\AppBase.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\PerformanceCounter\PerformanceCounter.h">
+      <Filter>Common\PerformanceCounter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\RunExecute.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

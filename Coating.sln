@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "client", "tests\Pipe\client
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "server", "tests\Pipe\server\server.vcxproj", "{195D39E3-666C-42A7-ADFB-2FE7CF2BF72E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LanProcess", "LanProcess\LanProcess.vcxproj", "{F5296FC4-12BA-4D72-9045-823BCB7A371C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -125,6 +127,14 @@ Global
 		{195D39E3-666C-42A7-ADFB-2FE7CF2BF72E}.Release|x64.Build.0 = Release|x64
 		{195D39E3-666C-42A7-ADFB-2FE7CF2BF72E}.Release|x86.ActiveCfg = Release|Win32
 		{195D39E3-666C-42A7-ADFB-2FE7CF2BF72E}.Release|x86.Build.0 = Release|Win32
+		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Debug|x64.ActiveCfg = Debug|x64
+		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Debug|x64.Build.0 = Debug|x64
+		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Debug|x86.ActiveCfg = Debug|Win32
+		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Debug|x86.Build.0 = Debug|Win32
+		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Release|x64.ActiveCfg = Release|x64
+		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Release|x64.Build.0 = Release|x64
+		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Release|x86.ActiveCfg = Release|Win32
+		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
