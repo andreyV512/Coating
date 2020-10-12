@@ -18,25 +18,15 @@ template<template<int>class W, int N, class P>struct __compute_set_data__<W<N>, 
 	}
 };
 
-//DWORD __stdcall Compute::__run__(PVOID )
-//{
-//	//((Compute *)p)->Run();
-//	while (true) SleepEx(INFINITE, TRUE);
-//	return 0;
-//}
-
 Compute::Compute()
 	: data(Singleton<Data::InputData>::Instance())
 	, result(Singleton<Data::ResultData>::Instance())
 {
 	VL::foreach<VL::CreateNumList< Data::Sensor, 0, 2>::Result, __compute_set_data__>()(sensorData);
-//	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	//hThread = CreateThread(NULL, 0, __run__, this, 0, NULL);
 }
 
 Compute::~Compute()
 {
-	//TerminateThread(hThread, 0);
 }
 
 template<class O, class P>struct __init_filtre_X__
@@ -110,9 +100,10 @@ bool Compute::Strobes()
 		int frame = i / packetSize;
 		int sensor = frame % App::count_sensors;
 		int zone = frame / App::count_sensors;
-	ComputeFrame(sensor, &data.buffer[i], result, status);
+	ComputeFrame((IDSPFlt &)filter, &data.buffer[i], result, status);
 		data.result[sensor][zone] = result;
 		data.status[sensor][zone] = status;
+	//	dprint("num %d\n", *(int *)&data.buffer[i]);
 	}
 	framesCount = frameStop;
 	unsigned stop = GetTickCount();
@@ -137,6 +128,7 @@ bool Compute::Strobes()
 		if (0 == i) continue;
 		for (int sens = 0; sens < App::count_sensors; ++sens)  Zone(i, sens);
 	}
+
 	for (int i = zoneOffsetsIndex; i < (int)zoneOffsetsIndexStart; ++i)
 	{
 		result.status[i] = StatusData::Compute(
@@ -146,14 +138,8 @@ bool Compute::Strobes()
 		double _0 = sensorData[0]->data[i];
 		double _1 = sensorData[1]->data[i];
 		double _2 = sensorData[2]->data[i];
-		result.minData[i] = MIN(
-			MIN(_0, _1)
-			, _2
-		);
-		result.maxData[i] = MAX(
-			MAX(_0, _1)
-			, _2
-		);
+		result.minData[i] = MIN(MIN(_0, _1), _2);
+		result.maxData[i] = MAX(MAX(_0, _1), _2);
 	}
 	result.count = zoneOffsetsIndexStart - 1;
 
@@ -166,14 +152,18 @@ bool Compute::Strobes()
 
 void Compute::Zone(int zone, int sens)
 {
-	int startZone = zone - 1;
+	//int startZone = zone - 1;
 	auto m = median[sens];
 	double *dt = data.result[sens];
 	char   *st = data.status[sens];
 	char status = 0;
 	double ldata = 0;
 	char lstatus = 0;
-	for (int i = data.strobesTick[startZone], end = data.strobesTick[zone]; i < end; ++i)
+	const int inc = packetSize * App::count_sensors;
+	int start = zoneOffsets[zone - 1] / inc;
+	int stop = zoneOffsets[zone - 0] / inc;
+	//for (int i = data.strobesTick[startZone], end = data.strobesTick[zone]; i < end; ++i)
+	for (int i = start; i < stop; ++i)
 	{
 		char status = st[i];
 		double t = (m.*medianProc)(dt[i], status);
@@ -183,14 +173,13 @@ void Compute::Zone(int zone, int sens)
 			lstatus = status;
 		}
 	}
-	sensorData[sens]->data[startZone]   = ldata;
-	sensorData[sens]->status[startZone] = lstatus;
+	sensorData[sens]->data[zone - 1]   = ldata;
+	sensorData[sens]->status[zone - 1] = lstatus;
 	sensorData[sens]->count        = zone;
 }
 
-void Compute::ComputeFrame(int sensor, char *d, double &value, char &status)
+void Compute::ComputeFrame(IDSPFlt &f, char *d, double &value, char &status)
 {
-	IDSPFlt &f = (IDSPFlt &)filter;
 	f.Clean();
 	status = StatusData::norm;
 	value = 0;

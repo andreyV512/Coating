@@ -94,8 +94,6 @@ void AScanWindow::operator()(TGetMinMaxInfo &l)
 	}
 }
 
-
-
 template<class O, class P>struct __compare_tresh__
 {
 	bool operator()(O &o, P &p)

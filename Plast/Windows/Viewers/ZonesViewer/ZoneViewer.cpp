@@ -1,5 +1,6 @@
 #include "ZoneViewer.h"
 #include "templates/templates.hpp"
+#include "MessageText/status.h"
 
 ZoneViewer::ZoneViewer()
 	: tchart(backScreen)
@@ -14,9 +15,13 @@ ZoneViewer::ZoneViewer()
 
 bool ZoneViewer::GetColorCell(int zone, double &data_, unsigned &color)
 {
-	//data_ = data[zone];
-	color = zone % 2 ? 0xff00ff00 : 0xff0000ff;
-	return zone < count;
+	if (zone < count)
+	{
+		data_ = data[zone];
+		color = StatusData::Color(status[zone]);
+		return true;
+	}
+	return false;
 }
 
 bool ZoneViewer::Draw(TMouseMove &l, VGraphics &g)
@@ -27,13 +32,13 @@ bool ZoneViewer::Draw(TMouseMove &l, VGraphics &g)
 	if (drawZones)
 	{
 		unsigned color = 0xff;
-		wchar_t s[256] = L" yy test status";
-		//char st = buffer.status[x];
-		//StatusText()(st, color, s);
-
+		const wchar_t *s = NULL;
+		StatusData::Text(status[x], color, s);
 		Wchar_from<double, 1> Y(data[x]);
 
-		wsprintf(label.buffer, L"<ff>зона %d Y %s <%6x>%s                    "
+		wsprintf(label.buffer, L"<ff>датчик %d зона <ff00>%d <ff>смещение %d Y %s <%6x>%s                    "
+			, sensor
+			, zone
 			, 1 + x
 			, Y()
 			, color

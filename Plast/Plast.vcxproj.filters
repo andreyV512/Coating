@@ -704,9 +704,6 @@
     <ClCompile Include="..\Common\FFT\FFT.cpp">
       <Filter>Common\FFT</Filter>
     </ClCompile>
-    <ClCompile Include="Dlg\ZonesWindowDlg.cpp">
-      <Filter>Dlg</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\MedianFiltre\MedianFiltre.cpp">
       <Filter>Common\MedianFiltre</Filter>
     </ClCompile>

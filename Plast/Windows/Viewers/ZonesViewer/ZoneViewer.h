@@ -16,7 +16,8 @@ public:
 	Cursor tcursor;
 
 	int count;
-	
+	int zone;
+	int sensor;
 	double *data;
 	char *status;
 	ZoneViewer();

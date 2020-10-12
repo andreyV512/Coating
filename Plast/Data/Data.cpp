@@ -2,6 +2,7 @@
 #include "templates/typelist.hpp"
 #include "MessageText/status.h"
 #include "Compute/Compute.h"
+#include "tools_debug/DebugMess.h"
 
 namespace Data
 {
@@ -105,28 +106,30 @@ namespace Data
 			d.framesCount = InputData::buffSize;
 			ZeroMemory(buffer, InputData::buffSize);
 			int k = 0;
-			double zzz = 0;
 			for (int i = 0; i < InputData::buffSize; i += 4058, ++k)
 			{
 				int x = k % 3;
 				++x;
-				x += zzz;
-				int j = 0;
-				int k = rand() % 300;
-				for (; j < k; ++j) buffer[i + j] = x;
-				k += 100;
-				for (; j < k; ++j) buffer[i + j] = 90;
+				x += k / 3600;
+				int j = 4;
+				int z = 10;
+				for (; j < z; ++j) buffer[i + j] = x;
+				z += 510;
+				int d = (k % 9) == 0 ? 90 : x;
+				for (; j < z; ++j) buffer[i + j] = d; 
 				for (; j < 4058; ++j) buffer[i + j] = x;
-				zzz += 0.0005;
+				*(int *)&buffer[i] = k;
 			}
+
+			dprint("kkkkk %d\n", k);
 
 			unsigned (&strobesTick)[100] = d.strobesTick;
 			d.strobesTickCount = 70;
-			unsigned start = 1000;
+			unsigned start = 10000;
 			for (int i = 0; i < dimention_of(strobesTick); ++i)
 			{
 				strobesTick[i] = start;
-				start += 1000;
+				start += 1500;
 			}
 			unsigned (&offsetsTick)[12000] = d.offsetsTick;
 			d.offsetsTickCount = 10000;

@@ -360,7 +360,6 @@
     <ClCompile Include="Dlg\ThresholdsDlg.cpp" />
     <ClCompile Include="Dlg\TypeSizeDlg.cpp" />
     <ClCompile Include="Dlg\UnitDlg.cpp" />
-    <ClCompile Include="Dlg\ZonesWindowDlg.cpp" />
     <ClCompile Include="Plast.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanKeyHandler.cpp" />
     <ClCompile Include="Windows\AScanWindow\AScanWindow.cpp" />

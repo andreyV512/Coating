@@ -8,43 +8,44 @@
 #include "Windows/Viewers/ZonesViewer/AScanZoneViewer.h"
 #include "DspFilters/Filters.hpp"
 #include "Windows/ZonesWindow/ZonesAxes.h"
+#include "Compute/Compute.h"
 
 class ZonesWindow
 {
 public:
-	//template<int N>struct RadioBtn: TEvent
-	//{
-	//	static const int ID = N;
-	//	ZonesWindow *owner;
-	//	void Do(TCommand &l)override
-	//	{
-	//		owner->ChangeSensor(ID);
-	//	}
-	//};
-	//typedef Vlst<RadioBtn<0>, RadioBtn<1>, RadioBtn<2>> radio_btn_list;
-	//VL::Factory<radio_btn_list> radio_btns;
-	
-	int countSamples;
-	int currentOffset;
 	int currentSensor;
-	int offsetX;
+	int currentZone;
+	int currentOffset;
 	HWND hWnd;
 	HWND hStatuisBar;
 	ZonesWindowToolBar toolBar;
 
-	ZoneWindowsAxes zoneAxes;
-	int &cnt;
-	double &minAxesY, &maxAxesY;
-	FiltersTable::TItems locFltParams;
+	MedianFiltreTable::TItems median;
+	FiltersTable::TItems filter;
+	TresholdsTable::TItems tresh;
 
-	//SensorViewer sensor;
-	//ZoneViewer zone;
-	AScanZoneViewer aScan;
+	Data::InputData &data;
+	Compute &compute;
+
+	typedef Vlst<ZoneViewer, AScanZoneViewer>viewers_list;
+	VL::Factory< viewers_list> viewers;
+
+	double zoneViewerData[10240];
+	char zoneViewerStatus[10240];
+
+	ZoneViewer &zoneViewer;
+	AScanZoneViewer &aScan;
+
+	MedianFiltre medianFiltre;
+	DSPFltDump filtre;
 
 	ZonesWindow();
 
-	double *Filtre(double *d, int count);
-
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
 	void operator()(TSize &);
@@ -63,4 +64,7 @@ public:
 	void Update();
 
 	void MouseMove(int);
+
+	void UpdateZone();
+	void UpdateAScan();
 };

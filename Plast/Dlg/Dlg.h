@@ -18,7 +18,7 @@
    DLG(TestLirDlg)
    DLG(UnitDlg)
    DLG(TstDspFiltrDlg)
-   DLG(ZonesAxesDlg)
+ //  DLG(ZonesAxesDlg)
    DLG(MedianFiltreDlg)
    DLG(ThresholdsDlg)
    DLG(ColorDlg)

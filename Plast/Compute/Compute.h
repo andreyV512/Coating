@@ -18,17 +18,20 @@ class Compute
 		(((T *)Parameter)->*ptr)();
 		return 0;
 	}
-	//HANDLE hThread, hEvent;
-	//static DWORD WINAPI __run__(PVOID);
-	//void Run();
 	Data::InputData &data;
 	Data::ResultData &result;
-	unsigned packetSize, numberPackets, framesCount, strobesTickCount, offsetsTickCount, zoneOffsetsIndex;
-
+public:
+	unsigned packetSize;
+private:
+	unsigned numberPackets, framesCount, strobesTickCount, offsetsTickCount;
+public:
+	unsigned zoneOffsetsIndex;
+private:
 	MedianFiltre median[App::count_sensors];
 	double(MedianFiltre:: *medianProc)(double, char &);
-
+public:
 	int zoneOffsets[1 + App::count_zones];
+private:
 	Data::SensorData *sensorData[App::count_sensors];
 
 	int offsAlarmStart, offsAlarmStop;
@@ -49,7 +52,7 @@ public:
 
 	bool Strobes();
 	void Zone(int zone, int sens);
-	void ComputeFrame(int sensor, char *d, double &value, char &status);
+	void ComputeFrame(IDSPFlt &f, char *d, double &value, char &status);
 	void ComputeZone(int zone);
 	
 	void Done();
