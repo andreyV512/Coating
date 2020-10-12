@@ -17,6 +17,7 @@
 #include "window_tool/OpenWindow.hpp"
 #include "MessageText/status.h"
 #include "Compute/Compute.h"
+#include "..\LanProcess\LanDirect\LanDirect.h"
 
 namespace App
 {
@@ -48,6 +49,7 @@ namespace App
 			return;
 		}
  //инициализация АЦП
+#ifndef INNER_LAN
 		Lan &l = Singleton<Lan>::Instance();
 		RshInitMemory p{};
 		l.SetParams(p);
@@ -66,14 +68,9 @@ namespace App
 			MessageBox(h, mess, (wchar_t *)L"Ошибка платы La-n108-100PCI(2)!!!", MB_ICONEXCLAMATION);
 			return;
 		}
-
-		//Lir &lir = Singleton<Lir>::Instance();
-		//
-		//if (!lir.Init(Singleton<LirParamTable>::Instance().items.get<LirDescriptor>().value))
-		//{
-		//	MessageBox(h, L"Плата не инициализирована", (wchar_t *)L"Ошибка платы ЛИР", MB_ICONEXCLAMATION);
-		//	return;
-		//}
+#else
+		Singleton <LanRead>::Instance();
+#endif
 
 		Singleton<LogMessageToTopLabel>::Instance().Run();
 		Automat::Init();
