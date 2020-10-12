@@ -1,12 +1,10 @@
 ﻿#include <windows.h>
 #include <conio.h>
-
-const wchar_t *ready_data = L"ready_data";
+//#include "window_tool\RunExecute.h"
+#include "H:\projects\Test\Coating\Common\window_tool\RunExecute.h"
 
 int main()
 {
-
-    HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, ready_data);
     HANDLE hReadPipe, hWritePipe, hInheritWritePipe;
 
     if (!CreatePipe(&hReadPipe, &hWritePipe, NULL, 0))
@@ -41,28 +39,13 @@ int main()
     wchar_t buf[180];
     wsprintf(buf, L"H:\\projects\\Test\\Coating\\Debug\\client.exe %d", (int)hInheritWritePipe);
 
-    if (!CreateProcess(
-        NULL
-        , buf
-        , NULL
-        , NULL
-        , TRUE
-        , CREATE_NEW_CONSOLE
-        , NULL
-        , NULL
-        , &si
-        , &pi
-    ))
+    if (!RunExecute(buf))
     {
-       
         DWORD ret = GetLastError();
         _cprintf("Create process failed  %x\n", ret);
         _getch();
         return ret;
     }
-
-    CloseHandle(pi.hProcess);
-    CloseHandle(pi.hThread);
 
     CloseHandle(hInheritWritePipe);
     char buffer[4058];

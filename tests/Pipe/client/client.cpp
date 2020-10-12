@@ -5,11 +5,10 @@
 const wchar_t *ready_data = L"ready_data";
 
 unsigned k = 99;
-char buf[4058];
+char buf[4058] = {};
 
 int main(int argc, char **argv)
 {
-    HANDLE hEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, ready_data);
     HANDLE hWritePipe = (HANDLE)atoi(argv[1]);
 
     DWORD bytesWritten;
@@ -25,7 +24,7 @@ int main(int argc, char **argv)
             return ret;
         }
      //   SetEvent(hEvent);
-        _cprintf("client number %d bytes written %d\n", k, bytesWritten);
+   //     _cprintf("client number %d bytes written %d\n", k, bytesWritten);
     //    Sleep(100);
         ++k;
     }
