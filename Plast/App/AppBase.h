@@ -5,7 +5,6 @@
 #include "DspFilters/DspFiltrParams.h"
 #include "Devices/LanParameters.h"
 #include "Devices/1730Parameters.h"
-#include "Devices/LirParameters.h"
 
 template<class ...T>struct Clr {};
 
@@ -153,7 +152,6 @@ struct ParametersBase
 		, OutputBitsTable
 		, NamePlate1730ParametersTable
 		, LanParametersTable
-		, LirParamTable
 		, UnitTable
 	> one_row_table_list;
 
