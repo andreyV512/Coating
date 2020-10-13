@@ -234,9 +234,6 @@
     <ClInclude Include="..\Common\Units\1730\inc\bdaqctrl.h" />
     <ClInclude Include="..\Common\Units\Lan\include\RshApi.h" />
     <ClInclude Include="..\Common\Units\Lan\Lan.h" />
-    <ClInclude Include="..\Common\Units\Lir\Inc\bdaqctrl.h" />
-    <ClInclude Include="..\Common\Units\Lir\Inc\compatibility.h" />
-    <ClInclude Include="..\Common\Units\Lir\Lir.h" />
     <ClInclude Include="..\Common\window_tool\DlgFiles.h" />
     <ClInclude Include="..\Common\window_tool\Emptywindow.h" />
     <ClInclude Include="..\Common\window_tool\GroupBox.h" />
@@ -325,7 +322,6 @@
     <ClCompile Include="..\Common\Units\1730\Device1730.cpp" />
     <ClCompile Include="..\Common\Units\Lan\include\RshApi.cpp" />
     <ClCompile Include="..\Common\Units\Lan\Lan.cpp" />
-    <ClCompile Include="..\Common\Units\Lir\Lir.cpp" />
     <ClCompile Include="..\Common\window_tool\DlgFiles.cpp" />
     <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp" />
     <ClCompile Include="..\Common\window_tool\GroupBox.cpp" />
@@ -350,12 +346,10 @@
     <ClCompile Include="Dlg\DspFiltrDlg.cpp" />
     <ClCompile Include="Dlg\InputOutputDlg.cpp" />
     <ClCompile Include="Dlg\LanDlg.cpp" />
-    <ClCompile Include="Dlg\LirDlg.cpp" />
     <ClCompile Include="Dlg\MedianFiltreDlg.cpp" />
     <ClCompile Include="Dlg\MessageDlg.cpp" />
     <ClCompile Include="Dlg\OperatorsDlg.cpp" />
     <ClCompile Include="Dlg\TestIOPorts.cpp" />
-    <ClCompile Include="Dlg\TestLir.cpp" />
     <ClCompile Include="Dlg\ThresholdsDlg.cpp" />
     <ClCompile Include="Dlg\TypeSizeDlg.cpp" />
     <ClCompile Include="Dlg\UnitDlg.cpp" />

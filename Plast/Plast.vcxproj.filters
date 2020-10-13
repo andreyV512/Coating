@@ -106,12 +106,6 @@
     <Filter Include="Compute">
       <UniqueIdentifier>{d994d7c9-ed6a-498e-8b11-517423117016}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Units\Lir">
-      <UniqueIdentifier>{2d31ec93-d9a6-4899-820d-1ec9b5831995}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common\Units\Lir\Inc">
-      <UniqueIdentifier>{6738edee-d7d2-4fab-8371-daa9a6b43aec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Devices">
       <UniqueIdentifier>{6dede5bd-0812-470c-9cd3-55621c9a2c1e}</UniqueIdentifier>
     </Filter>
@@ -399,15 +393,6 @@
     <ClInclude Include="..\Common\window_tool\RunExecute.h">
       <Filter>Common\window_tool</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Units\Lir\Lir.h">
-      <Filter>Common\Units\Lir</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lir\Inc\bdaqctrl.h">
-      <Filter>Common\Units\Lir\Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Common\Units\Lir\Inc\compatibility.h">
-      <Filter>Common\Units\Lir\Inc</Filter>
-    </ClInclude>
     <ClInclude Include="Devices\1730Parameters.h">
       <Filter>Devices</Filter>
     </ClInclude>
@@ -671,17 +656,8 @@
     <ClCompile Include="..\Common\window_tool\RunExecute.cpp">
       <Filter>Common\window_tool</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Units\Lir\Lir.cpp">
-      <Filter>Common\Units\Lir</Filter>
-    </ClCompile>
     <ClCompile Include="Devices\LanDevice.cpp">
       <Filter>Devices</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg\LirDlg.cpp">
-      <Filter>Dlg</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg\TestLir.cpp">
-      <Filter>Dlg</Filter>
     </ClCompile>
     <ClCompile Include="Windows\ZonesWindow\ZonesWindow.cpp">
       <Filter>Windows\ZonesWindow</Filter>
