@@ -8,6 +8,22 @@
 #include "tools_debug/DebugMess.h"
 #include "PerformanceCounter/PerformanceCounter.h"
 
+class LanDevice
+{
+public:
+	int numberPackets;
+	int packetSize;
+	Data::InputData &data;
+	class Lan &lan;
+public:
+	LanDevice();
+	void Init();
+	int Buff(char *&);
+	void Confirm(unsigned);
+	void Start();
+	void Stop();
+};
+
 LanDevice::LanDevice()
 	: numberPackets(Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value)
 	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
@@ -15,6 +31,36 @@ LanDevice::LanDevice()
 	, lan(Singleton<Lan>::Instance())
 {
 	data.framesCount = 0;
+}
+
+void LanDevice::Init()
+{
+	lan.SetHandler(
+		this
+		, &LanDevice::Buff
+		, &LanDevice::Confirm
+	);
+	RshInitMemory p{};
+	lan.SetParams(p);
+	U32 st;
+	st = lan.device1->Init(&p);
+	if (RSH_API_SUCCESS != st)
+	{
+		wchar_t mess[256];
+		lan.Err(st, mess);
+		dprint("1 %S\n", mess);
+		return;
+	}
+	st = lan.device2->Init(&p);
+	if (RSH_API_SUCCESS != st)
+	{
+		wchar_t mess[256];
+		lan.Err(st, mess);
+		dprint("2 %S\n", mess);
+		return;
+	}
+	lan.Start();
+	dprint("START LAN\n");
 }
 
 int LanDevice::Buff(char *&buf)
@@ -40,38 +86,25 @@ void LanDevice::Confirm(unsigned b)
 	}
 }
 
-CollectionData::CollectionData()
+void LanDevice::Start()
 {
-	device.lan.SetHandler(&device
-		, &LanDevice::Buff
-		, &LanDevice::Confirm
-	);
-	RshInitMemory p{};
-	device.lan.SetParams(p);
-	U32 st;
-	st = device.lan.device1->Init(&p);
-	if (RSH_API_SUCCESS != st)
-	{
-		wchar_t mess[256];
-		device.lan.Err(st, mess);
-		dprint("1 %S\n", mess);
-		return;
-	}
-	st = device.lan.device2->Init(&p);
-	if (RSH_API_SUCCESS != st)
-	{
-		wchar_t mess[256];
-		device.lan.Err(st, mess);
-		dprint("2 %S\n", mess);
-		return;
-	}
-	device.lan.Start();
-	dprint("START LAN\n");
+	lan.Start();
+}
+
+void LanDevice::Stop()
+{
+	lan.Stop();
+}
+
+CollectionData::CollectionData()
+	: device(Singleton<LanDevice>::Instance())
+{
+	device.Init();
 }
 
 CollectionData::~CollectionData()
 {
-	device.lan.Stop();
+	device.Stop();
 	dprint("STOP LAN\n");
 }
 
