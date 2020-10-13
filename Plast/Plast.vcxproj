@@ -262,7 +262,6 @@
     <ClInclude Include="Devices\1730Parameters.h" />
     <ClInclude Include="Devices\LanDevice.h" />
     <ClInclude Include="Devices\LanParameters.h" />
-    <ClInclude Include="Devices\LirParameters.h" />
     <ClInclude Include="Dlg\Dlg.h" />
     <ClInclude Include="Plast.h" />
     <ClInclude Include="Resource.h" />

@@ -414,9 +414,6 @@
     <ClInclude Include="Devices\LanParameters.h">
       <Filter>Devices</Filter>
     </ClInclude>
-    <ClInclude Include="Devices\LirParameters.h">
-      <Filter>Devices</Filter>
-    </ClInclude>
     <ClInclude Include="Devices\LanDevice.h">
       <Filter>Devices</Filter>
     </ClInclude>
