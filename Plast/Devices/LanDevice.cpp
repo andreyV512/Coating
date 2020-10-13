@@ -3,11 +3,13 @@
 #include "Data/Data.h"
 #include "templates/typelist.hpp"
 #include "Devices/LanParameters.h"
-#include "Units/Lir/Lir.h"
 #include "Units/Lan/Lan.h"
 #include "tools_debug/DebugMess.h"
 #include "PerformanceCounter/PerformanceCounter.h"
+#include "App/Config.h"
+#include "../LanProcess/LanDirect/LanDirect.h"
 
+#ifndef INNER_LAN
 class LanDevice
 {
 public:
@@ -17,7 +19,6 @@ public:
 	class Lan &lan;
 public:
 	LanDevice();
-	void Init();
 	int Buff(char *&);
 	void Confirm(unsigned);
 	void Start();
@@ -31,10 +32,6 @@ LanDevice::LanDevice()
 	, lan(Singleton<Lan>::Instance())
 {
 	data.framesCount = 0;
-}
-
-void LanDevice::Init()
-{
 	lan.SetHandler(
 		this
 		, &LanDevice::Buff
@@ -59,8 +56,6 @@ void LanDevice::Init()
 		dprint("2 %S\n", mess);
 		return;
 	}
-	lan.Start();
-	dprint("START LAN\n");
 }
 
 int LanDevice::Buff(char *&buf)
@@ -95,11 +90,15 @@ void LanDevice::Stop()
 {
 	lan.Stop();
 }
+#else
+class LanDevice : public LanRead {};
+#endif
 
 CollectionData::CollectionData()
 	: device(Singleton<LanDevice>::Instance())
 {
-	device.Init();
+	device.Start();
+	dprint("START LAN\n");
 }
 
 CollectionData::~CollectionData()

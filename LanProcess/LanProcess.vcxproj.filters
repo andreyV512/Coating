@@ -57,9 +57,6 @@
     <ClCompile Include="..\Plast\Data\Data.cpp">
       <Filter>Data</Filter>
     </ClCompile>
-    <ClCompile Include="LanDirect\LanDirect.cpp">
-      <Filter>LanDirect</Filter>
-    </ClCompile>
     <ClCompile Include="..\Plast\App\AppBase.cpp">
       <Filter>App</Filter>
     </ClCompile>
@@ -68,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\window_tool\RunExecute.cpp">
       <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="LanDirect\LanDirect.cpp">
+      <Filter>LanDirect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

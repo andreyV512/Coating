@@ -124,6 +124,9 @@
     <Filter Include="CommonApp\MessageText">
       <UniqueIdentifier>{a6ed5841-5ea0-4ee2-a2b7-e18ded8f9b3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LanDirect">
+      <UniqueIdentifier>{09f27203-81e7-44ad-9bb4-e27c86cdea8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -450,6 +453,9 @@
     <ClInclude Include="Compute\ComputeFrame.h">
       <Filter>Compute</Filter>
     </ClInclude>
+    <ClInclude Include="..\LanProcess\LanDirect\LanDirect.h">
+      <Filter>LanDirect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -703,6 +709,9 @@
     </ClCompile>
     <ClCompile Include="Dlg\BiPolarDlg.cpp">
       <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LanProcess\LanDirect\LanDirect.cpp">
+      <Filter>LanDirect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

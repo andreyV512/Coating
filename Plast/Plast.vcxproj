@@ -248,6 +248,7 @@
     <ClInclude Include="..\Common\window_tool\TableIni.hpp" />
     <ClInclude Include="..\Common\window_tool\TEvent.h" />
     <ClInclude Include="..\Common\window_tool\WindowsPosition.h" />
+    <ClInclude Include="..\LanProcess\LanDirect\LanDirect.h" />
     <ClInclude Include="App\App.h" />
     <ClInclude Include="App\AppBase.h" />
     <ClInclude Include="App\Config.h" />
@@ -332,6 +333,7 @@
     <ClCompile Include="..\Common\window_tool\RunExecute.cpp" />
     <ClCompile Include="..\Common\window_tool\SelectTypeSizeList.cpp" />
     <ClCompile Include="..\Common\window_tool\WindowsPosition.cpp" />
+    <ClCompile Include="..\LanProcess\LanDirect\LanDirect.cpp" />
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\AppBase.cpp" />
     <ClCompile Include="Automat\Automat.cpp" />

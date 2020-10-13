@@ -17,7 +17,8 @@
 #include "window_tool/OpenWindow.hpp"
 #include "MessageText/status.h"
 #include "Compute/Compute.h"
-#include "..\LanProcess\LanDirect\LanDirect.h"
+#include "../LanProcess/LanDirect/LanDirect.h"
+#include "App/Config.h"
 
 namespace App
 {
@@ -69,7 +70,7 @@ namespace App
 			return;
 		}
 #else
-		Singleton <LanRead>::Instance();
+		//Singleton <LanRead>::Instance();
 #endif
 
 		Singleton<LogMessageToTopLabel>::Instance().Run();

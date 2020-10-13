@@ -7,40 +7,12 @@
 #include "window_tool\RunExecute.h"
 
 const wchar_t *wStart = L"Communication pipe start";
-const wchar_t *wStop = L"Communication pipe stop";
+const wchar_t *wStop  = L"Communication pipe stop";
 
-LanProcess::LanProcess(HANDLE hWritePipe)
-	: numberPackets(Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value)
-	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
-	, hWritePipe(hWritePipe)
+DWORD WINAPI LanRead::__proc__(PVOID p)
 {
-	hStart = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStart);
-	hStop  = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStop);
-	bufSize = packetSize * numberPackets * App::count_sensors;
-	data = new char[bufSize];
-}
-
-LanProcess::~LanProcess()
-{
-	CloseHandle(hStart);
-	CloseHandle(hStop);
-	delete[] data;
-}
-
-int LanProcess::Buff(char *&buf)
-{
-	buf = data;
-	return bufSize;
-}
-
-void LanProcess::Confirm(unsigned b)
-{
-	DWORD bytesWritten;
-	if (!WriteFile(hWritePipe, data, b, &bytesWritten, NULL))
-	{
-		DWORD ret = GetLastError();
-		dprint("client WriteFalted %d\n", ret);		
-	}
+	while(true)((LanRead *)p)->Read();
+	return 0;
 }
 
 LanRead::LanRead()
@@ -88,10 +60,12 @@ LanRead::LanRead()
 	}
 
 	CloseHandle(hInheritWritePipe);
+	hThread = CreateThread(NULL, 0, __proc__, this, CREATE_SUSPENDED, NULL);
 }
 
 LanRead::~LanRead()
 {
+	TerminateThread(hThread, 0);
 	CloseHandle(hStart);
 	CloseHandle(hStop);
 	CloseHandle(hReadPipe);
@@ -125,9 +99,11 @@ void LanRead::Read()
 void LanRead::Start()
 {
 	SetEvent(hStart);
+	while(ResumeThread(hThread));
 }
 
 void LanRead::Stop()
 {
 	SetEvent(hStop);
+	SuspendThread(hThread);
 }
