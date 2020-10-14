@@ -69,6 +69,9 @@
     <ClCompile Include="LanDirect\LanDirect.cpp">
       <Filter>LanDirect</Filter>
     </ClCompile>
+    <ClCompile Include="..\CommonApp\CommonApp.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Units\Lan\Lan.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="..\Common\window_tool\RunExecute.h">
       <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CommonApp\CommonApp.h">
+      <Filter>App</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

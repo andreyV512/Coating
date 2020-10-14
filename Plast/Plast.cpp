@@ -10,6 +10,7 @@
 #include <gdiplus.h>
 //#include "tcp/InitTcp.h"
 #include "Windows/MainWindow/MainWindow.h"
+#include "CommonApp.h"
 #include "tools_debug/DebugMess.h"
 
 #if defined _M_IX86
@@ -22,16 +23,14 @@
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #endif
 
-wchar_t typeWindow[] = L"aluminum bar 200409";
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
-	dprint(__FUNCTION__"\n");
-	CreateSemaphore(0, 0, 1, typeWindow);
-	if (GetLastError() == ERROR_ALREADY_EXISTS)
+	if(CommonApp::IsAppRun())
 	{
 		HWND h = FindWindow(WindowClass<MainWindow>()(), 0);
 		SendMessage(h, WM_SYSCOMMAND, SC_RESTORE, 0);

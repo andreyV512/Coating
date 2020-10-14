@@ -37,6 +37,7 @@ LanDevice::LanDevice()
 		, &LanDevice::Buff
 		, &LanDevice::Confirm
 	);
+	/*
 	RshInitMemory p{};
 	lan.SetParams(p);
 	U32 st;
@@ -56,6 +57,7 @@ LanDevice::LanDevice()
 		dprint("2 %S\n", mess);
 		return;
 	}
+	*/
 }
 
 int LanDevice::Buff(char *&buf)

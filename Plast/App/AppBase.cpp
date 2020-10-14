@@ -5,8 +5,8 @@
 const wchar_t *ParametersBase::name()
 {
 	GetModuleFileName(0, path, dimention_of(path));
-	int len = (int)wcslen(path);
-	path[len - 4] = 0;
+	PathRemoveFileSpec(path);
+	wsprintf(&path[wcslen(path)], L"\\Params");
 	return path;
 }
 

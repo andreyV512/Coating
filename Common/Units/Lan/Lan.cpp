@@ -89,8 +89,6 @@ void Lan::Frame(IRshDevice *d)
 		{
 			st = d->Get(RSH_GET_WAIT_BUFFER_READY_EVENT, &waitTime);
 			d->Stop();
-			
-			
 			if (RSH_API_SUCCESS == st)
 			{
 				char *addr = NULL;

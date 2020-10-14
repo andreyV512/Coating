@@ -4,10 +4,11 @@
 #include "Data/Data.h"
 #include "tools_debug/DebugMess.h"
 #include "PerformanceCounter/PerformanceCounter.h"
-#include "window_tool\RunExecute.h"
+#include "window_tool/RunExecute.h"
 
 const wchar_t *wStart = L"Communication pipe start";
 const wchar_t *wStop  = L"Communication pipe stop";
+const wchar_t *wExit = L"Communication pipe exit";
 
 DWORD WINAPI LanRead::__proc__(PVOID p)
 {
@@ -24,6 +25,7 @@ LanRead::LanRead()
 	Performance::Init();
 	hStart = CreateEvent(NULL, FALSE, FALSE, wStart);
 	hStop = CreateEvent(NULL, FALSE, FALSE, wStop);
+	hExit = CreateEvent(NULL, FALSE, FALSE, wExit);
 
 	HANDLE hWritePipe, hInheritWritePipe;
 
@@ -65,18 +67,22 @@ LanRead::LanRead()
 
 LanRead::~LanRead()
 {
+	SetEvent(hExit);
 	TerminateThread(hThread, 0);
 	CloseHandle(hStart);
 	CloseHandle(hStop);
 	CloseHandle(hReadPipe);
+	
+	CloseHandle(hExit);
 }
 
 void LanRead::Read()
 {
+	unsigned i = data.framesCount;
 	DWORD bytesReaded;
 	if (!ReadFile(
 		hReadPipe
-		, &data.buffer[data.framesCount]
+		, &data.buffer[i]
 		, bufSize
 		, &bytesReaded
 		, NULL
@@ -85,8 +91,8 @@ void LanRead::Read()
 		DWORD ret = GetLastError();
 		dprint("Read from the pipe failed %d\n", ret);
 	}
-
-	unsigned t = data.framesCount + bytesReaded;
+	//dprint("data.framesCount %d readed %d\n", i, bytesReaded);
+	unsigned t = i + bytesReaded;
 	if (t < dimention_of(data.buffer)) data.framesCount = t;
 
 	if (data.offsetsTickCount < dimention_of(data.offsetsTick))
@@ -100,10 +106,12 @@ void LanRead::Start()
 {
 	SetEvent(hStart);
 	while(ResumeThread(hThread));
+	dprint("LanRead::Start()\n");
 }
 
 void LanRead::Stop()
 {
 	SetEvent(hStop);
 	SuspendThread(hThread);
+	dprint("LanRead::Stop()\n");
 }

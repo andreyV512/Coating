@@ -456,6 +456,9 @@
     <ClInclude Include="..\LanProcess\LanDirect\LanDirect.h">
       <Filter>LanDirect</Filter>
     </ClInclude>
+    <ClInclude Include="..\CommonApp\CommonApp.h">
+      <Filter>CommonApp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -712,6 +715,9 @@
     </ClCompile>
     <ClCompile Include="..\LanProcess\LanDirect\LanDirect.cpp">
       <Filter>LanDirect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CommonApp\CommonApp.cpp">
+      <Filter>CommonApp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

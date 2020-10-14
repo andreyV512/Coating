@@ -218,13 +218,13 @@ template<int N, class P>struct __update_sens__<AScanWindow::Sens<N>, P>
 
 void AScanWindow::operator()(TTimer &l)
 {
-	if (computeFrame.framesCount > 100000) computeFrame.framesCount = 0;
-	int offs = computeFrame.framesCount;
+	unsigned offs = computeFrame.framesCount;
+	if (offs > computeFrame.packetSize * 500) computeFrame.framesCount = 0;
+	
 	offs /= computeFrame.packetSize;
 	offs /= App::count_sensors;
 	offs -= 10;
-	if (offs < 0) offs = 0;
-
+	if ((int)offs < 0) offs = 0;
 	__update_sens_data__ data(*this, offs);
 	VL::foreach<viewers_list, __update_sens__>()(viewers, data);
 }

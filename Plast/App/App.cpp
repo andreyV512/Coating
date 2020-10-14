@@ -19,6 +19,16 @@
 #include "Compute/Compute.h"
 #include "../LanProcess/LanDirect/LanDirect.h"
 #include "App/Config.h"
+#include "tools_debug/DebugMess.h"
+
+template<class O, class P>struct __params__
+{
+	void operator()(O &o)
+	{
+		Wchar_from<typename O::type_value> p(o.value);
+		dprint("app %S %S\n", o.name(), p());
+	}
+};
 
 namespace App
 {
@@ -26,6 +36,10 @@ namespace App
 	{
 		Performance::Init();
 		AppBase().Init();
+
+		LanParametersTable &table = Singleton<LanParametersTable>::Instance();
+		VL::foreach<LanParametersTable::items_list, __params__>()(table.items);
+
 		StatusData::UpdateColor();
 #if 1
 		MainWindow& w = Singleton<MainWindow>::Instance();

@@ -174,6 +174,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\CommonApp\CommonApp.h" />
     <ClInclude Include="..\CommonApp\Log\LogBuffer.h" />
     <ClInclude Include="..\CommonApp\Log\LogMessages.h" />
     <ClInclude Include="..\CommonApp\Log\LogMessageToTopLabel.h" />
@@ -285,6 +286,7 @@
     <ClInclude Include="\\andrew\shared\plast2\Common\window_tool\InitToolbar.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\CommonApp\CommonApp.cpp" />
     <ClCompile Include="..\CommonApp\Log\LogBuffer.cpp" />
     <ClCompile Include="..\CommonApp\Log\LogMessages.cpp" />
     <ClCompile Include="..\CommonApp\Log\LogMessageToTopLabel.cpp" />

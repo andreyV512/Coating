@@ -4,13 +4,15 @@
 #include "App/App.h"
 #include "LanDirect/LanDirect.h"
 #include "tools_debug/DebugMess.h"
+#include "CommonApp.h"
+#include "templates\templates.hpp"
 
 class LanProcess
 {
 public:
 	int &numberPackets, &packetSize, bufSize;
 public:
-	HANDLE hStart, hStop;
+	HANDLE hStart, hStop, hExit;
 private:
 	HANDLE hWritePipe;
 public:
@@ -29,14 +31,17 @@ LanProcess::LanProcess(HANDLE hWritePipe)
 {
 	hStart = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStart);
 	hStop = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStop);
+	hExit = OpenEvent(EVENT_ALL_ACCESS, TRUE, wExit);
 	bufSize = packetSize * numberPackets * App::count_sensors;
 	data = new char[bufSize];
+
 }
 
 LanProcess::~LanProcess()
 {
 	CloseHandle(hStart);
 	CloseHandle(hStop);
+	CloseHandle(hExit);
 	delete[] data;
 }
 
@@ -53,7 +58,9 @@ void LanProcess::Confirm(unsigned b)
 	{
 		DWORD ret = GetLastError();
 		dprint("client WriteFalted %d\n", ret);
+		SetEvent(hExit);
 	}
+	dprint("%d %d\n", b, bytesWritten);
 }
 
 void InitBase()
@@ -69,12 +76,22 @@ void InitBase()
 	}
 }
 
+template<class O, class P>struct __params__
+{
+	void operator()(O &o)
+	{
+		Wchar_from<typename O::type_value> p(o.value);
+		dprint("%S %S\n", o.name(), p());
+	}
+};
+
 int main(int argc, char **argv)
 {
+	if (!CommonApp::IsAppRun()) return 0;
 	Initialize initialize;
 	InitBase();
 	//инициализация АЦП
-	Lan &l = Singleton<Lan>::Instance();
+	Lan l;
 	RshInitMemory p{};
 	l.SetParams(p);
 	
@@ -94,59 +111,38 @@ int main(int argc, char **argv)
 		MessageBox(NULL, mess, (wchar_t *)L"Ошибка платы La-n108-100PCI(2)!!!", MB_ICONEXCLAMATION | MB_TOPMOST);
 		return 0;
 	}
-
+	
 	LanProcess lan((HANDLE)atoi(argv[1]));
 	l.SetHandler(&lan, &LanProcess::Buff, &LanProcess::Confirm);
+
+	LanParametersTable &table = Singleton<LanParametersTable>::Instance();
+	VL::foreach<LanParametersTable::items_list, __params__>()(table.items);
 
 	HANDLE h[] = {
 		lan.hStart
 		, lan.hStop
+		, lan.hExit
 	};
 
 	while (true)
 	{
-		switch (WaitForMultipleObjects(2, h, FALSE, INFINITE))
+		switch (WaitForMultipleObjects(3, h, FALSE, 200))
 		{
 		case 0 + WAIT_OBJECT_0:
 		{
-			InitBase();
-
-			RshInitMemory p{};
-			l.SetParams(p);
-			U32 st;
-			st = l.device1->Init(&p);
-			if (RSH_API_SUCCESS != st)
-			{
-				wchar_t mess[256];
-				l.Err(st, mess);
-				dprint("1 %S\n", mess);
-				return 0;
-			}
-			st = l.device2->Init(&p);
-			if (RSH_API_SUCCESS != st)
-			{
-				wchar_t mess[256];
-				l.Err(st, mess);
-				dprint("2 %S\n", mess);
-				return 0;
-			}
-
-			int t = lan.packetSize * lan.numberPackets * App::count_sensors;
-			if(t > lan.bufSize)
-			{ 
-				delete [] lan.data;
-				lan.bufSize = t;
-				lan.data = new char[lan.bufSize];
-			}
-
+			dprint("LanProcess start\n");
 			l.Start();
 		}
 		break;
 		case 1 + WAIT_OBJECT_0:
+			dprint("LanProcess stop\n");
 			l.Stop();
 			break;
+		case 2 + WAIT_OBJECT_0: return 0;
+		case WAIT_TIMEOUT:
+			if (!CommonApp::IsAppRun()) return 0;
+			break;
 		}
-
 	}
 	return 0;
 }
