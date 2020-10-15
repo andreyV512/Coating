@@ -2,6 +2,7 @@
 #include "Windows/Viewers/CommonSensorViewer.h"
 #include "Graphics/FixedGridSeries.h"
 #include "Data/Data.h"
+#include "Windows/Viewers/NegThresh.h"
 
 class AScanZoneViewer : public CommonSensorViewer
 {
@@ -12,6 +13,10 @@ public:
 		, BottomAxesInt
 		, LineSeries
 		, FixedGrid
+		, AlThr
+		, BtmRefThr
+		, Neg<AlThr>
+		, Neg<BtmRefThr>
 	> > TChart;
 	TChart tchart;
 	Cursor tcursor;

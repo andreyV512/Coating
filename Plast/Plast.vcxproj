@@ -277,6 +277,8 @@
     <ClInclude Include="Windows\Viewers\CommonSensorViewer.h" />
     <ClInclude Include="Windows\Viewers\MainViewers\ResultViewer.h" />
     <ClInclude Include="Windows\Viewers\MainViewers\SensorViewer.h" />
+    <ClInclude Include="Windows\Viewers\NegThresh.h" />
+    <ClInclude Include="Windows\Viewers\NegThresh.hpp" />
     <ClInclude Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.h" />
     <ClInclude Include="Windows\Viewers\ZonesViewer\ZoneViewer.h" />
     <ClInclude Include="Windows\ZonesWindow\ZonesAxes.h" />

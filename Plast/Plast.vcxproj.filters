@@ -459,6 +459,12 @@
     <ClInclude Include="..\CommonApp\CommonApp.h">
       <Filter>CommonApp</Filter>
     </ClInclude>
+    <ClInclude Include="Windows\Viewers\NegThresh.h">
+      <Filter>Windows\Viewers</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\NegThresh.hpp">
+      <Filter>Windows\Viewers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">

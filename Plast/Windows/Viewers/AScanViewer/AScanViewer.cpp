@@ -83,13 +83,13 @@ template<class O, class P>struct __mouse_well__
 //	}
 //	return drawZones;
 //}
-AScanViewer::NBtmRefThr::NBtmRefThr(Chart &c) : HOffsBorder(c) {}
-void AScanViewer::NBtmRefThr::Draw()
-{
-	if (value < 0) HOffsBorder::Draw();
-}
-AScanViewer::NAlThr::NAlThr(Chart &c) : HOffsBorder(c) {}
-void AScanViewer::NAlThr::Draw()
-{
-	if (value < 0) HOffsBorder::Draw();
-}
+//AScanViewer::NBtmRefThr::NBtmRefThr(Chart &c) : HOffsBorder(c) {}
+//void AScanViewer::NBtmRefThr::Draw()
+//{
+//	if (value < 0) HOffsBorder::Draw();
+//}
+//AScanViewer::NAlThr::NAlThr(Chart &c) : HOffsBorder(c) {}
+//void AScanViewer::NAlThr::Draw()
+//{
+//	if (value < 0) HOffsBorder::Draw();
+//}

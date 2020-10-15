@@ -9,6 +9,7 @@
 #include "Windows/AScanWindow/AScanWindow.h"
 #include "window_tool/Pass.h"
 #include "Devices/LanDevice.h"
+#include "Windows/Viewers/NegThresh.hpp"
 
 LRESULT AScanWindow::operator()(TCreate &l)
 {
@@ -148,51 +149,22 @@ void AScanWindow::operator()(TClose &l)
 	DestroyWindow(l.hwnd);
 }
 
-struct __set_thresh_data__
-{
-	unsigned alThr_color;
-	double   alThr_value;
-	int      alThr_startOffs;
-	int      alThr_stopOffs;
-	unsigned btmRefThr_color;
-	double   btmRefThr_value;
-	int      btmRefThr_startOffs;
-	int      btmRefThr_stopOffs;
-};
-
-template<class O, class P>struct __set_thresh__
-{
-	void operator()(O &o, P &p)
-	{
-		auto &alThr = o.tchart.items.get<AScanViewer::AlThr>();
-		auto &btmRefThr = o.tchart.items.get<AScanViewer::BtmRefThr>();
-
-		alThr.color = p.alThr_color;
-		alThr.value = p.alThr_value;
-		alThr.startOffs = p.alThr_startOffs;
-		alThr.stopOffs = p.alThr_stopOffs;
-		btmRefThr.color = p.btmRefThr_color;
-		btmRefThr.value = p.btmRefThr_value;
-		btmRefThr.startOffs = p.btmRefThr_startOffs;
-		btmRefThr.stopOffs = p.btmRefThr_stopOffs;
-	}
-};
-
 void AScanWindow::SetThresh()
 {
-	auto &color = Singleton<ColorTable>::Instance().items;
-
-	__set_thresh_data__ data = {
-	   color.get< Clr<Defect>>().value
-	   , treshItems.get<AlarmThresh>().value
-	   , treshItems.get<AlarmThreshStart>().value
-	   , treshItems.get<AlarmThreshStop>().value
-	   , color.get< Clr<NoBottomReflection>>().value
-	   , treshItems.get<BottomReflectionThresh>().value
-	   , treshItems.get<BottomReflectionThreshStart>().value
-	   , treshItems.get<BottomReflectionThreshStop>().value
-	};
-	VL::foreach<viewers_list, __set_thresh__>()(viewers, data);
+	//auto &color = Singleton<ColorTable>::Instance().items;
+	//
+	//__set_thresh_data__ data = {
+	//   color.get< Clr<Defect>>().value
+	//   , treshItems.get<AlarmThresh>().value
+	//   , treshItems.get<AlarmThreshStart>().value
+	//   , treshItems.get<AlarmThreshStop>().value
+	//   , color.get< Clr<NoBottomReflection>>().value
+	//   , treshItems.get<BottomReflectionThresh>().value
+	//   , treshItems.get<BottomReflectionThreshStart>().value
+	//   , treshItems.get<BottomReflectionThreshStop>().value
+	//};
+	//VL::foreach<viewers_list, __set_thresh__>()(viewers, data);
+	SetTresh(treshItems, viewers);
 }
 
 struct __update_sens_data__
@@ -229,39 +201,6 @@ void AScanWindow::operator()(TTimer &l)
 	__update_sens_data__ data(*this, offs);
 	VL::foreach<viewers_list, __update_sens__>()(viewers, data);
 }
-
-template<class A, class B>void __assignment_param__(A &a, B &b)
-{
-	a.value =     b.value;
-	a.startOffs = b.startOffs;
-	a.stopOffs =  b.stopOffs;
-	a.color =     b.color;
-	a.widthPen =  b.widthPen;
-	a.dashStyle = b.dashStyle;
-}
-
-template<class O, class P>struct __switch_bipolar__
-{
-	void operator()(O &o, P &p)
-	{
-		auto &c = o.tchart.items;
-		auto &chart = o.tchart;
-		if (p)
-		{
-			__assignment_param__(c.get<AScanViewer::NAlThr>(), c.get<AScanViewer::AlThr>());
-			c.get<AScanViewer::NAlThr>().value *= -1;
-			__assignment_param__(c.get<AScanViewer::NBtmRefThr>(), c.get<AScanViewer::BtmRefThr>());
-			c.get<AScanViewer::NBtmRefThr>().value *= -1;
-			chart.minAxesY = -100;
-		}
-		else
-		{
-			c.get<AScanViewer::NAlThr>().value = 0;
-			c.get<AScanViewer::NBtmRefThr>().value = 0;
-			chart.minAxesY = 0;
-		}
-	}
-};
 
 void AScanWindow::SwitchBipolar(bool b)
 {
