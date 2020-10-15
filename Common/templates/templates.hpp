@@ -168,7 +168,7 @@ template<> struct Wchar_to<bool>
 {
 	bool operator()(wchar_t *data)
 	{
-		return 0 == wcscmp(data, L"true");
+		return 0 == wcscmp(data, L"true") || 0 != _wtoi(data);
 	}
 };
 
