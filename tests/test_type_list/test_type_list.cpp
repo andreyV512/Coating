@@ -27,21 +27,38 @@ struct C : B
 	~C()override { printf("%s\n", __FUNCTION__); }
 };
 
-
+struct __set_params_data__
+{
+	wchar_t *name, *value;
+	__set_params_data__(char *val)
+	{
+		wchar_t *s, ss[512];
+		s = ss;
+		size_t x;
+		mbstowcs_s(&x, ss, val, 512);
+		name = s;
+		while (*s && '=' != *s) ++s;
+		*s = '\0';
+		++s;
+		value = s;
+	}
+};
 
 int main()
 {
-	int k = 0;
-	{
-		Impl<A, 272> impl;
-		A &a = impl.Init<C>((char *)"Ok obi", k);
-		a.print();
-		impl.Init<B>((char *)"HI Ok obi");
-		a.print();
-		printf("   %d\n", (int)sizeof(B));
-		impl->print();
-		(*impl).print();
-
-
-	}
+	//int k = 0;
+	//{
+	//	Impl<A, 272> impl;
+	//	A &a = impl.Init<C>((char *)"Ok obi", k);
+	//	a.print();
+	//	impl.Init<B>((char *)"HI Ok obi");
+	//	a.print();
+	//	printf("   %d\n", (int)sizeof(B));
+	//	impl->print();
+	//	(*impl).print();
+	//
+	//
+	//}
+	__set_params_data__ data((char *)"123=456");
+	wprintf(L"%s %s\n", data.name, data.value);
 }
