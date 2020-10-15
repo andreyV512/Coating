@@ -8,6 +8,7 @@
 #include "AScanKeyHandler.h"
 #include "Windows/AScanWindow/AScanWindow.h"
 #include "window_tool/Pass.h"
+#include "Devices/LanDevice.h"
 
 LRESULT AScanWindow::operator()(TCreate &l)
 {
@@ -219,7 +220,7 @@ template<int N, class P>struct __update_sens__<AScanWindow::Sens<N>, P>
 void AScanWindow::operator()(TTimer &l)
 {
 	unsigned offs = computeFrame.framesCount;
-	if (offs > computeFrame.packetSize * 500) computeFrame.framesCount = 0;
+	if (offs > (unsigned)computeFrame.packetSize * 5000) computeFrame.framesCount = 0;
 	
 	offs /= computeFrame.packetSize;
 	offs /= App::count_sensors;
@@ -272,10 +273,12 @@ void AScanWindow::Start()
 {
 	idTimer = SetTimer(hWnd, 200, 123, NULL);
 	AScanKeyHandler::Run();
+	Singleton<LanDevice>::Instance().Start();
 }
 
 void AScanWindow::Stop()
 {
 	KillTimer(hWnd, idTimer);
 	AScanKeyHandler::Stop();
+	Singleton<LanDevice>::Instance().Stop();
 }

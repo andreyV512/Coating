@@ -121,8 +121,6 @@ namespace Data
 				*(int *)&buffer[i] = k;
 			}
 
-			dprint("kkkkk %d\n", k);
-
 			unsigned (&strobesTick)[100] = d.strobesTick;
 			d.strobesTickCount = 70;
 			unsigned start = 10000;

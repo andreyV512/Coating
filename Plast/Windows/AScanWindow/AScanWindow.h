@@ -6,7 +6,7 @@
 #include "Windows/Viewers/AScanViewer/AScanViewer.h"
 #include "App/AppBase.h"
 #include "Compute/ComputeFrame.h"
-#include "Devices/LanDevice.h"
+//#include "Devices/LanDevice.h"
 
 class AScanWindow
 {
@@ -32,7 +32,6 @@ public:
 	AScanWindowToolBar toolBar;
 	TopLabelViewer topLabelViewer;
 	ComputeFrame computeFrame;
-	CollectionData data;
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
 	void operator()(TSize &);

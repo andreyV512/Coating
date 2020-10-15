@@ -9,7 +9,7 @@
 #include "App/Config.h"
 #include "../LanProcess/LanDirect/LanDirect.h"
 
-#ifndef INNER_LAN
+#ifdef INNER_LAN
 class LanDevice
 {
 public:
@@ -37,27 +37,6 @@ LanDevice::LanDevice()
 		, &LanDevice::Buff
 		, &LanDevice::Confirm
 	);
-	/*
-	RshInitMemory p{};
-	lan.SetParams(p);
-	U32 st;
-	st = lan.device1->Init(&p);
-	if (RSH_API_SUCCESS != st)
-	{
-		wchar_t mess[256];
-		lan.Err(st, mess);
-		dprint("1 %S\n", mess);
-		return;
-	}
-	st = lan.device2->Init(&p);
-	if (RSH_API_SUCCESS != st)
-	{
-		wchar_t mess[256];
-		lan.Err(st, mess);
-		dprint("2 %S\n", mess);
-		return;
-	}
-	*/
 }
 
 int LanDevice::Buff(char *&buf)
@@ -93,7 +72,7 @@ void LanDevice::Stop()
 	lan.Stop();
 }
 #else
-class LanDevice : public LanRead {};
+//class LanDevice : public LanRead {};
 #endif
 
 CollectionData::CollectionData()

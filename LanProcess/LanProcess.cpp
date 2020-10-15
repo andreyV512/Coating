@@ -60,36 +60,66 @@ void LanProcess::Confirm(unsigned b)
 		dprint("client WriteFalted %d\n", ret);
 		SetEvent(hExit);
 	}
-	dprint("%d %d\n", b, bytesWritten);
 }
 
-void InitBase()
-{
-	ParametersBase param;
-	CBase base(
-		(wchar_t *)param.name()
-	);
-	if (base.IsOpen())
-	{
-		LanParametersTable &o = Singleton<LanParametersTable>::Instance();
-		Select<LanParametersTable>(base).ID(__id__).Execute(o);
-	}
-}
+
 
 template<class O, class P>struct __params__
 {
 	void operator()(O &o)
 	{
 		Wchar_from<typename O::type_value> p(o.value);
-		dprint("%S %S\n", o.name(), p());
+		dprint("pipe %S %S\n", o.name(), p());
 	}
 };
 
+struct __set_params_data__
+{
+	wchar_t buf[512];
+	wchar_t *name, *value;
+	__set_params_data__(char *val)
+	{
+		wchar_t *s = buf;
+		mbstowcs(s, val, 512);
+		name = s;
+		while (*s && '=' != *s) ++s;
+		*s = '\0';
+		++s;
+		value = s;
+	}
+};
+template<class O, class P>struct __set_params__
+{
+	bool operator()(O &o, P &p)
+	{
+		if (0 == wcscmp(p.name, o.name()))
+		{
+			o.value = Wchar_to<typename O::type_value>()(p.value);
+			return false;
+		}
+		return true;
+	}
+};
+
+void InitBase(int argc, char **argv)
+{
+	LanParametersTable &table = Singleton<LanParametersTable>::Instance();
+	for (int i = 0; i < argc; ++i)
+	{
+		__set_params_data__ data(argv[i]);
+		VL::find<LanParametersTable::items_list, __set_params__>()(table.items, data);
+	}
+}
+
 int main(int argc, char **argv)
 {
+	dprint("START LAN<<<<<<<<<<");
 	if (!CommonApp::IsAppRun()) return 0;
-	Initialize initialize;
-	InitBase();
+	dprint("START LAN>>>>>>>>>");
+	InitBase(argc - 2, &argv[2]);
+
+	LanParametersTable &table = Singleton<LanParametersTable>::Instance();
+	VL::foreach<LanParametersTable::items_list, __params__>()(table.items);
 	//инициализация АЦП
 	Lan l;
 	RshInitMemory p{};
@@ -112,11 +142,11 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	
-	LanProcess lan((HANDLE)atoi(argv[1]));
-	l.SetHandler(&lan, &LanProcess::Buff, &LanProcess::Confirm);
+	int handle = atoi(argv[1]);
+	dprint("HANDLE %d\n", handle);
+	LanProcess lan((HANDLE)handle);
 
-	LanParametersTable &table = Singleton<LanParametersTable>::Instance();
-	VL::foreach<LanParametersTable::items_list, __params__>()(table.items);
+	l.SetHandler(&lan, &LanProcess::Buff, &LanProcess::Confirm);
 
 	HANDLE h[] = {
 		lan.hStart
@@ -138,10 +168,9 @@ int main(int argc, char **argv)
 			dprint("LanProcess stop\n");
 			l.Stop();
 			break;
-		case 2 + WAIT_OBJECT_0: return 0;
-		case WAIT_TIMEOUT:
-			if (!CommonApp::IsAppRun()) return 0;
-			break;
+		case 2 + WAIT_OBJECT_0: 
+			dprint("LanProcess EXIT\n");
+			return 0;
 		}
 	}
 	return 0;

@@ -8,7 +8,7 @@ extern const wchar_t *wExit;
 namespace Data { struct InputData; }
 class LanRead
 {
-	int numberPackets, packetSize, bufSize;
+	int &numberPackets, &packetSize, bufSize;
 	HANDLE hStart, hStop, hExit, hReadPipe, hThread; 
 	Data::InputData &data;
 	void Read();
@@ -16,6 +16,7 @@ class LanRead
 public:
 	LanRead();
 	~LanRead();	
+	void Update();
 	void Start();
 	void Stop();
 };

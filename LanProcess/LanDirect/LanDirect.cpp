@@ -16,10 +16,21 @@ DWORD WINAPI LanRead::__proc__(PVOID p)
 	return 0;
 }
 
+template<class O, class P>struct LanRead__params__
+{
+	void operator()(O &o, P &p)
+	{
+		Wchar_from<typename O::type_value> val(o.value);
+		wsprintf(p, L"%s=%s ", o.name(), val());
+		p += wcslen(p);
+	}
+};
+
 LanRead::LanRead()
 	: numberPackets(Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value)
 	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
 	, data(Singleton<Data::InputData>::Instance())
+	, hReadPipe(NULL)
 {
 	bufSize = packetSize * numberPackets * App::count_sensors;
 	Performance::Init();
@@ -27,6 +38,28 @@ LanRead::LanRead()
 	hStop = CreateEvent(NULL, FALSE, FALSE, wStop);
 	hExit = CreateEvent(NULL, FALSE, FALSE, wExit);
 
+	
+	hThread = CreateThread(NULL, 0, __proc__, this, CREATE_SUSPENDED, NULL);
+}
+
+LanRead::~LanRead()
+{
+	SetEvent(hExit);
+	TerminateThread(hThread, 0);
+	CloseHandle(hStart);
+	CloseHandle(hStop);
+	CloseHandle(hReadPipe);
+	
+	CloseHandle(hExit);
+}
+
+void LanRead::Update()
+{
+//	Stop();
+//	SetEvent(hExit);
+//CloseHandle(hReadPipe);
+//Sleep(500);
+	bufSize = packetSize * numberPackets * App::count_sensors;
 	HANDLE hWritePipe, hInheritWritePipe;
 
 	if (!CreatePipe(&hReadPipe, &hWritePipe, NULL, 0))
@@ -50,10 +83,13 @@ LanRead::LanRead()
 	}
 	CloseHandle(hWritePipe);
 
-	wchar_t path[1024];
+	wchar_t path[2048];
 	GetModuleFileName(0, path, dimention_of(path));
 	PathRemoveFileSpec(path);
-	wsprintf(&path[wcslen(path)], L"\\LanProcess.exe %d", (int)hInheritWritePipe);
+	wsprintf(&path[wcslen(path)], L"\\LanProcess.exe %d ", (int)hInheritWritePipe);
+	LanParametersTable &table = Singleton<LanParametersTable>::Instance();
+	wchar_t *p = &path[wcslen(path)];
+	VL::foreach<LanParametersTable::items_list, LanRead__params__>()(table.items, p);
 
 	if (!RunExecute(path))
 	{
@@ -62,18 +98,6 @@ LanRead::LanRead()
 	}
 
 	CloseHandle(hInheritWritePipe);
-	hThread = CreateThread(NULL, 0, __proc__, this, CREATE_SUSPENDED, NULL);
-}
-
-LanRead::~LanRead()
-{
-	SetEvent(hExit);
-	TerminateThread(hThread, 0);
-	CloseHandle(hStart);
-	CloseHandle(hStop);
-	CloseHandle(hReadPipe);
-	
-	CloseHandle(hExit);
 }
 
 void LanRead::Read()
@@ -91,7 +115,6 @@ void LanRead::Read()
 		DWORD ret = GetLastError();
 		dprint("Read from the pipe failed %d\n", ret);
 	}
-	//dprint("data.framesCount %d readed %d\n", i, bytesReaded);
 	unsigned t = i + bytesReaded;
 	if (t < dimention_of(data.buffer)) data.framesCount = t;
 

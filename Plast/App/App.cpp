@@ -20,6 +20,7 @@
 #include "../LanProcess/LanDirect/LanDirect.h"
 #include "App/Config.h"
 #include "tools_debug/DebugMess.h"
+#include "Devices/LanDevice.h"
 
 template<class O, class P>struct __params__
 {
@@ -36,7 +37,9 @@ namespace App
 	{
 		Performance::Init();
 		AppBase().Init();
-
+#ifndef INNER_LAN
+		Singleton<LanDevice>::Instance().Update();
+#endif
 		LanParametersTable &table = Singleton<LanParametersTable>::Instance();
 		VL::foreach<LanParametersTable::items_list, __params__>()(table.items);
 
@@ -64,7 +67,7 @@ namespace App
 			return;
 		}
  //инициализация АЦП
-#ifndef INNER_LAN
+#ifdef INNER_LAN
 		Lan &l = Singleton<Lan>::Instance();
 		RshInitMemory p{};
 		l.SetParams(p);
