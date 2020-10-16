@@ -30,13 +30,24 @@ namespace ZonesWindowMenu
 	MENU_TEXT(L"Типоразмер", TopMenu<MainOptionTypeSize>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 	struct DspFiltr : TstDspFiltrDlg {};
+	//TODO 201015	доделать меню 
+	struct Thresholds : TestThreshDlg {};
+	struct MedianFltr : TstMedianFiltreDlg {};
+	struct BiPolar : TestBiPolarDlg {};
 
-	MENU_ITEM(L"Настройки аналогового фильтра", DspFiltr)
+	MENU_ITEM(L"Аналоговый фильтр", DspFiltr)
+	MENU_ITEM(L"Медианный фильтр", MedianFltr)
+	MENU_ITEM(L"Пороги", Thresholds)
+	MENU_ITEM(L"Биполярный сигнал", BiPolar)
 
 	template<>struct TopMenu<MainOptionTypeSize>
 	{
 		typedef Vlst<
-			MenuItem<DspFiltr>
+			MenuItem<Thresholds>
+			, MenuItem<MedianFltr>
+			, MenuItem<DspFiltr>
+			, Separator<0>
+			, MenuItem<BiPolar>
 		> list;
 	};
 

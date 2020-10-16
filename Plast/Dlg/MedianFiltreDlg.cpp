@@ -1,6 +1,8 @@
 #include "Dlg.h"
 #include "DlgTemplates/ParamDlgNew.h"
 #include "DlgTemplates/ParamDlg.hpp"
+#include "Windows/ZonesWindow/ZonesWindow.h"
+#include "window_tool/EmptyWindow.h"
 
 MIN_VALUE(MedianFiltreWidth, 0)
 MAX_EQUAL_VALUE(MedianFiltreWidth, 15)
@@ -36,5 +38,23 @@ void MedianFiltreDlg::Do(HWND h)
 	if (Dialog::Templ<ParametersBase, MedianFiltreTable
 	>(Singleton<MedianFiltreTable>::Instance()).Do(h, (wchar_t *)L"Медианный фильтр"))
 	{
+	}
+}
+
+void TstMedianFiltreDlg::Do(HWND h)
+{
+	MedianFiltreTable table;
+
+	ZonesWindow *w = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+	VL::CopyFromTo(w->median, table.items);
+	if (Dialog::Templ<ParametersBase, MedianFiltreTable
+		, MedianFiltreTable::items_list
+		, 550
+		, Vlst<NoStoreOkBtn, CancelBtn>
+	>(table).Do(h, (wchar_t *)L"Медианный фильтр"))
+	{
+		VL::CopyFromTo(table.items, w->median);
+		w->UpdateMedian();
+		RepaintWindow(w->hWnd);
 	}
 }

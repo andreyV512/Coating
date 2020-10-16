@@ -9,6 +9,7 @@
 #include "DspFilters/Filters.hpp"
 #include "Windows/ZonesWindow/ZonesAxes.h"
 #include "Compute/Compute.h"
+#include "Compute/ComputeFrame.h"
 
 class ZonesWindow
 {
@@ -36,16 +37,12 @@ public:
 	ZoneViewer &zoneViewer;
 	AScanZoneViewer &aScan;
 
+	double(MedianFiltre:: *medianProc)(double, char &);
 	MedianFiltre medianFiltre;
-	DSPFltDump filtre;
+	ComputeFrame computeFrame;
 
 	ZonesWindow();
 
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name=""></param>
-	/// <returns></returns>
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
 	void operator()(TSize &);
@@ -67,4 +64,7 @@ public:
 
 	void UpdateZone();
 	void UpdateAScan();
+
+	void SwitchBipolar(bool);
+	void UpdateMedian();
 };

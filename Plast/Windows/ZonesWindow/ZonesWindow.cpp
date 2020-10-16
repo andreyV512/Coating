@@ -11,6 +11,7 @@
 
 #include "window_tool/TableIni.hpp"
 #include "DspFilters/Filters.hpp"
+#include "Windows/Viewers/NegThresh.hpp"
 
 LRESULT ZonesWindow::operator()(TCreate &l)
 {
@@ -307,7 +308,7 @@ void ZonesWindow::UpdateZone()
 	for (int i = offsStart; i < offsStop; i += inc, ++k)
 	{
 		compute.ComputeFrame(
-			filtre
+			(IDSPFlt &)computeFrame.filter
 			, &data.buffer[i]
 			, ldata, lstatus
 		);
@@ -325,4 +326,17 @@ void ZonesWindow::UpdateZone()
 
 void ZonesWindow::UpdateAScan()
 {
+}
+
+void ZonesWindow::SwitchBipolar(bool b)
+{
+	VL::foreach<Vlst<AScanZoneViewer>, __switch_bipolar__>()(viewers, b);
+	computeFrame.bipolar = b;
+}
+
+void ZonesWindow::UpdateMedian()
+{
+	medianProc = median.get<MedianFiltreON>().value
+		? &MedianFiltre::Val: &MedianFiltre::noop;
+	medianFiltre.InitWidth(median.get<MedianFiltreWidth>().value);
 }

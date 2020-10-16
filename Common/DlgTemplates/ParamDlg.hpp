@@ -597,3 +597,24 @@ struct ShowItem
 
 #define NO_USED_MENU_ITEM(name)template<>struct DlgSubItems<name, typename name::type_value>: EmptySubItem<name>{};
 
+template<class O, class P>struct __Xok_btn__
+{
+	void operator()(O &o)
+	{
+		o.value.value = __data_from_widget__<O, typename VL::Inner<O>::Result::type_value>()(o);
+	}
+};
+struct NoStoreOkBtn
+{
+	static const int width = 120;
+	static const int height = 30;
+	static const int ID = IDOK;
+	wchar_t *Title() { return (wchar_t *)L"Применить"; }
+	template<class Owner>void BtnHandler(Owner &owner, HWND h)
+	{
+		if (!VL::find<typename Owner::list, __test__>()(owner.items, h))return;
+		VL::foreach<typename Owner::list, __Xok_btn__>()(owner.items);
+		EndDialog(h, TRUE);
+	}
+};
+

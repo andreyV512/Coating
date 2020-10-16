@@ -4,6 +4,7 @@
 #include "Windows/MainWindow/MainWindow.h"
 #include "Windows/AScanWindow/AScanWindow.h"
 #include "window_tool/Emptywindow.h"
+#include "Windows/ZonesWindow/ZonesWindow.h"
 
 typedef GROUP_BOX(
 	AlarmThresh
@@ -75,43 +76,33 @@ void ThresholdsDlg::Do(HWND h)
 	}
 }
 
-template<class O, class P>struct __thresh_ok_btn__
-{
-	void operator()(O &o, P &p)
-	{
-		typedef typename VL::Inner<O>::Result inner;
-		auto &x = p.get<inner>();
-		x.value = __data_from_widget__<O, inner::type_value>()(o);
-	}
-};
-
-struct ThreshOkBtn
-{
-	static const int width = 120;
-	static const int height = 30;
-	static const int ID = IDOK;
-	wchar_t *Title() { return (wchar_t *)L"Применить"; }
-	template<class Owner>void BtnHandler(Owner &owner, HWND h)
-	{
-		HWND hw = FindWindow(WindowClass<AScanWindow>()(), 0);
-		AScanWindow &w = *(AScanWindow *)GetWindowLongPtr(hw, GWLP_USERDATA);
-		if (!VL::find<Owner::list, __test__>()(owner.items, h))return;
-		VL::foreach<Owner::list, __thresh_ok_btn__>()(owner.items, w.treshItems);
-		EndDialog(h, TRUE);
-	}
-};
-
 void ThreshDlg::Do(HWND h)
 {
-	HWND hw = FindWindow(WindowClass<AScanWindow>()(), 0);
-	AScanWindow &w = *(AScanWindow *)GetWindowLongPtr(hw, GWLP_USERDATA);
+	AScanWindow &w = *(AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	TresholdsTable t;
 	VL::CopyFromTo(w.treshItems, t.items);
 	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection>, 300
-		, Vlst<ThreshOkBtn, CancelBtn>
+		, Vlst<NoStoreOkBtn, CancelBtn>
 	>(t).Do(h, (wchar_t *)L"Пороги"))
 	{
+		VL::CopyFromTo(t.items, w.treshItems);
 		w.SetThresh();
-		RepaintWindow<AScanWindow>();
+		RepaintWindow(h);
 	}
 }
+
+void TestThreshDlg::Do(HWND h)
+{
+	ZonesWindow &w = *(ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+	TresholdsTable t;
+	VL::CopyFromTo(w.tresh, t.items);
+	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection>, 300
+		, Vlst<NoStoreOkBtn, CancelBtn>
+	>(t).Do(h, (wchar_t *)L"Пороги"))
+	{
+		VL::CopyFromTo(t.items, w.tresh);
+		RepaintWindow(h);
+	}
+}
+
+
