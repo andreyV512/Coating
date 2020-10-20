@@ -31,6 +31,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "server", "tests\Pipe\server
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LanProcess", "LanProcess\LanProcess.vcxproj", "{F5296FC4-12BA-4D72-9045-823BCB7A371C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testZip", "tests\testZip\testZip.vcxproj", "{E7E8E3C3-160F-4D71-B444-2B41002C9A16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -135,6 +137,14 @@ Global
 		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Release|x64.Build.0 = Release|x64
 		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Release|x86.ActiveCfg = Release|Win32
 		{F5296FC4-12BA-4D72-9045-823BCB7A371C}.Release|x86.Build.0 = Release|Win32
+		{E7E8E3C3-160F-4D71-B444-2B41002C9A16}.Debug|x64.ActiveCfg = Debug|x64
+		{E7E8E3C3-160F-4D71-B444-2B41002C9A16}.Debug|x64.Build.0 = Debug|x64
+		{E7E8E3C3-160F-4D71-B444-2B41002C9A16}.Debug|x86.ActiveCfg = Debug|Win32
+		{E7E8E3C3-160F-4D71-B444-2B41002C9A16}.Debug|x86.Build.0 = Debug|Win32
+		{E7E8E3C3-160F-4D71-B444-2B41002C9A16}.Release|x64.ActiveCfg = Release|x64
+		{E7E8E3C3-160F-4D71-B444-2B41002C9A16}.Release|x64.Build.0 = Release|x64
+		{E7E8E3C3-160F-4D71-B444-2B41002C9A16}.Release|x86.ActiveCfg = Release|Win32
+		{E7E8E3C3-160F-4D71-B444-2B41002C9A16}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +161,7 @@ Global
 		{0265FABE-AF78-4B29-B450-3387F194AC6C} = {7007C30C-5948-427B-89BF-DB08E4E9F2DF}
 		{A005351D-74B6-4DA6-9249-8A2EA0A02801} = {7007C30C-5948-427B-89BF-DB08E4E9F2DF}
 		{195D39E3-666C-42A7-ADFB-2FE7CF2BF72E} = {7007C30C-5948-427B-89BF-DB08E4E9F2DF}
+		{E7E8E3C3-160F-4D71-B444-2B41002C9A16} = {7007C30C-5948-427B-89BF-DB08E4E9F2DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8E6FABB9-DAC2-4FA1-9E39-2B37C137DB2E}

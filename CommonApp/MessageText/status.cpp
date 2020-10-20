@@ -34,13 +34,13 @@ namespace ZoneStatus
 	};
 
 	PARAM_TITLE(Vlst<Norm>, L"Норма")
-		PARAM_TITLE(Vlst<NoBottomReflection>, L"Нет донного отражения")
-		PARAM_TITLE(Vlst<Defect>, L"Дефект")
-		PARAM_TITLE(Vlst<DeadZone>, L"Мертвая зона")
-		PARAM_TITLE(Vlst<SensorOff>, L"Датчик отключен")
-		PARAM_TITLE_LIST(Vlst, L"Дефект, нет донного отражения", NoBottomReflection, Defect)
+	PARAM_TITLE(Vlst<NoBottomReflection>, L"Нет донного отражения")
+	PARAM_TITLE(Vlst<Defect>, L"Дефект")
+	PARAM_TITLE(Vlst<DeadZone>, L"Мертвая зона")
+	PARAM_TITLE(Vlst<SensorOff>, L"Датчик отключен")
+	PARAM_TITLE_LIST(Vlst, L"Дефект, нет донного отражения", NoBottomReflection, Defect)
 
-		wchar_t *mess[VL::Length<status_list>::value];
+	wchar_t *mess[VL::Length<status_list>::value];
 	unsigned color[VL::Length<status_list>::value];
 
 	template<class O, class P>struct init_mess
@@ -79,13 +79,23 @@ namespace StatusData
 
 	void Text(unsigned char id, unsigned &color, const wchar_t *&txt)
 	{
-		color = ZoneStatus::color[id];
-		txt = ZoneStatus::mess[id];
+		if (id < VL::Length<ZoneStatus::status_list>::value)
+		{
+			color = ZoneStatus::color[id];
+			txt = ZoneStatus::mess[id];
+			return;
+		}
+		color = 0xffeeeeee;
+		txt = L"";
 	}
 
 	unsigned Color(unsigned char id)
 	{
-		return ZoneStatus::color[id];
+		if (id < VL::Length<ZoneStatus::status_list>::value)
+		{
+			return ZoneStatus::color[id];
+		}
+		return 0xffeeeeee;
 	}
 
 	void UpdateColor()

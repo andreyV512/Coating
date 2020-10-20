@@ -16,6 +16,6 @@ public:
 public:
 	ComputeFrame();
 	void UpdateFiltre();
-	void Frame(int sensor, int offs, double *data);
+	void Frame(int sensor, unsigned offs, double *data);
 };
 

@@ -5,11 +5,11 @@
 #include "templates/typelist.hpp"
 #include "Windows/Viewers/MainViewers/SensorViewer.h"
 #include "Windows/Viewers/ZonesViewer/ZoneViewer.h"
-#include "Windows/Viewers/ZonesViewer/AScanZoneViewer.h"
 #include "DspFilters/Filters.hpp"
 #include "Windows/ZonesWindow/ZonesAxes.h"
 #include "Compute/Compute.h"
 #include "Compute/ComputeFrame.h"
+#include "Windows/Viewers/AScanViewer/AScanViewer.h"
 
 class ZonesWindow
 {
@@ -23,19 +23,31 @@ public:
 
 	MedianFiltreTable::TItems median;
 	FiltersTable::TItems filter;
-	TresholdsTable::TItems tresh;
+	TresholdsTable::TItems treshItems;
 
 	Data::InputData &data;
 	Compute &compute;
 
-	typedef Vlst<ZoneViewer, AScanZoneViewer>viewers_list;
+	class Sens : public AScanViewer
+	{
+	public:
+		typedef AScanViewer Parent;
+		LineSeries &line;
+		double data[8154];
+		Sens() :line(tchart.items.get<LineSeries>())
+		{
+			line.data = data;
+		}
+	};
+
+	typedef Vlst<ZoneViewer, Sens>viewers_list;
 	VL::Factory< viewers_list> viewers;
 
 	double zoneViewerData[10240];
 	char zoneViewerStatus[10240];
 
 	ZoneViewer &zoneViewer;
-	AScanZoneViewer &aScan;
+	Sens &aScan;
 
 	double(MedianFiltre:: *medianProc)(double, char &);
 	MedianFiltre medianFiltre;
@@ -50,15 +62,12 @@ public:
 	void operator()(TGetMinMaxInfo &);
 	void operator()(TClose &);
 
-	void ChangeSensor(int);
 	static wchar_t *Title() { return (wchar_t *)L"Просмотр зон"; }
 	void LeftCursor(HWND h);
 	void RightCursor(HWND h);
 
 	void UpCursor(HWND h);
 	void DownCursor(HWND h);
-
-	void Update();
 
 	void MouseMove(int);
 
@@ -67,4 +76,7 @@ public:
 
 	void SwitchBipolar(bool);
 	void UpdateMedian();
+
+	void SetThresh();
+	bool Draw(TMouseMove &l, VGraphics &g);
 };

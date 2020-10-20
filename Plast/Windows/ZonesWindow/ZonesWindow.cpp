@@ -37,6 +37,9 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 	zoneViewer.tchart.minAxesY = 0;
 	zoneViewer.tchart.maxAxesY = 100;
 
+	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
+	SetThresh();
+
 	UpdateZone();
 	return 0;
 }
@@ -63,9 +66,9 @@ template<class O, class P>struct __move_window__
 	}
 };
 
-template<class P>struct __move_window__<AScanZoneViewer, P>
+template<class P>struct __move_window__<ZonesWindow::Sens, P>
 {
-	typedef AScanZoneViewer O;
+	typedef AScanViewer O;
 	void operator()(O &o, P &p)
 	{
 		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, WORD(p.maxYHeight - p.y) };
@@ -144,23 +147,6 @@ template<class O, class P>struct __save_param__
 	void operator()(P &p) { }
 };
 
-//template<template<class>class type, template<class>class sub, class X, class P>struct __save_param__<type<sub<X>>, P>
-//{
-//	typedef type<sub<X>> O;
-//	void operator()(P &p)
-//	{
-//		if (VL::IndexOf<type_flites_list, O>::value == p.locFltParams.get<CurrentFilter>().value)
-//		{
-//			 Singleton<FiltersTable>::Instance().items.get<CurrentFilter>().value 
-//				 = p.locFltParams.get<CurrentFilter>().value;
-//			 VL::foreach<typename __sub_list__<FiltersTable::items_list, type, sub>::Result, __save_sub__>()(
-//				Singleton<FiltersTable>::Instance().items
-//				, p.locFltParams
-//				);
-//		}
-//	}
-//};
-
 void ZonesWindow::operator()(TClose &l)
 {
 	if ( !VL::find< FiltersTable::items_list, __test_param__>()(*this))
@@ -200,19 +186,6 @@ template<class O, class P>struct __set_sensor_data__
 	}
 };
 
-void ZonesWindow::ChangeSensor(int id)
-{
-	//__set_sensor_data_data__ data = {id, NULL};
-	//VL::find<radio_btn_list, __set_sensor_data__>()(data);
-	//sensor.data = data.data;
-	//RepaintWindow(sensor.hWnd);
-	//{
-	//	wchar_t path[1024];
-	//	ItemIni::GetPath(path);
-	//	ItemIni::Set((wchar_t *)L"ZonesWindow", (wchar_t *)L"SelectedSensor", id, path);
-	//}
-}
-
 ZonesWindow::ZonesWindow()
 	: data(Singleton<Data::InputData>::Instance())
 	, compute(Singleton<Compute>::Instance())
@@ -220,42 +193,39 @@ ZonesWindow::ZonesWindow()
     , currentZone(0)
 	, currentOffset(0)
 	, zoneViewer(viewers.get<ZoneViewer>())
-	, aScan(viewers.get<AScanZoneViewer>())
+	, aScan(viewers.get<Sens>())
 {
-	medianFiltre.InitWidth(5);
+	VL::CopyFromTo(Singleton<MedianFiltreTable>::Instance().items, median);
+	UpdateMedian();
+
+	zoneViewer.tcursor.SetMouseMoveHandler(this, &ZonesWindow::Draw);
 }
 
 void ZonesWindow::LeftCursor(HWND h)
 {
 	--currentZone;
 	UpdateZone();
+	UpdateAScan();
 }
 void ZonesWindow::RightCursor(HWND h)
 {
 	++currentZone;
 	UpdateZone();
+	UpdateAScan();
 }
 
 void ZonesWindow::UpCursor(HWND h)
 {
 	--currentSensor;
 	UpdateZone();
+	UpdateAScan();
 }
 
 void ZonesWindow::DownCursor(HWND h)
 {
 	++currentSensor;
 	UpdateZone();
-}
-
-void ZonesWindow::Update()
-{
-	//wchar_t *buf = aScan.label.buffer;
-	//wsprintf(buf, L"<ff>смещение %d  датчик %d", currentOffset + offsetX, 1 + currentSensor);
-//	//aScan.tchart.items.get<LineSeries>().SetData(Filtre(&data[currentSensor][currentOffset], cnt), cnt);
-	//aScan.tchart.minAxesY = minAxesY;
-	//aScan.tchart.maxAxesY = maxAxesY;
-	//RepaintWindow(aScan.hWnd);
+	UpdateAScan();
 }
 
 void ZonesWindow::MouseMove(int x)
@@ -276,8 +246,8 @@ void ZonesWindow::UpdateZone()
 
 	dprint("sensor %d zone %d\n", currentSensor, currentZone);
 
-	int offsStart = compute.zoneOffsets[0 + currentZone];
-	int offsStop = compute.zoneOffsets[1 + currentZone];
+	unsigned offsStart = compute.zoneOffsets[0 + currentZone];
+	unsigned offsStop = compute.zoneOffsets[1 + currentZone];
 	if (offsStop > sizeof(data.buffer))
 	{
 		dprint("ERROR BUFFER OVERFLOY %d buffer size %d\n", offsStop ,  sizeof(data.buffer));
@@ -305,7 +275,7 @@ void ZonesWindow::UpdateZone()
 	offsStart += currentSensor * compute.packetSize;
 	
 	dprint("offsStart %d offsStop %d   size buff %d\n", offsStart, offsStop, sizeof(data.buffer));
-	for (int i = offsStart; i < offsStop; i += inc, ++k)
+	for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
 	{
 		compute.ComputeFrame(
 			(IDSPFlt &)computeFrame.filter
@@ -314,7 +284,6 @@ void ZonesWindow::UpdateZone()
 		);
 		zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
 		zoneViewerStatus[k] = lstatus;
-	//	dprint("num %d\n", *(int *)&data.buffer[i]);
 	}
 	zoneViewer.count = count;
 	zoneViewer.data = &zoneViewerData[leftOffs];
@@ -326,11 +295,24 @@ void ZonesWindow::UpdateZone()
 
 void ZonesWindow::UpdateAScan()
 {
+	aScan.tchart.minAxesX = 0;
+	aScan.tchart.maxAxesX = compute.packetSize;
+
+	unsigned offsStart = compute.zoneOffsets[0 + currentZone];
+	offsStart /= computeFrame.packetSize;
+	offsStart /= App::count_sensors;
+	offsStart *= App::count_sensors;
+
+	offsStart += zoneViewer.currentX;
+
+	computeFrame.Frame(currentSensor, offsStart, aScan.data);
+	aScan.line.count = computeFrame.packetSize;
+	RepaintWindow(aScan.hWnd);
 }
 
 void ZonesWindow::SwitchBipolar(bool b)
 {
-	VL::foreach<Vlst<AScanZoneViewer>, __switch_bipolar__>()(viewers, b);
+	VL::foreach<Vlst<Sens>, __switch_bipolar__>()(viewers, b);
 	computeFrame.bipolar = b;
 }
 
@@ -339,4 +321,21 @@ void ZonesWindow::UpdateMedian()
 	medianProc = median.get<MedianFiltreON>().value
 		? &MedianFiltre::Val: &MedianFiltre::noop;
 	medianFiltre.InitWidth(median.get<MedianFiltreWidth>().value);
+}
+
+template<class P>struct __set_thresh__<ZoneViewer, P>
+{
+	void operator()(ZoneViewer &, P &) {}
+};
+
+void ZonesWindow::SetThresh()
+{
+	SetTresh(treshItems, viewers);
+}
+
+bool ZonesWindow::Draw(TMouseMove &l, VGraphics &g)
+{
+	bool b = zoneViewer.Draw(l, g);
+	UpdateAScan();
+	return b;
 }

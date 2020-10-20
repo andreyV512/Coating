@@ -95,12 +95,13 @@ void TestThreshDlg::Do(HWND h)
 {
 	ZonesWindow &w = *(ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	TresholdsTable t;
-	VL::CopyFromTo(w.tresh, t.items);
+	VL::CopyFromTo(w.treshItems, t.items);
 	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection>, 300
 		, Vlst<NoStoreOkBtn, CancelBtn>
 	>(t).Do(h, (wchar_t *)L"Пороги"))
 	{
-		VL::CopyFromTo(t.items, w.tresh);
+		VL::CopyFromTo(t.items, w.treshItems);
+		w.SetThresh();
 		RepaintWindow(h);
 	}
 }

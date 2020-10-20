@@ -29,12 +29,13 @@ namespace ZonesWindowMenu
 	struct MainOptionTypeSize {};
 	MENU_TEXT(L"Типоразмер", TopMenu<MainOptionTypeSize>)
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+	struct DeadZones : TestDeadZonesDlg {};
 	struct DspFiltr : TstDspFiltrDlg {};
-	//TODO 201015	доделать меню 
 	struct Thresholds : TestThreshDlg {};
 	struct MedianFltr : TstMedianFiltreDlg {};
 	struct BiPolar : TestBiPolarDlg {};
 
+	MENU_ITEM(L"Неизмеряемые зоны", DeadZones)
 	MENU_ITEM(L"Аналоговый фильтр", DspFiltr)
 	MENU_ITEM(L"Медианный фильтр", MedianFltr)
 	MENU_ITEM(L"Пороги", Thresholds)
@@ -43,7 +44,8 @@ namespace ZonesWindowMenu
 	template<>struct TopMenu<MainOptionTypeSize>
 	{
 		typedef Vlst<
-			MenuItem<Thresholds>
+			MenuItem<DeadZones>
+			, MenuItem<Thresholds>
 			, MenuItem<MedianFltr>
 			, MenuItem<DspFiltr>
 			, Separator<0>

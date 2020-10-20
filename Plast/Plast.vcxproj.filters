@@ -417,9 +417,6 @@
     <ClInclude Include="Windows\Viewers\ZonesViewer\ZoneViewer.h">
       <Filter>Windows\Viewers\ZonesViewer</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.h">
-      <Filter>Windows\Viewers\ZonesViewer</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\FFT\FFT.h">
       <Filter>Common\FFT</Filter>
     </ClInclude>
@@ -464,6 +461,15 @@
     </ClInclude>
     <ClInclude Include="Windows\Viewers\NegThresh.hpp">
       <Filter>Windows\Viewers</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Store.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\ProgrammDir.h">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\Zip.h">
+      <Filter>Common\window_tool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -683,9 +689,6 @@
     <ClCompile Include="Windows\Viewers\ZonesViewer\ZoneViewer.cpp">
       <Filter>Windows\Viewers\ZonesViewer</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.cpp">
-      <Filter>Windows\Viewers\ZonesViewer</Filter>
-    </ClCompile>
     <ClCompile Include="Dlg\UnitDlg.cpp">
       <Filter>Dlg</Filter>
     </ClCompile>
@@ -724,6 +727,18 @@
     </ClCompile>
     <ClCompile Include="..\CommonApp\CommonApp.cpp">
       <Filter>CommonApp</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Store.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\DeadZonesDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\ProgrammDir.cpp">
+      <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\Zip.cpp">
+      <Filter>Common\window_tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

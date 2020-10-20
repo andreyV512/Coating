@@ -108,6 +108,20 @@ struct TresholdsTable
 	const wchar_t *name() { return L"TresholdsTable"; }
 };
 
+DEFINE_PARAM(DeadZoneStart, int, 200)
+DEFINE_PARAM(DeadZoneStop , int, 200)
+
+struct DeadZonesTable
+{
+	typedef Vlst<
+		DeadZoneStart
+		, DeadZoneStop
+	> items_list;
+	typedef VL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name() { return L"DeadZonesTable"; }
+};
+
 static const int __id__ = 2;
 																 
 DEFINE_PARAM(CurrentID, int, __id__)
@@ -125,7 +139,7 @@ struct CurrentParametersTable
 
 STR_PARAM(NameParam, 128, L"Noname")
 
-#define PARAM_ID FiltersTable, TresholdsTable, MedianFiltreTable
+#define PARAM_ID FiltersTable, TresholdsTable, MedianFiltreTable, DeadZonesTable
 #define PARAM_IDM(n)DEFINE_PARAM_ID(n, int, __id__)
 	FOR_EACH(PARAM_IDM, PARAM_ID)
 #undef PARAM_IDM

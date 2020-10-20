@@ -23,6 +23,8 @@ Compute::Compute()
 	, result(Singleton<Data::ResultData>::Instance())
 {
 	VL::foreach<VL::CreateNumList< Data::Sensor, 0, 2>::Result, __compute_set_data__>()(sensorData);
+	packetSize = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
+	numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 }
 
 Compute::~Compute()
@@ -103,7 +105,6 @@ bool Compute::Strobes()
 	ComputeFrame((IDSPFlt &)filter, &data.buffer[i], result, status);
 		data.result[sensor][zone] = result;
 		data.status[sensor][zone] = status;
-	//	dprint("num %d\n", *(int *)&data.buffer[i]);
 	}
 	framesCount = frameStop;
 	unsigned stop = GetTickCount();
@@ -243,7 +244,7 @@ void Compute::Recalculation()
 	Log::Mess <LogMess::Recalculation>();
 	MainWindow::EnableMenu(false);
 	AppKeyHandler::DisableAll();
-	Start();
+	//Start();
 	framesCount = 0;
 	offsetsTickCount = 0;	
 	QueueUserWorkItem(func<Compute, &Compute::__Recalculation__>, (LPVOID)this, WT_EXECUTEDEFAULT);

@@ -27,4 +27,6 @@
    DLG(TstMedianFiltreDlg)
    DLG(TestThreshDlg)
    DLG(TestBiPolarDlg)
+   DLG(DeadZonesDlg)
+   DLG(TestDeadZonesDlg)
 #undef DLG

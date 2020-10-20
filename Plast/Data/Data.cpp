@@ -106,20 +106,7 @@ namespace Data
 			d.framesCount = InputData::buffSize;
 			ZeroMemory(buffer, InputData::buffSize);
 			int k = 0;
-			for (int i = 0; i < InputData::buffSize; i += 4058, ++k)
-			{
-				int x = k % 3;
-				++x;
-				x += k / 3600;
-				int j = 4;
-				int z = 10;
-				for (; j < z; ++j) buffer[i + j] = x;
-				z += 510;
-				int d = (k % 9) == 0 ? 90 : x;
-				for (; j < z; ++j) buffer[i + j] = d; 
-				for (; j < 4058; ++j) buffer[i + j] = x;
-				*(int *)&buffer[i] = k;
-			}
+			
 
 			unsigned (&strobesTick)[100] = d.strobesTick;
 			d.strobesTickCount = 70;
@@ -127,10 +114,22 @@ namespace Data
 			for (int i = 0; i < dimention_of(strobesTick); ++i)
 			{
 				strobesTick[i] = start;
-				start += 1500;
+				start += 1000;
 			}
+
+
+			double delta = 4058.0 / InputData::buffSize;
+			for (unsigned i = 0; i < InputData::buffSize; i += 4058, ++k)
+			{
+				unsigned j = 4;
+				unsigned x = int(100.0 * delta * k);
+				for (; j < 4058; ++j) buffer[i + j] = x;
+				*(int *)&buffer[i] = k;
+			}
+
+
 			unsigned (&offsetsTick)[12000] = d.offsetsTick;
-			d.offsetsTickCount = 10000;
+			d.offsetsTickCount = 0;
 			start = 0;
 			for (int i = 0; i < dimention_of(offsetsTick); ++i)
 			{

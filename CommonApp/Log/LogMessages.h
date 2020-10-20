@@ -127,6 +127,10 @@ namespace LogMess
 	MESS(AlarmBitsExteption, void, L"Выход по аварийному биту", red, yellow);
 	MESS(ExitLoopExteption, void, L"Выход из программы", red, yellow);
 
+	MESS(FormatDownloadedFileNoSupported, void, L"Формат загруженного файла не поддерживается", red, yellow);
+	MESS(FileDownloaded, void, L"Файл загружен", blue, white);
+	MESS(FileSaved, void, L"Файл сохранен", blue, white);
+
 	template<class T>struct Bits;
 	template<>struct Bits<Vlst<>> {};
 #define BITS_XX(color, txt, ...)template<>struct Bits<Vlst<__VA_ARGS__> >\

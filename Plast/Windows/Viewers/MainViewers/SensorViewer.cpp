@@ -36,7 +36,7 @@ bool SensorViewer::Draw(TMouseMove &l, VGraphics &g)
 	if (drawZones)
 	{
 		unsigned color = 0xff;
-		const wchar_t *s = NULL;
+		const wchar_t *s = L"";
 
 		StatusData::Text(data.status[x], color, s);
 

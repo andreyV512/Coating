@@ -21,6 +21,7 @@
 #include "App/Config.h"
 #include "tools_debug/DebugMess.h"
 #include "Devices/LanDevice.h"
+#include "window_tool/ProgrammDir.h"
 
 template<class O, class P>struct __params__
 {
@@ -37,6 +38,12 @@ namespace App
 	{
 		Performance::Init();
 		AppBase().Init();
+		Singleton<Compute>::Instance().Start();
+
+		ProgrammDir pd;
+		wsprintf(pd.tail, L"\\..\\Store\\");
+		CreateDirectory(pd.path, NULL);
+
 #ifndef INNER_LAN
 		Singleton<LanDevice>::Instance().Update();
 #endif

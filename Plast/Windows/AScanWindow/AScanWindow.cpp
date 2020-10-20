@@ -151,19 +151,6 @@ void AScanWindow::operator()(TClose &l)
 
 void AScanWindow::SetThresh()
 {
-	//auto &color = Singleton<ColorTable>::Instance().items;
-	//
-	//__set_thresh_data__ data = {
-	//   color.get< Clr<Defect>>().value
-	//   , treshItems.get<AlarmThresh>().value
-	//   , treshItems.get<AlarmThreshStart>().value
-	//   , treshItems.get<AlarmThreshStop>().value
-	//   , color.get< Clr<NoBottomReflection>>().value
-	//   , treshItems.get<BottomReflectionThresh>().value
-	//   , treshItems.get<BottomReflectionThreshStart>().value
-	//   , treshItems.get<BottomReflectionThreshStop>().value
-	//};
-	//VL::foreach<viewers_list, __set_thresh__>()(viewers, data);
 	SetTresh(treshItems, viewers);
 }
 

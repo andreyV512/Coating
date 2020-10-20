@@ -244,11 +244,13 @@
     <ClInclude Include="..\Common\window_tool\message.h" />
     <ClInclude Include="..\Common\window_tool\OpenWindow.hpp" />
     <ClInclude Include="..\Common\window_tool\Pass.h" />
+    <ClInclude Include="..\Common\window_tool\ProgrammDir.h" />
     <ClInclude Include="..\Common\window_tool\RunExecute.h" />
     <ClInclude Include="..\Common\window_tool\SelectTypeSizeList.h" />
     <ClInclude Include="..\Common\window_tool\TableIni.hpp" />
     <ClInclude Include="..\Common\window_tool\TEvent.h" />
     <ClInclude Include="..\Common\window_tool\WindowsPosition.h" />
+    <ClInclude Include="..\Common\window_tool\Zip.h" />
     <ClInclude Include="..\LanProcess\LanDirect\LanDirect.h" />
     <ClInclude Include="App\App.h" />
     <ClInclude Include="App\AppBase.h" />
@@ -258,6 +260,7 @@
     <ClInclude Include="Compute\Compute.h" />
     <ClInclude Include="Compute\ComputeFrame.h" />
     <ClInclude Include="Data\Data.h" />
+    <ClInclude Include="Data\Store.h" />
     <ClInclude Include="Devices\1730Parameters.h" />
     <ClInclude Include="Devices\LanDevice.h" />
     <ClInclude Include="Devices\LanParameters.h" />
@@ -279,7 +282,6 @@
     <ClInclude Include="Windows\Viewers\MainViewers\SensorViewer.h" />
     <ClInclude Include="Windows\Viewers\NegThresh.h" />
     <ClInclude Include="Windows\Viewers\NegThresh.hpp" />
-    <ClInclude Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.h" />
     <ClInclude Include="Windows\Viewers\ZonesViewer\ZoneViewer.h" />
     <ClInclude Include="Windows\ZonesWindow\ZonesAxes.h" />
     <ClInclude Include="Windows\ZonesWindow\ZonesWindow.h" />
@@ -334,9 +336,11 @@
     <ClCompile Include="..\Common\window_tool\ItemIni.cpp" />
     <ClCompile Include="..\Common\window_tool\MenuAPI.cpp" />
     <ClCompile Include="..\Common\window_tool\Pass.cpp" />
+    <ClCompile Include="..\Common\window_tool\ProgrammDir.cpp" />
     <ClCompile Include="..\Common\window_tool\RunExecute.cpp" />
     <ClCompile Include="..\Common\window_tool\SelectTypeSizeList.cpp" />
     <ClCompile Include="..\Common\window_tool\WindowsPosition.cpp" />
+    <ClCompile Include="..\Common\window_tool\Zip.cpp" />
     <ClCompile Include="..\LanProcess\LanDirect\LanDirect.cpp" />
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\AppBase.cpp" />
@@ -344,11 +348,13 @@
     <ClCompile Include="Compute\Compute.cpp" />
     <ClCompile Include="Compute\ComputeFrame.cpp" />
     <ClCompile Include="Data\Data.cpp" />
+    <ClCompile Include="Data\Store.cpp" />
     <ClCompile Include="Devices\LanDevice.cpp" />
     <ClCompile Include="Dlg\AboutWindow.cpp" />
     <ClCompile Include="Dlg\AScanWindowDlg.cpp" />
     <ClCompile Include="Dlg\BiPolarDlg.cpp" />
     <ClCompile Include="Dlg\ColorDlg.cpp" />
+    <ClCompile Include="Dlg\DeadZonesDlg.cpp" />
     <ClCompile Include="Dlg\DspFiltrDlg.cpp" />
     <ClCompile Include="Dlg\InputOutputDlg.cpp" />
     <ClCompile Include="Dlg\LanDlg.cpp" />
@@ -370,7 +376,6 @@
     <ClCompile Include="Windows\Viewers\CommonSensorViewer.cpp" />
     <ClCompile Include="Windows\Viewers\MainViewers\ResultViewer.cpp" />
     <ClCompile Include="Windows\Viewers\MainViewers\SensorViewer.cpp" />
-    <ClCompile Include="Windows\Viewers\ZonesViewer\AScanZoneViewer.cpp" />
     <ClCompile Include="Windows\Viewers\ZonesViewer\ZoneViewer.cpp" />
     <ClCompile Include="Windows\ZonesWindow\ZonesWindow.cpp" />
     <ClCompile Include="Windows\ZonesWindow\ZonesWindowToolBar.cpp" />

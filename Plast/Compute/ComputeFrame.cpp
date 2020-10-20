@@ -1,5 +1,6 @@
 #include "ComputeFrame.h"
 #include "Data/Data.h"
+#include "tools_debug/DebugMess.h"
 
 template<class O, class P>struct __init_filtre_XX__
 {
@@ -35,15 +36,18 @@ void ComputeFrame::UpdateFiltre()
 	if(VL::find<filters_list, __init_filtre_XX__>()(*this)) filter.Init<DSPFltDump>();
 }
 
-void ComputeFrame::Frame(int sensor, int offs, double *data)
+void ComputeFrame::Frame(int sensor, unsigned offs, double *data)
 {
 
 	offs *= packetSize * App::count_sensors;
 	offs += sensor * packetSize;
+
+	dprint("frame num %d sens %d\n", *(unsigned *)&buffer[offs], (*(unsigned *)&buffer[offs]) % 3);
+
 	filter->Clean();
 	if (bipolar)
 	{
-		for (int i = 0; i < packetSize; ++i, ++offs)
+		for (int i = 0; i < packetSize && offs < Data::InputData::buffSize; ++i, ++offs)
 		{
 			double t = 100.0 * buffer[offs];
 			data[i] = (*filter)(t / 128);
@@ -51,11 +55,12 @@ void ComputeFrame::Frame(int sensor, int offs, double *data)
 	}
 	else
 	{
-		for (int i = 0; i < packetSize; ++i, ++offs)
+		for (int i = 0; i < packetSize && offs < Data::InputData::buffSize; ++i, ++offs)
 		{
 			double t = 100.0 * buffer[offs];
 			t = (*filter)(t / 128);
 			data[i] = t > 0 ? t : -t;
 		}
 	}
+	
 }
