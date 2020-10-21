@@ -1,12 +1,12 @@
 ﻿#include "RunExecute.h"
 #include <Windows.h>
 
-bool RunExecute(wchar_t *path)
+bool RunExecute(wchar_t *path, bool hide)
 {
 	PROCESS_INFORMATION pi;
 	STARTUPINFO si = {};
 	si.dwFlags = STARTF_USESHOWWINDOW;
-	si.wShowWindow = SW_HIDE;// SW_SHOWNORMAL;
+	si.wShowWindow = hide ? SW_HIDE: SW_SHOWNORMAL;
 	si.cb = sizeof(STARTUPINFO);
 	
 	if(CreateProcess(NULL, path, NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi))

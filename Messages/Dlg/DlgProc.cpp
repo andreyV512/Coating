@@ -1,4 +1,4 @@
-#pragma warning(disable :4995)
+﻿#pragma warning(disable :4995)
 #pragma warning(disable :4996)
 #include "Dialogs.h"
 #include "Windows\MainWindow.h"

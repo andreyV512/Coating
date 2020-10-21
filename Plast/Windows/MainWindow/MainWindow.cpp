@@ -11,7 +11,7 @@ LRESULT MainWindow::operator()(TCreate &l)
 	toolBar.Init(l.hwnd);
 	select.Create(toolBar.hWnd);
 	CreateChildWindow(l.hwnd, &topLabelViewer);
-	topLabelViewer.label = (wchar_t *)L"<ff00>Test";
+	//topLabelViewer.label = (wchar_t *)L"<ff00>Test";
 	topLabelViewer.label.fontHeight = 25;
 
 	hStatuisBar = CreateStatusWindow(WS_CHILD | WS_VISIBLE, NULL, l.hwnd, 0);
@@ -20,7 +20,6 @@ LRESULT MainWindow::operator()(TCreate &l)
 	HFONT font = CreateFont(30,0,0,90,900,TRUE,0,0,ANSI_CHARSET, 0,0,0,0,L"Arial");
 	SendMessage(hStatuisBar, WM_SETFONT, (WPARAM)font, (LPARAM)0);
 	SendMessage(hStatuisBar, SB_SETMINHEIGHT, 30, (LPARAM)0);
-
 
 	VL::foreach<viewers_list, Common::__create_window__>()(viewers, l.hwnd);
 	return 0;

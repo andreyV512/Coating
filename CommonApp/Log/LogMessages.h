@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "templates/typelist.hpp"
 #include "App/App.h"
@@ -131,6 +131,7 @@ namespace LogMess
 	MESS(FileDownloaded, void, L"Файл загружен", blue, white);
 	MESS(FileSaved, void, L"Файл сохранен", blue, white);
 	MESS(FileDownloading, void, L"Загрузка файла", blue, white);
+	MESS(Unziping, void, L"Разархивирование файла", blue, white);
 
 	template<class T>struct Bits;
 	template<>struct Bits<Vlst<>> {};

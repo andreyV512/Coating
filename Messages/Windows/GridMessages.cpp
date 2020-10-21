@@ -1,4 +1,4 @@
-#include "GridMessages.h"
+﻿#include "GridMessages.h"
 #include "templates/typelist.hpp"
 #include "Grid/GridDetail.h"
 #include "Grid/DataGrid.hpp"
