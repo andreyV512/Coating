@@ -90,26 +90,6 @@ void Compute::Start()
 
 bool Compute::Strobes()
 {
-	unsigned frameStop = data.framesCount;
-	if (frameStop == framesCount) return false;
-	//вычисление превышения порога брака в кадре
-	unsigned start = GetTickCount();
-	dprint("compute start \n");
-	for (unsigned i = framesCount; i < frameStop; i+= packetSize)
-	{
-		double result = 0;
-		char status = 0;
-		int frame = i / packetSize;
-		int sensor = frame % App::count_sensors;
-		int zone = frame / App::count_sensors;
-	ComputeFrame((IDSPFlt &)filter, &data.buffer[i], result, status);
-		data.result[sensor][zone] = result;
-		data.status[sensor][zone] = status;
-	}
-	framesCount = frameStop;
-	unsigned stop = GetTickCount();
-	dprint("compute stop %d\n", stop - start);
-
 	unsigned strobesStop = data.strobesTickCount;
 	if (strobesStop == strobesTickCount) return false;
 	//количество кадров в зоне
@@ -153,30 +133,32 @@ bool Compute::Strobes()
 
 void Compute::Zone(int zone, int sens)
 {
-	//int startZone = zone - 1;
 	auto m = median[sens];
-	double *dt = data.result[sens];
-	char   *st = data.status[sens];
-	char status = 0;
-	double ldata = 0;
-	char lstatus = 0;
+	double ldata[App::count_sensors] = {};
+	char lstatus[App::count_sensors] = {};
 	const int inc = packetSize * App::count_sensors;
-	int start = zoneOffsets[zone - 1] / inc;
-	int stop = zoneOffsets[zone - 0] / inc;
-	//for (int i = data.strobesTick[startZone], end = data.strobesTick[zone]; i < end; ++i)
-	for (int i = start; i < stop; ++i)
+	
+	for (int i = zoneOffsets[zone - 1], len = zoneOffsets[zone - 0]; i < len; i += inc)
 	{
-		char status = st[i];
-		double t = (m.*medianProc)(dt[i], status);
-		if (t > ldata)
+		for (int j = 0; j < App::count_sensors; ++j)
 		{
-			ldata = t;
-			lstatus = status;
+			double result;
+			char status;
+			ComputeFrame((IDSPFlt &)filter, &data.buffer[i + j * packetSize], result, status);
+			double t = (m.*medianProc)(result, status);
+			if (t > ldata[j])
+			{
+				ldata[j] = t;
+				lstatus[j] = status;
+			}
 		}
 	}
-	sensorData[sens]->data[zone - 1]   = ldata;
-	sensorData[sens]->status[zone - 1] = lstatus;
-	sensorData[sens]->count        = zone;
+	for (int i = 0; i < App::count_sensors; ++i)
+	{
+		sensorData[i]->data[zone - 1] = ldata[i];
+		sensorData[i]->status[zone - 1] = lstatus[i];
+		sensorData[i]->count = zone;
+	}
 }
 
 void Compute::ComputeFrame(IDSPFlt &f, char *d, double &value, char &status)
@@ -198,7 +180,6 @@ void Compute::ComputeFrame(IDSPFlt &f, char *d, double &value, char &status)
 		if(t > threshAlarm)
 		{
 			status = StatusData::defect;
-			//break;
 		}
 		gain += gainAlarmDelta;
 	}
