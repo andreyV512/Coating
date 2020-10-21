@@ -4,6 +4,7 @@
 #include "window_tool/ProgrammDir.h"
 #include "Data/Data.h"
 #include "Log/LogBuffer.h"
+#include "window_tool/Zip.h"
 
 
 static const unsigned __magic__ = 0x0a130000;
@@ -12,7 +13,7 @@ template<class O, class P>struct __save__
 {
 	void operator()(O &o, P &f)
 	{
-		write(f, &o.value, sizeof(o.value));
+		fwrite(&o.value, sizeof(o.value), 1, f);
 	}
 };
 
@@ -21,7 +22,7 @@ template<class O, class P>struct __save_all__
 	void operator()(P &p)
 	{
 		typename O::TItems &o = Singleton<O>::Instance().items;
-		VL::foreach<typename O::type_list, __save__>()(o.items, p);
+		VL::foreach<typename O::items_list, __save__>()(o, p);
 	}
 };
 
@@ -31,7 +32,7 @@ void Store::Save(wchar_t *path)
 	if (f)
 	{
 		unsigned magic = __magic__;
-		fwrite(f, &magic, sizeof(magic), 1);
+		fwrite(&magic, sizeof(magic), 1, f);
 		VL::foreach<Vlst<PARAM_ID>, __save_all__>()(f);
 
 		Data::InputData &data = Singleton<Data::InputData>::Instance();
@@ -52,7 +53,7 @@ template<class O, class P>struct __load__
 {
 	void operator()(O &o, P &p)
 	{
-		write(f, &o.value, sizeof(o.value));
+		fread(&o.value, sizeof(o.value), 1, p);
 	}
 };
 
@@ -61,13 +62,14 @@ template<class O, class P>struct __load_all__
 	void operator()(P &p)
 	{
 		typename O::TItems &o = Singleton<O>::Instance().items;
-		VL::foreach<typename O::type_list, __load__>()(o.items, p);
+		VL::foreach<typename O::items_list, __load__>()(o, p);
 	}
 };
 
 void Load0(FILE *f)
 {
-	VL::foreach<Vlst<PARAM_ID>, __save_all__>()(f);
+	Log::Mess <LogMess::FileDownloading>();
+	VL::foreach<Vlst<PARAM_ID>, __load_all__>()(f);
 
 	Data::InputData &data = Singleton<Data::InputData>::Instance();
 
@@ -75,15 +77,15 @@ void Load0(FILE *f)
 	fread(&data.strobesTickCount, sizeof(data.strobesTickCount), 1, f);
 	fread(&data.offsetsTickCount, sizeof(data.offsetsTickCount), 1, f);
 
-	fread(data.buffer, data.framesCount * sizeof(char));
+	fread(data.buffer, sizeof(char), data.framesCount, f);
 	fread(data.strobesTick, sizeof(unsigned), data.strobesTickCount, f);
 	fread(data.offsetsTick, sizeof(unsigned), data.offsetsTickCount, f);
-	Log::Mess <LogMess::FileSaved>();
+	fclose(f);
 }
 
 bool Store::Load(wchar_t *path)
 {
-	FILE *f = _wfopen(path, L"wb");
+	FILE *f = _wfopen(path, L"rb");
 	bool res = false;
 	if (f)
 	{
@@ -96,7 +98,7 @@ bool Store::Load(wchar_t *path)
 			res = true;
 			break;
 		}
-		fclose(f);
+		if(!res)fclose(f);
 	}
 
 	if (res)
@@ -109,14 +111,25 @@ bool Store::Load(wchar_t *path)
 
 void Store::Archive()
 {
+	COleDateTime tme = COleDateTime::GetCurrentTime();
 
+	StoreTable::TItems &st = Singleton<StoreTable>::Instance().items;
+
+	if (st.get<StoreFileOn>().value)
+	{
+		ProgrammDir pd;
+
+		wsprintf(pd.tail, L"\\..\\store\\%02d%02d%02d%02d%02d%02d.dat"
+			, tme.GetYear() - 2000
+			, tme.GetMonth()
+			, tme.GetDay()
+			, tme.GetHour()
+			, tme.GetMinute()
+			, tme.GetSecond()
+		);
+		Store::Save(pd.path);
+		Zip::RemoveZipFilesInDirectory(st.get<CountStoredFiles>().value);
+		Zip::ZipAsyncAll();
+	}
 }
 
-void Store::Zip(wchar_t *path)
-{
-	
-}
-
-void Store::Unzip(wchar_t *path)
-{
-}

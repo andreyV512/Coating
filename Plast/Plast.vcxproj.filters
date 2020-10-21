@@ -740,6 +740,12 @@
     <ClCompile Include="..\Common\window_tool\Zip.cpp">
       <Filter>Common\window_tool</Filter>
     </ClCompile>
+    <ClCompile Include="Dlg\StoredFilesDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\OpenSaveDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc">

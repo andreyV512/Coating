@@ -42,23 +42,23 @@ void SaveDateFile::Do(HWND h)
 	{
 		Log::TData *d = NULL;
 		Log::TData *d0 = NULL;
-		char c[512];
-		wchar_t w[512];
+		wchar_t c[512];
+		//wchar_t w[512];
 		for(int i = 0; i < 1024; ++i)
 		{
 			if(Log::IsRow(i, d))
 			{
 				int tme = Log::IsRow(i + 1, d0) ? d->time - d0->time: 0;
-				sprintf(c, "%7d   ", tme);
-				int len = strlen(c);
+				wsprintf(c, L"%7d   ", tme);
+				int len = wcslen(c);
 				LogMess::FactoryMessages::Instance().Text(d->id, &c[len], d->value);	
-				strcat(c, "\n");
-				len = strlen(c);
-				MultiByteToWideChar( CP_ACP, 0, c,  -1, w, 512);
+				wcscat(c, L"\n");
+				len = wcslen(c);
+				//MultiByteToWideChar( CP_ACP, 0, c,  -1, w, 512);
 				DWORD dwBytesWritten = 0;
 				BOOL bErrorFlag = WriteFile( 
 					hFile,           // open file handle
-					w,      // start of data to write
+					c,      // start of data to write
 					len * sizeof(wchar_t),  // number of bytes to write
 					&dwBytesWritten, // number of bytes that were written
 					NULL);            // no overlapped structure
@@ -72,10 +72,10 @@ void SaveDateFile::Do(HWND h)
 		CloseHandle(hFile);
 	}
 	wchar_t buf[1024];
-	wsprintf(buf, L"Данные сохранены в файле:\n%s", path);
-	MessageBox(h, buf, L"Сообщение", MB_ICONINFORMATION);
-	//SetTimer(h,             // хэндл главного окна
-	//	MainWindow::IDT_TIMER1,            // идентификатор таймера
-	//	1000,                 // интервал - 1 секунд
-	//	(TIMERPROC) NULL);     // процедуры таймера нет
+	wsprintf(buf, L"Р”Р°РЅРЅС‹Рµ СЃРѕС…СЂР°РЅРµРЅС‹ РІ С„Р°Р№Р»Рµ:\n%s", path);
+	MessageBox(h, buf, L"РЎРѕРѕР±С‰РµРЅРёРµ", MB_ICONINFORMATION);
+	//SetTimer(h,             // С…СЌРЅРґР» РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР°
+	//	MainWindow::IDT_TIMER1,            // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚Р°Р№РјРµСЂР°
+	//	1000,                 // РёРЅС‚РµСЂРІР°Р» - 1 СЃРµРєСѓРЅРґ
+	//	(TIMERPROC) NULL);     // РїСЂРѕС†РµРґСѓСЂС‹ С‚Р°Р№РјРµСЂР° РЅРµС‚
 }

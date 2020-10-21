@@ -8,9 +8,11 @@
 
 int main()
 {
-    //Zip::ZipAsyncAll();
-    Zip::Unzip((wchar_t *)L"z.dat.bz2");
-    std::cout << "Hello World!\n";
+   // Zip::ZipAsyncAll();
+   // Zip::Unzip((wchar_t *)L"z.dat.bz2");
+   // int count = Zip::CountZipFilesInDirectory();
+    Zip::RemoveZipFilesInDirectory(2);
+    //std::cout << "Hello World!\n" << count;
     getchar();
 }
 

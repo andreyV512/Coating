@@ -9,10 +9,8 @@ namespace MainWindowMenu
 {
 	struct MainFile {};
 	MENU_TEXT(L"Файл", TopMenu<MainFile>)
-	struct LoadDateFile { static void Do(HWND) {} };
-	struct SaveDateFile {
-		static void Do(HWND) {}
-	};
+	struct LoadDateFile : OpenFileDlg {};
+	struct SaveDateFile : SaveFileDlg {};
 	struct Compute__ { static void Do(HWND h) { Singleton<Compute>::Instance().Recalculation(); } };
 
 	struct Exit
@@ -91,6 +89,7 @@ namespace MainWindowMenu
 	struct DiscretePlateInputs : InputBitDlg {};
 	struct DiscretePlateOutputs : OutputBitDlg {};
 	struct Color : ColorDlg {};
+	struct StoreFiles : StoreFilesDlg {};
 
 	template<>struct SubMenu<DiscretePlate>
 	{
@@ -107,9 +106,8 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Выходные порты", DiscretePlateOutputs)
 	MENU_ITEM(L"Дескриптор дискретной платы", DiscriptorBitDlg)
 	MENU_ITEM(L"Цвета", Color)
+	MENU_ITEM(L"Автоматическое сохранение файлов", StoreFiles)
 
-	//struct __LirDlg : LirDlg {};
-	//MENU_ITEM(L"Датчик ЛИР", __LirDlg)
 	struct __Unit : UnitDlg {};									  
 	MENU_ITEM(L"Смешение датчика", __Unit)
 	//------------------------------------
@@ -118,9 +116,9 @@ namespace MainWindowMenu
 		typedef Vlst<
 			SubMenu<DiscretePlate>
 			, MenuItem<__LanDlg>
-			//, MenuItem<__LirDlg>
 			, MenuItem<__Unit>
 			, MenuItem<Color>
+			, MenuItem<StoreFiles>
 		> list;
 	};
 	//-------------------------------------------
@@ -129,12 +127,10 @@ namespace MainWindowMenu
 	struct __TestIOPorts : TestIOPorts {};
 	struct AScanWindow : AScanWindowDlg {};
 	struct Message_ : MessageDlg {};
-//	struct TestLir_ : TestLirDlg {};
 
 	MENU_ITEM(L"Просмотр дискретных портов", __TestIOPorts)
 	MENU_ITEM(L"Просмотр А-скан сигналов", AScanWindow)
 	MENU_ITEM(L"Просмотр сообщений", Message_)
-//	MENU_ITEM(L"Просмотр датчиков ЛИР", TestLir_)
 
 	struct __Zones : OpenTopWindow<ZonesWindow> {};
 	MENU_ITEM(L"Просмотр результата по зонам", __Zones)
@@ -145,7 +141,6 @@ namespace MainWindowMenu
 			MenuItem<__TestIOPorts>
 			, MenuItem<AScanWindow>
 			, MenuItem<Message_>
-		//	, MenuItem<TestLir_>
 			, Separator<0>
 			, MenuItem<__Zones>
 		> list;

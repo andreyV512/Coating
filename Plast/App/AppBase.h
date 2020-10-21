@@ -50,6 +50,19 @@ struct UserTable
 	const wchar_t *name() { return L"UserTable"; }
 };
 
+DEFINE_PARAM(CountStoredFiles, int, 500)
+DEFINE_PARAM(StoreFileOn, bool, true)
+struct StoreTable
+{
+	typedef Vlst<
+		CountStoredFiles
+		, StoreFileOn
+	> items_list;
+	typedef VL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name() { return L"StoreTable"; }
+};
+
 DEFINE_PARAM(OffsetSensorBegMM, int, 20)
 DEFINE_PARAM(OffsetSensorEndMM, int, 20)
 struct UnitTable
@@ -167,6 +180,7 @@ struct ParametersBase
 		, NamePlate1730ParametersTable
 		, LanParametersTable
 		, UnitTable
+		, StoreTable
 	> one_row_table_list;
 
 	typedef VL::Append<

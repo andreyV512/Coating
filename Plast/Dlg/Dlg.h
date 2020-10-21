@@ -29,4 +29,7 @@
    DLG(TestBiPolarDlg)
    DLG(DeadZonesDlg)
    DLG(TestDeadZonesDlg)
+   DLG(StoreFilesDlg)
+   DLG(OpenFileDlg)
+   DLG(SaveFileDlg)
 #undef DLG

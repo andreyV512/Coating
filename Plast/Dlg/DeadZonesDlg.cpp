@@ -25,14 +25,14 @@ void TestDeadZonesDlg::Do(HWND h)
 	DeadZonesTable table;
 	
 	ZonesWindow *w = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-	VL::CopyFromTo(w->median, table.items);
+	VL::CopyFromTo(w->deadZones, table.items);
 	if (Dialog::Templ<ParametersBase, DeadZonesTable
 		, DeadZonesTable::items_list
 		, 550
 		, Vlst<NoStoreOkBtn, CancelBtn>
 	>(table).Do(h, (wchar_t *)L"Неизмеряемые зоны"))
 	{
-		VL::CopyFromTo(table.items, w->median);
+		VL::CopyFromTo(table.items, w->deadZones);
 		w->UpdateMedian();
 		RepaintWindow(w->hWnd);
 	}

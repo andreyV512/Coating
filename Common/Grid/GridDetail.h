@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <windows.h>
 #include <commctrl.h>
 #include "window_tool/message.h"

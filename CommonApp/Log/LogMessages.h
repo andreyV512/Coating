@@ -130,6 +130,7 @@ namespace LogMess
 	MESS(FormatDownloadedFileNoSupported, void, L"Формат загруженного файла не поддерживается", red, yellow);
 	MESS(FileDownloaded, void, L"Файл загружен", blue, white);
 	MESS(FileSaved, void, L"Файл сохранен", blue, white);
+	MESS(FileDownloading, void, L"Загрузка файла", blue, white);
 
 	template<class T>struct Bits;
 	template<>struct Bits<Vlst<>> {};

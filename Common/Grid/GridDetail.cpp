@@ -1,4 +1,4 @@
-﻿#include "GridDetail.h"
+#include "GridDetail.h"
 namespace GridDetail
 {
 void SetRow(HWND hWnd, int count)

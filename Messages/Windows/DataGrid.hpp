@@ -152,7 +152,7 @@ struct sel_OkBtn
 	static const int width = 120;
 	static const int height = 30;
 	static const int ID = IDOK;
-	wchar_t *Title() { return (wchar_t *)L"Применить"; }
+	wchar_t *Title() { return (wchar_t *)L"РџСЂРёРјРµРЅРёС‚СЊ"; }
 	template<class Owner>void BtnHandler(Owner &owner, HWND h)
 	{
 		if (VL::find<Owner::list, __test__>()(owner.items, h))
@@ -173,15 +173,15 @@ template<class T>struct TopMenu<Wrap<Sel, T>> { typedef Vlst<> list; };
 
 template<class T>struct NameMenu<TopMenu<Wrap<Add, T> > >
 {
-	wchar_t *operator()(HWND) { return (wchar_t *)L"Добавить"; }
+	wchar_t *operator()(HWND) { return (wchar_t *)L"Р”РѕР±Р°РІРёС‚СЊ"; }
 };
 template<class T>struct NameMenu<TopMenu<Wrap<Del, T> > >
 {
-	wchar_t *operator()(HWND) { return (wchar_t *)L"Удалить"; }
+	wchar_t *operator()(HWND) { return (wchar_t *)L"РЈРґР°Р»РёС‚СЊ"; }
 };
 template<class T>struct NameMenu<TopMenu<Wrap<Sel, T> > >
 {
-	wchar_t *operator()(HWND) { return (wchar_t *)L"Выбрать"; }
+	wchar_t *operator()(HWND) { return (wchar_t *)L"Р’С‹Р±СЂР°С‚СЊ"; }
 };
 
 template<class T>struct Event<TopMenu<Wrap<Add, T>>>
@@ -289,18 +289,18 @@ inline void TDataGrid<Table, OrderBy, ViewCols>::AddItem(HWND h)
 
 
 
-//Пример использования сетка с окном добавления и удаления и сохранения базы данных
-//HEADER_TABLE(Num, 60, L"Номер")  //заголовок столбца, ширина столбца (отрисовывает номер строки)
-//PARAM_TABLE(UserName, 90, L"Оператор") //заголовок столбца, ширина столбца(столбец из базы данных)
-//PARAM_TABLE(UserPersonnelNumber, 120, L"Табельный номер")	 //заголовок столбца, ширина столбца(столбец из базы данных)
+//РџСЂРёРјРµСЂ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ СЃРµС‚РєР° СЃ РѕРєРЅРѕРј РґРѕР±Р°РІР»РµРЅРёСЏ Рё СѓРґР°Р»РµРЅРёСЏ Рё СЃРѕС…СЂР°РЅРµРЅРёСЏ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+//HEADER_TABLE(Num, 60, L"РќРѕРјРµСЂ")  //Р·Р°РіРѕР»РѕРІРѕРє СЃС‚РѕР»Р±С†Р°, С€РёСЂРёРЅР° СЃС‚РѕР»Р±С†Р° (РѕС‚СЂРёСЃРѕРІС‹РІР°РµС‚ РЅРѕРјРµСЂ СЃС‚СЂРѕРєРё)
+//PARAM_TABLE(UserName, 90, L"РћРїРµСЂР°С‚РѕСЂ") //Р·Р°РіРѕР»РѕРІРѕРє СЃС‚РѕР»Р±С†Р°, С€РёСЂРёРЅР° СЃС‚РѕР»Р±С†Р°(СЃС‚РѕР»Р±РµС† РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С…)
+//PARAM_TABLE(UserPersonnelNumber, 120, L"РўР°Р±РµР»СЊРЅС‹Р№ РЅРѕРјРµСЂ")	 //Р·Р°РіРѕР»РѕРІРѕРє СЃС‚РѕР»Р±С†Р°, С€РёСЂРёРЅР° СЃС‚РѕР»Р±С†Р°(СЃС‚РѕР»Р±РµС† РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С…)
 //
 //CHECK_EMPTY_STRING(UserName)
 //MIN_VALUE(UserPersonnelNumber, 0)
 //MAX_VALUE(UserPersonnelNumber, 9999999)
-//Сохраняет в таблицу UserTable
-//Сортирует список по полю	   UserName
+//РЎРѕС…СЂР°РЅСЏРµС‚ РІ С‚Р°Р±Р»РёС†Сѓ UserTable
+//РЎРѕСЂС‚РёСЂСѓРµС‚ СЃРїРёСЃРѕРє РїРѕ РїРѕР»СЋ	   UserName
 //
 //void TestTest()
 //{
-//	GridOptions<TDataGrid<UserTable, UserName> >::Open((wchar_t *)L"Настройки оператора", 320, 300);
+//	GridOptions<TDataGrid<UserTable, UserName> >::Open((wchar_t *)L"РќР°СЃС‚СЂРѕР№РєРё РѕРїРµСЂР°С‚РѕСЂР°", 320, 300);
 //}

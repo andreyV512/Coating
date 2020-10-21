@@ -360,7 +360,9 @@
     <ClCompile Include="Dlg\LanDlg.cpp" />
     <ClCompile Include="Dlg\MedianFiltreDlg.cpp" />
     <ClCompile Include="Dlg\MessageDlg.cpp" />
+    <ClCompile Include="Dlg\OpenSaveDlg.cpp" />
     <ClCompile Include="Dlg\OperatorsDlg.cpp" />
+    <ClCompile Include="Dlg\StoredFilesDlg.cpp" />
     <ClCompile Include="Dlg\TestIOPorts.cpp" />
     <ClCompile Include="Dlg\ThresholdsDlg.cpp" />
     <ClCompile Include="Dlg\TypeSizeDlg.cpp" />

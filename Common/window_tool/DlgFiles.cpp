@@ -11,7 +11,8 @@ SaveData::SaveData(HWND h, wchar_t *title)
 	ofn.nMaxFile = dimention_of(sFile);
 	ofn.nFilterIndex = 1;
 	ofn.Flags = OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR | OFN_NONETWORKBUTTON;
-	ofn.lpstrFilter = L"*.bz2\0*.bz2\0*.dat\0*.dat\0*.*\0*.*\0";
+	//ofn.lpstrFilter = L"*.dat\0*.dat\0*.bz2\0*.bz2\0*.*\0*.*\0";
+	ofn.lpstrFilter = L"*.dat\0*.dat\0*.*\0*.*\0";
 	if(NULL != title)ofn.lpstrTitle = title;
 	ofn.lpstrDefExt = L"dat";
 }
@@ -31,9 +32,10 @@ OpenData::OpenData(HWND h, wchar_t *title)
 	ofn.nMaxFile = dimention_of(sFile);
 	ofn.nFilterIndex = 1;
 	ofn.Flags = OFN_CREATEPROMPT | OFN_HIDEREADONLY;
-	ofn.lpstrFilter = L"*.bz2\0*.bz2\0*.dat\0*.dat\0*.*\0*.*\0";
+	//ofn.lpstrFilter = L"*.bz2\0*.bz2\0*.dat\0*.dat\0*.*\0*.*\0";
+	ofn.lpstrFilter = L"*.bz2;*.dat\0*.bz2;*.dat\0*.*\0*.*\0";
 	if(NULL != title)ofn.lpstrTitle = title;
-	ofn.lpstrDefExt = L"dat";
+	ofn.lpstrDefExt = L"bz2;dat";
 }
 //---------------------------------------------------------------------------------
 bool OpenData::operator()()

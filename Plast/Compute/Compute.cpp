@@ -244,9 +244,7 @@ void Compute::Recalculation()
 	Log::Mess <LogMess::Recalculation>();
 	MainWindow::EnableMenu(false);
 	AppKeyHandler::DisableAll();
-	//Start();
-	framesCount = 0;
-	offsetsTickCount = 0;	
+	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
 	QueueUserWorkItem(func<Compute, &Compute::__Recalculation__>, (LPVOID)this, WT_EXECUTEDEFAULT);
 }
 

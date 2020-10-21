@@ -6,8 +6,8 @@
 
 struct Group {};
 struct Color {};
-HEADER_TABLE(Group, 70, L"Âðåìÿ")
-HEADER_TABLE(Color, 380, L"Ñîîáùåíèå")
+HEADER_TABLE(Group, 70, L"Ð’Ñ€ÐµÐ¼Ñ")
+HEADER_TABLE(Color, 380, L"Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ")
 
 void GridMessages::Create(HWND h)
 {
@@ -42,13 +42,13 @@ void GridMessages::SetDataToGrid(LV_DISPINFO *l)
 		break;
 		case 1:
 		{
-			char buf[1024];
+			//char buf[1024];
 			wchar_t wbuf[1024];
-			LogMess::FactoryMessages::Instance().Text(d->id, buf, d->value);
+			bool b = LogMess::FactoryMessages::Instance().Text(d->id, wbuf, d->value);
 
-			int len = 1 + strlen(buf);
-			MultiByteToWideChar(1251, 0, buf, len, wbuf, len);
-			StringCchCopy(l->item.pszText, wcslen(wbuf) + 1, wbuf);
+			//int len = 1 + strlen(buf);
+			//MultiByteToWideChar(1251, 0, buf, len, wbuf, len);
+			if(b)StringCchCopy(l->item.pszText, wcslen(wbuf) + 1, wbuf);
 		}
 		break;
 		}

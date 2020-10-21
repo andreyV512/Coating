@@ -24,6 +24,7 @@ public:
 	MedianFiltreTable::TItems median;
 	FiltersTable::TItems filter;
 	TresholdsTable::TItems treshItems;
+	DeadZonesTable::TItems deadZones;
 
 	Data::InputData &data;
 	Compute &compute;
