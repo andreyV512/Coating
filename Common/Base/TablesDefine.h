@@ -166,5 +166,13 @@ template<class T>struct ID
 	wapper() : value(def_val), default_value(def_val) {}\
 };
 
+#define VAR_ARR(namePar, type, size)struct namePar\
+{\
+	typedef VArr<type, size> type_value;\
+	type_value value;\
+	type_value default_value;\
+	const wchar_t *name(){return L###namePar;}\
+};
+
 
 

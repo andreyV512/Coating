@@ -51,6 +51,33 @@ template<int COUNT = 128>struct CharHolder
 	operator char *(){return buffer;}
 };
 
+template<class T, int COUNT>struct VArr
+{
+	typedef T TBuffer[COUNT];
+	static const int maxCount = COUNT;
+	int count;
+	TBuffer buffer;
+	VArr() : count(COUNT) {}
+	bool  Set(T *date, int cnt)
+	{
+		count = cnt;
+		bool b = maxCount > cnt;
+		count = b ? cnt : maxCount;
+		memmove(buffer, date, sizeof(T) * count);
+		return !b;
+	}
+	bool Get(T *date, int &cnt)
+	{
+		if (count < cnt)
+		{
+			cnt = count;
+			memmove(date, buffer, cnt * sizeof(T));
+			return true;
+		}
+		return false;
+	}
+};
+
 template<class T>struct len
 {
 	int operator()(T& o) { return 0; }
@@ -69,6 +96,12 @@ template<class T, int N>struct len<T[N]>
 {
 	int operator()(T(&t)[N]){return sizeof(t);}
 };
+
+template<class T, int N>struct len<VArr<T, N>>
+{
+	int operator()(VArr<T, N>(&t)) { return sizeof(T) * t.count; }
+};
+
 	template<class T>struct Tpe
 	{
 		T operator()(T t){return t;}
@@ -114,6 +147,22 @@ template<class T, int N>struct len<T[N]>
 			return v;
 		}
 	};
+	template<class A, int N>struct Tpe<VArr<A, N>>
+	{
+		_variant_t operator()(VArr<A, N>(&t))
+		{
+			A *f;
+			int size = sizeof(A) * t.count;
+			SAFEARRAY *s = SafeArrayCreateVector(VT_UI1, 0, size);
+			SafeArrayAccessData(s, (void **)&f);
+			memmove(f, t.buffer, size);
+			SafeArrayUnaccessData(s);
+			_variant_t v;
+			v.vt = VT_ARRAY | VT_VARIANT;
+			v.parray = s;
+			return v;
+		}
+	};
 #pragma warning(default : 4996)
 
 	struct Access{};
@@ -128,13 +177,11 @@ template<class Base, typename T, int N>struct value_type<Base, T[N]>
 		return L"LongBinary";	
 	}
 };
-template<typename T, int N>struct value_type<MSsql, T[N]>
+template<typename T, int N>struct value_type<MSsql, VArr<T, N>>
 {
-	static wchar_t *buf(){static wchar_t x[16]; return x;}
 	static wchar_t *Type()
 	{		
-		wsprintf(buf(), L"varbinary(%d)", sizeof(T[N]));
-		return buf();	
+		return (wchar_t *)L"Varbinary(MAX)";	
 	}
 };
 template<class Base>struct value_type<Base, int>
@@ -255,6 +302,8 @@ template<>struct TypeToInt<SAFEARRAY *>{static const ADODB::DataTypeEnum value =
 
 template<int N>struct TypeToInt<Holder<N>>{static const ADODB::DataTypeEnum value = ADODB::adWChar;};
 template<int N>struct TypeToInt<CharHolder<N>>{static const ADODB::DataTypeEnum value = ADODB::adChar;};
+
+template<class A, int N>struct TypeToInt<VArr<A, N>> { static const ADODB::DataTypeEnum value = ADODB::adLongVarBinary; };
 //--------------------------------------------------------------------------------------------------
 template<typename T, int COUNT>struct TArray
 {
@@ -467,7 +516,7 @@ private:
    ADODB::_CommandPtr cmd;
 																	  
    template<typename T>struct insertX
-   {
+   {	
 	   template<typename T, int COUNT, typename P>void set(TArray<T, COUNT> &o, P &p)
 	   {
 		   for(int i = 0; i < TArray<T, COUNT>::count; ++i)
@@ -507,7 +556,7 @@ private:
 	   {
 		    set(o, p);
 	   }
-};
+   };
 
    template<typename O, typename P>struct init
    {
@@ -718,6 +767,24 @@ template<typename Table>struct Select
 			SafeArrayAccessData(p.parray, (void **)&f);
 			memmove(o.value, f, sizeof(o.value));
 			SafeArrayUnaccessData(p.parray);
+		}
+	};
+
+	template<class T, int N>struct convert<VArr<T, N>>
+	{
+		template<class O, class P>void operator()(O *o, P p)
+		{
+			T *f;
+			SafeArrayAccessData(p.parray, (void **)&f);
+			LONG len = 0;
+			SafeArrayGetUBound(p.parray, 1, &len);
+			++len;
+
+			memmove(o->value.buffer, f, len);
+			SafeArrayUnaccessData(p.parray);
+
+			len /= sizeof(T);
+			o->value.count = N < len ? N : len;
 		}
 	};
 
