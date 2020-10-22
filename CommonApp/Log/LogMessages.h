@@ -177,7 +177,7 @@ namespace LogMess
 
 	MESS(BaseLengthError, void, L"Необходимо уменьшить параметр \"Базовое расстояние\"", red, yellow)
 
-	MESS(Recalculation, void, L"Перерасчёт", blue, white)
+	MESS(Recalculation, void, L"Расчёт", blue, white)
 	MESS(RecalculationStop, void, L"Расчёт окончен", blue, white)
 
 

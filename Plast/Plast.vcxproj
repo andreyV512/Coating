@@ -261,6 +261,7 @@
     <ClInclude Include="Compute\ComputeFrame.h" />
     <ClInclude Include="Data\Data.h" />
     <ClInclude Include="Data\Store.h" />
+    <ClInclude Include="Data\StoreBase.h" />
     <ClInclude Include="Devices\1730Parameters.h" />
     <ClInclude Include="Devices\LanDevice.h" />
     <ClInclude Include="Devices\LanParameters.h" />
@@ -349,6 +350,7 @@
     <ClCompile Include="Compute\ComputeFrame.cpp" />
     <ClCompile Include="Data\Data.cpp" />
     <ClCompile Include="Data\Store.cpp" />
+    <ClCompile Include="Data\StoreBase.cpp" />
     <ClCompile Include="Devices\LanDevice.cpp" />
     <ClCompile Include="Dlg\AboutWindow.cpp" />
     <ClCompile Include="Dlg\AScanWindowDlg.cpp" />

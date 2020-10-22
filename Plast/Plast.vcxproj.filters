@@ -471,6 +471,9 @@
     <ClInclude Include="..\Common\window_tool\Zip.h">
       <Filter>Common\window_tool</Filter>
     </ClInclude>
+    <ClInclude Include="Data\StoreBase.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -745,6 +748,9 @@
     </ClCompile>
     <ClCompile Include="Dlg\OpenSaveDlg.cpp">
       <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\StoreBase.cpp">
+      <Filter>Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

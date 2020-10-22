@@ -30,15 +30,19 @@ DWORD __stdcall OpenFileDlg_Do(LPVOID p)
 {
 	wchar_t *path = ((store_path *)p)->path;
 	wchar_t *tail = path + wcslen(path) - 4;
+	bool unzip = false;
 	if (0 == wcscmp(tail, L".bz2"))
 	{
 		Log::Mess<LogMess::Unziping>();
 		Zip::UnzipCurrentDir(path);
 		*tail = L'\0';
+		unzip = true;
 	}
-	Store::Load(path);
-	Singleton<Compute>::Instance().Recalculation();
-	Zip::ZipCurentDir(path);
+	if (Store::Load(path))
+	{
+		Singleton<Compute>::Instance().Recalculation();
+		Zip::ZipCurentDir(path);
+	}
 	delete (store_path *)p;
 	return 0;
 }
