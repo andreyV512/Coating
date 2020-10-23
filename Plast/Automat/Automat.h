@@ -1,7 +1,6 @@
 #pragma once
 #include <Windows.h>
 
-
 template<class T>struct On;
 template<class T>struct Off;
 template<class T>struct TstOn;
@@ -11,8 +10,6 @@ template<class T>struct Proc;
 struct TimeOutExteption {};
 struct ExitLoopExteption {};
 struct AlarmBitsExteption {};
-
-
 
 namespace Automat
 {

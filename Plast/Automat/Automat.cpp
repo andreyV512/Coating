@@ -24,10 +24,15 @@ template<> struct Proc<iStrobe>
 {
 	static bool pred;
 	Data::InputData &data;
-	Proc() : data(Singleton<Data::InputData>::Instance()) {}
+	unsigned bit;
+	Proc() 
+		: data(Singleton<Data::InputData>::Instance())
+		, bit(Singleton<InputBitsTable>::Instance().items.get<iStrobe>().value)
+	{}
+
 	template<class P>void operator()(P &p) 
 	{
-		bool b = 0 != (p.bits & Singleton<InputBitsTable>::Instance().items.get<iStrobe>().value);
+		bool b = 0 != (p.bits & bit);
 		if (!pred && b)
 		{
 			if (++data.strobesTickCount > dimention_of(data.strobesTick))  data.strobesTickCount = dimention_of(data.strobesTick) - 1;
