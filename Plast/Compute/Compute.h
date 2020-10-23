@@ -46,16 +46,11 @@ private:
 public:
 	
 	Compute();
-	~Compute();
-
 	void Start();
-
 	bool Strobes();
 	void Zone(int zone, int sens);
 	void ComputeFrame(IDSPFlt &f, char *d, double &value, char &status);
 	void ComputeZone(int zone);
-	
-	void Done();
 	void Update();
 	void Recalculation();
 };

@@ -27,10 +27,6 @@ Compute::Compute()
 	numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 }
 
-Compute::~Compute()
-{
-}
-
 template<class O, class P>struct __init_filtre_X__
 {
 	bool operator()(P &p)
@@ -248,7 +244,3 @@ void Compute::__Recalculation__()
 	}
 }
 
-void Compute::Done()
-{
-
-}
