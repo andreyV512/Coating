@@ -4,6 +4,7 @@
 #include <window_tool/Emptywindow.h>
 #include "window_tool/Common.h"
 #include <CommCtrl.h>
+#include "window_tool/ItemIni.h"
 
 LRESULT MainWindow::operator()(TCreate &l)
 {
@@ -20,6 +21,11 @@ LRESULT MainWindow::operator()(TCreate &l)
 	HFONT font = CreateFont(30,0,0,90,900,TRUE,0,0,ANSI_CHARSET, 0,0,0,0,L"Arial");
 	SendMessage(hStatuisBar, WM_SETFONT, (WPARAM)font, (LPARAM)0);
 	SendMessage(hStatuisBar, SB_SETMINHEIGHT, 30, (LPARAM)0);
+
+	cbStopControl.Init(toolBar.hWnd, this
+		, &MainWindow::StoreStopControl, LoadStopControl()
+		, (wchar_t *)L"Прерывание на просмотр"
+		);
 
 	VL::foreach<viewers_list, Common::__create_window__>()(viewers, l.hwnd);
 	return 0;
@@ -82,6 +88,7 @@ void MainWindow::operator()(TSize &l)
 	__move_window_data__ data{y, l.Width, t, l.Height - rs.bottom, 100};
 	VL::foreach<viewers_list, __move_window__>()(viewers, data);
 
+	cbStopControl.Size(width, 60, 200, 20);
 }
 
 void MainWindow::operator()(TCommand &l)
@@ -142,4 +149,18 @@ void MainWindow::EnableMenu(bool b)
 {
 	__enable_data__ data = { b, Singleton<MainWindow>::Instance().hWnd };
 	VL::foreach<__menu_enable__, __enable__>()(data);
+}
+
+void MainWindow::StoreStopControl(bool b)
+{
+	wchar_t path[1024];
+	ItemIni::GetPath(path);
+	ItemIni::Set((wchar_t *)L"App", (wchar_t *)L"stop_control", b, path);
+}
+
+bool MainWindow::LoadStopControl()
+{
+	wchar_t path[1024];
+	ItemIni::GetPath(path);
+	return 0 != ItemIni::Get((wchar_t *)L"App", (wchar_t *)L"stop_control", 1, path);
 }

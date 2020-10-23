@@ -1,4 +1,4 @@
-#include "MainWindowToolBar.h"
+﻿#include "MainWindowToolBar.h"
 #include "Resource.h"
 #include "window_tool/InitToolBar.hpp"
 #include "tools_debug/DebugMess.h"
@@ -19,7 +19,6 @@ namespace
 
 	KEY(IDB_CycleBtn, L"F4 Цикл")
 	KEY(IDB_Reset, L"Esc Стор")
-//		KEY(IDB_QueryBtn, L"Тест")
 #undef KEY
 
 	template<int ID>using BTB = ButtonToolbar<ID, Key<ID> >;
@@ -27,29 +26,17 @@ namespace
 		SeparatorToolbar<0>
 		, BTB<IDB_CycleBtn>
 		, BTB<IDB_Reset>
-	//	, BTB<IDB_QueryBtn>
 		, SeparatorToolbar<1>
 	>tool_button_list;
 
 	void Key<IDB_CycleBtn>::Click(HWND h) 
 	{
-		//dprint("Key<IDB_CycleBtn>::Click\n"); 
-		//AppKeyHandler::Run();
-		//App::IsRun() = true;
 		Automat::Start();
 	}
 	void Key<IDB_Reset>::Click(HWND h) 
 	{
-		//dprint("Key<IDB_Reset>::Click\n"); 
-		//AppKeyHandler::Stop();
-		//App::IsRun() = false;
 		Automat::Stop();
 	}
-	//void Key<IDB_QueryBtn>::Click(HWND h) 
-	//{
-	//	OpenWindow<AScanWindow>::Do(h);
-	//	AppKeyHandler::DisableAll();
-	//}
 }
 
 HWND MainWindowToolBar::Init(HWND h)

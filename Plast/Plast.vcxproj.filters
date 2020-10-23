@@ -213,9 +213,6 @@
     <ClInclude Include="..\Common\Base\Base.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Base\tables.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\Base\TablesDefine.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -473,6 +470,15 @@
     </ClInclude>
     <ClInclude Include="Data\StoreBase.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Base\tables.hpp">
+      <Filter>Common\DspFilters</Filter>
+    </ClInclude>
+    <ClInclude Include="Automat\AdditionalAutomat.h">
+      <Filter>Automat\Auto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\window_tool\CheckBox.h">
+      <Filter>Common\window_tool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -751,6 +757,12 @@
     </ClCompile>
     <ClCompile Include="Data\StoreBase.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="AdditionalAutomat.cpp">
+      <Filter>Automat\Auto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\window_tool\CheckBox.cpp">
+      <Filter>Common\window_tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

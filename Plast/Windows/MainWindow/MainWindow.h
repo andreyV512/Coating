@@ -6,6 +6,7 @@
 #include "Windows/Viewers/MainViewers/ResultViewer.h"
 #include "Graphics/TopLabelViewer.h"
 #include "window_tool/SelectTypeSizeList.h"
+#include "window_tool/CheckBox.h"
 
 class MainWindow
 {
@@ -26,6 +27,8 @@ public:
 	TopLabelViewer topLabelViewer;
 	SelectTypeSizeList select;
 
+	CheckBox cbStopControl;
+
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
 	void operator()(TSize &);
@@ -34,6 +37,9 @@ public:
 	void operator()(TClose &);
 
 	static void EnableMenu(bool);
+
+	void StoreStopControl(bool);
+	bool LoadStopControl();
 };
 
 

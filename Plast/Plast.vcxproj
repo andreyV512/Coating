@@ -235,6 +235,7 @@
     <ClInclude Include="..\Common\Units\1730\inc\bdaqctrl.h" />
     <ClInclude Include="..\Common\Units\Lan\include\RshApi.h" />
     <ClInclude Include="..\Common\Units\Lan\Lan.h" />
+    <ClInclude Include="..\Common\window_tool\CheckBox.h" />
     <ClInclude Include="..\Common\window_tool\DlgFiles.h" />
     <ClInclude Include="..\Common\window_tool\Emptywindow.h" />
     <ClInclude Include="..\Common\window_tool\GroupBox.h" />
@@ -255,6 +256,7 @@
     <ClInclude Include="App\App.h" />
     <ClInclude Include="App\AppBase.h" />
     <ClInclude Include="App\Config.h" />
+    <ClInclude Include="Automat\AdditionalAutomat.h" />
     <ClInclude Include="Automat\Automat.h" />
     <ClInclude Include="Automat\Automat.hpp" />
     <ClInclude Include="Compute\Compute.h" />
@@ -330,6 +332,7 @@
     <ClCompile Include="..\Common\Units\1730\Device1730.cpp" />
     <ClCompile Include="..\Common\Units\Lan\include\RshApi.cpp" />
     <ClCompile Include="..\Common\Units\Lan\Lan.cpp" />
+    <ClCompile Include="..\Common\window_tool\CheckBox.cpp" />
     <ClCompile Include="..\Common\window_tool\DlgFiles.cpp" />
     <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp" />
     <ClCompile Include="..\Common\window_tool\GroupBox.cpp" />
@@ -343,6 +346,7 @@
     <ClCompile Include="..\Common\window_tool\WindowsPosition.cpp" />
     <ClCompile Include="..\Common\window_tool\Zip.cpp" />
     <ClCompile Include="..\LanProcess\LanDirect\LanDirect.cpp" />
+    <ClCompile Include="AdditionalAutomat.cpp" />
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\AppBase.cpp" />
     <ClCompile Include="Automat\Automat.cpp" />
