@@ -1,4 +1,4 @@
-#include "Dlg.h"
+﻿#include "Dlg.h"
 #include "DspFilters/DspFiltrParams.h"
 #include "DlgTemplates/ParamDlgNew.h"
 #include "tools_debug/DebugMess.h"

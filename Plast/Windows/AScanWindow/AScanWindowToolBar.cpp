@@ -1,4 +1,4 @@
-#include "AScanWindowToolBar.h"
+﻿#include "AScanWindowToolBar.h"
 #include "Resource.h"
 #include "window_tool/InitToolBar.hpp"
 #include "AScanWindow.h"

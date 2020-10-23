@@ -1,4 +1,4 @@
-п»ї#pragma once
+#pragma once
 #include "DlgTemplates/ParamDlg.h"
 #include <windowsx.h>
 #include<clocale>
@@ -132,19 +132,19 @@ template<class T>struct LargenEqual;// {typedef typename T::__template_must_be_o
 
 struct __LessText__
 {
-	wchar_t *operator()(){return (wchar_t *)L"Р±РѕР»СЊС€Рµ";};
+	wchar_t *operator()(){return (wchar_t *)L"больше";};
 };
 struct __LargenText__
 {
-	wchar_t *operator()(){return (wchar_t *)L"РјРµРЅСЊС€Рµ";};
+	wchar_t *operator()(){return (wchar_t *)L"меньше";};
 };
 struct __LessEqualText__
 {
-	wchar_t *operator()(){return (wchar_t *)L"Р±РѕР»СЊС€Рµ РёР»Рё СЂР°РІРЅРѕ";};
+	wchar_t *operator()(){return (wchar_t *)L"больше или равно";};
 };
 struct __LargenEqualText__
 {
-	wchar_t *operator()(){return (wchar_t *)L"РјРµРЅСЊС€Рµ РёР»Рё СЂР°РІРЅРѕ";};
+	wchar_t *operator()(){return (wchar_t *)L"меньше или равно";};
 };
 template<class T>struct ErrMessText;
 template<class T>struct ErrMessText<Less<T> >:__LessText__{};
@@ -156,7 +156,7 @@ template<class min_type, class max_type, class T>struct SubErrMess
 {
 	void operator()(wchar_t (&buf)[512])
 	{
-		wsprintf(buf, L"РџР°СЂР°РјРµС‚СЂ \"%s\" РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ %s %s Рё %s %s"
+		wsprintf(buf, L"Параметр \"%s\" должен быть %s %s и %s %s"
 			, ParamTitle<T>()()
 			, ErrMessText<min_type>()()
 			, Wchar_from<T::type_value>(min_type()())()
@@ -183,7 +183,7 @@ template<class T>struct ErrMess
 		typedef VL::TypeExist<Vlst<Less<T>, LessEqual<T> > >::Result min_type;
 		typedef VL::TypeExist< Vlst<Largen<T>, LargenEqual<T> > >::Result max_type;
 		SubErrMess<min_type, max_type, T>()(buf);
-		MessageBox(h, buf, (wchar_t *)L"РћС€РёР±РєР°!!!", MB_ICONEXCLAMATION);
+		MessageBox(h, buf, (wchar_t *)L"Ошибка!!!", MB_ICONEXCLAMATION);
 	}
 };
 
@@ -228,13 +228,13 @@ template<class T>struct allowable_limit_on_the_parameter
 			, T
 		>()(t)) return true;
 		/**********************************************************************************************//*
-		 * \brief	Р•СЃР»Рё РїРѕРїР°Р» СЃСЋРґР° С‚Рѕ РѕРїСЂРµРґРµР»Рё
-		 * 	MIN_VALUE(РєР°РєРѕР№С‚Рѕ_С‚РёРї_РёР·_AppBase_h, РјРёРЅРёРјР°Р»СЊРЅР°СЏ_РІРµР»РёС‡РёРЅР°)
-		 *  MAX_VALUE(РєР°РєРѕР№С‚Рѕ_С‚РёРї_РёР·_AppBase_h, РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ_РІРµР»РёС‡РёРЅР°)
+		 * \brief	Если попал сюда то определи
+		 * 	MIN_VALUE(какойто_тип_из_AppBase_h, минимальная_величина)
+		 *  MAX_VALUE(какойто_тип_из_AppBase_h, максимальная_величина)
 		 *  MIN_EQUAL_VALUE(...
 		 *  MIN_EQUAL_VALUE(...
 		 *  DO_NOT_CHECK(...
-		 *  СЃРјРѕС‚СЂРё РѕРїСЂРµРґРµР»РµРЅРёРµ РјР°РєСЂРѕРІРѕРІ РЅРёР¶Рµ РІ С„Р°Р№Р»Рµ
+		 *  смотри определение макровов ниже в файле
 		 **************************************************************************************************/
 
 		ErrMess<T>()(t, h);
@@ -579,8 +579,8 @@ struct ShowItem
 	  GetWindowText(o.hWnd, buf, dimention_of(buf));\
 	  if('\0' == buf[0])\
       {  \
-	     wsprintf(buf, L"РџРѕР»Рµ РґР°РЅРЅС‹С… \"%s\" РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р·Р°РїРѕР»РЅРµРЅРѕ", ParamTitle<n>()());\
-		 MessageBox(o.hWnd, buf, L"РћС€РёР±РєР°!!!", MB_ICONEXCLAMATION);\
+	     wsprintf(buf, L"Поле данных \"%s\" должно быть заполнено", ParamTitle<n>()());\
+		 MessageBox(o.hWnd, buf, L"Ошибка!!!", MB_ICONEXCLAMATION);\
 		 return false;\
       } \
       return true;\
@@ -609,7 +609,7 @@ struct NoStoreOkBtn
 	static const int width = 120;
 	static const int height = 30;
 	static const int ID = IDOK;
-	wchar_t *Title() { return (wchar_t *)L"РџСЂРёРјРµРЅРёС‚СЊ"; }
+	wchar_t *Title() { return (wchar_t *)L"Применить"; }
 	template<class Owner>void BtnHandler(Owner &owner, HWND h)
 	{
 		if (!VL::find<typename Owner::list, __test__>()(owner.items, h))return;

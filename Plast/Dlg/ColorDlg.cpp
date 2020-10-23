@@ -1,4 +1,4 @@
-#include "Dlg.h"
+﻿#include "Dlg.h"
 #include "DlgTemplates\ParamDlgNew.h"
 #include "templates/typelist.hpp"
 #include <GdiPlus.h>

@@ -1,4 +1,4 @@
-п»ї#include "GridMessages.h"
+#include "GridMessages.h"
 #include "templates/typelist.hpp"
 #include "Grid/GridDetail.h"
 #include "Grid/DataGrid.hpp"
@@ -6,8 +6,8 @@
 
 struct Group {};
 struct Color {};
-HEADER_TABLE(Group, 70, L"Р’СЂРµРјСЏ")
-HEADER_TABLE(Color, 380, L"РЎРѕРѕР±С‰РµРЅРёРµ")
+HEADER_TABLE(Group, 70, L"Время")
+HEADER_TABLE(Color, 380, L"Сообщение")
 
 void GridMessages::Create(HWND h)
 {

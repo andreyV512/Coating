@@ -7,11 +7,13 @@ VAR_ARR(ZonesData, double, 2 * App::count_zones)
 VAR_ARR(ZonesStatus, char, App::count_zones)
 
 DEFINE_PARAM_ID(UserTable, int, __id__)
+DEFINE_PARAM(StoreTime, COleDateTime, 0.0)
 
 struct DataTable
 {
 	typedef Vlst<
-		ID<TresholdsTable>
+		StoreTime
+		, ID<TresholdsTable>
 		, ID<DeadZonesTable>
 		, ID<UserTable>
 		, ZonesData
@@ -38,7 +40,7 @@ struct StoreBase
 
 namespace Store
 {
-	void Result();
+	void Result(COleDateTime &tme);
 	void Init();
 }
 

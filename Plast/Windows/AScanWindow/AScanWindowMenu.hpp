@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "window_tool/MenuApi.h"
 #include "Dlg/Dlg.h"
 

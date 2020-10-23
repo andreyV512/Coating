@@ -346,9 +346,9 @@
     <ClCompile Include="..\Common\window_tool\WindowsPosition.cpp" />
     <ClCompile Include="..\Common\window_tool\Zip.cpp" />
     <ClCompile Include="..\LanProcess\LanDirect\LanDirect.cpp" />
-    <ClCompile Include="AdditionalAutomat.cpp" />
     <ClCompile Include="App\App.cpp" />
     <ClCompile Include="App\AppBase.cpp" />
+    <ClCompile Include="Automat\AdditionalAutomat.cpp" />
     <ClCompile Include="Automat\Automat.cpp" />
     <ClCompile Include="Compute\Compute.cpp" />
     <ClCompile Include="Compute\ComputeFrame.cpp" />

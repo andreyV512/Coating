@@ -1,4 +1,4 @@
-#include "Pass.h"
+﻿#include "Pass.h"
 //#include "App/Config.h"
 #if 0
 template<class List, int offs = 0>struct MkPass;

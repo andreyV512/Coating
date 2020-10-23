@@ -1,4 +1,4 @@
-п»ї#pragma once
+#pragma once
 #include "window_tool\WindowsEventTemplate.hpp"
 #include "DlgTemplates\ParamDlg.h"
 #include "window_tool\GroupBox.h"
@@ -71,8 +71,8 @@ namespace Dialog
 		};
 		template<class T>struct TestNotNullType<NullType, T>
 		{
-			///\brief РєР»Р°СЃСЃ РґРѕР»Р¶РµРЅ РёРјРµС‚СЊ РѕР±СЂР°Р±РѕС‚С‡РёРє РІ РІРёРґРµ- LRESULT T::operator()(XXX &) РёР»Рё void T::operator()(XXX &);
-			///РіРґРµ: XXX - TMouseMove, TSize, TPaint, TActivate(РґРѕР±Р°РІРёС‚СЊ РїСЂРё РЅРµРѕР±С…РѕРґРёРјРѕСЃС‚Рё РІ СЃРїРёСЃРѕРє type_events_all_list, СЃРј. РІС‹С€Рµ)
+			///\brief класс должен иметь обработчик в виде- LRESULT T::operator()(XXX &) или void T::operator()(XXX &);
+			///где: XXX - TMouseMove, TSize, TPaint, TActivate(добавить при необходимости в список type_events_all_list, см. выше)
 			typedef typename T::_class_does_not_have_any_handler nonexist;
 		};
 		typedef typename TestNotNullType<typename WET::AddTypeEvent<WET::type_events_all_list, T>::Result, T>::Result list_0;
@@ -323,7 +323,7 @@ namespace Dialog
 		}
 	};
 }
-/*	   РџСЂРёРјРµСЂ РїСЂРёРјРµРЅРµРЅРёСЏ 
+/*	   Пример применения 
 #include "stdafx.h"
 #include "GroupBox.h"
 #include "DlgTemplates\ParamDlg.h"
@@ -344,12 +344,12 @@ MAX_EQUAL_VALUE(DeadAreaMM0<Long>, 500)
 MIN_EQUAL_VALUE(DeadAreaMM1<Long>, 0)
 MAX_EQUAL_VALUE(DeadAreaMM1<Long>, 500)
 
-template<class T>struct ParamTitle<DeadAreaMM0<T>>{wchar_t *operator()(){return L"РЅР°С‡Р°Р»Рѕ С‚СЂСѓР±С‹";}};
-template<class T>struct ParamTitle<DeadAreaMM1<T>>{wchar_t *operator()(){return L"РєРѕРЅРµС† С‚СЂСѓР±С‹";}};
+template<class T>struct ParamTitle<DeadAreaMM0<T>>{wchar_t *operator()(){return L"начало трубы";}};
+template<class T>struct ParamTitle<DeadAreaMM1<T>>{wchar_t *operator()(){return L"конец трубы";}};
 
-static const wchar_t *turnOnControlCircuit = L"РІРєР»СЋС‡РёС‚Рµ С†РµРїРё СѓРїСЂР°РІР»РµРЅРёСЏ";
-PARAM_TITLE(GROUP_BOX(DeadAreaMM0<Cross>, DeadAreaMM1<Cross>), L"РџРѕРїРµСЂРµС‡РЅС‹Р№ РєРѕРЅС‚СЂРѕР»СЊ")
-PARAM_TITLE(GROUP_BOX(DeadAreaMM0<Long>, DeadAreaMM1<Long>), L"РџСЂРѕРґРѕР»СЊРЅС‹Р№ РєРѕРЅС‚СЂРѕР»СЊ")
+static const wchar_t *turnOnControlCircuit = L"включите цепи управления";
+PARAM_TITLE(GROUP_BOX(DeadAreaMM0<Cross>, DeadAreaMM1<Cross>), L"Поперечный контроль")
+PARAM_TITLE(GROUP_BOX(DeadAreaMM0<Long>, DeadAreaMM1<Long>), L"Продольный контроль")
 
 DEFINE_PARAM(Mess, bool, false)
 
@@ -434,7 +434,7 @@ struct ColorDlg: TypeColorDlg
 void DeadZonesDlg(HWND h)
 {
 	
-	if(ColorDlg(Singleton<DeadAreaTable>::Instance()).Do<ColorDlg>(h, L"РњС‘СЂС‚РІС‹Рµ Р·РѕРЅС‹"))
+	if(ColorDlg(Singleton<DeadAreaTable>::Instance()).Do<ColorDlg>(h, L"Мёртвые зоны"))
 	{
 	}
 

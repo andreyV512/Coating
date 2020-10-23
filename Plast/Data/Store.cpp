@@ -109,9 +109,9 @@ bool Store::Load(wchar_t *path)
 	return res;
 }
 
-void Store::Archive()
+void Store::Archive(COleDateTime &tme)
 {
-	COleDateTime tme = COleDateTime::GetCurrentTime();
+	
 
 	StoreTable::TItems &st = Singleton<StoreTable>::Instance().items;
 

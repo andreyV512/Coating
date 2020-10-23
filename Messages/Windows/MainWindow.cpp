@@ -8,10 +8,10 @@ LRESULT MainWindow::operator()(TCreate &l)
 {
 	Menu<MainWindowMenu::Menu>().Init(l.hwnd);
 	grid.Create(l.hwnd);
-	SetTimer(l.hwnd,             // С…СЌРЅРґР» РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР°
-		IDT_TIMER1,            // РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ С‚Р°Р№РјРµСЂР°
-		300,                 // РёРЅС‚РµСЂРІР°Р» - 1 СЃРµРєСѓРЅРґ
-		(TIMERPROC)NULL);     // РїСЂРѕС†РµРґСѓСЂС‹ С‚Р°Р№РјРµСЂР° РЅРµС‚
+	SetTimer(l.hwnd,             // хэндл главного окна
+		IDT_TIMER1,            // идентификатор таймера
+		300,                 // интервал - 1 секунд
+		(TIMERPROC)NULL);     // процедуры таймера нет
 	return 0;
 }
 

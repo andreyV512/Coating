@@ -78,3 +78,9 @@ template<class T>void CreateChildWindow(HWND hParent, T *data)
 	data->hWnd = CreateWindowEx(WS_EX_CLIENTEDGE, classStr, L"", WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, hParent, NULL, (HINSTANCE)::GetModuleHandle(NULL), (void *)data);  
 }
 
+template<class T> T *GetWindowPtr()
+{
+	HWND h = FindWindow(WindowClass<T>()(), 0);
+	return NULL != h ? (T *)GetWindowLongPtr(h, GWLP_USERDATA) : NULL;
+}
+

@@ -6,16 +6,16 @@
 
 MIN_EQUAL_VALUE(DeadZoneStart, 0)
 MAX_EQUAL_VALUE(DeadZoneStart, 500)
-PARAM_TITLE(DeadZoneStart, L"РќРµРёР·РјРµСЂСЏРµРјР°СЏ Р·РѕРЅР° РЅР°С‡Р°Р»Рѕ")
+PARAM_TITLE(DeadZoneStart, L"Неизмеряемая зона начало")
 
 MIN_EQUAL_VALUE(DeadZoneStop, 0)
 MAX_EQUAL_VALUE(DeadZoneStop, 500)
-PARAM_TITLE(DeadZoneStop, L"РќРµРёР·РјРµСЂСЏРµРјР°СЏ Р·РѕРЅР° РєРѕРЅРµС†")
+PARAM_TITLE(DeadZoneStop, L"Неизмеряемая зона конец")
 
 void DeadZonesDlg::Do(HWND h)
 {
 	if (Dialog::Templ<ParametersBase, DeadZonesTable
-	>(Singleton<DeadZonesTable>::Instance()).Do(h, (wchar_t *)L"РќРµРёР·РјРµСЂСЏРµРјС‹Рµ Р·РѕРЅС‹"))
+	>(Singleton<DeadZonesTable>::Instance()).Do(h, (wchar_t *)L"Неизмеряемые зоны"))
 	{
 	}
 }
@@ -30,7 +30,7 @@ void TestDeadZonesDlg::Do(HWND h)
 		, DeadZonesTable::items_list
 		, 550
 		, Vlst<NoStoreOkBtn, CancelBtn>
-	>(table).Do(h, (wchar_t *)L"РќРµРёР·РјРµСЂСЏРµРјС‹Рµ Р·РѕРЅС‹"))
+	>(table).Do(h, (wchar_t *)L"Неизмеряемые зоны"))
 	{
 		VL::CopyFromTo(table.items, w->deadZones);
 		w->UpdateMedian();

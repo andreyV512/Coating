@@ -758,11 +758,11 @@
     <ClCompile Include="Data\StoreBase.cpp">
       <Filter>Data</Filter>
     </ClCompile>
-    <ClCompile Include="AdditionalAutomat.cpp">
-      <Filter>Automat\Auto</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\window_tool\CheckBox.cpp">
       <Filter>Common\window_tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Automat\AdditionalAutomat.cpp">
+      <Filter>Automat\Auto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

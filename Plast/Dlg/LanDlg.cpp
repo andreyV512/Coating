@@ -1,4 +1,4 @@
-#include "Dlg.h"
+﻿#include "Dlg.h"
 #include "App/App.h"
 #include "App/AppBase.h"
 #include "DlgTemplates/ParamDlgNew.h"

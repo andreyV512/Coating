@@ -1,4 +1,4 @@
-#include "AScanWindow.h"
+﻿#include "AScanWindow.h"
 #include <CommCtrl.h>
 #include "AScanWindowMenu.hpp"
 #include "window_tool/MenuAPI.h"
@@ -20,7 +20,7 @@ LRESULT AScanWindow::operator()(TCreate &l)
 	Menu<AScanWindowMenu::Menu>().Init(l.hwnd);
 	toolBar.Init(l.hwnd);
 	CreateChildWindow(l.hwnd, &topLabelViewer);
-	topLabelViewer.label = (wchar_t *)L"<ff00>Test";
+	//topLabelViewer.label = (wchar_t *)L"<ff00>Test";
 	topLabelViewer.label.fontHeight = 25;
 
 	hStatuisBar = CreateStatusWindow(WS_CHILD | WS_VISIBLE, NULL, l.hwnd, 0);

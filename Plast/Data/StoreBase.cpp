@@ -16,7 +16,7 @@ template<class T>int GetID(CBase &base)
 	return id;
 }
 
-void Store::Result()
+void Store::Result(COleDateTime &tme)
 {
 	StoreBase param;
 	CreateDataBase<StoreBase::type_list, Vlst<>, MSsql> createDateBase;

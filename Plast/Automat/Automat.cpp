@@ -5,6 +5,7 @@
 #include "tools_debug/DebugMess.h"
 #include "Compute/Compute.h"
 #include "Devices/LanDevice.h"
+#include "AdditionalAutomat.h"
 
 template<> struct Proc<Compute>
 {
@@ -95,7 +96,7 @@ namespace Automat
 					App::IsRun() = false;
 					MainWindow::EnableMenu(true);
 					AppKeyHandler::Stop();
-					auto x = Bits<Key<StartBtn>>();
+					Bits<Key<StartBtn>>();
 					App::IsRun() = true;
 					MainWindow::EnableMenu(false);
 					AppKeyHandler::Run();
@@ -115,8 +116,10 @@ namespace Automat
 					Bits<Off<iIn>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(120 * 1000);
 					Bits<Off<iOut>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(20 * 1000);
 				}
+
+				Done();
+
 				Log::Mess <LogMess::CollectionDone>();
-				compute.Done();
 				dprint("loop\n");
 				Sleep(5000);
 			}

@@ -11,11 +11,6 @@
 
 namespace Automat
 {
-	//struct Result
-	//{
-	//	Status status;
-	//};
-
 	template<class List>struct WaitFor
 	{
 		static const int  count = VL::Length<List>::value;

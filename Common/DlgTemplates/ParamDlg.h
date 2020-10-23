@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Base/Base.hpp"
 #include "window_tool/message.h"
 #include "window_tool/Pass.h"

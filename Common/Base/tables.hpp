@@ -280,7 +280,7 @@ template<class Base>struct value_type<Base, COleDateTime>
 {
 	static wchar_t *Type()
 	{
-		return L"DateTime";
+		return (wchar_t *)L"DateTime";
 	}
 };
 

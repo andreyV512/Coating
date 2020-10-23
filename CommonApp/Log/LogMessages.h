@@ -132,6 +132,7 @@ namespace LogMess
 	MESS(FileSaved, void, L"Файл сохранен", blue, white);
 	MESS(FileDownloading, void, L"Загрузка файла", blue, white);
 	MESS(Unziping, void, L"Разархивирование файла", blue, white);
+	MESS(StopControl, void, L"Прерывание на просмотр", green, white);
 
 	template<class T>struct Bits;
 	template<>struct Bits<Vlst<>> {};
