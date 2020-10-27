@@ -12,6 +12,7 @@
 #include "window_tool/TableIni.hpp"
 #include "DspFilters/Filters.hpp"
 #include "Windows/Viewers/NegThresh.hpp"
+#include "MessageText/status.h"
 
 LRESULT ZonesWindow::operator()(TCreate &l)
 {
@@ -196,6 +197,10 @@ ZonesWindow::ZonesWindow()
 	, aScan(viewers.get<Sens>())
 {
 	VL::CopyFromTo(Singleton<MedianFiltreTable>::Instance().items, median);
+	VL::CopyFromTo(Singleton<FiltersTable  >::Instance().items, filter	  );
+	VL::CopyFromTo(Singleton<TresholdsTable>::Instance().items, treshItems);
+	VL::CopyFromTo(Singleton<DeadZonesTable>::Instance().items, deadZones );
+
 	UpdateMedian();
 
 	zoneViewer.tcursor.SetMouseMoveHandler(this, &ZonesWindow::Draw);
@@ -241,31 +246,42 @@ void ZonesWindow::UpdateZone()
 	if (currentSensor < 0) currentSensor = App::count_sensors - 1;
 	else if (currentSensor >= App::count_sensors) currentSensor = 0;
 
-	if (currentZone < 0) currentZone = compute.zoneOffsetsIndex - 1;
-	else if (currentZone >= (int)compute.zoneOffsetsIndex - 1) currentZone = 0;
+	const int maxZone = compute.zoneOffsetsIndex + compute.wholeStop - 1;	 
+
+	if (currentZone < 0) currentZone = maxZone;
+	else if (currentZone >= maxZone) currentZone = 0;
 
 	dprint("sensor %d zone %d\n", currentSensor, currentZone);
 
 	unsigned offsStart = compute.zoneOffsets[0 + currentZone];
 	unsigned offsStop = compute.zoneOffsets[1 + currentZone];
-	if (offsStop > sizeof(data.buffer))
-	{
-		dprint("ERROR BUFFER OVERFLOY %d buffer size %d\n", offsStop ,  sizeof(data.buffer));
-	}
+
+	unsigned deadStart = offsStart;
+	unsigned deadStop = offsStop;
+
+	int deadZoneStart = deadZones.get<DeadZoneStart>().value;
+	int deadZoneStop = deadZones.get<DeadZoneStop>().value;
+
+	int wholeStart = deadZoneStart / App::size_zone_mm;
+	int wholeStop = deadZoneStop / App::size_zone_mm;
+
+	double fractionalStart = double(deadZoneStart % App::size_zone_mm) / App::size_zone_mm;
+	double fractionalStop = double(deadZoneStop % App::size_zone_mm) / App::size_zone_mm;
+
+	__int64 borderStop = data.framesCount - wholeStop - 1;
+
 	const int inc = compute.packetSize * App::count_sensors;
 	zoneViewer.tchart.minAxesX = (offsStart - compute.zoneOffsets[0]) / inc;
 	zoneViewer.tchart.maxAxesX = (offsStop - compute.zoneOffsets[0]) / inc;
 	int count = offsStop - offsStart;
 	count /= inc;
 
-	static const int leftOffs = 7;
-	if (count > dimention_of(zoneViewerData) - leftOffs)
+	if (offsStop > sizeof(data.buffer))
 	{
-		dprint("ERROR SIZE aScanData %d  %d\n", count, dimention_of(zoneViewerData) - leftOffs);
-		count = dimention_of(zoneViewerData) - leftOffs;
-		return;
+		dprint("ERROR BUFFER OVERFLOY %d buffer size %d\n", offsStop, sizeof(data.buffer));
 	}
-	
+
+	static const int leftOffs = 7;
 	int k = 0;
 	double ldata;
 	char lstatus;
@@ -274,20 +290,130 @@ void ZonesWindow::UpdateZone()
 	offsStart *= inc;
 	offsStart += currentSensor * compute.packetSize;
 	
-	dprint("offsStart %d offsStop %d   size buff %d\n", offsStart, offsStop, sizeof(data.buffer));
-	for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
+	if (currentZone <= wholeStart || currentZone >= compute.zoneOffsetsIndex - 1)
 	{
-		compute.ComputeFrame(
-			(IDSPFlt &)computeFrame.filter
-			, &data.buffer[i]
-			, ldata, lstatus
-		);
-		zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
-		zoneViewerStatus[k] = lstatus;
+		if (currentZone < wholeStart)
+		{
+			for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
+			{
+				compute.ComputeFrame(
+					(IDSPFlt &)computeFrame.filter
+					, &data.buffer[i]
+					, ldata, lstatus
+				);
+				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
+			}
+		}
+		else if (currentZone == wholeStart)
+		{
+			deadStart += int((offsStop - offsStart) * fractionalStart);
+			for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
+			{
+				compute.ComputeFrame(
+					(IDSPFlt &)computeFrame.filter
+					, &data.buffer[i]
+					, ldata, lstatus
+				);
+				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
+			}
+			for (unsigned i = deadStart; i < offsStop; i += inc, ++k)
+			{
+				compute.ComputeFrame(
+					(IDSPFlt &)computeFrame.filter
+					, &data.buffer[i]
+					, ldata, lstatus
+				);
+				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				zoneViewerStatus[k] = lstatus;
+			}
+		}
+		else if (currentZone == compute.zoneOffsetsIndex - 1)
+		{
+			deadStart = offsStop;
+			deadStart -= int((offsStop - offsStart) * fractionalStop);
+			//deadStop /= inc;
+			///deadStop *= inc;
+			
+			for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
+			{
+				compute.ComputeFrame(
+					(IDSPFlt &)computeFrame.filter
+					, &data.buffer[i]
+					, ldata, lstatus
+				);
+				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				zoneViewerStatus[k] = lstatus;
+			}
+			for (unsigned i = deadStart; i < offsStop; i += inc, ++k)
+			{
+				compute.ComputeFrame(
+					(IDSPFlt &)computeFrame.filter
+					, &data.buffer[i]
+					, ldata, lstatus
+				);
+				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
+			}
+		}
+		else
+		{
+			for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
+			{
+				compute.ComputeFrame(
+					(IDSPFlt &)computeFrame.filter
+					, &data.buffer[i]
+					, ldata, lstatus
+				);
+				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
+			}
+		}
 	}
+	else
+	{
+		for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
+		{
+			compute.ComputeFrame(
+				(IDSPFlt &)computeFrame.filter
+				, &data.buffer[i]
+				, ldata, lstatus
+			);
+			zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+			zoneViewerStatus[k] = lstatus;
+		}
+	}
+
+	
+	
+
+	
+	
+	//dprint("offsStart %d offsStop %d   size buff %d\n", offsStart, offsStop, sizeof(data.buffer));
+	//for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
+	//{
+	//	compute.ComputeFrame(
+	//		(IDSPFlt &)computeFrame.filter
+	//		, &data.buffer[i]
+	//		, ldata, lstatus
+	//	);
+	//	zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+	//	zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
+	//}
+	//for (unsigned i = deadStart; i < offsStop; i += inc, ++k)
+	//{
+	//	compute.ComputeFrame(
+	//		(IDSPFlt &)computeFrame.filter
+	//		, &data.buffer[i]
+	//		, ldata, lstatus
+	//	);
+	//	zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+	//	zoneViewerStatus[k] = lstatus;
+	//}
 	zoneViewer.count = count;
-	zoneViewer.data = &zoneViewerData[leftOffs];
-	zoneViewer.status = &zoneViewerStatus[leftOffs];
+	zoneViewer.data = &zoneViewerData[leftOffs] ;
+	zoneViewer.status = &zoneViewerStatus[leftOffs] ;
 	zoneViewer.zone = 1 + currentZone;
 	zoneViewer.sensor = 1 + currentSensor;
 	RepaintWindow(zoneViewer.hWnd);
@@ -298,7 +424,7 @@ void ZonesWindow::UpdateAScan()
 	aScan.tchart.minAxesX = 0;
 	aScan.tchart.maxAxesX = compute.packetSize;
 
-	unsigned offsStart = compute.zoneOffsets[0 + currentZone];
+	__int64 offsStart = compute.zoneOffsets[0 + currentZone];
 	offsStart /= computeFrame.packetSize;
 	offsStart /= App::count_sensors;
 	offsStart *= App::count_sensors;

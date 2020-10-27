@@ -1,4 +1,4 @@
-#include "SensorViewer.h"
+﻿#include "SensorViewer.h"
 #include "templates/templates.hpp"
 #include "MessageText/status.h"
 
@@ -33,22 +33,36 @@ bool SensorViewer::Draw(TMouseMove &l, VGraphics &g)
 	int x = currentX;
 
 	bool drawZones = x < data.count;
+	label.buffer[0] = '\0';
 	if (drawZones)
 	{
 		unsigned color = 0xff;
 		const wchar_t *s = L"";
 
-		StatusData::Text(data.status[x], color, s);
+		char ds = data.status[x];
+		StatusData::Text(ds, color, s);
 
-		Wchar_from<double, 1> Y(data.data[x]);
-
-		wsprintf(label.buffer, L"<ff>зона %d Y %s <%6x>%s                         "
-			, 1 + x
-			, Y()
-			, color
-			, s
-		);
-		label.Draw(g());
+		if (VL::IndexOf<zone_status_list, DeadZone>::value != ds)
+		{
+			Wchar_from<double, 1> Y(data.data[x]);
+			wsprintf(label.buffer, L"<ff>зона %d Y %s <%6x>%s                  <%6x>."
+				, 1 + x
+				, Y()
+				, color
+				, s
+				, BACK_GROUND
+			);
+		}
+		else
+		{
+			wsprintf(label.buffer, L"<ff>зона %d <%6x>%s                      <%6x>."
+				, 1 + x
+				, color
+				, s
+				, BACK_GROUND
+			);
+		}
 	}
+	label.Draw(g());
 	return drawZones;
 }

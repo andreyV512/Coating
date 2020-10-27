@@ -1,4 +1,4 @@
-#include "status.h"
+﻿#include "status.h"
 #include "status.hpp"
 #include <typeinfo>
 #include <stdio.h>
@@ -36,7 +36,7 @@ namespace ZoneStatus
 	PARAM_TITLE(Vlst<Norm>, L"Норма")
 	PARAM_TITLE(Vlst<NoBottomReflection>, L"Нет донного отражения")
 	PARAM_TITLE(Vlst<Defect>, L"Дефект")
-	PARAM_TITLE(Vlst<DeadZone>, L"Мертвая зона")
+	PARAM_TITLE(Vlst<DeadZone>, L"Неизмеряемая зона")
 	PARAM_TITLE(Vlst<SensorOff>, L"Датчик отключен")
 	PARAM_TITLE_LIST(Vlst, L"Дефект, нет донного отражения", NoBottomReflection, Defect)
 

@@ -11,11 +11,11 @@ public:
 	bool bipolar;
 	Impl<IDSPFlt, 1032> filter;
 	FiltersTable::TItems paramFlt;
-	unsigned &framesCount;
+	__int64 &framesCount;
 	char *buffer;
 public:
 	ComputeFrame();
 	void UpdateFiltre();
-	void Frame(int sensor, unsigned offs, double *data);
+	void Frame(int sensor, __int64 offs, double *data);
 };
 

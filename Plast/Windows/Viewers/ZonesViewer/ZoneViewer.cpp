@@ -1,4 +1,4 @@
-#include "ZoneViewer.h"
+﻿#include "ZoneViewer.h"
 #include "templates/templates.hpp"
 #include "MessageText/status.h"
 
@@ -32,7 +32,7 @@ bool ZoneViewer::Draw(TMouseMove &l, VGraphics &g)
 	if (drawZones)
 	{
 		unsigned color = 0xff;
-		const wchar_t *s = NULL;
+		const wchar_t *s = L"";
 		StatusData::Text(status[x], color, s);
 		Wchar_from<double, 1> Y(data[x]);
 

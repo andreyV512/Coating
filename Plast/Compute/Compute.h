@@ -25,7 +25,7 @@ public:
 private:
 	unsigned numberPackets, framesCount, strobesTickCount, offsetsTickCount;
 public:
-	unsigned zoneOffsetsIndex;
+	int zoneOffsetsIndex;
 private:
 	MedianFiltre median[App::count_sensors];
 	double(MedianFiltre:: *medianProc)(double, char &);
@@ -40,6 +40,11 @@ private:
 	int offsReflectionStart, offsReflectionStop;
 	double gainReflectionOffs, gainReflectionDelta, threshReflection;
 	bool bottomReflectionOn;
+	int wholeStart;
+public:
+	int wholeStop;
+private:
+	double fractionalStart, fractionalStop;
 	Impl<IDSPFlt, 1032> filter;
 	void __Update__();
 	void __Recalculation__();
@@ -49,6 +54,7 @@ public:
 	void Start();
 	bool Strobes();
 	void Zone(int zone, int sens);
+	void Zone(int sens, char *start, char *stop, double &data, char &status);
 	void ComputeFrame(IDSPFlt &f, char *d, double &value, char &status);
 	void ComputeZone(int zone);
 	void Update();

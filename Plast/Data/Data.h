@@ -25,7 +25,8 @@ namespace Data
 	struct InputData
 	{
 		static const unsigned buffSize = 10 * 140 * 100 * 4058 * App::count_sensors;
-		unsigned framesCount, strobesTickCount, offsetsTickCount;
+		__int64 framesCount;
+		int strobesTickCount, offsetsTickCount;
 		char buffer[buffSize];
 		unsigned strobesTick[100];
 		unsigned offsetsTick[12000];

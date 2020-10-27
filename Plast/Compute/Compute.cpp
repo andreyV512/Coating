@@ -79,6 +79,16 @@ void Compute::Start()
 	gainReflectionDelta = (t.get<BottomReflectionGainStart>().value - t.get<BottomReflectionGainStop>().value) 
 		/ ((_int64)offsReflectionStop - offsReflectionStart);
 	bottomReflectionOn = t.get<BottomReflectionOn>().value;
+
+	auto &deadZones = Singleton<DeadZonesTable>::Instance().items;
+	int deadZoneStart = deadZones.get<DeadZoneStart>().value;
+	int deadZoneStop = deadZones.get<DeadZoneStop>().value;
+
+	wholeStart = deadZoneStart / App::size_zone_mm;
+	wholeStop = deadZoneStop / App::size_zone_mm;
+
+	fractionalStart = double(deadZoneStart % App::size_zone_mm) / App::size_zone_mm;
+	fractionalStop = double(deadZoneStop % App::size_zone_mm) / App::size_zone_mm;
 }
 
 #define MAX(a, b) a > b ? a: b
@@ -100,10 +110,75 @@ bool Compute::Strobes()
 		++zoneOffsetsIndexStart;
 	}
 
+	const int inc = packetSize * App::count_sensors;
+
+
+	if (zoneOffsetsIndex > 0)
+	{
+		int i = zoneOffsetsIndex;
+		int start = zoneOffsets[i - 1];
+		start -= 7 * packetSize * App::count_sensors;
+		int stop = start;
+
+		double ldata;
+		char lstatus;
+
+		for (int sens = 0; sens < App::count_sensors; ++sens)
+		{
+			Zone(sens
+				, &data.buffer[start + sens * packetSize]
+				, &data.buffer[stop + sens * packetSize]
+				, ldata
+				, lstatus
+			);
+		}
+	}
+
 	for (int i = zoneOffsetsIndex; i < (int)zoneOffsetsIndexStart; ++i)
 	{
 		if (0 == i) continue;
-		for (int sens = 0; sens < App::count_sensors; ++sens)  Zone(i, sens);
+
+		int start = zoneOffsets[i - 1];
+		int stop = zoneOffsets[i];
+
+		int borderStop = zoneOffsetsIndexStart - wholeStop - 1;
+
+		if (i <= 1 + wholeStart || i > borderStop)
+		{
+			if (i == 1 + wholeStart)
+			{
+				start += int((stop - start) * fractionalStart);
+				start /= inc;
+				start *= inc;
+			}
+			else if (i == borderStop)
+			{
+				stop -= int((stop - start) * fractionalStop);
+				stop /= inc;
+				stop *= inc;
+			}
+			else
+			{
+				for (int sens = 0; sens < App::count_sensors; ++sens)
+				{
+					sensorData[sens]->data[i - 1] = 80;
+					sensorData[sens]->status[i - 1] = VL::IndexOf<zone_status_list, DeadZone>::value;
+					sensorData[sens]->count = i;
+				}
+				continue;
+			}
+		}
+		
+		for (int sens = 0; sens < App::count_sensors; ++sens)
+		{
+			Zone(sens
+				, &data.buffer[start + sens * packetSize]
+				, &data.buffer[stop + sens * packetSize]
+				, sensorData[sens]->data[i - 1]
+				, sensorData[sens]->status[i - 1]
+			);
+			sensorData[sens]->count = i;
+		}
 	}
 
 	for (int i = zoneOffsetsIndex; i < (int)zoneOffsetsIndexStart; ++i)
@@ -120,7 +195,7 @@ bool Compute::Strobes()
 	}
 	result.count = zoneOffsetsIndexStart - 1;
 
-	zoneOffsetsIndex = zoneOffsetsIndexStart;
+	zoneOffsetsIndex = zoneOffsetsIndexStart - wholeStop - 1;
 	return true;
 }
 
@@ -133,8 +208,25 @@ void Compute::Zone(int zone, int sens)
 	double ldata[App::count_sensors] = {};
 	char lstatus[App::count_sensors] = {};
 	const int inc = packetSize * App::count_sensors;
-	
-	for (int i = zoneOffsets[zone - 1], len = zoneOffsets[zone - 0]; i < len; i += inc)
+	int start = zoneOffsets[zone - 1];
+	int stop = zoneOffsets[zone - 0];
+	if (1 + wholeStart > zone) 
+	{
+		for (int i = 0; i < App::count_sensors; ++i)
+		{
+			sensorData[i]->data[zone - 1] = 80;
+			sensorData[i]->status[zone - 1] = VL::IndexOf<zone_status_list, DeadZone>::value;
+			sensorData[i]->count = zone;
+		}
+		return;
+	}
+	else if (2 + wholeStart == zone)
+	{
+		start += int((stop - start) * fractionalStart);
+		start /= inc;
+		start *= inc;
+	}
+	for (int i = start; i < stop; i += inc)
 	{
 		for (int j = 0; j < App::count_sensors; ++j)
 		{
@@ -154,6 +246,23 @@ void Compute::Zone(int zone, int sens)
 		sensorData[i]->data[zone - 1] = ldata[i];
 		sensorData[i]->status[zone - 1] = lstatus[i];
 		sensorData[i]->count = zone;
+	}
+}
+
+void Compute::Zone(int sens, char *start, char *stop, double &result, char &status)
+{
+	const int inc = packetSize * App::count_sensors;
+	auto m = median[sens];
+	result = 0;
+	for (char *i = start; i < stop; i += inc)
+	{
+		ComputeFrame((IDSPFlt &)filter, i, result, status);
+		double t = (m.*medianProc)(result, status);
+		if (t > result)
+		{
+			result = t;
+			status = status;
+		}
 	}
 }
 

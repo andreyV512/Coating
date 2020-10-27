@@ -36,13 +36,13 @@ void ComputeFrame::UpdateFiltre()
 	if(VL::find<filters_list, __init_filtre_XX__>()(*this)) filter.Init<DSPFltDump>();
 }
 
-void ComputeFrame::Frame(int sensor, unsigned offs, double *data)
+void ComputeFrame::Frame(int sensor, __int64 offs, double *data)
 {
 
 	offs *= packetSize * App::count_sensors;
 	offs += sensor * packetSize;
 
-	dprint("frame num %d sens %d\n", *(unsigned *)&buffer[offs], (*(unsigned *)&buffer[offs]) % 3);
+	//dprint("frame num %d sens %d\n", *(unsigned *)&buffer[offs], (*(unsigned *)&buffer[offs]) % 3);
 
 	filter->Clean();
 	if (bipolar)

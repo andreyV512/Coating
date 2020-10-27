@@ -157,8 +157,8 @@ void AScanWindow::SetThresh()
 struct __update_sens_data__
 {
 	AScanWindow &owner;
-	int offs;
-	__update_sens_data__(AScanWindow &owner, int offs)
+	__int64 offs;
+	__update_sens_data__(AScanWindow &owner, __int64 offs)
 		: owner(owner)
 		, offs(offs)
 	{}
@@ -178,13 +178,13 @@ template<int N, class P>struct __update_sens__<AScanWindow::Sens<N>, P>
 
 void AScanWindow::operator()(TTimer &l)
 {
-	unsigned offs = computeFrame.framesCount;
+	__int64 offs = computeFrame.framesCount;
 	if (offs > (unsigned)computeFrame.packetSize * 5000) computeFrame.framesCount = 0;
 	
 	offs /= computeFrame.packetSize;
 	offs /= App::count_sensors;
 	offs -= 10;
-	if ((int)offs < 0) offs = 0;
+	if (offs < 0) offs = 0;
 	__update_sens_data__ data(*this, offs);
 	VL::foreach<viewers_list, __update_sens__>()(viewers, data);
 }
