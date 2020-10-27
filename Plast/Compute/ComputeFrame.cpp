@@ -38,11 +38,12 @@ void ComputeFrame::UpdateFiltre()
 
 void ComputeFrame::Frame(int sensor, __int64 offs, double *data)
 {
-
+	offs -= 2;
 	offs *= packetSize * App::count_sensors;
 	offs += sensor * packetSize;
 
-	//dprint("frame num %d sens %d\n", *(unsigned *)&buffer[offs], (*(unsigned *)&buffer[offs]) % 3);
+	unsigned num = *(unsigned *)&buffer[offs];
+	dprint("frame num %d sens %d\n", num, num % 3);
 
 	filter->Clean();
 	if (bipolar)

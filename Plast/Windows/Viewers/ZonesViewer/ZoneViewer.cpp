@@ -36,13 +36,14 @@ bool ZoneViewer::Draw(TMouseMove &l, VGraphics &g)
 		StatusData::Text(status[x], color, s);
 		Wchar_from<double, 1> Y(data[x]);
 
-		wsprintf(label.buffer, L"<ff>датчик %d зона <ff00>%d <ff>смещение %d Y %s <%6x>%s                    "
+		wsprintf(label.buffer, L"<ff>датчик %d зона <ff00>%d <ff>смещение %d Y %s <%6x>%s                                            <%6x>."
 			, sensor
 			, zone
 			, 1 + x
 			, Y()
 			, color
 			, s
+			, BACK_GROUND
 		);
 		label.Draw(g());
 	}

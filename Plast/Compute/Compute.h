@@ -30,7 +30,7 @@ private:
 	MedianFiltre median[App::count_sensors];
 	double(MedianFiltre:: *medianProc)(double, char &);
 public:
-	int zoneOffsets[1 + App::count_zones];
+	unsigned zoneOffsets[1 + App::count_zones];
 private:
 	Data::SensorData *sensorData[App::count_sensors];
 

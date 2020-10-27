@@ -274,12 +274,12 @@ void Compute::ComputeFrame(IDSPFlt &f, char *d, double &value, char &status)
 	int i = 0;
 	for (; i < offsAlarmStart; ++i)
 	{
-		f(d[i]);
+		f(d[i] * 100.0 / 128);
 	}
 	double gain = gainAlarmOffs;
 	for (; i < offsAlarmStop; ++i)
 	{
-		double t = f(d[i]);
+		double t = f(d[i] * 100.0 / 128);
 		t *= gain;
 		if(value < t) value = t;
 		if(t > threshAlarm)
@@ -292,14 +292,14 @@ void Compute::ComputeFrame(IDSPFlt &f, char *d, double &value, char &status)
 	if (!bottomReflectionOn) return;
 	for (; i < offsReflectionStart; ++i)
 	{
-		f(d[i]);		
+		f(d[i] * 100.0 / 128);		
 	}
 
 	gain = gainReflectionOffs;
 	bool refl = true;
 	for (; i < offsReflectionStop; ++i)
 	{
-		double t = f(d[i]);
+		double t = f(d[i] * 100.0 / 128);
 		t *= gain;
 		if (t > threshReflection)
 		{

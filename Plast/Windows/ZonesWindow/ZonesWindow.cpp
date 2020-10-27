@@ -308,6 +308,8 @@ void ZonesWindow::UpdateZone()
 		else if (currentZone == wholeStart)
 		{
 			deadStart += int((offsStop - offsStart) * fractionalStart);
+			deadStart /= inc;
+			deadStart *= inc;
 			for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
 			{
 				compute.ComputeFrame(
@@ -333,8 +335,8 @@ void ZonesWindow::UpdateZone()
 		{
 			deadStart = offsStop;
 			deadStart -= int((offsStop - offsStart) * fractionalStop);
-			//deadStop /= inc;
-			///deadStop *= inc;
+			deadStart /= inc;
+			deadStart *= inc;
 			
 			for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
 			{
@@ -427,7 +429,7 @@ void ZonesWindow::UpdateAScan()
 	__int64 offsStart = compute.zoneOffsets[0 + currentZone];
 	offsStart /= computeFrame.packetSize;
 	offsStart /= App::count_sensors;
-	offsStart *= App::count_sensors;
+	//offsStart *= App::count_sensors;
 
 	offsStart += zoneViewer.currentX;
 
