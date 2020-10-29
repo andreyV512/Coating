@@ -69,14 +69,14 @@ void Compute::Start()
 	offsAlarmStart = int(t.get<AlarmThreshStart>().value * packetSize * 0.01);
 	offsAlarmStop  = int(t.get<AlarmThreshStop>().value * packetSize * 0.01) ;
 	gainAlarmOffs = t.get<AlarmGainStart>().value;
-	gainAlarmDelta = (t.get<AlarmGainStart>().value - t.get<AlarmGainStop>().value) 
+	gainAlarmDelta = (t.get<AlarmGainStop>().value - t.get<AlarmGainStart>().value) 
 		/ (offsAlarmStop - offsAlarmStart);
 
 	threshReflection    = t.get<BottomReflectionThresh>().value;
 	offsReflectionStart = int(t.get<BottomReflectionThreshStart>().value * packetSize * 0.01);
 	offsReflectionStop  = int(t.get<BottomReflectionThreshStop>().value * packetSize * 0.01);
 	gainReflectionOffs = t.get<BottomReflectionGainStart>().value;
-	gainReflectionDelta = (t.get<BottomReflectionGainStart>().value - t.get<BottomReflectionGainStop>().value) 
+	gainReflectionDelta = (t.get<BottomReflectionGainStop>().value - t.get<BottomReflectionGainStart>().value) 
 		/ (offsReflectionStop - offsReflectionStart);
 	bottomReflectionOn = t.get<BottomReflectionOn>().value;
 
