@@ -480,6 +480,9 @@
     <ClInclude Include="..\Common\window_tool\CheckBox.h">
       <Filter>Common\window_tool</Filter>
     </ClInclude>
+    <ClInclude Include="Windows\StoreParamsBase.hpp">
+      <Filter>Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">

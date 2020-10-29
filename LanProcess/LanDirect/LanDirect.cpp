@@ -102,7 +102,7 @@ void LanRead::Update()
 
 void LanRead::Read()
 {
-	__int64 i = data.framesCount;
+	unsigned i = data.framesCount;
 	DWORD bytesReaded;
 	if (!ReadFile(
 		hReadPipe
@@ -115,7 +115,7 @@ void LanRead::Read()
 		DWORD ret = GetLastError();
 		dprint("Read from the pipe failed %d\n", ret);
 	}
-	__int64 t = i + bytesReaded;
+	unsigned t = i + bytesReaded;
 	if (t < dimention_of(data.buffer)) data.framesCount = t;
 
 	if (data.offsetsTickCount < dimention_of(data.offsetsTick))

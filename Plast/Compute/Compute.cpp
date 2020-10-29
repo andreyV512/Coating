@@ -70,14 +70,14 @@ void Compute::Start()
 	offsAlarmStop  = int(t.get<AlarmThreshStop>().value * packetSize * 0.01) ;
 	gainAlarmOffs = t.get<AlarmGainStart>().value;
 	gainAlarmDelta = (t.get<AlarmGainStart>().value - t.get<AlarmGainStop>().value) 
-		/ ((_int64)offsAlarmStop - offsAlarmStart);
+		/ (offsAlarmStop - offsAlarmStart);
 
 	threshReflection    = t.get<BottomReflectionThresh>().value;
 	offsReflectionStart = int(t.get<BottomReflectionThreshStart>().value * packetSize * 0.01);
 	offsReflectionStop  = int(t.get<BottomReflectionThreshStop>().value * packetSize * 0.01);
 	gainReflectionOffs = t.get<BottomReflectionGainStart>().value;
 	gainReflectionDelta = (t.get<BottomReflectionGainStart>().value - t.get<BottomReflectionGainStop>().value) 
-		/ ((_int64)offsReflectionStop - offsReflectionStart);
+		/ (offsReflectionStop - offsReflectionStart);
 	bottomReflectionOn = t.get<BottomReflectionOn>().value;
 
 	auto &deadZones = Singleton<DeadZonesTable>::Instance().items;
@@ -115,9 +115,11 @@ bool Compute::Strobes()
 
 	if (zoneOffsetsIndex > 0)
 	{
-		int i = zoneOffsetsIndex;
-		int start = zoneOffsets[i - 1];
-		start -= 7 * packetSize * App::count_sensors;
+		unsigned i = zoneOffsetsIndex;
+		unsigned start = zoneOffsets[i - 1];
+		start /= inc;
+		start *= inc;
+		start -= 7 * inc;
 		int stop = start;
 
 		double ldata;
@@ -134,14 +136,20 @@ bool Compute::Strobes()
 		}
 	}
 
-	for (int i = zoneOffsetsIndex; i < (int)zoneOffsetsIndexStart; ++i)
+	for (unsigned i = zoneOffsetsIndex; i < zoneOffsetsIndexStart; ++i)
 	{
 		if (0 == i) continue;
 
-		int start = zoneOffsets[i - 1];
-		int stop = zoneOffsets[i];
+		unsigned start = zoneOffsets[i - 1];
+		unsigned stop = zoneOffsets[i];
 
-		int borderStop = zoneOffsetsIndexStart - wholeStop - 1;
+		start /= inc;
+		start *= inc;
+
+		stop /= inc;
+		stop *= inc;
+
+		unsigned borderStop = zoneOffsetsIndexStart - wholeStop - 1;
 
 		if (i <= 1 + wholeStart || i > borderStop)
 		{
@@ -153,7 +161,7 @@ bool Compute::Strobes()
 			}
 			else if (i == borderStop)
 			{
-				stop -= int((stop - start) * fractionalStop);
+				stop -= int((stop - start) * (1.0 - fractionalStop));
 				stop /= inc;
 				stop *= inc;
 			}
@@ -310,15 +318,6 @@ void Compute::ComputeFrame(IDSPFlt &f, char *d, double &value, char &status)
 	}
 	if(refl)status = StatusData::Compute(status, StatusData::noBottomReflection);
 }
-
-void Compute::ComputeZone(int zone)
-{
-	//double result[App::count_sensors][sensorBuffSize];
-	//char status[App::count_sensors][sensorBuffSize];
-	//TODO ...
-}
-
-
 
 void Compute::Update()
 {

@@ -279,6 +279,7 @@
     <ClInclude Include="Windows\MainWindow\MainWindow.h" />
     <ClInclude Include="Windows\MainWindow\MainWindowMenu.hpp" />
     <ClInclude Include="Windows\MainWindow\MainWindowToolBar.h" />
+    <ClInclude Include="Windows\StoreParamsBase.hpp" />
     <ClInclude Include="Windows\Viewers\AScanViewer\AScanViewer.h" />
     <ClInclude Include="Windows\Viewers\CommonSensorViewer.h" />
     <ClInclude Include="Windows\Viewers\MainViewers\ResultViewer.h" />

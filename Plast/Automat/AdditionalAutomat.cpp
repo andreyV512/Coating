@@ -9,8 +9,6 @@
 
 void Automat::Done()
 {
-	//HWND h = FindWindow(WindowClass<MainWindow>()(), 0);
-	//MainWindow *w = (MainWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	auto w = GetWindowPtr<MainWindow>();
 
 	bool saveResult = true;
@@ -32,4 +30,10 @@ void Automat::Done()
 		Store::Archive(tme);
 		Store::Result(tme);
 	}
+
+	auto &deb = Singleton<Data::InputData>::Instance();
+
+	dprint("framesCount %d buffer size %d\n", deb.framesCount, dimention_of(deb.buffer));
+	dprint("strobesTickCount %d strobesTick size %d\n", deb.strobesTickCount, dimention_of(deb.strobesTick));
+	dprint("offsetsTickCount %d offsetsTick size %d\n", deb.offsetsTickCount, dimention_of(deb.offsetsTick));
 }

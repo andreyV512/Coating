@@ -19,7 +19,7 @@ struct __ColorLabel__
 {
 	struct TData
 	{
-		__int64 x, y;
+		unsigned x, y;
 		int color;
 	};
 	Graphics &g;

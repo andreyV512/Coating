@@ -40,7 +40,7 @@ private:
 	int offsReflectionStart, offsReflectionStop;
 	double gainReflectionOffs, gainReflectionDelta, threshReflection;
 	bool bottomReflectionOn;
-	int wholeStart;
+	unsigned wholeStart;
 public:
 	int wholeStop;
 private:
@@ -56,7 +56,6 @@ public:
 	void Zone(int zone, int sens);
 	void Zone(int sens, char *start, char *stop, double &data, char &status);
 	void ComputeFrame(IDSPFlt &f, char *d, double &value, char &status);
-	void ComputeZone(int zone);
 	void Update();
 	void Recalculation();
 };

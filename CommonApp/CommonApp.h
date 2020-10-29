@@ -2,6 +2,6 @@
 namespace CommonApp
 {
 	bool IsAppRun();
-	//bool TestAppRun();
+	bool TestAppRun();
 };
 

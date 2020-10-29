@@ -114,7 +114,7 @@ void InitBase(int argc, char **argv)
 int main(int argc, char **argv)
 {
 	dprint("START LAN<<<<<<<<<<");
-	if (!CommonApp::IsAppRun()) return 0;
+	if (!CommonApp::TestAppRun()) return 0;
 	dprint("START LAN>>>>>>>>>");
 	InitBase(argc - 2, &argv[2]);
 

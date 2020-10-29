@@ -42,7 +42,7 @@ LanDevice::LanDevice()
 int LanDevice::Buff(char *&buf)
 {
 	unsigned short sizeBuf = packetSize * numberPackets * App::count_sensors;
-	if ((__int64)data.framesCount + sizeBuf < dimention_of(data.buffer))
+	if (data.framesCount + sizeBuf < dimention_of(data.buffer))
 	{
 		buf = &data.buffer[data.framesCount];
 		return sizeBuf;

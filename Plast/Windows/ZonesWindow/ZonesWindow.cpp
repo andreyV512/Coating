@@ -13,6 +13,7 @@
 #include "DspFilters/Filters.hpp"
 #include "Windows/Viewers/NegThresh.hpp"
 #include "MessageText/status.h"
+#include "Windows/StoreParamsBase.hpp"
 
 LRESULT ZonesWindow::operator()(TCreate &l)
 {
@@ -42,6 +43,7 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 	SetThresh();
 
 	UpdateZone();
+	UpdateAScan();
 	return 0;
 }
 
@@ -108,84 +110,39 @@ void ZonesWindow::operator()(TGetMinMaxInfo &l)
 	}
 }
 
-template<class O, class P>struct __test_sub__
-{
-	bool operator()(O &o, P &p)
-	{
-		return o.value == p.get<O>().value;
-	}
-};
-
-template<class List, template<class>class type, template<class>class sub>struct __sub_list__;
-template<template<class>class type, template<class>class sub, class Head, class... Tail>struct __sub_list__<Vlst<Head, Tail...>, type, sub>
-{
-	typedef typename __sub_list__<Vlst<Tail...>, type, sub>::Result Result;
-};
-template<template<class>class type, template<class>class sub, class Head, class... Tail>struct __sub_list__<Vlst<type<sub<Head>>, Tail...>, type, sub>
-{
-	typedef typename VL::Append<type<sub<Head>>, typename __sub_list__<Vlst<Tail...>, type, sub>::Result>::Result Result;
-};
-template<template<class>class type, template<class>class sub>struct __sub_list__<Vlst<>, type, sub>
-{
-	typedef Vlst<> Result;
-};
-
-template<class O, class P>struct __test_param__
-{
-	bool operator()(P &) { return true; }
-};
-
-template<class O, class P>struct __save_sub__
-{
-	void operator()(O &o, P &p)
-	{
-		o.value = p.get<O>().value;
-	}
-};
-
-template<class O, class P>struct __save_param__
-{
-	void operator()(P &p) { }
-};
-
 void ZonesWindow::operator()(TClose &l)
 {
-	if ( !VL::find< FiltersTable::items_list, __test_param__>()(*this))
+	bool bmedian     = TestX<MedianFiltreTable>(median);
+	bool bfilter     = TestX<FiltersTable>(filter);
+	bool btreshItems = TestX<TresholdsTable>(treshItems);
+	bool bdeadZones  = TestX<DeadZonesTable>(deadZones);
+
+	if (
+		bmedian
+		|| bfilter
+		|| btreshItems
+		|| bdeadZones
+		)
 	{
-		if (IDYES == MessageBox(l.hwnd, L"Сохранить изменения!", L"Cообщение", MB_ICONQUESTION | MB_YESNO))
+		if (IDYES == MessageBox(l.hwnd, L"Данные были изменены. Сохранить изменения?", L"Cообщение", MB_ICONQUESTION | MB_YESNO))
 		{
-			VL::foreach< FiltersTable::items_list, __save_param__>()(*this);
-			CBase base(ParametersBase().name());
-			if (base.IsOpen())
+			if (TypesizePasswordDlg().Do(l.hwnd))
 			{
-				int id = CurrentId<ID<FiltersTable> >();
-				UpdateWhere<FiltersTable>(
-					Singleton<FiltersTable>::Instance()
-					, base
-					).ID(id).Execute();
+				CBase base(ParametersBase().name());
+				if (base.IsOpen())
+				{
+					if(bmedian    )  StoreBaseX<MedianFiltreTable>(base, median);
+					if(bfilter    )  StoreBaseX<FiltersTable>     (base, filter);
+					if(btreshItems)  StoreBaseX<TresholdsTable>   (base, treshItems);
+					if(bdeadZones )  StoreBaseX<DeadZonesTable>   (base, deadZones);
+
+					MessageBox(l.hwnd, L"Данные сохранены!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
+				}
 			}
 		}
 	}
 	DestroyWindow(l.hwnd);
 }
-
-struct __set_sensor_data_data__
-{
-	int id;
-	Data::SensorData *data;
-};
-template<class O, class P>struct __set_sensor_data__
-{
-	bool operator()(P &p)
-	{
-		if (p.id == O::ID)
-		{
-			p.data = &Singleton<Data::Sensor<O::ID>>::Instance().data;
-			return false;
-		}
-		return true;
-	}
-};
 
 ZonesWindow::ZonesWindow()
 	: data(Singleton<Data::InputData>::Instance())
@@ -233,16 +190,10 @@ void ZonesWindow::DownCursor(HWND h)
 	UpdateAScan();
 }
 
-void ZonesWindow::MouseMove(int x)
-{
-	//wchar_t *buf = aScan.label.buffer;
-	//offsetX = x + 1;
-	//wsprintf(buf, L"<ff>смещение %d  датчик %d", currentOffset + offsetX, 1 + currentSensor);
-	//RepaintWindow(aScan.hWnd);
-}
-
 void ZonesWindow::UpdateZone()
 {
+	const int inc = compute.packetSize * App::count_sensors;
+
 	if (currentSensor < 0) currentSensor = App::count_sensors - 1;
 	else if (currentSensor >= App::count_sensors) currentSensor = 0;
 
@@ -256,8 +207,17 @@ void ZonesWindow::UpdateZone()
 	unsigned offsStart = compute.zoneOffsets[0 + currentZone];
 	unsigned offsStop = compute.zoneOffsets[1 + currentZone];
 
+	zoneViewer.tchart.minAxesX = (offsStart - compute.zoneOffsets[0]) / inc;
+	zoneViewer.tchart.maxAxesX = (offsStop - compute.zoneOffsets[0]) / inc;
+
+	offsStart /= inc;
+	offsStart *= inc;
+	offsStop /= inc;
+	offsStop *= inc;
+	offsStart += currentSensor * compute.packetSize;
+	offsStop += currentSensor * compute.packetSize;
+
 	unsigned deadStart = offsStart;
-	unsigned deadStop = offsStop;
 
 	int deadZoneStart = deadZones.get<DeadZoneStart>().value;
 	int deadZoneStop = deadZones.get<DeadZoneStop>().value;
@@ -268,13 +228,7 @@ void ZonesWindow::UpdateZone()
 	double fractionalStart = double(deadZoneStart % App::size_zone_mm) / App::size_zone_mm;
 	double fractionalStop = double(deadZoneStop % App::size_zone_mm) / App::size_zone_mm;
 
-	__int64 borderStop = data.framesCount - wholeStop - 1;
-
-	const int inc = compute.packetSize * App::count_sensors;
-	zoneViewer.tchart.minAxesX = (offsStart - compute.zoneOffsets[0]) / inc;
-	zoneViewer.tchart.maxAxesX = (offsStop - compute.zoneOffsets[0]) / inc;
-	int count = offsStop - offsStart;
-	count /= inc;
+	unsigned borderStop = data.framesCount - wholeStop - 1;
 
 	if (offsStop > sizeof(data.buffer))
 	{
@@ -285,10 +239,21 @@ void ZonesWindow::UpdateZone()
 	int k = 0;
 	double ldata;
 	char lstatus;
-	offsStart -= leftOffs * inc;
-	offsStart /= inc;
-	offsStart *= inc;
-	offsStart += currentSensor * compute.packetSize;
+	
+	unsigned xoffsStart = offsStart - leftOffs * inc;
+	xoffsStart /= inc;
+	xoffsStart *= inc;
+
+	for (unsigned i = xoffsStart; i < offsStart; i += inc)
+	{
+		compute.ComputeFrame(
+			(IDSPFlt &)computeFrame.filter
+			, &data.buffer[i]
+			, ldata, lstatus
+		);
+		unsigned z = i;
+		(medianFiltre.*medianProc)(ldata, lstatus, z);
+	}
 	
 	if (currentZone <= wholeStart || currentZone >= compute.zoneOffsetsIndex - 1)
 	{
@@ -301,8 +266,11 @@ void ZonesWindow::UpdateZone()
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
-				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				unsigned z = i;
+				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
+				zoneOffs[k] = z;
+				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 		}
 		else if (currentZone == wholeStart)
@@ -310,6 +278,7 @@ void ZonesWindow::UpdateZone()
 			deadStart += int((offsStop - offsStart) * fractionalStart);
 			deadStart /= inc;
 			deadStart *= inc;
+			deadStart += currentSensor * compute.packetSize;
 			for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
 			{
 				compute.ComputeFrame(
@@ -317,8 +286,11 @@ void ZonesWindow::UpdateZone()
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
-				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				unsigned z = i;
+				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
+				zoneOffs[k] = z;
+				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 			for (unsigned i = deadStart; i < offsStop; i += inc, ++k)
 			{
@@ -327,17 +299,19 @@ void ZonesWindow::UpdateZone()
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
-				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				unsigned z = i;
+				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = lstatus;
+				zoneOffs[k] = z;
+				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 		}
 		else if (currentZone == compute.zoneOffsetsIndex - 1)
 		{
-			deadStart = offsStop;
-			deadStart -= int((offsStop - offsStart) * fractionalStop);
+			deadStart += int((offsStop - offsStart) * (1.0 - fractionalStop));
 			deadStart /= inc;
 			deadStart *= inc;
-			
+			deadStart += currentSensor * compute.packetSize;
 			for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
 			{
 				compute.ComputeFrame(
@@ -345,8 +319,11 @@ void ZonesWindow::UpdateZone()
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
-				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				unsigned z = i;
+				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = lstatus;
+				zoneOffs[k] = z;
+				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 			for (unsigned i = deadStart; i < offsStop; i += inc, ++k)
 			{
@@ -355,8 +332,11 @@ void ZonesWindow::UpdateZone()
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
-				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				unsigned z = i;
+				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
+				zoneOffs[k] = z;
+				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 		}
 		else
@@ -368,8 +348,11 @@ void ZonesWindow::UpdateZone()
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
-				zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+				unsigned z = i;
+				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
+				zoneOffs[k] = z;
+				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 		}
 	}
@@ -382,40 +365,17 @@ void ZonesWindow::UpdateZone()
 				, &data.buffer[i]
 				, ldata, lstatus
 			);
-			zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
+			unsigned z = i;
+			zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
 			zoneViewerStatus[k] = lstatus;
+			zoneOffs[k] = z;
+			numbers[k] = *(unsigned *)&data.buffer[i];
 		}
 	}
 
-	
-	
-
-	
-	
-	//dprint("offsStart %d offsStop %d   size buff %d\n", offsStart, offsStop, sizeof(data.buffer));
-	//for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
-	//{
-	//	compute.ComputeFrame(
-	//		(IDSPFlt &)computeFrame.filter
-	//		, &data.buffer[i]
-	//		, ldata, lstatus
-	//	);
-	//	zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
-	//	zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
-	//}
-	//for (unsigned i = deadStart; i < offsStop; i += inc, ++k)
-	//{
-	//	compute.ComputeFrame(
-	//		(IDSPFlt &)computeFrame.filter
-	//		, &data.buffer[i]
-	//		, ldata, lstatus
-	//	);
-	//	zoneViewerData[k] = medianFiltre.Val(ldata, lstatus);
-	//	zoneViewerStatus[k] = lstatus;
-	//}
-	zoneViewer.count = count;
-	zoneViewer.data = &zoneViewerData[leftOffs] ;
-	zoneViewer.status = &zoneViewerStatus[leftOffs] ;
+	zoneViewer.count = int(zoneViewer.tchart.maxAxesX - zoneViewer.tchart.minAxesX);
+	zoneViewer.data = zoneViewerData;
+	zoneViewer.status = zoneViewerStatus;
 	zoneViewer.zone = 1 + currentZone;
 	zoneViewer.sensor = 1 + currentSensor;
 	RepaintWindow(zoneViewer.hWnd);
@@ -426,14 +386,7 @@ void ZonesWindow::UpdateAScan()
 	aScan.tchart.minAxesX = 0;
 	aScan.tchart.maxAxesX = compute.packetSize;
 
-	__int64 offsStart = compute.zoneOffsets[0 + currentZone];
-	offsStart /= computeFrame.packetSize;
-	offsStart /= App::count_sensors;
-	//offsStart *= App::count_sensors;
-
-	offsStart += zoneViewer.currentX;
-
-	computeFrame.Frame(currentSensor, offsStart, aScan.data);
+	computeFrame.Frame(currentSensor, zoneOffs[zoneViewer.currentX], aScan.data);
 	aScan.line.count = computeFrame.packetSize;
 	RepaintWindow(aScan.hWnd);
 }
@@ -447,7 +400,7 @@ void ZonesWindow::SwitchBipolar(bool b)
 void ZonesWindow::UpdateMedian()
 {
 	medianProc = median.get<MedianFiltreON>().value
-		? &MedianFiltre::Val: &MedianFiltre::noop;
+		? &MedianFiltre::ValOffs : &MedianFiltre::noopOffs;
 	medianFiltre.InitWidth(median.get<MedianFiltreWidth>().value);
 }
 
@@ -464,6 +417,8 @@ void ZonesWindow::SetThresh()
 bool ZonesWindow::Draw(TMouseMove &l, VGraphics &g)
 {
 	bool b = zoneViewer.Draw(l, g);
+	dprint(" current %d number %d\n", zoneViewer.currentX, numbers[zoneViewer.currentX]);
 	UpdateAScan();
 	return b;
 }
+

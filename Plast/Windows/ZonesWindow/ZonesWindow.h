@@ -46,11 +46,13 @@ public:
 
 	double zoneViewerData[10240];
 	char zoneViewerStatus[10240];
+	unsigned zoneOffs[10240];
+	unsigned numbers[10240];
 
 	ZoneViewer &zoneViewer;
 	Sens &aScan;
 
-	double(MedianFiltre:: *medianProc)(double, char &);
+	double(MedianFiltre:: *medianProc)(double, char &, unsigned &);
 	MedianFiltre medianFiltre;
 	ComputeFrame computeFrame;
 
@@ -69,8 +71,6 @@ public:
 
 	void UpCursor(HWND h);
 	void DownCursor(HWND h);
-
-	void MouseMove(int);
 
 	void UpdateZone();
 	void UpdateAScan();

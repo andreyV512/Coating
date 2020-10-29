@@ -7,6 +7,7 @@ struct MedianFiltre
 	int medianIndex;
 	double buf[16];
 	int status[16];
+	unsigned offs[16];
 	int ind[16];
 	MedianFiltre();
 
@@ -15,5 +16,7 @@ struct MedianFiltre
 	void Clear();
 	
 	double Val(double d, char &s);
-	double noop(double value, char &){return value;}
+	double ValOffs(double d, char &s, unsigned &o);
+	double noop(double value, char &);// {return value; }
+	double noopOffs(double value, char &, unsigned &);// { return value; }
 };

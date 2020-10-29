@@ -10,6 +10,7 @@
 #include "window_tool/Pass.h"
 #include "Devices/LanDevice.h"
 #include "Windows/Viewers/NegThresh.hpp"
+#include "Windows/StoreParamsBase.hpp"
 
 LRESULT AScanWindow::operator()(TCreate &l)
 {
@@ -60,7 +61,6 @@ template<class O, class P>struct __move_window__
 	}
 };
 
-
 void AScanWindow::operator()(TSize &l)
 {
 	if (SIZE_MINIMIZED == l.resizing || 0 == l.Width || 0 == l.Height) return;
@@ -96,34 +96,6 @@ void AScanWindow::operator()(TGetMinMaxInfo &l)
 	}
 }
 
-template<class O, class P>struct __compare_tresh__
-{
-	bool operator()(O &o, P &p)
-	{
-		return o.value == p.get<O>().value;
-	}
-};
-
-template<class T>void StoreBaseX(CBase &base, typename T::TItems &from)
-{
-	auto &to = Singleton<T>::Instance();
-	VL::CopyFromTo(from, to.items);
-	int id = CurrentId<ID<T> >();
-	if (1 == CountId<ID<T> >(base, id))
-	{
-		UpdateWhere<T>(to, base).ID(id).Execute();
-	}
-	else
-	{
-		Insert_Into<T>(to, base).Execute();
-	}
-}
-
-template<class T>bool TestX(typename T::TItems &x)
-{
-	return !VL::find<T::items_list, __compare_tresh__>()(Singleton<T>::Instance().items, x);
-}
-
 void AScanWindow::operator()(TClose &l)
 {
 	KillTimer(l.hwnd, idTimer);
@@ -157,8 +129,8 @@ void AScanWindow::SetThresh()
 struct __update_sens_data__
 {
 	AScanWindow &owner;
-	__int64 offs;
-	__update_sens_data__(AScanWindow &owner, __int64 offs)
+	unsigned offs;
+	__update_sens_data__(AScanWindow &owner, unsigned offs)
 		: owner(owner)
 		, offs(offs)
 	{}
@@ -178,8 +150,8 @@ template<int N, class P>struct __update_sens__<AScanWindow::Sens<N>, P>
 
 void AScanWindow::operator()(TTimer &l)
 {
-	__int64 offs = computeFrame.framesCount;
-	if (offs > (unsigned)computeFrame.packetSize * 5000) computeFrame.framesCount = 0;
+	unsigned offs = computeFrame.framesCount;
+	if (offs > computeFrame.packetSize * 5000) computeFrame.framesCount = 0;
 	
 	offs /= computeFrame.packetSize;
 	offs /= App::count_sensors;

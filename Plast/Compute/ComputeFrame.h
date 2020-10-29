@@ -6,16 +6,16 @@
 class ComputeFrame
 {
 public:
-	int frequency;
-	int packetSize;
+	unsigned frequency;
+	unsigned packetSize;
 	bool bipolar;
 	Impl<IDSPFlt, 1032> filter;
 	FiltersTable::TItems paramFlt;
-	__int64 &framesCount;
+	unsigned &framesCount;
 	char *buffer;
 public:
 	ComputeFrame();
 	void UpdateFiltre();
-	void Frame(int sensor, __int64 offs, double *data);
+	void Frame(int sensor, unsigned offs, double *data);
 };
 
