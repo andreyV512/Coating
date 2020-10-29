@@ -386,6 +386,22 @@ void ZonesWindow::UpdateAScan()
 	aScan.tchart.minAxesX = 0;
 	aScan.tchart.maxAxesX = compute.packetSize;
 
+	auto &t = treshItems;
+	computeFrame.threshAlarm = t.get<AlarmThresh>().value;
+	computeFrame.offsAlarmStart = int(t.get<AlarmThreshStart>().value * computeFrame.packetSize * 0.01);
+	computeFrame.offsAlarmStop = int(t.get<AlarmThreshStop>().value * computeFrame.packetSize * 0.01);
+	computeFrame.gainAlarmOffs = t.get<AlarmGainStart>().value;
+	computeFrame.gainAlarmDelta = (t.get<AlarmGainStop>().value - t.get<AlarmGainStart>().value)
+		/ (computeFrame.offsAlarmStop - computeFrame.offsAlarmStart);
+
+	computeFrame.threshReflection = t.get<BottomReflectionThresh>().value;
+	computeFrame.offsReflectionStart = int(t.get<BottomReflectionThreshStart>().value * computeFrame.packetSize * 0.01);
+	computeFrame.offsReflectionStop = int(t.get<BottomReflectionThreshStop>().value * computeFrame.packetSize * 0.01);
+	computeFrame.gainReflectionOffs = t.get<BottomReflectionGainStart>().value;
+	computeFrame.gainReflectionDelta = (t.get<BottomReflectionGainStop>().value - t.get<BottomReflectionGainStart>().value)
+		/ (computeFrame.offsReflectionStop - computeFrame.offsReflectionStart);
+	computeFrame.bottomReflectionOn = t.get<BottomReflectionOn>().value;
+
 	computeFrame.Frame(currentSensor, zoneOffs[zoneViewer.currentX], aScan.data);
 	aScan.line.count = computeFrame.packetSize;
 	RepaintWindow(aScan.hWnd);

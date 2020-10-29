@@ -13,6 +13,13 @@ public:
 	FiltersTable::TItems paramFlt;
 	unsigned &framesCount;
 	char *buffer;
+	int offsAlarmStart, offsAlarmStop;
+	double gainAlarmOffs, gainAlarmDelta, threshAlarm;
+
+	int offsReflectionStart, offsReflectionStop;
+	double gainReflectionOffs, gainReflectionDelta, threshReflection;
+
+	bool bottomReflectionOn;
 public:
 	ComputeFrame();
 	void UpdateFiltre();

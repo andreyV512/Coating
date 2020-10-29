@@ -36,28 +36,68 @@ void ComputeFrame::UpdateFiltre()
 	if(VL::find<filters_list, __init_filtre_XX__>()(*this)) filter.Init<DSPFltDump>();
 }
 
-void ComputeFrame::Frame(int sensor, unsigned offs, double *data)
+void ComputeFrame::Frame(int sensor, unsigned offs_, double *data)
 {
-	unsigned num = *(unsigned *)&buffer[offs];
+	unsigned num = *(unsigned *)&buffer[offs_];
 	dprint("frame num %d sens %d %d\n", num, num % 3, sensor);
 
 	filter->Clean();
-	if (bipolar)
-	{
-		for (unsigned i = 0; i < packetSize && offs < Data::InputData::buffSize; ++i, ++offs)
+
+	unsigned offs = offs_;
+	//if (bipolar)
+	//{
+		int i = 0;
+		for (; i < offsAlarmStart && offs < Data::InputData::buffSize; ++i, ++offs)
 		{
 			double t = 100.0 * buffer[offs];
 			data[i] = (*filter)(t / 128);
 		}
-	}
-	else
+		double gain = gainAlarmOffs;
+		for (; i < offsAlarmStop && offs < Data::InputData::buffSize; ++i, ++offs)
+		{
+			double t = gain * 100.0 * buffer[offs];
+			data[i] = (*filter)(t / 128);
+			gain += gainAlarmDelta;
+		}
+
+		if (bottomReflectionOn)
+		{
+			for (; i < offsReflectionStart && offs < Data::InputData::buffSize; ++i, ++offs)
+			{
+				double t = 100.0 * buffer[offs];
+				data[i] = (*filter)(t / 128);
+			}
+			gain = gainReflectionOffs;
+			for (; i < offsReflectionStop && offs < Data::InputData::buffSize; ++i, ++offs)
+			{
+				double t = gain * 100.0 * buffer[offs];
+				data[i] = (*filter)(t / 128);
+				gain += gainReflectionDelta;
+			}
+		}
+		else
+			for (; i < packetSize && offs < Data::InputData::buffSize; ++i, ++offs)
+			{
+				double t = 100.0 * buffer[offs];
+				data[i] = (*filter)(t / 128);
+			}
+	//}
+	if (!bipolar)
 	{
+		offs = offs_;
 		for (unsigned i = 0; i < packetSize && offs < Data::InputData::buffSize; ++i, ++offs)
 		{
-			double t = 100.0 * buffer[offs];
-			t = (*filter)(t / 128);
-			data[i] = t > 0 ? t : -t;
+			if(data[i] < 0) data[i] = -data[i];
 		}
 	}
+	//else
+	//{
+	//	for (unsigned i = 0; i < packetSize && offs < Data::InputData::buffSize; ++i, ++offs)
+	//	{
+	//		double t = 100.0 * buffer[offs];
+	//		t = (*filter)(t / 128);
+	//		data[i] = t > 0 ? t : -t;
+	//	}
+	//}
 	
 }
