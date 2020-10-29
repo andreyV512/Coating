@@ -61,8 +61,8 @@ void HOffsBorder::Draw()
 
 	double dwidth = 0.01 * (y_t - y_b);
 
-	int start = (int)round(dwidth * startOffs);
-	int stop = (int)round(dwidth * stopOffs);
+	int start = (int)round(dwidth * startOffs) + y_b;
+	int stop = (int)round(dwidth * stopOffs) + y_b;
 
 	chart.g->DrawLine(&pen, start, (int)y, stop, (int)y);
 }

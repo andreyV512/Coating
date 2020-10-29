@@ -84,11 +84,13 @@ void BarSeriesDouble::Draw()
 	REAL y = 0;
 	for(int i = 0; (obj->*SetColorBar)(i, data, color, data1, color1); ++i)
 	{
-		y = (REAL)((data - chart.minAxesY) * dY);
-		chart.g->FillRectangle(&SolidBrush(color), (REAL)x, (REAL)(bottom - y), (REAL)dX, (REAL)bottom);
+		y = REAL(bottom - (data - chart.minAxesY) * dY);
+		if (y < 0) y = 0;
+		chart.g->FillRectangle(&SolidBrush(color), (REAL)x, (REAL)y, (REAL)dX, (REAL)bottom);
 
-		y = (REAL)((data1 - chart.minAxesY) * dY);
-		chart.g->FillRectangle(&SolidBrush(color1), (REAL)x, (REAL)(bottom - y), (REAL)dX, (REAL)bottom);
+		y = REAL(bottom - (data1 - chart.minAxesY) * dY);
+		if (y < 0) y = 0;
+		chart.g->FillRectangle(&SolidBrush(color1), (REAL)x, (REAL)y, (REAL)dX, (REAL)bottom);
 		x += dX;
 	}
 	chart.g->SetClip(&Region());
@@ -176,8 +178,9 @@ void BarSeriesNoFixed::Draw()
 	double dx = (dX < 4) ? 4: dX;
 	for(int i = 0; (obj->*SetColorBar)(i, data, color); ++i)
 	{
-		y = (REAL)((data - chart.minAxesY) * dY);
-		chart.g->FillRectangle(&SolidBrush(color), (REAL)x, (REAL)(bottom - y), (REAL)dx, (REAL)bottom);
+		y = REAL(bottom - (data - chart.minAxesY) * dY);
+		if (y < 0) y = 0;
+		chart.g->FillRectangle(&SolidBrush(color), (REAL)x, y, (REAL)dx, (REAL)bottom);
 		x += dX;
 	}
 	chart.g->SetClip(&Region());
