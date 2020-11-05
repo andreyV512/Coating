@@ -4,6 +4,7 @@ using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Microsoft.Reporting.WinForms;
 
 namespace Rep4
@@ -27,13 +28,7 @@ namespace Rep4
                     OleDbCommand cmd = b.conn.CreateCommand();
                     cmd.CommandText = "SELECT UserName, UserPersonnelNumber FROM UserTable";
                     OleDbDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        var u = new UserTable();
-                        u.UserName = (string)reader[0];
-                        u.UserPersonnelNumber = (int)reader[1];
-                        l.Add(u);
-                    }
+                    while (reader.Read()) l.Add(Base.Row<UserTable>(reader));
                 }
                 {
                     OleDbCommand cmd = b.conn.CreateCommand();
