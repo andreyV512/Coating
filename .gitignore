@@ -15,3 +15,5 @@ Release/
 /stored/
 /Common/Resource/RC*
 /Doc/~*
+/packages/
+/Rep4/SqlServerTypes/
