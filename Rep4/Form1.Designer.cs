@@ -1,6 +1,6 @@
 ﻿namespace Rep4
 {
-    partial class Form1
+    partial class fmUser
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,37 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.reportViewerUser = new Microsoft.Reporting.WinForms.ReportViewer();
             this.SuspendLayout();
             // 
             // reportViewer1
             // 
-            this.reportViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.reportViewer1.Location = new System.Drawing.Point(0, 0);
-            this.reportViewer1.Name = "reportViewer1";
-            this.reportViewer1.ServerReport.BearerToken = null;
-            this.reportViewer1.Size = new System.Drawing.Size(800, 450);
-            this.reportViewer1.TabIndex = 0;
-            this.reportViewer1.Load += new System.EventHandler(this.reportViewer1_Load);
-            this.reportViewer1.Click += new System.EventHandler(this.reportViewer1_Click);
-            this.reportViewer1.Enter += new System.EventHandler(this.reportViewer1_Enter);
+            this.reportViewerUser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.reportViewerUser.Location = new System.Drawing.Point(0, 0);
+            this.reportViewerUser.Name = "reportViewer1";
+            this.reportViewerUser.ServerReport.BearerToken = null;
+            this.reportViewerUser.Size = new System.Drawing.Size(800, 450);
+            this.reportViewerUser.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.reportViewer1);
+            this.Controls.Add(this.reportViewerUser);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.fmUser_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewerUser;
     }
 }
 
