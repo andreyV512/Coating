@@ -22,6 +22,7 @@
 #include "tools_debug/DebugMess.h"
 #include "Devices/LanDevice.h"
 #include "window_tool/ProgrammDir.h"
+#include "Data/StoreBase.h"
 
 template<class O, class P>struct __params__
 {
@@ -43,6 +44,8 @@ namespace App
 		ProgrammDir pd;
 		wsprintf(pd.tail, L"\\..\\Store\\");
 		CreateDirectory(pd.path, NULL);
+
+		Store::Init();
 
 #ifndef INNER_LAN
 		Singleton<LanDevice>::Instance().Update();
