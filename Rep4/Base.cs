@@ -13,30 +13,28 @@ namespace Rep4
 
         public OleDbConnection conn;
 
-        public bool Open()
+        public bool Open
         {
-            try
+            get
             {
-                conn = new OleDbConnection("File Name=.\\base.udl");
-                conn.Open();
-                return true;
-            }
-            catch
-            {
-                return false;
+                try
+                {
+                    conn = new OleDbConnection("File Name=.\\base.udl");
+                    conn.Open();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
 
-        public bool IsOpen()
-        {
-            return null != conn && System.Data.ConnectionState.Open == conn.State;
-        }
+        public bool IsOpen => null != conn && System.Data.ConnectionState.Open == conn.State;
+
         public void Close()
         {
-            if (IsOpen())
-            {
-                conn.Close();
-            }
+            if (IsOpen) conn.Close();
         }
     }
 }

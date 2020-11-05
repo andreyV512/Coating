@@ -22,27 +22,26 @@ namespace Rep4
             var l = new List<UserTable>();
             var param = new List<ReportParameter>();
             var b = new Base();
-            if (b.Open())
+            if (b.Open)
             {
+                using (var cmd = b.conn.CreateCommand())
                 {
-                    OleDbCommand cmd = b.conn.CreateCommand();
                     cmd.CommandText = "SELECT UserName, UserPersonnelNumber FROM UserTable";
-                    OleDbDataReader reader = cmd.ExecuteReader();
+                    var reader = cmd.ExecuteReader();
                     while (reader.Read()) l.Add(Base.Row<UserTable>(reader));
                 }
+                using (var cmd = b.conn.CreateCommand())
                 {
-                    OleDbCommand cmd = b.conn.CreateCommand();
                     cmd.CommandText = "SELECT COUNT(*) FROM UserTable";
                     var count = cmd.ExecuteScalar().ToString();
                     param.Add(new ReportParameter("countUsers", count));
-                    
                 }
-                viewer.LocalReport.DataSources.Clear();
-                viewer.LocalReport.ReportPath = @".\ReportUser.rdlc";
-                var dataset = new ReportDataSource("dataSetUser", l);
-                viewer.LocalReport.DataSources.Add(dataset);
-                viewer.LocalReport.SetParameters(param);
-                viewer.LocalReport.Refresh();
+                var lr = viewer.LocalReport;
+                lr.DataSources.Clear();
+                lr.ReportPath = @".\ReportUser.rdlc";
+                lr.DataSources.Add(new ReportDataSource("dataSetUser", l));
+                lr.SetParameters(param);
+                lr.Refresh();
                 viewer.RefreshReport();
                 b.Close();
             }
