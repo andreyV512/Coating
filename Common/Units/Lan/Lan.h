@@ -5,6 +5,7 @@ class Lan
 {
 	static DWORD WINAPI __frame1__(PVOID);
 	static DWORD WINAPI __frame2__(PVOID);
+	static DWORD WINAPI __send__(PVOID);
 	struct TObj {};
 	TObj *obj;
 	int(TObj:: *ptr)(char *&);
@@ -14,7 +15,7 @@ class Lan
 public:
 	IRshDevice *device1, *device2;
 private:
-	HANDLE hTresh1, hTresh2;
+	HANDLE hTresh1, hTresh2, hTreshSend, hEventSend;
 	bool terminate;
 public:
 	Lan();
@@ -27,6 +28,7 @@ public:
 	void Stop();
 
 	void Frame(IRshDevice *);
+	void Send();
 
 	template<class T>void SetHandler(T *t, int(T:: *p)(char *&), void(T:: *c)(unsigned))
 	{

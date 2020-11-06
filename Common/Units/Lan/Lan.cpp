@@ -20,6 +20,12 @@ DWORD WINAPI Lan::__frame2__(PVOID p)
 	return 0;
 }
 
+DWORD __stdcall Lan::__send__(PVOID p)
+{
+	((Lan *)p)->Send();
+	return 0;
+}
+
 Lan::Lan()
 	: terminate(false)
 	, device1(NULL)
@@ -28,15 +34,19 @@ Lan::Lan()
 	InitializeCriticalSection(&cs);
 	hTresh1 = CreateThread(NULL, 0, __frame1__, this, CREATE_SUSPENDED, NULL);
 	hTresh2 = CreateThread(NULL, 0, __frame2__, this, CREATE_SUSPENDED, NULL);
+	hTreshSend = CreateThread(NULL, 0, __send__, this, 0, NULL);
+	hEventSend = CreateEvent(NULL, FALSE, FALSE, NULL);
 }
 
 Lan::~Lan()
 {
 	terminate = true;
+	CloseHandle(hEventSend);
 	SuspendThread(hTresh1);
 	SuspendThread(hTresh2);
 	CloseHandle(hTresh1);
 	CloseHandle(hTresh2);
+	CloseHandle(hTreshSend);
 }
 
 void Lan::Err(U32 err, wchar_t(&str)[256])
@@ -97,7 +107,8 @@ void Lan::Frame(IRshDevice *d)
 				st = d->GetData(&buf);
 				if (RSH_API_SUCCESS == st)
 				{
-					(obj->*confirmPtr)((unsigned)buf.m_size);
+					//(obj->*confirmPtr)((unsigned)buf.m_size);
+					SetEvent(hEventSend);
 				}
 			}
 		}
@@ -111,6 +122,26 @@ void Lan::Frame(IRshDevice *d)
 		}
 		
 	}
+}
+
+void Lan::Send()
+{
+	while (!terminate)
+	{
+		switch (WaitForSingleObject(hEventSend, INFINITE))
+		{
+		case WAIT_OBJECT_0:
+			(obj->*confirmPtr)(0);
+			break;
+		case WAIT_ABANDONED:
+			dprint("Send WAIT_ABANDONED\n");
+			return;
+		case WAIT_FAILED:
+			dprint("Send WAIT_FAILED\n");
+			return;
+		}
+	}
+	dprint("Send terminate\n");
 }
 
 unsigned Lan::Init(int numDevece, IRshDevice *&d, RshInitMemory &p)

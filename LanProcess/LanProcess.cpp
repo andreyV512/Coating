@@ -9,6 +9,8 @@
 
 class LanProcess
 {
+	static const int maxFrames = 16;
+	int currentFrameHead, currentFrameTail;
 public:
 	int &numberPackets, &packetSize, bufSize;
 public:
@@ -28,12 +30,14 @@ LanProcess::LanProcess(HANDLE hWritePipe)
 	: numberPackets(Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value)
 	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
 	, hWritePipe(hWritePipe)
+	, currentFrameHead(0)
+	, currentFrameTail(0)
 {
 	hStart = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStart);
 	hStop = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStop);
 	hExit = OpenEvent(EVENT_ALL_ACCESS, TRUE, wExit);
 	bufSize = packetSize * numberPackets * App::count_sensors;
-	data = new char[bufSize];
+	data = new char[bufSize * maxFrames];
 
 }
 
@@ -47,18 +51,25 @@ LanProcess::~LanProcess()
 
 int LanProcess::Buff(char *&buf)
 {
-	buf = data;
+	buf = &data[bufSize * currentFrameHead];
+	++currentFrameHead;
+	currentFrameHead %= maxFrames;
 	return bufSize;
 }
 
-void LanProcess::Confirm(unsigned b)
+void LanProcess::Confirm(unsigned)
 {
 	DWORD bytesWritten;
-	if (!WriteFile(hWritePipe, data, b, &bytesWritten, NULL))
+	while (currentFrameHead != currentFrameTail)
 	{
-		DWORD ret = GetLastError();
-		dprint("client WriteFalted %d\n", ret);
-		SetEvent(hExit);
+		if (!WriteFile(hWritePipe, &data[bufSize * currentFrameTail], bufSize, &bytesWritten, NULL))
+		{
+			DWORD ret = GetLastError();
+			dprint("client WriteFalted %d\n", ret);
+			SetEvent(hExit);
+		}
+		++currentFrameTail;
+		currentFrameTail %= maxFrames;
 	}
 }
 
