@@ -90,12 +90,12 @@ struct __ColorLabel__
 	}
 	void Txt()
 	{
-		point[offs].x = buf - startChar;		
+		point[offs].x = unsigned(buf - startChar);		
 		while(wchar_t c = *buf++)
 		{
 			if('<' == c)
 			{
-				point[offs].y = buf - startChar - 1;
+				point[offs].y = unsigned(buf - startChar - 1);
 				if(point[offs].y - point[offs].x > 0) ++offs;
 				ColorStr(point[offs].color);
 				return;
@@ -105,7 +105,7 @@ struct __ColorLabel__
 	
 	void SubStr()
 	{
-		point[offs].y = buf - startChar - 1;
+		point[offs].y = unsigned(buf - startChar - 1);
 		Font font(L"Arial", (REAL)fontHeight, FontStyleBoldItalic);
 
 		StringFormat format;

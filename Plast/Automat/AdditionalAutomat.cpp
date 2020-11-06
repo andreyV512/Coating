@@ -1,4 +1,4 @@
-#include "AdditionalAutomat.h"
+п»ї#include "AdditionalAutomat.h"
 #include "window_tool/Emptywindow.h"
 #include "Windows/MainWindow/MainWindow.h"
 #include "Windows/MainWindow/AppKeyHandler.h"
@@ -19,8 +19,8 @@ void Automat::Done()
 		Bits<Key<StartBtn>, Key<StopBtn>>();
 		AppKeyHandler::Run();
 		saveResult = IDYES == MessageBox(w->hWnd
-			, L"Сохранить результат контроля?"
-			, L"Cообщение"
+			, L"РЎРѕС…СЂР°РЅРёС‚СЊ СЂРµР·СѓР»СЊС‚Р°С‚ РєРѕРЅС‚СЂРѕР»СЏ?"
+			, L"CРѕРѕР±С‰РµРЅРёРµ"
 			, MB_ICONQUESTION | MB_YESNO
 		);
 	}
