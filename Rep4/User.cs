@@ -45,6 +45,15 @@ namespace Rep4
                 viewer.RefreshReport();
                 b.Close();
             }
+            else
+            {
+                MessageBox.Show(
+                    "Нет доступа к базе данных"
+                    , "Ошибка!"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error
+                    );
+            }
         }
     }
 }
