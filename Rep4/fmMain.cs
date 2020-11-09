@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Rep4
 {
@@ -17,7 +18,12 @@ namespace Rep4
             InitializeComponent();
         }
 
-        private void fmUser_Load(object sender, EventArgs e)
+        private void miExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void miOperators_Click(object sender, EventArgs e)
         {
             User.Query(reportViewerUser);
         }
