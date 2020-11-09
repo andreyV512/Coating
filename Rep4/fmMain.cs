@@ -20,9 +20,9 @@ namespace Rep4
         private void miOperators_Click(object sender, EventArgs e)
         {
             var t = new Thread(() =>{
-                var res = User.Query();
+                var (list, param) = User.Query();
                 this.BeginInvoke((Action)(() => {
-                    reportViewerUser.AddData(@".\ReportUser.rdlc", "dataSetUser", res.list, res.param);
+                    reportViewerUser.Viewer(@".\ReportUser.rdlc", "dataSetUser", list, param);
                 }));
             });
             t.Start();

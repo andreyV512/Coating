@@ -9,7 +9,7 @@ namespace Rep4
 {
     static class ReportHelper
     {
-        public static void AddData<L>(this ReportViewer r, string reportPath, string dataSourceName, IList<L> list, IList<ReportParameter> param)
+        public static void Viewer<L>(this ReportViewer r, string reportPath, string dataSourceName, IList<L> list, IList<ReportParameter> param)
         {
             var lr = r.LocalReport;
             lr.DataSources.Clear();
