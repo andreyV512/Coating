@@ -48,7 +48,7 @@ namespace Rep4
             else
             {
                 MessageBox.Show(
-                    "Нет доступа к базе данных"
+                    "Нет доступа к базе данных. Параметры подключения в файле .\\base.udl"
                     , "Ошибка!"
                     , MessageBoxButtons.OK
                     , MessageBoxIcon.Error
