@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.OleDb;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.Reporting.WinForms;
 
@@ -17,9 +12,9 @@ namespace Rep4
 
     class User
     {
-        static public void Query(ReportViewer viewer)
+        static public (List<UserTable> list, List<ReportParameter> param) Query()
         {
-            var l = new List<UserTable>();
+            var list = new List<UserTable>();
             var param = new List<ReportParameter>();
             var b = new Base();
             if (b.Open)
@@ -28,7 +23,7 @@ namespace Rep4
                 {
                     cmd.CommandText = "SELECT UserName, UserPersonnelNumber FROM UserTable";
                     var reader = cmd.ExecuteReader();
-                    while (reader.Read()) l.Add(Base.Row<UserTable>(reader));
+                    while (reader.Read()) list.Add(Base.Row<UserTable>(reader));
                 }
                 using (var cmd = b.conn.CreateCommand())
                 {
@@ -36,13 +31,6 @@ namespace Rep4
                     var count = cmd.ExecuteScalar().ToString();
                     param.Add(new ReportParameter("countUsers", count));
                 }
-                var lr = viewer.LocalReport;
-                lr.DataSources.Clear();
-                lr.ReportPath = @".\ReportUser.rdlc";
-                lr.DataSources.Add(new ReportDataSource("dataSetUser", l));
-                lr.SetParameters(param);
-                lr.Refresh();
-                viewer.RefreshReport();
                 b.Close();
             }
             else
@@ -54,6 +42,7 @@ namespace Rep4
                     , MessageBoxIcon.Error
                     );
             }
+            return (list, param);
         }
     }
 }

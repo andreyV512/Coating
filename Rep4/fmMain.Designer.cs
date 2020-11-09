@@ -40,6 +40,7 @@
             // reportViewerUser
             // 
             this.reportViewerUser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.reportViewerUser.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.reportViewerUser.Location = new System.Drawing.Point(0, 24);
             this.reportViewerUser.Name = "reportViewerUser";
             this.reportViewerUser.ServerReport.BearerToken = null;
@@ -68,7 +69,7 @@
             // miExit
             // 
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(180, 22);
+            this.miExit.Size = new System.Drawing.Size(109, 22);
             this.miExit.Text = "Выход";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 
