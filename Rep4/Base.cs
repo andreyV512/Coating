@@ -1,16 +1,8 @@
-﻿using System;
-using System.Data.OleDb;
+﻿using System.Data.OleDb;
 namespace Rep4
 {
     public class Base
     {
-        public static T Row<T>(OleDbDataReader o) where T : new()
-        {
-            var t = new T();
-            foreach (var i in typeof(T).GetProperties()) i.SetValue(t, o[i.Name]);
-            return t;
-        }
-
         public OleDbConnection conn;
 
         public bool Open

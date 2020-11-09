@@ -23,7 +23,7 @@ namespace Rep4
                 {
                     cmd.CommandText = "SELECT UserName, UserPersonnelNumber FROM UserTable";
                     var reader = cmd.ExecuteReader();
-                    while (reader.Read()) list.Add(Base.Row<UserTable>(reader));
+                    while (reader.Read()) list.Row<UserTable>(reader);
                 }
                 using (var cmd = b.conn.CreateCommand())
                 {

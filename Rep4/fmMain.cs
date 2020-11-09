@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Threading;
-using Microsoft.Reporting.WinForms;
-//using ReportHelper;
+
 namespace Rep4
 {
     public partial class fmUser : Form
@@ -19,10 +18,13 @@ namespace Rep4
 
         private void miOperators_Click(object sender, EventArgs e)
         {
-            var t = new Thread(() =>{
+            reportViewerUser.ShowProgress = true;
+          //  this.busy
+             var t = new Thread(() =>{
                 var (list, param) = User.Query();
-                this.BeginInvoke((Action)(() => {
+                BeginInvoke((Action)(() => {
                     reportViewerUser.Viewer(@".\ReportUser.rdlc", "dataSetUser", list, param);
+                    reportViewerUser.ShowProgress = false;
                 }));
             });
             t.Start();

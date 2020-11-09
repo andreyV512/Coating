@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Reporting.WinForms;
+using System.Data.OleDb;
 
 namespace Rep4
 {
@@ -18,6 +19,14 @@ namespace Rep4
             lr.SetParameters(param);
             lr.Refresh();
             r.RefreshReport();
+        }
+
+        public static void Row<T>(this IList<T> l, OleDbDataReader o) where T : new()
+        {
+            var t = new T();
+            foreach (var i in typeof(T).GetProperties()) i.SetValue(t, o[i.Name]);
+            //return t;
+            l.Add(t);
         }
     }
 }
