@@ -44,6 +44,19 @@ struct __set_params_data__
 	}
 };
 
+template<int N>struct Fib
+{
+	static const unsigned value = Fib<N - 2>::value + Fib<N - 1>::value;
+};
+template<>struct Fib<2>
+{
+	static const unsigned value = 1;
+};
+template<>struct Fib<1>
+{
+	static const unsigned value = 1;
+};
+
 int main()
 {
 	//int k = 0;
@@ -59,6 +72,8 @@ int main()
 	//
 	//
 	//}
-	__set_params_data__ data((char *)"123=456");
-	wprintf(L"%s %s\n", data.name, data.value);
+	//__set_params_data__ data((char *)"123=456");
+	//wprintf(L"%s %s\n", data.name, data.value);
+	unsigned x = Fib<999>::value;
+	printf("%u\n", x);
 }
