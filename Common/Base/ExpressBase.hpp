@@ -11,9 +11,6 @@ class CExpressBase: public CBase
 public:
 	template<typename ConstructorTables, typename Tables>CExpressBase(const wchar_t *name, ConstructorTables &o, Tables &tables)
 	{
-		//wchar_t compName[128] = L"(local)";
-		//DWORD size = 128;
-		//GetComputerName(compName, &size);
 		wchar_t buf[1024];
 		wsprintf(buf, connStr, name);
 		try
