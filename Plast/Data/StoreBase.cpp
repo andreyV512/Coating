@@ -46,14 +46,25 @@ void Store::Result(COleDateTime &tme)
 		dt.items.get<ID<DeadZonesTable>>().value = GetID<DeadZonesTable>(base);
 		dt.items.get<ID<UserTable>>().value = GetID<UserTable>(base);
 
-		Insert_Into< DataTable>(dt, base).Execute();
+		Insert_Into<DataTable>(dt, base).Execute();
 	}
 }
+
+struct CreateStored
+{
+	template<class Tables, class Base>void operator()(Tables &t, Base &b)
+	{
+		char query[] =
+#include "Data\querys\StoreBase.sql"
+			;
+		b.conn->Execute(query, NULL, ADODB::adExecuteNoRecords);
+	}
+};
 
 void Store::Init()
 {
 	StoreBase param;
-	CreateDataBase<StoreBase::type_list, Vlst<>, MSsql> createDateBase;
+	CreateDataBase<StoreBase::type_list, CreateStored, MSsql> createDateBase;
 	CExpressBase base(
 		(wchar_t *)param.name()
 		, createDateBase

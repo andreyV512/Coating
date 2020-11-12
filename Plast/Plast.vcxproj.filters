@@ -127,6 +127,9 @@
     <Filter Include="LanDirect">
       <UniqueIdentifier>{09f27203-81e7-44ad-9bb4-e27c86cdea8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data\querys">
+      <UniqueIdentifier>{3f7ed89b-2e0b-418b-80bf-d32cb94281e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -483,6 +486,9 @@
     <ClInclude Include="Windows\StoreParamsBase.hpp">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="App\SqlProc.h">
+      <Filter>App</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -767,10 +773,18 @@
     <ClCompile Include="Automat\AdditionalAutomat.cpp">
       <Filter>Automat\Auto</Filter>
     </ClCompile>
+    <ClCompile Include="App\SqlProc.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\querys\StoreBase.sql">
+      <Filter>Data\querys</Filter>
+    </None>
   </ItemGroup>
 </Project>
