@@ -474,9 +474,6 @@
     <ClInclude Include="Data\StoreBase.h">
       <Filter>Data</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\Base\tables.hpp">
-      <Filter>Common\DspFilters</Filter>
-    </ClInclude>
     <ClInclude Include="Automat\AdditionalAutomat.h">
       <Filter>Automat\Auto</Filter>
     </ClInclude>
@@ -486,8 +483,8 @@
     <ClInclude Include="Windows\StoreParamsBase.hpp">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="App\SqlProc.h">
-      <Filter>App</Filter>
+    <ClInclude Include="..\Common\Base\tables.hpp">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -772,9 +769,6 @@
     </ClCompile>
     <ClCompile Include="Automat\AdditionalAutomat.cpp">
       <Filter>Automat\Auto</Filter>
-    </ClCompile>
-    <ClCompile Include="App\SqlProc.cpp">
-      <Filter>App</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

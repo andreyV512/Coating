@@ -126,18 +126,10 @@ template<class T, int N>struct len<VArr<T, N>>
 	};
 	template<class A, int N>struct Tpe<A[N]>
 	{
-		SAFEARRAY *s;
-		Tpe()
-		{
-			s = SafeArrayCreateVector(VT_UI1, 0, N * sizeof(A));
-		}
-		~Tpe()
-		{
-		//	SafeArrayDestroy(s);
-		}
 		_variant_t operator()(A(&t)[N])
 		{				
 			A *f;
+			SAFEARRAY *s = SafeArrayCreateVector(VT_UI1, 0, N * sizeof(A));
 			SafeArrayAccessData(s, (void **)&f);
 			memmove(f, t, sizeof(A) * N);
 			SafeArrayUnaccessData(s);

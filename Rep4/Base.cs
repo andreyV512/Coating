@@ -63,8 +63,6 @@ namespace Rep4
                     , d.Minute
                     , d.Second
                     );
-
-                
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = String.Format(@"BACKUP DATABASE StoreBase 
@@ -75,10 +73,14 @@ namespace Rep4
                     ); 
                     cmd.ExecuteNonQuery();
                 }
-
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = "sp_MSForEachTable 'TRUNCATE TABLE ?'";
+                    cmd.ExecuteNonQuery();
+                }
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DBCC SHRINKDATABASE (StoreBase, TRUNCATEONLY)";
                     cmd.ExecuteNonQuery();
                 }
                 Close();

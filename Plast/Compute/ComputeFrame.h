@@ -13,10 +13,10 @@ public:
 	FiltersTable::TItems paramFlt;
 	unsigned &framesCount;
 	char *buffer;
-	int offsAlarmStart, offsAlarmStop;
+	unsigned offsAlarmStart, offsAlarmStop;
 	double gainAlarmOffs, gainAlarmDelta, threshAlarm;
 
-	int offsReflectionStart, offsReflectionStop;
+	unsigned offsReflectionStart, offsReflectionStop;
 	double gainReflectionOffs, gainReflectionDelta, threshReflection;
 
 	bool bottomReflectionOn;

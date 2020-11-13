@@ -86,7 +86,7 @@ void LanRead::Update()
 	wchar_t path[2048];
 	GetModuleFileName(0, path, dimention_of(path));
 	PathRemoveFileSpec(path);
-	wsprintf(&path[wcslen(path)], L"\\LanProcess.exe %d ", (int)hInheritWritePipe);
+	wsprintf(&path[wcslen(path)], L"\\LanProcess.exe %d ", (int)(__int64)hInheritWritePipe);
 	LanParametersTable &table = Singleton<LanParametersTable>::Instance();
 	wchar_t *p = &path[wcslen(path)];
 	VL::foreach<LanParametersTable::items_list, LanRead__params__>()(table.items, p);

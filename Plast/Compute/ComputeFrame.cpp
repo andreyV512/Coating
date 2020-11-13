@@ -46,7 +46,7 @@ void ComputeFrame::Frame(int sensor, unsigned offs_, double *data)
 	unsigned offs = offs_;
 	//if (bipolar)
 	//{
-		int i = 0;
+		unsigned i = 0;
 		for (; i < offsAlarmStart && offs < Data::InputData::buffSize; ++i, ++offs)
 		{
 			double t = 100.0 * buffer[offs];

@@ -198,7 +198,7 @@
             </TablixRowHierarchy>
             <DataSetName>dataSetUser</DataSetName>
             <Top>1.82245cm</Top>
-            <Left>1.47849cm</Left>
+            <Left>0.80349cm</Left>
             <Height>1.2cm</Height>
             <Width>14.28687cm</Width>
             <Style>
@@ -223,7 +223,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox8</rd:DefaultName>
             <Top>0.55245cm</Top>
-            <Left>1.47849cm</Left>
+            <Left>0.80349cm</Left>
             <Height>0.6cm</Height>
             <Width>5.04cm</Width>
             <ZIndex>1</ZIndex>
@@ -239,9 +239,9 @@
           </Textbox>
           <Line Name="Line1">
             <Top>1.45203cm</Top>
-            <Left>1.47849cm</Left>
+            <Left>0.80349cm</Left>
             <Height>0cm</Height>
-            <Width>14.28687cm</Width>
+            <Width>14.90895cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -265,7 +265,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox9</rd:DefaultName>
             <Top>0.55245cm</Top>
-            <Left>7.19349cm</Left>
+            <Left>6.51849cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>3</ZIndex>
@@ -280,11 +280,131 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>1.3125in</Height>
+        <Height>1.27327in</Height>
         <Style />
       </Body>
-      <Width>8.25in</Width>
+      <Width>6.49317in</Width>
       <Page>
+        <PageHeader>
+          <Height>1.02016cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="PageName">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Globals!PageName</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>PageName</rd:DefaultName>
+              <Top>0.26141cm</Top>
+              <Left>6.87599cm</Left>
+              <Height>0.6cm</Height>
+              <Width>2.5cm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <PageFooter>
+          <Height>1.03188cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="PageNumber">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>стр.</Value>
+                      <Style />
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Globals!PageNumber</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>PageNumber</rd:DefaultName>
+              <Top>0.17639cm</Top>
+              <Left>13.21244cm</Left>
+              <Height>0.6cm</Height>
+              <Width>2.5cm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="OverallTotalPages">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>всего страниц </Value>
+                      <Style />
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Globals!OverallTotalPages</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>OverallTotalPages</rd:DefaultName>
+              <Top>0.17639cm</Top>
+              <Left>8.9221cm</Left>
+              <Height>0.6cm</Height>
+              <Width>4.11396cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>
         <LeftMargin>2cm</LeftMargin>

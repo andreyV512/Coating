@@ -218,7 +218,7 @@ void Compute::Zone(int zone, int sens)
 	const int inc = packetSize * App::count_sensors;
 	int start = zoneOffsets[zone - 1];
 	int stop = zoneOffsets[zone - 0];
-	if (1 + wholeStart > zone) 
+	if (1 + wholeStart > (unsigned)zone) 
 	{
 		for (int i = 0; i < App::count_sensors; ++i)
 		{

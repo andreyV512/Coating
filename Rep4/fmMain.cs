@@ -20,14 +20,12 @@ namespace Rep4
 
         private void miOperators_Click(object sender, EventArgs e)
         {
-            reportViewerUser.ShowProgress = true;
             var w = new WaitForm();
             w.Show(this);
             var t = new Thread(() =>{
                 var (list, param) = User.Query();
                 BeginInvoke((Action)(() => {
                     reportViewerUser.Viewer(@".\ReportUser.rdlc", "dataSetUser", list, param);
-                    reportViewerUser.ShowProgress = false;
                     w.Close();
                 }));
             });
@@ -36,9 +34,18 @@ namespace Rep4
 
         private void miSaveClear_Click(object sender, EventArgs e)
         {
-            var b = new Base();
-            b.BackUp();
-            miSaveClear.Enabled = false;
+            var w = new WaitForm();
+            w.Show(this);
+            var t = new Thread(() => {
+                var (list, param) = User.Query();
+                BeginInvoke((Action)(() => {
+                    var b = new Base();
+                    b.BackUp();
+                    miSaveClear.Enabled = false;
+                    w.Close();
+                }));
+            });
+            t.Start();
         }
 
         private void miOpenBase_Click(object sender, EventArgs e)
