@@ -33,7 +33,7 @@ void Automat::Done()
 
 	auto &deb = Singleton<Data::InputData>::Instance();
 
-	dprint("framesCount %d buffer size %d\n", deb.framesCount, dimention_of(deb.buffer));
+	dprint("framesCount %u buffer size %u\n", deb.framesCount, deb.buffSize);
 	dprint("strobesTickCount %d strobesTick size %d\n", deb.strobesTickCount, dimention_of(deb.strobesTick));
 	dprint("offsetsTickCount %d offsetsTick size %d\n", deb.offsetsTickCount, dimention_of(deb.offsetsTick));
 }

@@ -116,7 +116,7 @@ void LanRead::Read()
 		dprint("Read from the pipe failed %d\n", ret);
 	}
 	unsigned t = i + bytesReaded;
-	if (t < dimention_of(data.buffer)) data.framesCount = t;
+	if (t < data.buffSize) data.framesCount = t;
 
 	if (data.offsetsTickCount < dimention_of(data.offsetsTick))
 	{
