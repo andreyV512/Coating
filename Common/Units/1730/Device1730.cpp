@@ -1,6 +1,7 @@
 #include "Device1730.h"
 #include "App/Config.h"
 #include "tools_debug\DebugMess.h"
+#include "Compute/Emulator/Emulator.h"
 
 using namespace Automation::BDaq;
 
@@ -101,7 +102,7 @@ void Device1730::WriteOutput(unsigned output, unsigned maska)
 #else
 unsigned Device1730::Read()
 {
-	return 0;
+	return Emulator::iputBits;
 }
 //--------------------------------------------------------------------------
 void Device1730::Write(unsigned output)

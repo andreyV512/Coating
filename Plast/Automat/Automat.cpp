@@ -6,6 +6,8 @@
 #include "Compute/Compute.h"
 #include "Devices/LanDevice.h"
 #include "AdditionalAutomat.h"
+#include "App/Config.h"
+#include "Compute/Emulator/Emulator.h"
 
 template<> struct Proc<Compute>
 {
@@ -103,7 +105,9 @@ namespace Automat
 					startLoop = false;
 				}
 				Proc<iStrobe>::pred = false;
-
+#ifdef EMULATOR
+				Emulator emulator;
+#endif
 				//TODO Bits<TstOn<iCU> >(); //проверка цепей управления
 				Log::Mess <LogMess::On_iIn>();
 				Bits<On<iIn>, Key<StopBtn>, Proc<iStrobe>>();
@@ -117,7 +121,7 @@ namespace Automat
 					Bits<Off<iOut>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(20 * 1000);
 				}
 
-				Done();
+			Done();
 
 				Log::Mess <LogMess::CollectionDone>();
 				dprint("loop\n");
