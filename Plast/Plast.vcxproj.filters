@@ -130,6 +130,9 @@
     <Filter Include="Data\querys">
       <UniqueIdentifier>{3f7ed89b-2e0b-418b-80bf-d32cb94281e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Automat\Emulator">
+      <UniqueIdentifier>{51a2bc37-0579-443d-acf3-621fcbc8ab63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -486,6 +489,9 @@
     <ClInclude Include="..\Common\Base\tables.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Compute\Emulator\Emulator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -769,6 +775,9 @@
     </ClCompile>
     <ClCompile Include="Automat\AdditionalAutomat.cpp">
       <Filter>Automat\Auto</Filter>
+    </ClCompile>
+    <ClCompile Include="Compute\Emulator\Emulator.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

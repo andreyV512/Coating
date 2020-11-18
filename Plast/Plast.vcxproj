@@ -261,6 +261,7 @@
     <ClInclude Include="Automat\Automat.hpp" />
     <ClInclude Include="Compute\Compute.h" />
     <ClInclude Include="Compute\ComputeFrame.h" />
+    <ClInclude Include="Compute\Emulator\Emulator.h" />
     <ClInclude Include="Data\Data.h" />
     <ClInclude Include="Data\Store.h" />
     <ClInclude Include="Data\StoreBase.h" />
@@ -353,6 +354,7 @@
     <ClCompile Include="Automat\Automat.cpp" />
     <ClCompile Include="Compute\Compute.cpp" />
     <ClCompile Include="Compute\ComputeFrame.cpp" />
+    <ClCompile Include="Compute\Emulator\Emulator.cpp" />
     <ClCompile Include="Data\Data.cpp" />
     <ClCompile Include="Data\Store.cpp" />
     <ClCompile Include="Data\StoreBase.cpp" />
