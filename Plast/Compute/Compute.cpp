@@ -189,7 +189,7 @@ bool Compute::Strobes()
 		}
 	}
 
-	for (int i = zoneOffsetsIndex; i < (int)zoneOffsetsIndexStart; ++i)
+	for (unsigned i = zoneOffsetsIndex; i < zoneOffsetsIndexStart; ++i)
 	{
 		result.status[i] = StatusData::Compute(
 			StatusData::Compute(sensorData[0]->status[i], sensorData[1]->status[i])
@@ -279,7 +279,7 @@ void Compute::ComputeFrame(IDSPFlt &f, char *d, double &value, char &status)
 	f.Clean();
 	status = StatusData::norm;
 	value = 0;
-	int i = 0;
+	unsigned i = 0;
 	for (; i < offsAlarmStart; ++i)
 	{
 		f(d[i] * 100.0 / 128);

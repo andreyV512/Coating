@@ -197,7 +197,7 @@ void ZonesWindow::UpdateZone()
 	if (currentSensor < 0) currentSensor = App::count_sensors - 1;
 	else if (currentSensor >= App::count_sensors) currentSensor = 0;
 
-	const int maxZone = compute.zoneOffsetsIndex + compute.wholeStop - 1;	 
+	const unsigned maxZone = compute.zoneOffsetsIndex + compute.wholeStop - 1;	 
 
 	if (currentZone < 0) currentZone = maxZone;
 	else if (currentZone >= maxZone) currentZone = 0;
@@ -222,8 +222,8 @@ void ZonesWindow::UpdateZone()
 	int deadZoneStart = deadZones.get<DeadZoneStart>().value;
 	int deadZoneStop = deadZones.get<DeadZoneStop>().value;
 
-	int wholeStart = deadZoneStart / App::size_zone_mm;
-	int wholeStop = deadZoneStop / App::size_zone_mm;
+	unsigned wholeStart = deadZoneStart / App::size_zone_mm;
+	unsigned wholeStop = deadZoneStop / App::size_zone_mm;
 
 	double fractionalStart = double(deadZoneStart % App::size_zone_mm) / App::size_zone_mm;
 	double fractionalStop = double(deadZoneStop % App::size_zone_mm) / App::size_zone_mm;
@@ -236,7 +236,7 @@ void ZonesWindow::UpdateZone()
 	}
 
 	static const int leftOffs = 7;
-	int k = 0;
+	unsigned k = 0;
 	double ldata;
 	char lstatus;
 	
@@ -275,7 +275,7 @@ void ZonesWindow::UpdateZone()
 		}
 		else if (currentZone == wholeStart)
 		{
-			deadStart += int((offsStop - offsStart) * fractionalStart);
+			deadStart += unsigned((offsStop - offsStart) * fractionalStart);
 			deadStart /= inc;
 			deadStart *= inc;
 			deadStart += currentSensor * compute.packetSize;

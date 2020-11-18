@@ -25,7 +25,7 @@ public:
 private:
 	unsigned numberPackets, framesCount, strobesTickCount, offsetsTickCount;
 public:
-	int zoneOffsetsIndex;
+	unsigned zoneOffsetsIndex;
 private:
 	MedianFiltre median[App::count_sensors];
 	double(MedianFiltre:: *medianProc)(double, char &);
@@ -34,10 +34,10 @@ public:
 private:
 	Data::SensorData *sensorData[App::count_sensors];
 
-	int offsAlarmStart, offsAlarmStop;
+	unsigned offsAlarmStart, offsAlarmStop;
 	double gainAlarmOffs, gainAlarmDelta, threshAlarm;
 
-	int offsReflectionStart, offsReflectionStop;
+	unsigned offsReflectionStart, offsReflectionStop;
 	double gainReflectionOffs, gainReflectionDelta, threshReflection;
 	bool bottomReflectionOn;
 	unsigned wholeStart;
