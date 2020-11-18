@@ -179,7 +179,7 @@ namespace LogMess
 	MESS(BaseLengthError, void, L"Необходимо уменьшить параметр \"Базовое расстояние\"", red, yellow)
 
 	MESS(Recalculation, void, L"Расчёт", blue, white)
-	MESS(RecalculationStop, void, L"Расчёт окончен", blue, white)
+	MESS(RecalculationStop, void, L"Расчёт завершён", blue, white)
 
 
 	static const int MAX_MESS_ID = __COUNTER__;
