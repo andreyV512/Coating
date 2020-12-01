@@ -33,7 +33,7 @@
             this.miFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miExit = new System.Windows.Forms.ToolStripMenuItem();
             this.miReports = new System.Windows.Forms.ToolStripMenuItem();
-            this.miOperators = new System.Windows.Forms.ToolStripMenuItem();
+            this.operatorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miBase = new System.Windows.Forms.ToolStripMenuItem();
             this.miSaveClear = new System.Windows.Forms.ToolStripMenuItem();
             this.miOpenBase = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +54,6 @@
             this.reportViewerUser.ServerReport.BearerToken = null;
             this.reportViewerUser.Size = new System.Drawing.Size(800, 426);
             this.reportViewerUser.TabIndex = 0;
-            this.reportViewerUser.Load += new System.EventHandler(this.reportViewerUser_Load);
             // 
             // menuStrip
             // 
@@ -85,17 +84,17 @@
             // miReports
             // 
             this.miReports.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miOperators});
+            this.operatorsToolStripMenuItem});
             this.miReports.Name = "miReports";
             this.miReports.Size = new System.Drawing.Size(60, 20);
             this.miReports.Text = "Отчёты";
             // 
-            // miOperators
+            // operatorsToolStripMenuItem
             // 
-            this.miOperators.Name = "miOperators";
-            this.miOperators.Size = new System.Drawing.Size(137, 22);
-            this.miOperators.Text = "Операторы";
-            this.miOperators.Click += new System.EventHandler(this.miOperators_Click);
+            this.operatorsToolStripMenuItem.Name = "operatorsToolStripMenuItem";
+            this.operatorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.operatorsToolStripMenuItem.Text = "Операторы";
+            this.operatorsToolStripMenuItem.Click += new System.EventHandler(this.miOperators_Click);
             // 
             // miBase
             // 
@@ -151,7 +150,7 @@
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "fmUser";
-            this.Text = "Form1";
+            this.Text = "База";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -168,7 +167,6 @@
         private System.Windows.Forms.ToolStripMenuItem miFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem miExit;
         private System.Windows.Forms.ToolStripMenuItem miReports;
-        private System.Windows.Forms.ToolStripMenuItem miOperators;
         private System.Windows.Forms.ToolStripMenuItem miBase;
         private System.Windows.Forms.ToolStripMenuItem miSaveClear;
         private System.Windows.Forms.ToolStripMenuItem miOpenBase;
@@ -176,6 +174,7 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel2;
+        private System.Windows.Forms.ToolStripMenuItem operatorsToolStripMenuItem;
     }
 }
 

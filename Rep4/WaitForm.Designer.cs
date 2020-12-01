@@ -51,7 +51,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "WaitForm";
             this.TopMost = true;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WaitForm_FormClosed);
             this.Load += new System.EventHandler(this.WaitForm_Load);
             this.ResumeLayout(false);
 

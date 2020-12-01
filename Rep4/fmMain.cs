@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Threading;
 using System.Windows;
+using System.Threading.Tasks;
 
 namespace Rep4
 {
@@ -18,37 +19,31 @@ namespace Rep4
             Close();
         }
 
-        private void miOperators_Click(object sender, EventArgs e)
+        private async void miOperators_Click(object sender, EventArgs e)
         {
             var w = new WaitForm();
             w.Show(this);
-            var t = new Thread(() =>{
-                var (list, param) = User.Query();
-                BeginInvoke((Action)(() => {
-                    reportViewerUser.Viewer(@".\ReportUser.rdlc", "dataSetUser", list, param);
-                    w.Close();
-                }));
-            });
-            t.Start();
+
+            var (list, param) = await User.QueryAsync();
+            reportViewerUser.Viewer(@".\ReportUser.rdlc", "dataSetUser", list, param);
+
+            w.Close();
         }
 
-        private void miSaveClear_Click(object sender, EventArgs e)
+        private async void miSaveClear_Click(object sender, EventArgs e)
         {
             var w = new WaitForm();
             w.Show(this);
-            var t = new Thread(() => {
-                var (list, param) = User.Query();
-                BeginInvoke((Action)(() => {
-                    var b = new Base();
-                    b.BackUp();
-                    miSaveClear.Enabled = false;
-                    w.Close();
-                }));
+
+            await Task.Run(() => {
+                new Base().BackUp();
             });
-            t.Start();
+
+            miSaveClear.Enabled = false;
+            w.Close();
         }
 
-        private void miOpenBase_Click(object sender, EventArgs e)
+        private async void miOpenBase_Click(object sender, EventArgs e)
         {
             var b = new Base();
             openFileDialog.InitialDirectory = b.backDir;
@@ -58,23 +53,18 @@ namespace Rep4
             {
                 var w = new WaitForm();
                 w.Show(this);
-                var t = new Thread(() => {
-                    var (list, param) = User.Query();
-                    BeginInvoke((Action)(() => {
-                        b.OpenBase(openFileDialog.FileName);
-                        statusLabel1.Text = Path.GetFileName(openFileDialog.FileName);
-                        miSaveClear.Enabled = false;
-                        w.Close();
-                    }));
+
+                statusLabel1.Text = Path.GetFileName(openFileDialog.FileName);
+                miSaveClear.Enabled = false;
+                Text = "Архив";
+
+                await Task.Run(() => {
+                    b.OpenBase(openFileDialog.FileName);
                 });
-                t.Start();
+
+                w.Close();
             }
             
-        }
-
-        private void reportViewerUser_Load(object sender, EventArgs e)
-        {
-           
         }
     }
 }
