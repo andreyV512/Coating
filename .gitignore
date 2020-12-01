@@ -17,3 +17,4 @@ Release/
 /Doc/~*
 /packages/
 /Rep4/SqlServerTypes/
+/tests/TestStore/.vs/TestStore/DesignTimeBuild/.dtbcache.v2
