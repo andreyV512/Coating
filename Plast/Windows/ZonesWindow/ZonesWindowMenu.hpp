@@ -34,12 +34,22 @@ namespace ZonesWindowMenu
 	struct Thresholds : TestThreshDlg {};
 	struct MedianFltr : TstMedianFiltreDlg {};
 	struct BiPolar : TestBiPolarDlg {};
+	struct XinMM__ : XinMMDlg {};
 
 	MENU_ITEM(L"Неизмеряемые зоны", DeadZones)
 	MENU_ITEM(L"Аналоговый фильтр", DspFiltr)
 	MENU_ITEM(L"Медианный фильтр", MedianFltr)
 	MENU_ITEM(L"Пороги", Thresholds)
 	MENU_ITEM(L"Биполярный сигнал", BiPolar)
+	MENU_ITEM(L"Ось Х в мм.", XinMM__);
+
+	template<>struct EnableMenuInit<MenuItem<XinMM__>>
+	{
+		int operator()(HWND)
+		{
+			return MFS_CHECKED;
+		}
+	};
 
 	template<>struct TopMenu<MainOptionTypeSize>
 	{
@@ -50,6 +60,7 @@ namespace ZonesWindowMenu
 			, MenuItem<DspFiltr>
 			, Separator<0>
 			, MenuItem<BiPolar>
+			, MenuItem<XinMM__>
 		> list;
 	};
 

@@ -28,6 +28,7 @@ public:
 	VL::Factory< viewers_list> viewers;
 	HWND hWnd;
 	HWND hStatuisBar;
+	bool XinMM = true;
 	AScanWindowToolBar toolBar;
 	TopLabelViewer topLabelViewer;
 	ComputeFrame computeFrame;

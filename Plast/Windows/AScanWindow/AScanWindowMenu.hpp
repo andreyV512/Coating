@@ -26,11 +26,22 @@ namespace AScanWindowMenu
 	struct Thresholds : ThreshDlg {};
 	struct BiPolar : BiPolarDlg {};
 	struct DspFiltr : AScanDspFiltrDlg {};
+	struct XinMM__ : XinMMDlg {};
 
 	MENU_TEXT(L"Настройки", TopMenu<OptionsFile>);
 	MENU_ITEM(L"Пороги", Thresholds);
 	MENU_ITEM(L"Аналоговый фильтр", DspFiltr);
 	MENU_ITEM(L"Биполярный сигнал", BiPolar);
+	MENU_ITEM(L"Ось Х в мм.", XinMM__);
+
+	template<>struct EnableMenuInit<MenuItem<XinMM__>>
+	{
+		int operator()(HWND)
+		{
+			return MFS_CHECKED;
+		}
+	};
+
 	template<>struct TopMenu<OptionsFile>
 	{
 		typedef Vlst<
@@ -38,6 +49,7 @@ namespace AScanWindowMenu
 			, MenuItem<DspFiltr>
 			, Separator<0>
 			, MenuItem<BiPolar>
+			, MenuItem<XinMM__>
 		> list;
 	};
 

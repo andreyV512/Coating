@@ -16,7 +16,6 @@
 LRESULT AScanWindow::operator()(TCreate &l)
 {
 	generatorBit = Singleton<OutputBitsTable>::Instance().items.get<oGenerator>().value;
-	//VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, computeFrame.treshItems);
 	SetThresh();
 
 	AppKeyHandler::DisableAll();
@@ -48,6 +47,7 @@ void AScanWindow::operator()(TDestroy &l)
 
 struct __move_window_data__
 {
+	AScanWindow *scanWindow;
 	int y, width, height, maxYHeight, lengthTube;
 };
 
@@ -56,6 +56,11 @@ template<class O, class P>struct __move_window__
 	void operator()(O &o, P &p)
 	{
 		o.tchart.maxAxesX = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
+		if (p.scanWindow->XinMM)
+		{
+			o.tchart.maxAxesX *= Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;
+			o.tchart.maxAxesX /= 2000.0 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value;
+		}
 		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
 		SendMessage(MESSAGE(size));
 		MoveWindow(o.hWnd, 0, p.y, p.width, p.height, TRUE);
@@ -79,7 +84,7 @@ void AScanWindow::operator()(TSize &l)
 	int t = (l.Height - rs.bottom - rt.bottom - topLabelHeight) / VL::Length<viewers_list>::value;
 	y += topLabelHeight;
 	//
-	__move_window_data__ data{ y, l.Width, t, l.Height - rs.bottom, 100 };
+	__move_window_data__ data{this, y, l.Width, t, l.Height - rs.bottom, 100 };
 	VL::foreach<viewers_list, __move_window__>()(viewers, data);
 
 }

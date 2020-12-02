@@ -14,8 +14,6 @@ AScanViewer::AScanViewer()
 	chart->maxAxesY = 100;
 }
 
-
-
 struct __mouse_well_data__
 {
 	AScanViewer *owner;

@@ -32,4 +32,6 @@
    DLG(StoreFilesDlg)
    DLG(OpenFileDlg)
    DLG(SaveFileDlg)
+   DLG(XinMMDlg)
+   DLG(TestXinMMDlg)
 #undef DLG
