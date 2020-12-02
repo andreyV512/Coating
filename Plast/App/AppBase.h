@@ -90,16 +90,17 @@ struct MedianFiltreTable
 };
 
 DEFINE_PARAM(AlarmThresh              , double, 50)
-DEFINE_PARAM(AlarmThreshStart         , int, 10)
-DEFINE_PARAM(AlarmThreshStop          , int, 80)
+DEFINE_PARAM(AlarmThreshStart         , double, 10)
+DEFINE_PARAM(AlarmThreshStop          , double, 80)
 DEFINE_PARAM(AlarmGainStart           , double, 1.0)
 DEFINE_PARAM(AlarmGainStop            , double, 1.0)
 DEFINE_PARAM(BottomReflectionThresh         , double, 15)
-DEFINE_PARAM(BottomReflectionThreshStart    , int, 80)
-DEFINE_PARAM(BottomReflectionThreshStop     , int, 100)
+DEFINE_PARAM(BottomReflectionThreshStart    , double, 80)
+DEFINE_PARAM(BottomReflectionThreshStop     , double, 100)
 DEFINE_PARAM(BottomReflectionGainStart, double, 1.0)
 DEFINE_PARAM(BottomReflectionGainStop , double, 1.0)
 DEFINE_PARAM(BottomReflectionOn, bool, true)
+DEFINE_PARAM(SoundSpeed, double, 3130)
 
 struct TresholdsTable
 {
@@ -115,6 +116,7 @@ struct TresholdsTable
 		, BottomReflectionGainStart
 		, BottomReflectionGainStop
 		, BottomReflectionOn
+		, SoundSpeed
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;

@@ -4,12 +4,12 @@ struct __set_thresh_data__
 {
 	unsigned alThr_color;
 	double   alThr_value;
-	int      alThr_startOffs;
-	int      alThr_stopOffs;
+	double      alThr_startOffs;
+	double      alThr_stopOffs;
 	unsigned btmRefThr_color;
 	double   btmRefThr_value;
-	int      btmRefThr_startOffs;
-	int      btmRefThr_stopOffs;
+	double      btmRefThr_startOffs;
+	double      btmRefThr_stopOffs;
 };
 
 template<class O, class P>struct __set_thresh__

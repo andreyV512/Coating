@@ -55,21 +55,25 @@ MAX_EQUAL_VALUE(BottomReflectionGainStart, 100)
 MIN_EQUAL_VALUE(BottomReflectionGainStop, 0.1)
 MAX_EQUAL_VALUE(BottomReflectionGainStop, 100)
 
+MIN_EQUAL_VALUE(SoundSpeed, 1000)
+MAX_EQUAL_VALUE(SoundSpeed, 10000)
+
 PARAM_TITLE(AlarmThresh				 , L"Порог")
-PARAM_TITLE(AlarmThreshStart		 , L"Начало")
-PARAM_TITLE(AlarmThreshStop			 , L"Конец")
+PARAM_TITLE(AlarmThreshStart		 , L"Начало %")
+PARAM_TITLE(AlarmThreshStop			 , L"Конец %")
 PARAM_TITLE(AlarmGainStart			 , L"Усиление начало")
 PARAM_TITLE(AlarmGainStop			 , L"Усиление конец")
 PARAM_TITLE(BottomReflectionThresh		 , L"Порог")
-PARAM_TITLE(BottomReflectionThreshStart	 , L"Начало")
-PARAM_TITLE(BottomReflectionThreshStop	 , L"Конец")
+PARAM_TITLE(BottomReflectionThreshStart	 , L"Начало %")
+PARAM_TITLE(BottomReflectionThreshStop	 , L"Конец %")
 PARAM_TITLE(BottomReflectionGainStart, L"Усиление начало")
 PARAM_TITLE(BottomReflectionGainStop , L"Усиление конец")	   
 PARAM_TITLE(BottomReflectionOn, L"Использовать метод контроля")
+PARAM_TITLE(SoundSpeed, L"Скорость звука")
 
 void ThresholdsDlg::Do(HWND h)
 {
-	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection>, 300
+	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection, SoundSpeed>, 300
 	>(Singleton<TresholdsTable>::Instance()).Do(h, (wchar_t *)L"Пороги"))
 	{
 		RepaintWindow<MainWindow>();
@@ -81,7 +85,7 @@ void ThreshDlg::Do(HWND h)
 	AScanWindow &w = *(AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	TresholdsTable t;
 	VL::CopyFromTo(w.computeFrame.treshItems, t.items);
-	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection>, 300
+	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection, SoundSpeed>, 300
 		, Vlst<NoStoreOkBtn, CancelBtn>
 	>(t).Do(h, (wchar_t *)L"Пороги"))
 	{
@@ -96,7 +100,7 @@ void TestThreshDlg::Do(HWND h)
 	ZonesWindow &w = *(ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	TresholdsTable t;
 	VL::CopyFromTo(w.treshItems, t.items);
-	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection>, 300
+	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection, SoundSpeed>, 300
 		, Vlst<NoStoreOkBtn, CancelBtn>
 	>(t).Do(h, (wchar_t *)L"Пороги"))
 	{
