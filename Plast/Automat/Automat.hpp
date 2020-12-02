@@ -114,6 +114,7 @@ namespace Automat
 			changed = last ^ bits;
 			if (changed)
 			{
+				this->bits = bits;
 				VL::foreach<typename T::items_list, __test_bits_xxx__>()(Singleton<T>::Instance().items, *this);
 				last = bits;
 			}

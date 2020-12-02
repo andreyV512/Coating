@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="LanDirect">
-      <UniqueIdentifier>{9c911bd9-577a-4738-862a-f243de3fe226}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Data">
-      <UniqueIdentifier>{028eeeee-cecc-4f18-a4fe-7a0b0782b6bc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="App">
       <UniqueIdentifier>{e0df0b90-6ba7-48ad-bd9d-27debd67eb5e}</UniqueIdentifier>
     </Filter>
@@ -40,6 +34,9 @@
     <Filter Include="Common\window_tool">
       <UniqueIdentifier>{3cd3bc98-c540-4d13-8dc5-215d00aa15a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LanDirect">
+      <UniqueIdentifier>{6b33b960-42a2-4b40-9226-fd23daea07a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LanProcess.cpp">
@@ -54,9 +51,6 @@
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp">
       <Filter>Common\tools_debug</Filter>
     </ClCompile>
-    <ClCompile Include="..\Plast\Data\Data.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
     <ClCompile Include="..\Plast\App\AppBase.cpp">
       <Filter>App</Filter>
     </ClCompile>
@@ -66,11 +60,11 @@
     <ClCompile Include="..\Common\window_tool\RunExecute.cpp">
       <Filter>Common\window_tool</Filter>
     </ClCompile>
-    <ClCompile Include="LanDirect\LanDirect.cpp">
-      <Filter>LanDirect</Filter>
-    </ClCompile>
     <ClCompile Include="..\CommonApp\CommonApp.cpp">
       <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="LanDirect\EventNames.cpp">
+      <Filter>LanDirect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,12 +77,6 @@
     <ClInclude Include="..\Common\tools_debug\DebugMess.h">
       <Filter>Common\tools_debug</Filter>
     </ClInclude>
-    <ClInclude Include="..\Plast\Data\Data.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="LanDirect\LanDirect.h">
-      <Filter>LanDirect</Filter>
-    </ClInclude>
     <ClInclude Include="..\Plast\App\AppBase.h">
       <Filter>App</Filter>
     </ClInclude>
@@ -100,6 +88,9 @@
     </ClInclude>
     <ClInclude Include="..\CommonApp\CommonApp.h">
       <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="LanDirect\EventNames.h">
+      <Filter>LanDirect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

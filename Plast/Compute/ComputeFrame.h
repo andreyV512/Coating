@@ -11,6 +11,7 @@ public:
 	bool bipolar;
 	Impl<IDSPFlt, 1032> filter;
 	FiltersTable::TItems paramFlt;
+	TresholdsTable::TItems treshItems;
 	unsigned &framesCount;
 	char *buffer;
 	unsigned offsAlarmStart, offsAlarmStop;

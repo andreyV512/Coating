@@ -14,6 +14,7 @@ goto :EOF
 :Gen
 echo #pragma once > Version.h
 set /p file=<NumVer.txt
+chcp 65001
 echo #define VERSION() L"Cборка %file%">> Version.h
 goto :EOF
 

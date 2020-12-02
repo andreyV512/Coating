@@ -14,7 +14,8 @@
 
 LRESULT AScanWindow::operator()(TCreate &l)
 {
-	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
+	generatorBit = Singleton<OutputBitsTable>::Instance().items.get<oGenerator>().value;
+	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, computeFrame.treshItems);
 	SetThresh();
 
 	AppKeyHandler::DisableAll();
@@ -99,7 +100,7 @@ void AScanWindow::operator()(TGetMinMaxInfo &l)
 void AScanWindow::operator()(TClose &l)
 {
 	KillTimer(l.hwnd, idTimer);
-	bool tresh = TestX<TresholdsTable>(treshItems);
+	bool tresh = TestX<TresholdsTable>(computeFrame.treshItems);
 	bool flt   = TestX<FiltersTable>(computeFrame.paramFlt);
 
 	if (tresh || flt)
@@ -111,19 +112,20 @@ void AScanWindow::operator()(TClose &l)
 				CBase base(ParametersBase().name());
 				if (base.IsOpen())
 				{
-					if (tresh) StoreBaseX<TresholdsTable>(base, treshItems);
+					if (tresh) StoreBaseX<TresholdsTable>(base, computeFrame.treshItems);
 					if (flt)StoreBaseX<FiltersTable>(base, computeFrame.paramFlt);
 					MessageBox(l.hwnd, L"Данные сохранены!", L"Cообщение", MB_ICONEXCLAMATION | MB_OK);
 				}
 			}
 		}
 	}
+	Stop();
 	DestroyWindow(l.hwnd);
 }
 
 void AScanWindow::SetThresh()
 {
-	SetTresh(treshItems, viewers);
+	SetTresh(computeFrame.treshItems, viewers);
 }
 
 struct __update_sens_data__
@@ -142,7 +144,8 @@ template<int N, class P>struct __update_sens__<AScanWindow::Sens<N>, P>
 	void operator()(O &o, P &p)
 	{
 		auto &w = p.owner.viewers.get<O>();
-		p.owner.computeFrame.Frame(N, p.offs, w.data);
+		unsigned offs = p.offs + N * p.owner.computeFrame.packetSize;
+		p.owner.computeFrame.Frame(N, offs, w.data);
 		w.line.count = p.owner.computeFrame.packetSize;
 		RepaintWindow(w.hWnd);
 	}
@@ -153,9 +156,7 @@ void AScanWindow::operator()(TTimer &l)
 	unsigned offs = computeFrame.framesCount;
 	if (offs > computeFrame.packetSize * 5000) computeFrame.framesCount = 0;
 	
-	offs /= computeFrame.packetSize;
-	offs /= App::count_sensors;
-	offs -= 10;
+	offs -= computeFrame.packetSize * App::count_sensors;
 	if (offs < 0) offs = 0;
 	__update_sens_data__ data(*this, offs);
 	VL::foreach<viewers_list, __update_sens__>()(viewers, data);
@@ -171,6 +172,7 @@ void AScanWindow::Start()
 {
 	idTimer = SetTimer(hWnd, 200, 123, NULL);
 	AScanKeyHandler::Run();
+	device1730.WriteOutput(generatorBit);
 	Singleton<LanDevice>::Instance().Start();
 }
 
@@ -178,5 +180,6 @@ void AScanWindow::Stop()
 {
 	KillTimer(hWnd, idTimer);
 	AScanKeyHandler::Stop();
+	device1730.WriteOutput(0, generatorBit);
 	Singleton<LanDevice>::Instance().Stop();
 }

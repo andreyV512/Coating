@@ -38,14 +38,12 @@ void ComputeFrame::UpdateFiltre()
 
 void ComputeFrame::Frame(int sensor, unsigned offs_, double *data)
 {
-	unsigned num = *(unsigned *)&buffer[offs_];
-	dprint("frame num %d sens %d %d\n", num, num % 3, sensor);
+	//unsigned num = *(unsigned *)&buffer[offs_];
+	//dprint("frame num %d sens %d %d\n", num, num % 3, sensor);
 
 	filter->Clean();
 
 	unsigned offs = offs_;
-	//if (bipolar)
-	//{
 		unsigned i = 0;
 		for (; i < offsAlarmStart && offs < Data::InputData::buffSize; ++i, ++offs)
 		{
@@ -81,23 +79,15 @@ void ComputeFrame::Frame(int sensor, unsigned offs_, double *data)
 				double t = 100.0 * buffer[offs];
 				data[i] = (*filter)(t / 128);
 			}
-	//}
 	if (!bipolar)
 	{
 		offs = offs_;
 		for (unsigned i = 0; i < packetSize && offs < Data::InputData::buffSize; ++i, ++offs)
 		{
-			if(data[i] < 0) data[i] = -data[i];
+			if (data[i] < 0)
+			{
+				data[i] = -data[i];
+			}
 		}
 	}
-	//else
-	//{
-	//	for (unsigned i = 0; i < packetSize && offs < Data::InputData::buffSize; ++i, ++offs)
-	//	{
-	//		double t = 100.0 * buffer[offs];
-	//		t = (*filter)(t / 128);
-	//		data[i] = t > 0 ? t : -t;
-	//	}
-	//}
-	
 }

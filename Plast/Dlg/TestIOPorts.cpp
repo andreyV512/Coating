@@ -27,6 +27,7 @@ namespace TestIOPortsN
 	oAutomat   \
 	, oSupply  \
 	, oMark \
+	, oGenerator 
 
 #define INPUT_WHAT(n)  DEFINE_PARAM_WAPPER(InpStat, n, bool, false)
 	FOR_EACH(INPUT_WHAT, INPUT_STAT_TYPES_0)
@@ -64,12 +65,14 @@ namespace TestIOPortsN
 		OutStat<oAutomat >
 		, OutStat<oSupply  >
 		, OutStat<oMark >
+		, OutStat<oGenerator >
 		) GBOutput;
 		PARAM_TITLE(GBOutput, L"Выход")
 
 		PARAM_TITLE(OutStat<oAutomat >, L"Сигнал \"Автомат\"")
 		PARAM_TITLE(OutStat<oSupply  >, L"Сигнал \"Подвод\"")
 		PARAM_TITLE(OutStat<oMark >, L"Сигнал \"Отметка\"")
+		PARAM_TITLE(OutStat<oGenerator >, L"Сигнал \"Генератор\"")
 
 		typedef Vlst<
 		GBOutput

@@ -5,10 +5,7 @@
 #include "tools_debug/DebugMess.h"
 #include "PerformanceCounter/PerformanceCounter.h"
 #include "window_tool/RunExecute.h"
-
-const wchar_t *wStart = L"Communication pipe start";
-const wchar_t *wStop  = L"Communication pipe stop";
-const wchar_t *wExit = L"Communication pipe exit";
+#include "EventNames.h"
 
 DWORD WINAPI LanRead::__proc__(PVOID p)
 {
@@ -55,10 +52,6 @@ LanRead::~LanRead()
 
 void LanRead::Update()
 {
-//	Stop();
-//	SetEvent(hExit);
-//CloseHandle(hReadPipe);
-//Sleep(500);
 	bufSize = packetSize * numberPackets * App::count_sensors;
 	HANDLE hWritePipe, hInheritWritePipe;
 

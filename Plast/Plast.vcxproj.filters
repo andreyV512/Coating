@@ -492,6 +492,9 @@
     <ClInclude Include="Compute\Emulator\Emulator.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="..\LanProcess\LanDirect\EventNames.h">
+      <Filter>LanDirect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -778,6 +781,9 @@
     </ClCompile>
     <ClCompile Include="Compute\Emulator\Emulator.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LanProcess\LanDirect\EventNames.cpp">
+      <Filter>LanDirect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

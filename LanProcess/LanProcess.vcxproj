@@ -153,8 +153,7 @@
     <ClCompile Include="..\Common\Units\Lan\Lan.cpp" />
     <ClCompile Include="..\Common\window_tool\RunExecute.cpp" />
     <ClCompile Include="..\Plast\App\AppBase.cpp" />
-    <ClCompile Include="..\Plast\Data\Data.cpp" />
-    <ClCompile Include="LanDirect\LanDirect.cpp" />
+    <ClCompile Include="LanDirect\EventNames.cpp" />
     <ClCompile Include="LanProcess.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,8 +164,7 @@
     <ClInclude Include="..\Common\Units\Lan\Lan.h" />
     <ClInclude Include="..\Common\window_tool\RunExecute.h" />
     <ClInclude Include="..\Plast\App\AppBase.h" />
-    <ClInclude Include="..\Plast\Data\Data.h" />
-    <ClInclude Include="LanDirect\LanDirect.h" />
+    <ClInclude Include="LanDirect\EventNames.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

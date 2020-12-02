@@ -6,7 +6,6 @@
 #include "Windows/Viewers/AScanViewer/AScanViewer.h"
 #include "App/AppBase.h"
 #include "Compute/ComputeFrame.h"
-//#include "Devices/LanDevice.h"
 
 class AScanWindow
 {
@@ -24,7 +23,7 @@ public:
 			line.data = data;
 		}
 	};
-	TresholdsTable::TItems treshItems;
+	
 	typedef Vlst<Sens<0>, Sens<1>, Sens<2> >viewers_list;
 	VL::Factory< viewers_list> viewers;
 	HWND hWnd;
@@ -32,6 +31,7 @@ public:
 	AScanWindowToolBar toolBar;
 	TopLabelViewer topLabelViewer;
 	ComputeFrame computeFrame;
+	unsigned generatorBit;
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
 	void operator()(TSize &);

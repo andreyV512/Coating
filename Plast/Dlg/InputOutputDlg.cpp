@@ -2,8 +2,8 @@
 #include "DlgTemplates\ParamDlgNew.h"
 
 #define Param(n, txt)\
-MIN_EQUAL_VALUE(n, 1)\
-MAX_EQUAL_VALUE(n, 32)\
+MIN_EQUAL_VALUE(n, 0)\
+MAX_EQUAL_VALUE(n, 31)\
 PARAM_TITLE(n, txt)\
 template<>struct DlgSubItems<n, unsigned>: UpDownSubItem<n>{};
 
@@ -13,7 +13,7 @@ template<class O, class P>struct __unshift__
 	void operator()(O &o, P &p)
 	{
 		unsigned val = p.get<O>().value;
-		unsigned offs = 1;
+		unsigned offs = 0;
 		while(val >>= 1) ++offs;
 		o.value = offs;
 	}
@@ -27,6 +27,7 @@ Param(iStrobe, L"Строб")
 Param(oAutomat, L"Автомат")
 Param(oSupply , L"Подвод")
 Param(oMark     , L"Отметка")
+Param(oGenerator, L"Генератор")
 #undef Param
 
 typedef Dialog::Templ<ParametersBase, InputBitsTable, InputBitsTable::items_list, 350> TInputBitDlg;
@@ -36,7 +37,7 @@ template<class P>struct __data_from_widget__<Dialog::DlgItem2<P, TInputBitDlg>, 
 	{
 		wchar_t buf[128];
 		GetWindowText(o.hWnd, buf, dimention_of(buf));
-		return 1 << (Wchar_to<unsigned>()(buf) - 1);
+		return 1 << (Wchar_to<unsigned>()(buf));
 	}
 };
 
@@ -56,7 +57,7 @@ template<class P>struct __data_from_widget__<Dialog::DlgItem2<P, TOutputBitDlg>,
 	{
 		wchar_t buf[128];
 		GetWindowText(o.hWnd, buf, dimention_of(buf));
-		return 1 << (Wchar_to<unsigned>()(buf) - 1);
+		return 1 << (Wchar_to<unsigned>()(buf));
 	}
 };
 

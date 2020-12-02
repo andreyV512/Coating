@@ -111,15 +111,17 @@ namespace LogMess
 	MESS_BIT(On<oAutomat>, void, L"On<oAutomat>", red, white);
 	MESS_BIT(On<oSupply >, void, L"On<oSupply >", red, white);
 	MESS_BIT(On<oMark>, void, "Включен сигнал \"Отметка\"", red, white);
+	MESS_BIT(On<oGenerator>, void, "Включен сигнал \"Генератор\"", red, white);
 
 	MESS_BIT(Off<iCU  >, void, L"Отключен сигнал \"Цепи управления\"", blue, white);
 	MESS_BIT(Off<iIn  >, void, L"Отключен сигнал \"Труба на входе\"", blue, white);
 	MESS_BIT(Off<iOut >, void, L"Отключен сигнал \"Труба на выходе\"", blue, white);
 	MESS_BIT(Off<iStrobe >, void, L"Отключен сигнал \"Строб\"", blue, white);
 
-	MESS_BIT(Off<oAutomat>, void, L"Off<oAutomat>", blue, white);
+	MESS_BIT(Off<oAutomat>, void, L"Отключен сигнал \"Автомат\"", blue, white);
 	MESS_BIT(Off<oSupply >, void, L"Off<oSupply >", blue, white);
 	MESS_BIT(Off<oMark>, void, L"Отключен сигнал \"Отметка\"", blue, white);
+	MESS_BIT(Off<oGenerator>, void, L"Отключен сигнал \"Генератор\"", blue, white);
 
 	ALARM_BIT(On<iCU  >, void, L"Нет сигнала \"Цепи управления\"", red, yellow);
 	

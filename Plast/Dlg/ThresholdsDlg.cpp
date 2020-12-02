@@ -80,12 +80,12 @@ void ThreshDlg::Do(HWND h)
 {
 	AScanWindow &w = *(AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	TresholdsTable t;
-	VL::CopyFromTo(w.treshItems, t.items);
+	VL::CopyFromTo(w.computeFrame.treshItems, t.items);
 	if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection>, 300
 		, Vlst<NoStoreOkBtn, CancelBtn>
 	>(t).Do(h, (wchar_t *)L"Пороги"))
 	{
-		VL::CopyFromTo(t.items, w.treshItems);
+		VL::CopyFromTo(t.items, w.computeFrame.treshItems);
 		w.SetThresh();
 		RepaintWindow(h);
 	}

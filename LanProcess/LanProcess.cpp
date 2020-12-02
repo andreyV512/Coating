@@ -6,6 +6,7 @@
 #include "tools_debug/DebugMess.h"
 #include "CommonApp.h"
 #include "templates\templates.hpp"
+#include "LanDirect\EventNames.h"
 
 class LanProcess
 {
@@ -62,7 +63,20 @@ void LanProcess::Confirm(unsigned)
 	DWORD bytesWritten;
 	while (currentFrameHead != currentFrameTail)
 	{
-		if (!WriteFile(hWritePipe, &data[bufSize * currentFrameTail], bufSize, &bytesWritten, NULL))
+		char *c = &data[bufSize * currentFrameTail];
+		int k = 0;
+		for (int i = 0; i < bufSize; i += packetSize, ++k)
+		{
+			if (0 == (k % App::count_sensors))
+			{
+				char *x = &c[i];
+				for (int j = 0; j < packetSize; ++j)
+				{
+					x[j] = 64;
+				}
+			}
+		}
+		if (!WriteFile(hWritePipe, c, bufSize, &bytesWritten, NULL))
 		{
 			DWORD ret = GetLastError();
 			dprint("client WriteFalted %d\n", ret);

@@ -1,10 +1,6 @@
 #pragma once
 #include <windows.h>
 
-extern const wchar_t *wStart;
-extern const wchar_t *wStop; 
-extern const wchar_t *wExit;
-
 namespace Data { struct InputData; }
 class LanRead
 {

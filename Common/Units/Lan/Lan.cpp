@@ -166,13 +166,13 @@ void Lan::SetParams(RshInitMemory &p)
 	p.bufferSize = q(PacketSize);
 	p.frequency = 1e6 * q(Frequency);
 	p.channels[0].control = RshChannel::Used;
-	if (q(MeasurementInput))p.channels[0].control |= RshChannel::AC;
+	if (!q(MeasurementInput))p.channels[0].control |= RshChannel::AC;
 	p.channels[0].gain = q(Gain0);
 
 	p.packetNumber = q(NumberPackets) * App::count_sensors;
 
 	p.channelSynchro.gain = q(SyncGain);
-	p.channelSynchro.control = q(SyncInput)? RshSynchroChannel::AC: RshSynchroChannel::DC;
+	p.channelSynchro.control = q(SyncInput)? RshSynchroChannel::DC: RshSynchroChannel::AC;
 	p.threshold = q(SyncLevel);
 	p.startDelay = q(StartDelay);
 }

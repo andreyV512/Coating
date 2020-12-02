@@ -22,6 +22,7 @@ struct InputBitsTable
 DEFINE_PARAM(oAutomat, unsigned, 1 << 0)
 DEFINE_PARAM(oSupply, unsigned, 1 << 1)
 DEFINE_PARAM(oMark, unsigned, 1 << 2)
+DEFINE_PARAM(oGenerator, unsigned, 1 << 8)
 
 struct OutputBitsTable
 {
@@ -29,6 +30,7 @@ struct OutputBitsTable
 		oAutomat
 		, oSupply
 		, oMark
+		, oGenerator
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;

@@ -150,6 +150,7 @@ namespace Automat
 			
 		}
 		zprint(" exit loop\n");
+		device1730.Write(0);
 		return 0;
 	}
 }
