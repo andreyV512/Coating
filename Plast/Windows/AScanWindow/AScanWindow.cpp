@@ -55,7 +55,7 @@ template<class O, class P>struct __move_window__
 {
 	void operator()(O &o, P &p)
 	{
-		o.tchart.maxAxesX = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
+		o.tchart.count = o.tchart.maxAxesX = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
 		if (p.scanWindow->XinMM)
 		{
 			o.tchart.maxAxesX *= Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;

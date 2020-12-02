@@ -19,10 +19,6 @@ CommonSensorViewer::~CommonSensorViewer()
 
 LRESULT CommonSensorViewer::operator()(TCreate &l)
 {
-	//chart->minAxesX = 0;
-	//chart->maxAxesX = 500;
-	//chart->minAxesY = 0;
-	//chart->maxAxesY = 100;
 	chart->rect.top = 17;
 	label.fontHeight = 10;
 	label.top = 0;
@@ -96,7 +92,7 @@ void CommonSensorViewer::operator()(TMouseWell &l)
 
 	currentX -= offs;
 
-	if (currentX > chart->maxAxesX) 	currentX = (int)chart->maxAxesX - 1;
+	if (currentX > chart->count) 	currentX = chart->count;//(int)chart->maxAxesX - 1;
 	else  if (currentX < 0) 	currentX = 0;
 	int currentY = 0;
 	chart->CellCoord(storedMouseMove.x, storedMouseMove.y, currentX, currentY);

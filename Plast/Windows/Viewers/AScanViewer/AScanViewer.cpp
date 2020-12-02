@@ -12,20 +12,21 @@ AScanViewer::AScanViewer()
 	tcursor.horizontalLine = false;
 	chart->minAxesY = 0;
 	chart->maxAxesY = 100;
+	tcursor.SetMouseMoveHandler(this, &AScanViewer::Draw);
 }
 
-struct __mouse_well_data__
+bool AScanViewer::Draw(TMouseMove &l, VGraphics &g)
 {
-	AScanViewer *owner;
-	TMouseWell mes;
-};
-
-template<class O, class P>struct __mouse_well__
-{
-	void operator()(O &o, P &p)
+	int x = currentX;
+	bool drawZones = x < tchart.count;
+	label.buffer[0] = '\0';
+	if (drawZones)
 	{
-		p.mes.hwnd = o.hWnd;
-		o.currentX = p.owner->currentX;	
-		SendMessage(MESSAGE(p.mes));
+		wsprintf(label.buffer, L"<ff>смещение %d                       <%6x>."
+			, x
+			, BACK_GROUND
+		);
 	}
-};
+	label.Draw(g());
+	return drawZones;
+}

@@ -24,4 +24,5 @@ public:
 	int numSensor;
 
 	AScanViewer();
+	bool Draw(TMouseMove &l, VGraphics &g);
 };

@@ -43,6 +43,7 @@ inline bool InRect(int x, int y, RECT &r)
 class Chart
 {
 public:
+  int count = 0;
   RECT rect;
   int offsetAxesLeft, offsetAxesBottom, offsetAxesTop, offsetAxesRight;
   double minAxesX, maxAxesX, minAxesY, maxAxesY, minAxesYRight, maxAxesYRight;
