@@ -1,15 +1,15 @@
 #pragma once
 #include "Base/TablesDefine.h"
-DEFINE_PARAM(PacketSize, int, 4058)
-DEFINE_PARAM(Gain0, int, 40)
-DEFINE_PARAM(SyncLevel, int, 80)
-DEFINE_PARAM(SyncGain, int, 10)
-DEFINE_PARAM(StartDelay, int, 100)
+DEFINE_PARAM(PacketSize, int, 986)
+DEFINE_PARAM(Gain0, int, 10)
+DEFINE_PARAM(SyncLevel, int, 30)
+DEFINE_PARAM(SyncGain, int, 1)
+DEFINE_PARAM(StartDelay, int, 0)
 //----------------------------------------------------------------
 DEFINE_PARAM(Frequency, int, 25) //50
 DEFINE_PARAM(NumberPackets, int, 100)
 
-DEFINE_PARAM(SyncInput, bool, false)
+DEFINE_PARAM(SyncInput, bool, true)
 DEFINE_PARAM(MeasurementInput, bool, false)
 DEFINE_PARAM(SynchronizationEdge, bool, true)
 
