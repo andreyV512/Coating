@@ -495,6 +495,9 @@
     <ClInclude Include="..\LanProcess\LanDirect\EventNames.h">
       <Filter>LanDirect</Filter>
     </ClInclude>
+    <ClInclude Include="Compute\SetTresholds.hpp">
+      <Filter>Compute</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">

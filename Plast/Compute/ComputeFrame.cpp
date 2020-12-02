@@ -1,6 +1,7 @@
 #include "ComputeFrame.h"
 #include "Data/Data.h"
 #include "tools_debug/DebugMess.h"
+#include "SetTresholds.hpp"
 
 template<class O, class P>struct __init_filtre_XX__
 {
@@ -29,6 +30,8 @@ ComputeFrame::ComputeFrame()
 {
 	VL::CopyFromTo(Singleton<FiltersTable>::Instance().items, paramFlt);
 	UpdateFiltre();
+	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
+	SetTresholds(*this, treshItems);
 }
 
 void ComputeFrame::UpdateFiltre()

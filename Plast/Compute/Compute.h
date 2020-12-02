@@ -33,7 +33,7 @@ public:
 	unsigned zoneOffsets[1 + App::count_zones];
 private:
 	Data::SensorData *sensorData[App::count_sensors];
-
+public:
 	unsigned offsAlarmStart, offsAlarmStop;
 	double gainAlarmOffs, gainAlarmDelta, threshAlarm;
 

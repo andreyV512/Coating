@@ -11,11 +11,12 @@
 #include "Devices/LanDevice.h"
 #include "Windows/Viewers/NegThresh.hpp"
 #include "Windows/StoreParamsBase.hpp"
+#include "Compute/SetTresholds.hpp"
 
 LRESULT AScanWindow::operator()(TCreate &l)
 {
 	generatorBit = Singleton<OutputBitsTable>::Instance().items.get<oGenerator>().value;
-	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, computeFrame.treshItems);
+	//VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, computeFrame.treshItems);
 	SetThresh();
 
 	AppKeyHandler::DisableAll();
@@ -170,10 +171,14 @@ void AScanWindow::SwitchBipolar(bool b)
 
 void AScanWindow::Start()
 {
+	SetTresholds(computeFrame, computeFrame.treshItems);
+	computeFrame.UpdateFiltre();
 	idTimer = SetTimer(hWnd, 200, 123, NULL);
 	AScanKeyHandler::Run();
-	device1730.WriteOutput(generatorBit);
+	
 	Singleton<LanDevice>::Instance().Start();
+	Sleep(500);
+	device1730.WriteOutput(generatorBit);
 }
 
 void AScanWindow::Stop()

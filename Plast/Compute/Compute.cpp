@@ -8,6 +8,7 @@
 #include "window_tool/Emptywindow.h"
 #include "Log/LogBuffer.h"
 #include "Windows/MainWindow/AppKeyHandler.h"
+#include "SetTresholds.hpp"
 
 template<class O, class P>struct __compute_set_data__;
 template<template<int>class W, int N, class P>struct __compute_set_data__<W<N>, P>
@@ -63,22 +64,24 @@ void Compute::Start()
 	int width = medianParams.get<MedianFiltreWidth>().value;
 	for (int i = 0; i < dimention_of(median); ++i) median[i].InitWidth(width);
 
-	auto t = Singleton<TresholdsTable>::Instance().items;
+	//auto t = Singleton<TresholdsTable>::Instance().items;
 
-	threshAlarm    = t.get<AlarmThresh>().value;
-	offsAlarmStart = int(t.get<AlarmThreshStart>().value * packetSize * 0.01);
-	offsAlarmStop  = int(t.get<AlarmThreshStop>().value * packetSize * 0.01) ;
-	gainAlarmOffs = t.get<AlarmGainStart>().value;
-	gainAlarmDelta = (t.get<AlarmGainStop>().value - t.get<AlarmGainStart>().value) 
-		/ (offsAlarmStop - offsAlarmStart);
+	//threshAlarm    = t.get<AlarmThresh>().value;
+	//offsAlarmStart = int(t.get<AlarmThreshStart>().value * packetSize * 0.01);
+	//offsAlarmStop  = int(t.get<AlarmThreshStop>().value * packetSize * 0.01) ;
+	//gainAlarmOffs = t.get<AlarmGainStart>().value;
+	//gainAlarmDelta = (t.get<AlarmGainStop>().value - t.get<AlarmGainStart>().value) 
+	//	/ (offsAlarmStop - offsAlarmStart);
+	//
+	//threshReflection    = t.get<BottomReflectionThresh>().value;
+	//offsReflectionStart = int(t.get<BottomReflectionThreshStart>().value * packetSize * 0.01);
+	//offsReflectionStop  = int(t.get<BottomReflectionThreshStop>().value * packetSize * 0.01);
+	//gainReflectionOffs = t.get<BottomReflectionGainStart>().value;
+	//gainReflectionDelta = (t.get<BottomReflectionGainStop>().value - t.get<BottomReflectionGainStart>().value) 
+	//	/ (offsReflectionStop - offsReflectionStart);
+	//bottomReflectionOn = t.get<BottomReflectionOn>().value;
 
-	threshReflection    = t.get<BottomReflectionThresh>().value;
-	offsReflectionStart = int(t.get<BottomReflectionThreshStart>().value * packetSize * 0.01);
-	offsReflectionStop  = int(t.get<BottomReflectionThreshStop>().value * packetSize * 0.01);
-	gainReflectionOffs = t.get<BottomReflectionGainStart>().value;
-	gainReflectionDelta = (t.get<BottomReflectionGainStop>().value - t.get<BottomReflectionGainStart>().value) 
-		/ (offsReflectionStop - offsReflectionStart);
-	bottomReflectionOn = t.get<BottomReflectionOn>().value;
+	SetTresholds(*this, Singleton<TresholdsTable>::Instance().items);
 
 	auto &deadZones = Singleton<DeadZonesTable>::Instance().items;
 	int deadZoneStart = deadZones.get<DeadZoneStart>().value;
