@@ -35,7 +35,7 @@ public:
 		typedef AScanViewer Parent;
 		LineSeries &line;
 		double data[8154];
-		Sens() :line(tchart.items.get<LineSeries>())
+		Sens() :line(tchart.items.get<Line>())
 		{
 			line.data = data;
 		}

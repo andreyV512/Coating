@@ -15,12 +15,17 @@ public:
 	{
 	public:
 		typedef AScanViewer Parent;
-		LineSeries &line;
+		Line &line;
+		Gain &gainLine;
 		double data[8154];
-		Sens():line(tchart.items.get<LineSeries>())
+		double gain[8154];
+		Sens()
+			: line(tchart.items.get<Line>())
+			, gainLine(tchart.items.get<Gain>())
 		{
 			numSensor = N;
 			line.data = data;
+			gainLine.data = gain;
 		}
 	};
 	

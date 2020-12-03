@@ -5,6 +5,9 @@
 #include "Data/Data.h"
 #include "Windows/Viewers/NegThresh.h"
 
+class Line : public LineSeries {public: Line(Chart &chart) : LineSeries(chart) {}};
+class Gain : public LineSeries{public:Gain(Chart &chart) : LineSeries(chart) { color = 0xffffff00; }};
+
 class AScanViewer : public CommonSensorViewerLine
 {
 public:
@@ -12,7 +15,8 @@ public:
 	typedef ChartDraw< Chart, Vlst<
 		NoOffsetLeftAxes
 		, BottomAxesInt
-		, LineSeries
+		, Line
+		, Gain
 		, FixedGrid
 		, AlThr
 		, BtmRefThr
@@ -22,6 +26,7 @@ public:
 	TChart tchart;
 	Cursor tcursor;
 	int numSensor;
+	double *&data;
 
 	AScanViewer();
 	bool Draw(TMouseMove &l, VGraphics &g);

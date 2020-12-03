@@ -719,3 +719,20 @@ int Chart::BetweenLeftRight(int x)
 	 mY = int(bottom - dY * y - 0.5 * dY);
  }
  //---------------------------------------------------------------------------------------
+ void Chart::CoordLine(int mX, int &x)
+ {
+	 double left = (double)rect.left + offsetAxesLeft;
+	 double right = (double)rect.right - offsetAxesRight;
+	 double dx = (right - left) / count;
+	 x = int((mX - left) / dx);
+	 if (x < 0) x = 0;
+ }
+ //---------------------------------------------------------------------------------------------
+ void Chart::LineCoord(WORD &mX, int x)
+ {
+	 double left = (double)rect.left + offsetAxesLeft;
+	 double right = (double)rect.right - offsetAxesRight;
+	 double dx = (right - left) / count;
+	 mX = int(dx * x + left);
+ }
+ //---------------------------------------------------------------------------------------

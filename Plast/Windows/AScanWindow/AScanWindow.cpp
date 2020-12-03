@@ -175,10 +175,33 @@ void AScanWindow::SwitchBipolar(bool b)
 	computeFrame.bipolar = b;
 }
 
+template<class O, class P>struct __update_sens__gate__;
+template<int N, class P>struct __update_sens__gate__<AScanWindow::Sens<N>, P>
+{
+	typedef AScanWindow::Sens<N> O;
+	void operator()(O &o, P &p)
+	{
+		auto &w = p.owner.viewers.get<O>();
+		p.owner.computeFrame.Frame(N, 0, w.gain);
+		w.gainLine.count = p.owner.computeFrame.packetSize;
+		RepaintWindow(w.hWnd);
+	}
+};
+
 void AScanWindow::Start()
 {
 	SetTresholds(computeFrame, computeFrame.treshItems);
 	computeFrame.UpdateFiltre();
+
+	//график корректировки усиления канала
+	/**/char *b = computeFrame.buffer;
+	/**/for (unsigned i = 0; i < computeFrame.packetSize; ++i)
+	/**/{
+	/**/	b[i] = 64;
+	/**/}
+	/**/__update_sens_data__ data(*this, 0);
+	/**/VL::foreach<viewers_list, __update_sens__gate__>()(viewers, data);
+	//график корректировки усиления канала конец
 	idTimer = SetTimer(hWnd, 200, 123, NULL);
 	AScanKeyHandler::Run();
 	

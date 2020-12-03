@@ -43,7 +43,7 @@ inline bool InRect(int x, int y, RECT &r)
 class Chart
 {
 public:
-  int count = 0;
+  int count = 1;
   RECT rect;
   int offsetAxesLeft, offsetAxesBottom, offsetAxesTop, offsetAxesRight;
   double minAxesX, maxAxesX, minAxesY, maxAxesY, minAxesYRight, maxAxesYRight;
@@ -70,6 +70,8 @@ public:
   void OffsetToPixelVertical(WORD &offsY, int delta);
   void CoordCell(int mX, int mY, int &x, int &y);
   void CellCoord(WORD &mX, WORD &mY, int x, int y);
+  void CoordLine(int mX, int &x);
+  void LineCoord(WORD &mX, int x);
 };
 class LeftAxes
 {
@@ -133,8 +135,8 @@ public:
 	Chart &chart;
 	int count;
 	double *data;
-	LineSeries(Chart &chart);
 	int color;
+	LineSeries(Chart &chart);
 	void Draw();
 	void SetData(double *data, int countSamples, double minValue, double maxValue);
 	void SetData(double *d, int c);

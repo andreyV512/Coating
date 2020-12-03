@@ -6,6 +6,7 @@
 AScanViewer::AScanViewer()
 	: tchart(backScreen)
 	, tcursor(tchart)
+	, data(tchart.items.get<Line>().data)
 {
 	chart = &tchart;
 	cursor = &tcursor;
@@ -19,11 +20,19 @@ bool AScanViewer::Draw(TMouseMove &l, VGraphics &g)
 {
 	int x = currentX;
 	bool drawZones = x < tchart.count;
+
+	double dx = tchart.maxAxesX / tchart.count;
+
+	Wchar_from<double, 2> thick(dx * x);
+	Wchar_from<double, 2> val(data[x]);
+
 	label.buffer[0] = '\0';
 	if (drawZones)
 	{
-		wsprintf(label.buffer, L"<ff>смещение %d                       <%6x>."
+		wsprintf(label.buffer, L"<ff>смещение %d  толщина %s мм уровень %s                    <%6x>."
 			, x
+			, thick()
+			, val()
 			, BACK_GROUND
 		);
 	}
