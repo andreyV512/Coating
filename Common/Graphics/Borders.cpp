@@ -52,14 +52,14 @@ void HOffsBorder::Draw()
 	Color col(color);
 	Pen pen(col, (Gdiplus::REAL)widthPen);
 	pen.SetDashStyle((Gdiplus::DashStyle)dashStyle);
-	double dY = (double)(chart.rect.bottom - chart.rect.top - chart.offsetAxesBottom - chart.offsetAxesTop) / (chart.maxAxesY - chart.minAxesY);
-	double y = chart.rect.bottom - chart.offsetAxesBottom - (value - chart.minAxesY) * dY;
+	double dY = ((double)chart.rect.bottom - chart.rect.top - chart.offsetAxesBottom - chart.offsetAxesTop) / (chart.maxAxesY - chart.minAxesY);
+	double y = (double)chart.rect.bottom - chart.offsetAxesBottom - (value - chart.minAxesY) * dY;
 
 
 	int y_b = chart.rect.left + chart.offsetAxesLeft;
 	int y_t = chart.rect.right - chart.offsetAxesRight;
 
-	double dwidth = 0.01 * (y_t - y_b);
+	double dwidth = 0.01 * ((double)y_t - y_b);
 
 	int start = (int)round(dwidth * startOffs) + y_b;
 	int stop = (int)round(dwidth * stopOffs) + y_b;

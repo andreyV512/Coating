@@ -31,7 +31,7 @@ class HOffsBorder
 {
 public:
 	double value;
-	int startOffs, stopOffs;
+	double startOffs, stopOffs;
 	int color;
 	int widthPen;
 	int dashStyle;
