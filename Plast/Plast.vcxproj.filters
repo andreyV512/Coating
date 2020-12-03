@@ -366,9 +366,6 @@
     <ClInclude Include="Windows\Viewers\AScanViewer\AScanViewer.h">
       <Filter>Windows\Viewers\AScanViewer</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\Viewers\CommonSensorViewer.h">
-      <Filter>Windows\Viewers</Filter>
-    </ClInclude>
     <ClInclude Include="Automat\Automat.hpp">
       <Filter>Automat\Auto</Filter>
     </ClInclude>
@@ -497,6 +494,12 @@
     </ClInclude>
     <ClInclude Include="Compute\SetTresholds.hpp">
       <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\CommonSensorViewerBar.h">
+      <Filter>Windows\Viewers</Filter>
+    </ClInclude>
+    <ClInclude Include="Windows\Viewers\CommonSensorViewerLine.h">
+      <Filter>Windows\Viewers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -659,9 +662,6 @@
     <ClCompile Include="Windows\Viewers\AScanViewer\AScanViewer.cpp">
       <Filter>Windows\Viewers\AScanViewer</Filter>
     </ClCompile>
-    <ClCompile Include="Windows\Viewers\CommonSensorViewer.cpp">
-      <Filter>Windows\Viewers</Filter>
-    </ClCompile>
     <ClCompile Include="Dlg\AboutWindow.cpp">
       <Filter>Dlg</Filter>
     </ClCompile>
@@ -787,6 +787,12 @@
     </ClCompile>
     <ClCompile Include="..\LanProcess\LanDirect\EventNames.cpp">
       <Filter>LanDirect</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\CommonSensorViewerBar.cpp">
+      <Filter>Windows\Viewers</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\CommonSensorViewerLine.cpp">
+      <Filter>Windows\Viewers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

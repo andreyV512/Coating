@@ -705,10 +705,8 @@ int Chart::BetweenLeftRight(int x)
  {
 	double left = (double)rect.left + offsetAxesLeft;
 	double bottom = (double)rect.bottom - offsetAxesBottom;
-	x = int((mX - left) / dX);// / deltaTickX * deltaDigitX);
-	y = int((bottom - mY) / dY);// / deltaTickY * deltaDigitY);
-	//x = int((mX - left) / deltaTickX * deltaDigitX);
-	//y = int((bottom - mY) / deltaTickY * deltaDigitY);
+	x = int((mX - left) / dX);
+	y = int((bottom - mY) / dY);
 	if(x < 0) x = 0;
 	if(y < 0) y = 0;
  }
@@ -717,13 +715,7 @@ int Chart::BetweenLeftRight(int x)
  {
 	 double left = (double)rect.left + offsetAxesLeft;
 	 double bottom = (double)rect.bottom - offsetAxesBottom;
-	// //double dX = deltaTickX / deltaDigitX;
-	// //double dY = deltaTickY / deltaDigitY;
-	//
-	// mX = int(deltaTickX * x / deltaDigitX + left + 0.5 * dX);
-	// mY = int(bottom - deltaTickY * y / deltaDigitY - 0.5 * dY);
-
-	 mX = int(dX * x + left);// +0.5 * dX);
-	 mY = int(bottom - dY * y);// -0.5 * dY);
+	 mX = int(dX * x + left + 0.5 * dX);
+	 mY = int(bottom - dY * y - 0.5 * dY);
  }
  //---------------------------------------------------------------------------------------
