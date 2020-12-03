@@ -1,4 +1,4 @@
-#include "AScanViewer.h"
+п»ї#include "AScanViewer.h"
 #include "templates/templates.hpp"
 #include "Windows/MainWindow/MainWindow.h"
 #include "App/AppBase.h"
@@ -29,7 +29,7 @@ bool AScanViewer::Draw(TMouseMove &l, VGraphics &g)
 	label.buffer[0] = '\0';
 	if (drawZones)
 	{
-		wsprintf(label.buffer, L"<ff>смещение %d  толщина %s мм уровень %s                    <%6x>."
+		wsprintf(label.buffer, L"<ff>СЃРјРµС‰РµРЅРёРµ %d  С‚РѕР»С‰РёРЅР° %s РјРј СѓСЂРѕРІРµРЅСЊ %s                    <%6x>."
 			, x
 			, thick()
 			, val()
