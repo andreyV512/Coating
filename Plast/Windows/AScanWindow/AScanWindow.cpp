@@ -22,7 +22,6 @@ LRESULT AScanWindow::operator()(TCreate &l)
 	Menu<AScanWindowMenu::Menu>().Init(l.hwnd);
 	toolBar.Init(l.hwnd);
 	CreateChildWindow(l.hwnd, &topLabelViewer);
-	//topLabelViewer.label = (wchar_t *)L"<ff00>Test";
 	topLabelViewer.label.fontHeight = 25;
 
 	hStatuisBar = CreateStatusWindow(WS_CHILD | WS_VISIBLE, NULL, l.hwnd, 0);
@@ -35,6 +34,8 @@ LRESULT AScanWindow::operator()(TCreate &l)
 	AScanKeyHandler::Stop();
 
 	VL::foreach<viewers_list, Common::__create_window__>()(viewers, l.hwnd);
+
+	UpdateOptions();
 	return 0;
 }
 
@@ -55,8 +56,11 @@ template<class O, class P>struct __move_window__
 {
 	void operator()(O &o, P &p)
 	{
-		 o.tchart.maxAxesX = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
-		 o.tchart.count = (int)o.tchart.maxAxesX;
+		unsigned count = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
+		o.tchart.maxAxesX = count;
+		o.tchart.count = count;
+		o.line.count = count;
+		o.gainLine.count = count;
 		if (p.scanWindow->XinMM)
 		{
 			o.tchart.maxAxesX *= Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;
@@ -190,18 +194,7 @@ template<int N, class P>struct __update_sens__gate__<AScanWindow::Sens<N>, P>
 
 void AScanWindow::Start()
 {
-	SetTresholds(computeFrame, computeFrame.treshItems);
-	computeFrame.UpdateFiltre();
-
-	//график корректировки усиления канала
-	/**/char *b = computeFrame.buffer;
-	/**/for (unsigned i = 0; i < computeFrame.packetSize; ++i)
-	/**/{
-	/**/	b[i] = 64;
-	/**/}
-	/**/__update_sens_data__ data(*this, 0);
-	/**/VL::foreach<viewers_list, __update_sens__gate__>()(viewers, data);
-	//график корректировки усиления канала конец
+	UpdateOptions();
 	idTimer = SetTimer(hWnd, 200, 123, NULL);
 	AScanKeyHandler::Run();
 	
@@ -209,6 +202,23 @@ void AScanWindow::Start()
 	Sleep(500);
 	device1730.WriteOutput(generatorBit);
 }
+
+void AScanWindow::UpdateOptions()
+{
+	SetTresholds(computeFrame, computeFrame.treshItems);
+	computeFrame.UpdateFiltre();
+
+	//график корректировки усиления канала
+	char *b = computeFrame.buffer;
+	for (unsigned i = 0; i < computeFrame.packetSize; ++i)
+	 {
+		b[i] = 64;
+	}
+	__update_sens_data__ data(*this, 0);
+	VL::foreach<viewers_list, __update_sens__gate__>()(viewers, data);
+}
+
+
 
 void AScanWindow::Stop()
 {

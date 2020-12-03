@@ -91,6 +91,7 @@ void ThreshDlg::Do(HWND h)
 	{
 		VL::CopyFromTo(t.items, w.computeFrame.treshItems);
 		w.SetThresh();
+		w.UpdateOptions();
 		RepaintWindow(h);
 	}
 }

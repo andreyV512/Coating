@@ -53,5 +53,6 @@ public:
 
 	void SwitchBipolar(bool);
 	void Start();
+	void UpdateOptions();
 	void Stop();
 };

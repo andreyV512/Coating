@@ -493,12 +493,9 @@ void LineSeries::Draw()
 			)),
 			CombineModeReplace
 			);
-		//double dY = ((double)chart.rect.bottom - chart.rect.top - chart.offsetAxesBottom - chart.offsetAxesTop) / (chart.maxAxesY - chart.minAxesY);
-
 		double yOffs = (double)chart.rect.bottom - chart.offsetAxesBottom;
-
 		int width = chart.rect.right - chart.rect.left - chart.offsetAxesRight - chart.offsetAxesLeft;
-		//double dX = width / ((double)count - 1);
+		double dx = (double)width / count;
 		int x0 = chart.rect.left + chart.offsetAxesLeft;
 		double minY = chart.minAxesY;
 		int y0 = int(yOffs - (data[0] - minY) * chart.dY);
@@ -506,7 +503,7 @@ void LineSeries::Draw()
 		int y = y0;
 		for(int i = 1; i < count; ++i)
 		{
-			x += chart.dX;
+			x += dx;
 			y = int(yOffs - (data[i] - minY) * chart.dY);
 			if(x0 != int(x) || y0 != y)
 			{
