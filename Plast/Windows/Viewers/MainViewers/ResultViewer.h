@@ -1,12 +1,12 @@
 #pragma once 
-#include "Windows/Viewers/CommonSensorViewer.h"
+#include "Windows/Viewers/CommonSensorViewerBar.h"
 #include "Graphics/FixedGridSeries.h"
 #include "Data/Data.h"
 
-class ResultViewer : public CommonSensorViewer
+class ResultViewer : public CommonSensorViewerBar
 {
 public:
-	typedef CommonSensorViewer Parent;
+	typedef CommonSensorViewerBar Parent;
 	typedef ChartDraw< Chart, Vlst<
 		NoOffsetLeftAxes
 		, BottomAxesInt

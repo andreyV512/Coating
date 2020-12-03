@@ -1,8 +1,8 @@
-#include "CommonSensorViewer.h"
+#include "CommonSensorViewerLine.h"
 #include "window_tool/MenuAPI.h"
 #include "templates/templates.hpp"
 
-CommonSensorViewer::CommonSensorViewer()
+CommonSensorViewerLine::CommonSensorViewerLine()
 	: backScreen(NULL)
 	, hWnd()
 	, currentX(0)
@@ -11,13 +11,13 @@ CommonSensorViewer::CommonSensorViewer()
 	, ptrMouseMove(NULL)
 {}
 
-CommonSensorViewer::~CommonSensorViewer()
+CommonSensorViewerLine::~CommonSensorViewerLine()
 {
 	delete backScreen;
 	zprint("\n");
 }
 
-LRESULT CommonSensorViewer::operator()(TCreate &l)
+LRESULT CommonSensorViewerLine::operator()(TCreate &l)
 {
 	chart->rect.top = 17;
 	label.fontHeight = 10;
@@ -25,7 +25,7 @@ LRESULT CommonSensorViewer::operator()(TCreate &l)
 	return 0;
 }
 
-void CommonSensorViewer::operator()(TSize &l)
+void CommonSensorViewerLine::operator()(TSize &l)
 {
 	if (SIZE_MINIMIZED == l.resizing || 0 == l.Width || 0 == l.Height)return;
 	if (NULL != backScreen)
@@ -52,7 +52,7 @@ void CommonSensorViewer::operator()(TSize &l)
 	label.Draw(g);
 }
 
-void CommonSensorViewer::operator()(TPaint &l)
+void CommonSensorViewerLine::operator()(TPaint &l)
 {
 	if (NULL == backScreen)return;
 	PAINTSTRUCT p;
@@ -65,12 +65,12 @@ void CommonSensorViewer::operator()(TPaint &l)
 	EndPaint(l.hwnd, &p);
 }
 
-void CommonSensorViewer::operator()(TCommand &l)
+void CommonSensorViewerLine::operator()(TCommand &l)
 {
 	EventDo(l);
 }
 
-void CommonSensorViewer::operator()(TMouseMove &l)
+void CommonSensorViewerLine::operator()(TMouseMove &l)
 {
 	if (mouseMove)
 	{
@@ -84,7 +84,7 @@ void CommonSensorViewer::operator()(TMouseMove &l)
 	}
 }
 
-void CommonSensorViewer::operator()(TMouseWell &l)
+void CommonSensorViewerLine::operator()(TMouseWell &l)
 {
 	mouseMove = false;
 
@@ -93,14 +93,15 @@ void CommonSensorViewer::operator()(TMouseWell &l)
 	currentX -= offs;
 
 	if (currentX > chart->maxAxesX) 	currentX = (int)chart->maxAxesX - 1;
-	else  if (currentX < 0) 	currentX = 0;
+	else  if (currentX < 0) currentX = 0;
 	int currentY = 1;
+
 	chart->CellCoord(storedMouseMove.x, storedMouseMove.y, currentX, currentY);
 	cursor->CrossCursor(storedMouseMove, (VGraphics &)HDCGraphics(l.hwnd, backScreen));
 	if (objMouseMove && ptrMouseMove) (objMouseMove->*ptrMouseMove)(currentX);
 }
 
-void CommonSensorViewer::operator()(TLButtonDown &l)
+void CommonSensorViewerLine::operator()(TLButtonDown &l)
 {
 	mouseMove = false;
 	storedMouseMove.x = l.x;
@@ -112,7 +113,7 @@ void CommonSensorViewer::operator()(TLButtonDown &l)
 	cursor->CrossCursor(storedMouseMove, (VGraphics &)HDCGraphics(l.hwnd, backScreen));
 }
 
-void CommonSensorViewer::operator()(TLButtonDbClk &)
+void CommonSensorViewerLine::operator()(TLButtonDbClk &)
 {
 	mouseMove = true;
 }

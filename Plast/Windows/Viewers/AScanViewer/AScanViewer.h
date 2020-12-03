@@ -1,14 +1,14 @@
 #pragma once 
-#include "Windows/Viewers/CommonSensorViewer.h"
+#include "Windows/Viewers/CommonSensorViewerLine.h"
 #include "Graphics/FixedGridSeries.h"
 #include "Graphics/Borders.h"
 #include "Data/Data.h"
 #include "Windows/Viewers/NegThresh.h"
 
-class AScanViewer : public CommonSensorViewer
+class AScanViewer : public CommonSensorViewerLine
 {
 public:
-	typedef CommonSensorViewer Parent;
+	typedef CommonSensorViewerLine Parent;
 	typedef ChartDraw< Chart, Vlst<
 		NoOffsetLeftAxes
 		, BottomAxesInt

@@ -5,7 +5,7 @@
 #include "Graphics/EmptyLeftAxes.h"
 #include "Graphics/BarSeries.h"
 
-class CommonSensorViewer
+class CommonSensorViewerLine
 {
 public:
 	int currentX;
@@ -22,8 +22,8 @@ public:
 	Cursor *cursor;
 	Chart *chart;
 
-	CommonSensorViewer();
-	virtual ~CommonSensorViewer();
+	CommonSensorViewerLine();
+	virtual ~CommonSensorViewerLine();
 
 	LRESULT operator()(TCreate &);
 	void operator()(TSize &);
