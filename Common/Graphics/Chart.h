@@ -136,6 +136,8 @@ public:
 	int count;
 	double *data;
 	int color;
+	int dashStyle;
+	int widthPen;
 	LineSeries(Chart &chart);
 	void Draw();
 	void SetData(double *data, int countSamples, double minValue, double maxValue);
