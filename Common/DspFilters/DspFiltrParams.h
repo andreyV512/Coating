@@ -12,6 +12,7 @@ template<class T>struct High;
 template<class T>struct BandPass;
 template<class T>struct BandStop;
 template<class T>struct ChebI;
+template<class T, int N>struct Num : T {};
 
 struct Order;
 struct CutoffFrequency;
@@ -42,25 +43,53 @@ DEFINE_PARAM_WRAP2(BandStop, ChebI, Ripple, double, 0.1)
 struct FiltersTable
 {
 	typedef Vlst<
-		CurrentFilter
+		  Num<CurrentFilter						, 0>
+		, Num<Low< ChebI< Order>>				, 0>
+		, Num<Low< ChebI< CutoffFrequency>>		, 0>
+		, Num<Low< ChebI< Ripple>>				, 0>
+		, Num<High< ChebI< Order>>				, 0>
+		, Num<High< ChebI< CutoffFrequency>>	, 0>
+		, Num<High< ChebI< Ripple>>				, 0>
+		, Num<BandPass< ChebI< Order>>			, 0>
+		, Num<BandPass< ChebI< CenterFrequency>>, 0>
+		, Num<BandPass< ChebI< WidthFrequency>>	, 0>
+		, Num<BandPass< ChebI< Ripple>>			, 0>
+		, Num<BandStop< ChebI< Order>>			, 0>
+		, Num<BandStop< ChebI< CenterFrequency>>, 0>
+		, Num<BandStop< ChebI< WidthFrequency>>	, 0>
+		, Num<BandStop< ChebI< Ripple>>			, 0>
 
-		, Low< ChebI< Order>>
-		, Low< ChebI< CutoffFrequency>>
-		, Low< ChebI< Ripple>>
+		, Num<CurrentFilter, 1>
+		, Num<Low< ChebI< Order>>, 1>
+		, Num<Low< ChebI< CutoffFrequency>>, 1>
+		, Num<Low< ChebI< Ripple>>, 1>
+		, Num<High< ChebI< Order>>, 1>
+		, Num<High< ChebI< CutoffFrequency>>, 1>
+		, Num<High< ChebI< Ripple>>, 1>
+		, Num<BandPass< ChebI< Order>>, 1>
+		, Num<BandPass< ChebI< CenterFrequency>>, 1>
+		, Num<BandPass< ChebI< WidthFrequency>>, 1>
+		, Num<BandPass< ChebI< Ripple>>, 1>
+		, Num<BandStop< ChebI< Order>>, 1>
+		, Num<BandStop< ChebI< CenterFrequency>>, 1>
+		, Num<BandStop< ChebI< WidthFrequency>>, 1>
+		, Num<BandStop< ChebI< Ripple>>, 1>
 
-		, High< ChebI< Order>>
-		, High< ChebI< CutoffFrequency>>
-		, High< ChebI< Ripple>>
-
-		, BandPass< ChebI< Order>>
-		, BandPass< ChebI< CenterFrequency>>
-		, BandPass< ChebI< WidthFrequency>>
-		, BandPass< ChebI< Ripple>>
-
-		, BandStop< ChebI< Order>>
-		, BandStop< ChebI< CenterFrequency>>
-		, BandStop< ChebI< WidthFrequency>>
-		, BandStop< ChebI< Ripple>>
+		, Num<CurrentFilter, 2>
+		, Num<Low< ChebI< Order>>, 2>
+		, Num<Low< ChebI< CutoffFrequency>>, 2>
+		, Num<Low< ChebI< Ripple>>, 2>
+		, Num<High< ChebI< Order>>, 2>
+		, Num<High< ChebI< CutoffFrequency>>, 2>
+		, Num<High< ChebI< Ripple>>, 2>
+		, Num<BandPass< ChebI< Order>>, 2>
+		, Num<BandPass< ChebI< CenterFrequency>>, 2>
+		, Num<BandPass< ChebI< WidthFrequency>>, 2>
+		, Num<BandPass< ChebI< Ripple>>, 2>
+		, Num<BandStop< ChebI< Order>>, 2>
+		, Num<BandStop< ChebI< CenterFrequency>>, 2>
+		, Num<BandStop< ChebI< WidthFrequency>>, 2>
+		, Num<BandStop< ChebI< Ripple>>, 2>
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;

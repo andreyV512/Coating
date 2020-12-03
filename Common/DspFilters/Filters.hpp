@@ -120,7 +120,25 @@ template<class tmp>struct type_filters<Vlst<>, tmp>
 	typedef tmp Result;
 };
 
-typedef type_filters<FiltersTable::items_list>::Result type_flites_list;
+template<class List, class tmp = Vlst<> >struct filters_sens;
+template<class tmp, class Head, class ...Tail >struct filters_sens<Vlst<Head, Tail...>, tmp>
+{
+	typedef typename filters_sens<Vlst<Tail...>, tmp>::Result Result;
+};
+template<class tmp, class Head, class ...Tail >struct filters_sens<Vlst<Num<Head, 0>, Tail...>, tmp>
+{
+	typedef typename filters_sens<Vlst<Tail...>
+		, typename VL::Append<tmp, Head>::Result
+	>::Result Result;
+};
+template<class tmp>struct filters_sens<Vlst<>, tmp>
+{
+	typedef tmp Result;
+};
+
+typedef filters_sens<FiltersTable::items_list>::Result FiltersTable_items_list;
+
+typedef type_filters<FiltersTable_items_list>::Result type_flites_list;
 
 template<class List>struct Conv;
 template<template<class>class Type, template<class>class Sub, class T, class ...Tail>struct Conv<Vlst<Type<Sub<T>>, Tail...>>
@@ -134,26 +152,6 @@ template<>struct Conv<Vlst<>>
 
 typedef Conv<type_flites_list>::Result filters_list;
 
-//template<class Params>struct __init_filtre_data__
-//{
-//	IDSPFlt *&proc;
-//	Params &params;
-//	__init_filtre_data__(IDSPFlt *&proc, Params &params) : proc(proc), params(params) {}
-//};
-//
-//template<class O, class P>struct __init_filtre__
-//{
-//	bool operator()(O &o, P &p)
-//	{
-//		if (VL::IndexOf<filters_list, O>::value == p.params.get<CurrentFilter>().value)
-//		{
-//			SetupFiltre<O>()(o, p.params, Singleton<LanParametersTable>::Instance().items.get<Frequency>().value);
-//			p.proc = &o;
-//			return false;
-//		}
-//		return true;
-//	}
-//};
 
 
 
