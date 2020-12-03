@@ -54,6 +54,8 @@ public:
   int colorGrid;
   double offsetGridX, offsetGridY;
   double deltaTickX, deltaTickY, deltaDigitX, deltaTickYRight, deltaDigitY, deltaDigitYRight;
+  double dX = 1.0;
+  double dY = 1.0;
   Gdiplus::Bitmap *&backScreen;
   Gdiplus::Graphics *g;
   Chart(Gdiplus::Bitmap *&backScreen);

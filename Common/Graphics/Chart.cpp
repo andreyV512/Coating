@@ -159,6 +159,7 @@ void LeftAxes::Draw()
 	double offs = chart.offsetGridY = (double)chart.rect.bottom - chart.offsetAxesBottom + minTick;
 	chart.deltaTickY = deltaTick;
 	chart.deltaDigitY = deltaDigit;
+	chart.dY = deltaTick / deltaDigit;
 	while(bottom < offs)
 	{
 		offs -= deltaTick;
@@ -233,6 +234,7 @@ void BottomAxes::Draw()
 	minA = digit;
     chart.deltaTickX = deltaTick;
 	chart.deltaDigitX = deltaDigit;
+	chart.dX = deltaTick / deltaDigit;
 	double offs = chart.offsetGridX = (double)chart.rect.left + chart.offsetAxesLeft - minTick + deltaTick;
 	deltaTickDigit = deltaTick / deltaDigit;
 	offsMin = chart.rect.left + chart.offsetAxesLeft;
@@ -321,6 +323,7 @@ void BottomAxesMeters::Draw()
 		);
     chart.deltaTickX = deltaTick;
 	chart.deltaDigitX = deltaDigit;
+	chart.dX = deltaTick / deltaDigit;
 	double offs = chart.offsetAxesLeft;
 	deltaTickDigit = deltaTick / deltaDigit;
 	offsMin = chart.rect.left + chart.offsetAxesLeft;
@@ -398,6 +401,7 @@ void BottomAxesInt::Draw()
 	}
 	chart.deltaTickX = deltaTick;
 	chart.deltaDigitX = deltaDigit;
+	chart.dX = deltaTick / deltaDigit;
 	double offs = chart.offsetGridX = (double)chart.rect.left + chart.offsetAxesLeft - minTick + deltaTick;
 
 	deltaTickDigit = deltaTick / deltaDigit;
@@ -489,21 +493,21 @@ void LineSeries::Draw()
 			)),
 			CombineModeReplace
 			);
-		double dY = ((double)chart.rect.bottom - chart.rect.top - chart.offsetAxesBottom - chart.offsetAxesTop) / (chart.maxAxesY - chart.minAxesY);
+		//double dY = ((double)chart.rect.bottom - chart.rect.top - chart.offsetAxesBottom - chart.offsetAxesTop) / (chart.maxAxesY - chart.minAxesY);
 
 		double yOffs = (double)chart.rect.bottom - chart.offsetAxesBottom;
 
 		int width = chart.rect.right - chart.rect.left - chart.offsetAxesRight - chart.offsetAxesLeft;
-		double dX = width / ((double)count - 1);
+		//double dX = width / ((double)count - 1);
 		int x0 = chart.rect.left + chart.offsetAxesLeft;
 		double minY = chart.minAxesY;
-		int y0 = int(yOffs - (data[0] - minY) * dY);
+		int y0 = int(yOffs - (data[0] - minY) * chart.dY);
 		double x = x0;
 		int y = y0;
 		for(int i = 1; i < count; ++i)
 		{
-			x += dX;
-			y = int(yOffs - (data[i] - minY) * dY);
+			x += chart.dX;
+			y = int(yOffs - (data[i] - minY) * chart.dY);
 			if(x0 != int(x) || y0 != y)
 			{
 				chart.g->DrawLine(&pen, x0, y0, (int)x, y);
@@ -628,10 +632,10 @@ bool Chart::AxesValues(int x, int y, double &dx, double &dy)
 		 && y < rect.bottom - offsetAxesBottom
 		)
 	{
-		double dY = (maxAxesY - minAxesY) / ((double)rect.bottom - rect.top - offsetAxesBottom - offsetAxesTop);
+		//double dY = (maxAxesY - minAxesY) / ((double)rect.bottom - rect.top - offsetAxesBottom - offsetAxesTop);
 		dy = ((double)rect.bottom - offsetAxesBottom - y) * dY + minAxesY;
 		dy = floor(dy);
-		double dX = (maxAxesX - minAxesX) / ((double)rect.right - rect.left - offsetAxesLeft - offsetAxesRight);
+		//double dX = (maxAxesX - minAxesX) / ((double)rect.right - rect.left - offsetAxesLeft - offsetAxesRight);
 		dx = ((double)x - rect.left - offsetAxesLeft) * dX + minAxesX + dX;// / 2;
 		return true;
 	}
@@ -644,11 +648,11 @@ int Chart::BetweenLeftRight(int x)
  bool Chart::ValuesAxes(double dx, double dy, int &x, int &y)
  {
 	 dx -= minAxesX;
-     double dX = (maxAxesX - minAxesX) / ((double)rect.right - rect.left - offsetAxesLeft - offsetAxesRight);
+    // double dX = (maxAxesX - minAxesX) / ((double)rect.right - rect.left - offsetAxesLeft - offsetAxesRight);
 	 dx /= dX;
 	 x = int(dx + rect.left + offsetAxesLeft);
 	 dy -= minAxesY;
-     double dY = (maxAxesY - minAxesY) / ((double)rect.bottom - rect.top - offsetAxesBottom - offsetAxesTop);
+    // double dY = (maxAxesY - minAxesY) / ((double)rect.bottom - rect.top - offsetAxesBottom - offsetAxesTop);
 	 dy /= dY;
 	 y = int(rect.bottom - offsetAxesBottom - dy);
 
@@ -670,11 +674,11 @@ int Chart::BetweenLeftRight(int x)
  //------------------------------------------------------------------------------
  void Chart::OffsetToPixelHorizontal(WORD &offsX, int delta)
  {
-	 double dX = ((double)rect.right - rect.left - offsetAxesLeft - offsetAxesRight) / (maxAxesX - minAxesX);
+	 //double dX = ((double)rect.right - rect.left - offsetAxesLeft - offsetAxesRight) / (maxAxesX - minAxesX);
 	 int offsMin = rect.left + offsetAxesLeft;
 	 double t = (double)offsX - offsMin - dX * delta;
 	 t /= dX;
-	 double tt = (int)(t + 0.1);
+	 double tt = round(t);// (int)(t + 0.1);
 	 tt *= dX;
 	 tt += dX / 2;
 	 offsX = (WORD)tt + offsMin;
@@ -684,11 +688,11 @@ int Chart::BetweenLeftRight(int x)
  }
  void Chart::OffsetToPixelVertical(WORD &offsY, int delta)
  {
-	double dY = ((double)rect.bottom - rect.top - offsetAxesTop - offsetAxesBottom) / (maxAxesY - minAxesY);
+	//double dY = ((double)rect.bottom - rect.top - offsetAxesTop - offsetAxesBottom) / (maxAxesY - minAxesY);
 	int offsMin = rect.top + offsetAxesTop;
 	double t = (double)offsY - offsMin + dY * delta;
 	t /= dY;
-	double tt = (int)(t + 0.1);
+	double tt = round(t);//(int)(t + 0.1);
 	tt *= dY;
 	tt += dY / 2;
 	offsY = (WORD)tt + offsMin;
@@ -701,8 +705,10 @@ int Chart::BetweenLeftRight(int x)
  {
 	double left = (double)rect.left + offsetAxesLeft;
 	double bottom = (double)rect.bottom - offsetAxesBottom;
-	x = int((mX - left) / deltaTickX * deltaDigitX);
-	y = int((bottom - mY) / deltaTickY * deltaDigitY);
+	x = int((mX - left) / dX);// / deltaTickX * deltaDigitX);
+	y = int((bottom - mY) / dY);// / deltaTickY * deltaDigitY);
+	//x = int((mX - left) / deltaTickX * deltaDigitX);
+	//y = int((bottom - mY) / deltaTickY * deltaDigitY);
 	if(x < 0) x = 0;
 	if(y < 0) y = 0;
  }
@@ -711,10 +717,13 @@ int Chart::BetweenLeftRight(int x)
  {
 	 double left = (double)rect.left + offsetAxesLeft;
 	 double bottom = (double)rect.bottom - offsetAxesBottom;
-	 double dX = deltaTickX / deltaDigitX;
-	 double dY = deltaTickY / deltaDigitY;
+	// //double dX = deltaTickX / deltaDigitX;
+	// //double dY = deltaTickY / deltaDigitY;
+	//
+	// mX = int(deltaTickX * x / deltaDigitX + left + 0.5 * dX);
+	// mY = int(bottom - deltaTickY * y / deltaDigitY - 0.5 * dY);
 
-	 mX = int(deltaTickX * x / deltaDigitX + left + 0.5 * dX);
-	 mY = int(bottom - deltaTickY * y / deltaDigitY - 0.5 * dY);
+	 mX = int(dX * x + left);// +0.5 * dX);
+	 mY = int(bottom - dY * y);// -0.5 * dY);
  }
  //---------------------------------------------------------------------------------------

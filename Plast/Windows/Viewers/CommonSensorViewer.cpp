@@ -77,7 +77,7 @@ void CommonSensorViewer::operator()(TMouseMove &l)
 		if (cursor->CrossCursor(l, (VGraphics &)HDCGraphics(l.hwnd, backScreen)))
 		{
 			storedMouseMove = l;
-			int currentY = 0;
+			int currentY = 1;
 			chart->CoordCell(l.x, l.y, currentX, currentY);
 			if (objMouseMove && ptrMouseMove) (objMouseMove->*ptrMouseMove)(currentX);
 		}
@@ -92,9 +92,9 @@ void CommonSensorViewer::operator()(TMouseWell &l)
 
 	currentX -= offs;
 
-	if (currentX > chart->count) 	currentX = chart->count;//(int)chart->maxAxesX - 1;
+	if (currentX > chart->maxAxesX) 	currentX = (int)chart->maxAxesX - 1;
 	else  if (currentX < 0) 	currentX = 0;
-	int currentY = 0;
+	int currentY = 1;
 	chart->CellCoord(storedMouseMove.x, storedMouseMove.y, currentX, currentY);
 	cursor->CrossCursor(storedMouseMove, (VGraphics &)HDCGraphics(l.hwnd, backScreen));
 	if (objMouseMove && ptrMouseMove) (objMouseMove->*ptrMouseMove)(currentX);
@@ -106,7 +106,7 @@ void CommonSensorViewer::operator()(TLButtonDown &l)
 	storedMouseMove.x = l.x;
 	storedMouseMove.y = l.y;
 	//	 
-	int currentY = 0;
+	int currentY = 1;
 	chart->CoordCell(storedMouseMove.x, storedMouseMove.y, currentX, currentY);
 	chart->CellCoord(storedMouseMove.x, storedMouseMove.y, currentX, currentY);
 	cursor->CrossCursor(storedMouseMove, (VGraphics &)HDCGraphics(l.hwnd, backScreen));

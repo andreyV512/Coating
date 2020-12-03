@@ -200,9 +200,10 @@ void NoOffsetLeftAxes::Draw()
 		, digit
 		, minTick
 		);
-	double offs = chart.offsetGridY = chart.rect.bottom - chart.offsetAxesBottom + minTick;
+	double offs = chart.offsetGridY = (double)chart.rect.bottom - chart.offsetAxesBottom + minTick;
 	chart.deltaTickY = deltaTick;
 	chart.deltaDigitY = deltaDigit;
+	chart.dY = deltaTick / deltaDigit;
 	chart.offsetGridX = leftOffset + deltaTick;
 	chart.offsetAxesLeft = leftOffset;
 	while(bottom < offs)
@@ -212,7 +213,7 @@ void NoOffsetLeftAxes::Draw()
 	}
 	origin.X = (REAL)chart.rect.left;
 	int len;
-	while(offs > chart.rect.top + chart.offsetAxesTop + 0.2 * deltaTick)
+	while(offs > (double)chart.rect.top + chart.offsetAxesTop + 0.2 * deltaTick)
 	{
 		chart.g->DrawLine(&pen, (REAL)x - 5, (REAL)offs, (REAL)x, (REAL)offs);
 		gcvt(digit, 5, buf);
@@ -235,7 +236,7 @@ void OffsetToPixel(Chart &chart, WORD &offsX, WORD &offsY, int delta, bool horis
 	if(0 == delta) return;
 	if(horisontalMove)
 	{
-		double dX = (double)(chart.rect.right - chart.rect.left - chart.offsetAxesLeft - chart.offsetAxesRight) / (chart.maxAxesX - chart.minAxesX);
+		double dX = ((double)chart.rect.right - chart.rect.left - chart.offsetAxesLeft - chart.offsetAxesRight) / (chart.maxAxesX - chart.minAxesX);
 		int offsMin = chart.rect.left + chart.offsetAxesLeft;
 		double t = offsX - dX * delta;
 		t = delta > 0 ? ceil(t) : floor(t);
@@ -246,7 +247,7 @@ void OffsetToPixel(Chart &chart, WORD &offsX, WORD &offsY, int delta, bool horis
 	}
 	else
 	{
-		double dY = (double)(chart.rect.bottom - chart.rect.top - chart.offsetAxesTop - chart.offsetAxesBottom) / (chart.maxAxesY - chart.minAxesY);
+		double dY = ((double)chart.rect.bottom - chart.rect.top - chart.offsetAxesTop - chart.offsetAxesBottom) / (chart.maxAxesY - chart.minAxesY);
 		int offsMin = chart.rect.top + chart.offsetAxesTop;
 		double t = offsY + dY * delta;
 		t = delta < 0 ? ceil(t) : floor(t);
@@ -291,7 +292,7 @@ void Scale::Draw()
 	char buf[128];
 	wchar_t wbuf[128];
 
-	double bottom = ((double)chart.rect.bottom - chart.offsetAxesBottom) - (chart.rect.top + chart.offsetAxesTop) - 20;
+	double bottom = ((double)chart.rect.bottom - chart.offsetAxesBottom) - ((double)chart.rect.top + chart.offsetAxesTop) - 20;
 		
 
 	for(int i = 0; i < count; ++i)
