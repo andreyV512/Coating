@@ -2,7 +2,7 @@
 #include "App/AppBase.h"
 #include "Grid/DataGrid.hpp"
 
-HEADER_TABLE(Num, 60, L"Номер")
+HEADER_TABLE(Number, 60, L"Номер")
 PARAM_TABLE(UserName, 90, L"Оператор")
 PARAM_TABLE(UserPersonnelNumber, 120, L"Табельный номер")
 

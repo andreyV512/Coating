@@ -2,6 +2,7 @@
 #include "DspFilters/Filters.hpp"
 #include "templates/impl.hpp"
 #include "App/AppBase.h"
+#include <App/App.h>
 
 class ComputeFrame
 {
@@ -9,7 +10,7 @@ public:
 	unsigned frequency;
 	unsigned packetSize;
 	bool bipolar;
-	Impl<IDSPFlt, 1032> filter;
+	Impl<IDSPFlt, 1032> filter[App::count_sensors];
 	FiltersTable::TItems paramFlt;
 	TresholdsTable::TItems treshItems;
 	unsigned &framesCount;

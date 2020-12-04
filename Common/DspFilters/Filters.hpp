@@ -55,38 +55,38 @@ public:
 	}
 };
 
-template<class T>struct SetupFiltre;
-template<template<class>class type, template<class>class sub, int order>struct SetupFiltre<DSPFlt<type, sub, order>>
+template<class T, int N>struct SetupFiltre;
+template<template<class>class type, template<class>class sub, int order, int N>struct SetupFiltre<DSPFlt<type, sub, order>, N>
 {
 	typedef typename DSPFlt<type, sub, order> T;
 	template<class P>void operator()(T &t, P &p, int sample_rate)
 	{
 		t.filtre.setup(
-			p.get<type<sub<Order>>>().value
+			p.get<Num<type<sub<Order>>, N>>().value
 			, sample_rate
-			, p.get<type<sub<CutoffFrequency>>>().value
-			, p.get<type<sub<Ripple>>>().value
+			, p.get<Num<type<sub<CutoffFrequency>>, N>>().value
+			, p.get<Num<type<sub<Ripple>>, N>>().value
 		);
 	}
 };
 
-template<template<class>class type, template<class>class sub, int order>struct __SetupFiltre__
+template<template<class>class type, template<class>class sub, int order, int N>struct __SetupFiltre__
 {
 	typedef typename DSPFlt<type, sub, order> T;
 	template<class P>void operator()(T &t, P &p, int sample_rate)
 	{
 		t.filtre.setup(
-			p.get<type<sub<Order>>>().value
+			p.get< Num<type<sub<Order>>, N>>().value
 			, sample_rate
-			, p.get<type<sub<CenterFrequency>>>().value
-			, p.get<type<sub<WidthFrequency>>>().value
-			, p.get<type<sub<Ripple>>>().value
+			, p.get<Num<type<sub<CenterFrequency>>, N>>().value
+			, p.get<Num<type<sub<WidthFrequency>>, N>>().value
+			, p.get<Num<type<sub<Ripple>>, N>>().value
 		);
 	}
 };
 
-template<template<class>class sub, int order>struct SetupFiltre<DSPFlt<BandPass, sub, order>>: __SetupFiltre__<BandPass, sub, order> {};
-template<template<class>class sub, int order>struct SetupFiltre<DSPFlt<BandStop, sub, order>>: __SetupFiltre__<BandStop, sub, order> {};
+template<template<class>class sub, int order, int N>struct SetupFiltre<DSPFlt<BandPass, sub, order>, N>: __SetupFiltre__<BandPass, sub, order, N> {};
+template<template<class>class sub, int order, int N>struct SetupFiltre<DSPFlt<BandStop, sub, order>, N>: __SetupFiltre__<BandStop, sub, order, N> {};
 
 template<class List, class T>struct TstTempl;
 template<template<class>class type, template<class>class sub, class X, class Head, class ...Tail>struct TstTempl<Vlst<Head, Tail...>, type<sub<X>>>

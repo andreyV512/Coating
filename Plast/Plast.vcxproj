@@ -263,6 +263,7 @@
     <ClInclude Include="Compute\Compute.h" />
     <ClInclude Include="Compute\ComputeFrame.h" />
     <ClInclude Include="Compute\Emulator\Emulator.h" />
+    <ClInclude Include="Compute\InitFiltre.hpp" />
     <ClInclude Include="Compute\SetTresholds.hpp" />
     <ClInclude Include="Data\Data.h" />
     <ClInclude Include="Data\Store.h" />

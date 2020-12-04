@@ -501,6 +501,9 @@
     <ClInclude Include="Windows\Viewers\CommonSensorViewerLine.h">
       <Filter>Windows\Viewers</Filter>
     </ClInclude>
+    <ClInclude Include="Compute\InitFiltre.hpp">
+      <Filter>Compute</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">

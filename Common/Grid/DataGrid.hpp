@@ -6,7 +6,7 @@
 #include "window_tool/MenuAPI.h"
 #include "DlgTemplates/ParamDlgNew.h"
 
-struct Num {};
+struct Number {};
 
 #define HEADER_TABLE(T, w, txt)template<>struct GridDetail::header_table<T>\
 	{\
@@ -124,7 +124,7 @@ inline void TDataGrid<Table, OrderBy, ViewCols>::Create(HWND hwnd)
 {
 	hWnd = GridDetail::CreateGrid(hwnd, this);
 	typedef typename VL::Append<
-		Num
+		Number
 		, typename VL::_if<VL::Length<ViewCols>::value, ViewCols, typename Table::items_list>::Result
 	>::Result  list;
 	typename GridDetail::SetGridHeader<list> _(hWnd);

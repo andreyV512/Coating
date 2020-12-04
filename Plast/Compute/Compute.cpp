@@ -9,6 +9,7 @@
 #include "Log/LogBuffer.h"
 #include "Windows/MainWindow/AppKeyHandler.h"
 #include "SetTresholds.hpp"
+#include "InitFiltre.hpp"
 
 template<class O, class P>struct __compute_set_data__;
 template<template<int>class W, int N, class P>struct __compute_set_data__<W<N>, P>
@@ -33,22 +34,30 @@ template<class O, class P>struct __init_filtre_X__
 	bool operator()(P &p)
 	{
 		FiltersTable::TItems &items = Singleton<FiltersTable>::Instance().items;
-		if (VL::IndexOf<filters_list, O>::value == items.get<CurrentFilter>().value)
+		if (VL::IndexOf<filters_list, O>::value == items.get<Num<CurrentFilter, P::NUM>>().value)
 		{
 			p.Init<O>();
-			SetupFiltre<O>()(
+			SetupFiltre<O, P::NUM>()(
 				(O &)p
 				, items
 				, 1000000 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value
-				);
-			dprint("filtre %d %d %s"
-				, VL::IndexOf<filters_list, O>::value
-				, items.get<CurrentFilter>().value
-				, typeid(O).name());
+				);			
 			return false;
 		}
 		return true;
 	}
+};
+
+struct Wrap
+{
+	Impl<IDSPFlt, 1032> (&filter)[App::count_sensors];
+	FiltersTable::TItems &paramFlt;
+	unsigned frequency;
+	explicit Wrap(Impl<IDSPFlt, 1032>(&filter)[App::count_sensors])
+		: filter(filter)
+		, paramFlt(Singleton<FiltersTable>::Instance().items)
+		, frequency(1000000 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value)
+	{}
 };
 
 void Compute::Start()
@@ -57,29 +66,13 @@ void Compute::Start()
 	numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
 
-	if (VL::find<filters_list, __init_filtre_X__>()(filter)) filter.Init<DSPFltDump>();
+	Wrap x(filter);
+	__init_filtre__()(x);
 
 	auto medianParams = Singleton<MedianFiltreTable>::Instance().items;
 	medianProc = medianParams.get<MedianFiltreON>().value ? &MedianFiltre::Val: &MedianFiltre::noop;
 	int width = medianParams.get<MedianFiltreWidth>().value;
 	for (int i = 0; i < dimention_of(median); ++i) median[i].InitWidth(width);
-
-	//auto t = Singleton<TresholdsTable>::Instance().items;
-
-	//threshAlarm    = t.get<AlarmThresh>().value;
-	//offsAlarmStart = int(t.get<AlarmThreshStart>().value * packetSize * 0.01);
-	//offsAlarmStop  = int(t.get<AlarmThreshStop>().value * packetSize * 0.01) ;
-	//gainAlarmOffs = t.get<AlarmGainStart>().value;
-	//gainAlarmDelta = (t.get<AlarmGainStop>().value - t.get<AlarmGainStart>().value) 
-	//	/ (offsAlarmStop - offsAlarmStart);
-	//
-	//threshReflection    = t.get<BottomReflectionThresh>().value;
-	//offsReflectionStart = int(t.get<BottomReflectionThreshStart>().value * packetSize * 0.01);
-	//offsReflectionStop  = int(t.get<BottomReflectionThreshStop>().value * packetSize * 0.01);
-	//gainReflectionOffs = t.get<BottomReflectionGainStart>().value;
-	//gainReflectionDelta = (t.get<BottomReflectionGainStop>().value - t.get<BottomReflectionGainStart>().value) 
-	//	/ (offsReflectionStop - offsReflectionStart);
-	//bottomReflectionOn = t.get<BottomReflectionOn>().value;
 
 	SetTresholds(*this, Singleton<TresholdsTable>::Instance().items);
 

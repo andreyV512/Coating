@@ -6,7 +6,7 @@
 #include "Windows/ZonesWindow/ZonesWindow.h"
 #include "window_tool/Emptywindow.h"
 #include "Windows/AScanWindow/AScanWindow.h"
-
+///*
 template<class List>struct __orders__;
 template<class Head, class ...Tail>struct __orders__<Vlst<Head, Tail...>>
 {
@@ -204,7 +204,7 @@ template<class P>struct __current_filtre_param__<CurrentFilter, P>
 		return true;
 	}
 };
-
+ //*/
 void DspFiltrDlg::Do(HWND h)
 {
 	__current_filtre_param_data__<FiltersTable> data = {
@@ -217,88 +217,87 @@ void DspFiltrDlg::Do(HWND h)
 		VL::find<__orders_list__, __current_filtre_param__>()(data);
 }
 ///////////////////////////////////////////////////////////
-template<class O, class P>struct __Xcurrent_filtre_param__;
-
-template<template<class>class X, template<class>class Y, class O, class P>struct __Xcurrent_filtre_param__<X<Y<O>>, P>
-{
-	bool operator()(P &p)
-	{
-		if (VL::IndexOf<__orders_list__, X<Y<O>>>::value == p.obj.items.get<CurrentFilter>().value)
-		{
-			typedef typename VL::Append<typename __filtr__<X, Y, FiltersTable::items_list>::Result, CurrentFilter>::Result list;
-			p.close = true;
-			if (Dialog::Templ<ParametersBase, FiltersTable
-				, list
-				, 550
-				, Vlst<NoStoreOkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
-				, __current_filtre_param_data__<FiltersTable>
-			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
-			{
-				VL::CopyFromTo(p.obj.items, *p.pitems);
-			}
-			return false;
-		}
-		return true;
-	}
-};
-
-template<class P>struct __Xcurrent_filtre_param__<CurrentFilter, P>
-{
-	bool operator()(P &p)
-	{
-		if (VL::IndexOf<__orders_list__, CurrentFilter>::value == p.obj.items.get<CurrentFilter>().value)
-		{
-			typedef Vlst<CurrentFilter> list;
-			p.close = true;
-			if (Dialog::Templ<ParametersBase, FiltersTable
-				, list
-				, 550
-				, Vlst<NoStoreOkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
-				, __current_filtre_param_data__<FiltersTable>
-			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
-			{
-				VL::CopyFromTo(p.obj.items, *p.pitems);
-			}
-			return false;
-		}
-		return true;
-	}
-};
+//template<class O, class P>struct __Xcurrent_filtre_param__;
+//
+//template<template<class>class X, template<class>class Y, class O, class P>struct __Xcurrent_filtre_param__<X<Y<O>>, P>
+//{
+//	bool operator()(P &p)
+//	{
+//		if (VL::IndexOf<__orders_list__, X<Y<O>>>::value == p.obj.items.get<CurrentFilter>().value)
+//		{
+//			typedef typename VL::Append<typename __filtr__<X, Y, FiltersTable::items_list>::Result, CurrentFilter>::Result list;
+//			p.close = true;
+//			if (Dialog::Templ<ParametersBase, FiltersTable
+//				, list
+//				, 550
+//				, Vlst<NoStoreOkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
+//				, __current_filtre_param_data__<FiltersTable>
+//			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+//			{
+//				VL::CopyFromTo(p.obj.items, *p.pitems);
+//			}
+//			return false;
+//		}
+//		return true;
+//	}
+//};
+//
+//template<class P>struct __Xcurrent_filtre_param__<CurrentFilter, P>
+//{
+//	bool operator()(P &p)
+//	{
+//		if (VL::IndexOf<__orders_list__, CurrentFilter>::value == p.obj.items.get<CurrentFilter>().value)
+//		{
+//			typedef Vlst<CurrentFilter> list;
+//			p.close = true;
+//			if (Dialog::Templ<ParametersBase, FiltersTable
+//				, list
+//				, 550
+//				, Vlst<NoStoreOkBtn, CancelBtn, Dialog::NoButton<CurrentFilter>>
+//				, __current_filtre_param_data__<FiltersTable>
+//			>(p.obj, &p).Do(p.h, (wchar_t *)L"Фильтр"))
+//			{
+//				VL::CopyFromTo(p.obj.items, *p.pitems);
+//			}
+//			return false;
+//		}
+//		return true;
+//	}
+//};
 
 void AScanDspFiltrDlg::Do(HWND h)
 {
-	FiltersTable table;
-	
-	AScanWindow *w = (AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-	VL::CopyFromTo(w->computeFrame.paramFlt, table.items);
-	__current_filtre_param_data__<FiltersTable> data = {
-		table
-		, h
-		, false
-		, &w->computeFrame.paramFlt
-	};
-	while (!data.close)
-		VL::find<__orders_list__, __Xcurrent_filtre_param__>()(data);
-	w->computeFrame.UpdateFiltre();
-	RepaintWindow(w->hWnd);
+	//FiltersTable table;
+	//
+	//AScanWindow *w = (AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+	//VL::CopyFromTo(w->computeFrame.paramFlt, table.items);
+	//__current_filtre_param_data__<FiltersTable> data = {
+	//	table
+	//	, h
+	//	, false
+	//	, &w->computeFrame.paramFlt
+	//};
+	//while (!data.close)
+	//	VL::find<__orders_list__, __Xcurrent_filtre_param__>()(data);
+	//w->computeFrame.UpdateFiltre();
+	//RepaintWindow(w->hWnd);
 }
 
 void TstDspFiltrDlg::Do(HWND h)
 {
-	FiltersTable table;
-
-	ZonesWindow *w = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-	VL::CopyFromTo(w->computeFrame.paramFlt, table.items);
-	__current_filtre_param_data__<FiltersTable> data = {
-		table
-		, h
-		, false
-		, &w->computeFrame.paramFlt
-	};
-	while (!data.close)
-		VL::find<__orders_list__, __Xcurrent_filtre_param__>()(data);
-	w->computeFrame.UpdateFiltre();
-	RepaintWindow(w->hWnd);
+	//FiltersTable table;
+	//
+	//ZonesWindow *w = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+	//VL::CopyFromTo(w->computeFrame.paramFlt, table.items);
+	//__current_filtre_param_data__<FiltersTable> data = {
+	//	table
+	//	, h
+	//	, false
+	//	, &w->computeFrame.paramFlt
+	//};
+	//while (!data.close)
+	//	VL::find<__orders_list__, __Xcurrent_filtre_param__>()(data);
+	//w->computeFrame.UpdateFiltre();
+	//RepaintWindow(w->hWnd);
 }
-
 

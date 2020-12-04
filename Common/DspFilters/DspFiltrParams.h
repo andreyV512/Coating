@@ -12,7 +12,8 @@ template<class T>struct High;
 template<class T>struct BandPass;
 template<class T>struct BandStop;
 template<class T>struct ChebI;
-template<class T, int N>struct Num : T {};
+template<class T, int N>struct Num : T { typedef T OBJ; static const int NUM = N; };
+template<int N, class T>Num<T, N> &xz_type(T &t) { return (Num<T, N> &)t; }
 
 struct Order;
 struct CutoffFrequency;
