@@ -34,7 +34,7 @@ namespace ZonesWindowMenu
 	struct Thresholds : TestThreshDlg {};
 	struct MedianFltr : TstMedianFiltreDlg {};
 	struct BiPolar : TestBiPolarDlg {};
-	struct XinMM__ : XinMMDlg {};
+	struct XinMM__ : TestXinMMDlg {};
 
 	MENU_ITEM(L"Неизмеряемые зоны", DeadZones)
 	MENU_ITEM(L"Аналоговый фильтр", DspFiltr)

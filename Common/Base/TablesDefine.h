@@ -121,7 +121,15 @@ template<class T>struct ID
 	typedef type type_value;\
 	type_value value;\
 	const type_value default_value;\
-	const wchar_t *name(){return L#Wrap##L#z##L#n;}\
+	const wchar_t *name(){return L#Wrap###z###n;}\
+	Wrap() : value(def_val), default_value(def_val) {}\
+};
+#define DEFINE_PARAM_Wrap_NUM3(Wrap, x, y, z, n, type, def_val) template<> struct Wrap<x<y<z>>, n>\
+{\
+	typedef type type_value;\
+	type_value value;\
+	const type_value default_value;\
+	const wchar_t *name(){return L#Wrap###x###y###z###n;}\
 	Wrap() : value(def_val), default_value(def_val) {}\
 };
 

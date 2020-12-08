@@ -29,24 +29,24 @@ Compute::Compute()
 	numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 }
 
-template<class O, class P>struct __init_filtre_X__
-{
-	bool operator()(P &p)
-	{
-		FiltersTable::TItems &items = Singleton<FiltersTable>::Instance().items;
-		if (VL::IndexOf<filters_list, O>::value == items.get<Num<CurrentFilter, P::NUM>>().value)
-		{
-			p.Init<O>();
-			SetupFiltre<O, P::NUM>()(
-				(O &)p
-				, items
-				, 1000000 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value
-				);			
-			return false;
-		}
-		return true;
-	}
-};
+//template<class O, class P>struct __init_filtre_X__
+//{
+//	bool operator()(P &p)
+//	{
+//		FiltersTable::TItems &items = Singleton<FiltersTable>::Instance().items;
+//		if (VL::IndexOf<filters_list, O>::value == items.get<Num<CurrentFilter, P::NUM>>().value)
+//		{
+//			p.Init<O>();
+//			SetupFiltre<O, P::NUM>()(
+//				(O &)p
+//				, items
+//				, 1000000 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value
+//				);			
+//			return false;
+//		}
+//		return true;
+//	}
+//};
 
 struct Wrap
 {

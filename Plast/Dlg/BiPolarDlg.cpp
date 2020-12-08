@@ -15,6 +15,15 @@ void BiPolarDlg::Do(HWND h)
 	RepaintWindow(h);
 }
 
+void XinMMDlg::Do(HWND h)
+{
+	AScanWindow *w = (AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+	w->XinMM = SwitchMenu<MenuItem<AScanWindowMenu::XinMM__>>(h);
+
+	w->SwitchBipolar(w->XinMM);
+	RepaintWindow(h);
+}
+
 void TestBiPolarDlg::Do(HWND h)
 {
 	bool b = SwitchMenu<MenuItem<ZonesWindowMenu::BiPolar>>(h);
@@ -24,15 +33,7 @@ void TestBiPolarDlg::Do(HWND h)
 	RepaintWindow(h);
 }
 
-void XinMMDlg::Do(HWND h)
-{
-	
-	AScanWindow *w = (AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-	w->XinMM = SwitchMenu<MenuItem<AScanWindowMenu::XinMM__>>(h);
 
-//	w->SwitchBipolar(b);
-	RepaintWindow(h);
-}
 
 void TestXinMMDlg::Do(HWND h)
 {

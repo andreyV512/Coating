@@ -467,7 +467,7 @@ template<typename List>struct SetDefault
 //---------------------------------------------------------------------------------------------------------
 template<typename Table> struct Insert_Into
 {
-   wchar_t head[1024];
+   wchar_t head[2048];
    wchar_t tail[1024];
    Insert_Into(Table &tableX, CBase &baseX)
 	   : table(tableX)
@@ -1000,7 +1000,7 @@ template<typename Table, int N = 1024>struct Update
 //------------------------------------------------------------------------------------
 template<typename Table> struct UpdateWhere
 {
-   wchar_t head[1024];
+   wchar_t head[2048];
    UpdateWhere(Table &tableX, CBase &baseX)
 	   : table(tableX)
 	   , base(baseX)

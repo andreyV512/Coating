@@ -5,7 +5,7 @@
 
 namespace Dialog
 {
-	template<class T>struct NoButton;
+	template<class T>struct NoButton {};
 	template<class List>struct __get_height_tmpl__;
 	template<class Head, class ...Tail>struct __get_height_tmpl__<Vlst<Head, Tail...> >
 	{
@@ -278,11 +278,11 @@ namespace Dialog
 		typedef typename VL::TypeToTypeLstParam1<List, Wrap, Templ>::Result original_list;
 		typedef BaseParam Base;
 		typedef TableParam Table;
+		AdditionalData *additional;
 		Table &table;	
 		typedef typename VL::TypeToTypeLstParam1<typename __del_group_box__<List>::Result, Wrap, Templ>::Result list;
 		VL::Factory<list> items;
 		VL::Factory<ButtonsList> buttons;
-		AdditionalData *additional;
 		void operator()(TInitDialog &e)
 		{
 			int width = widthP;
@@ -315,7 +315,7 @@ namespace Dialog
 		}
 
 		Templ(Table &table_, AdditionalData *additional = NULL) 
-			: table(table_), items(*this), additional(additional)
+			: additional(additional), table(table_), items(*this)
 		{}
 		bool Do(HWND hWnd, wchar_t *title)
 		{

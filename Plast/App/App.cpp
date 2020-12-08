@@ -39,7 +39,7 @@ namespace App
 	{
 		Performance::Init();
 		AppBase().Init();
-		Singleton<Compute>::Instance().Start();
+		//Singleton<Compute>::Instance().Start();
 
 		ProgrammDir pd;
 		wsprintf(pd.tail, L"\\..\\Store\\");

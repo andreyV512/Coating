@@ -375,6 +375,11 @@ namespace VL
 		foreach<typename Inner<From>::Result, __copy__>()(from, to);
 	}
 
+	template<class List, class From, class To>void CopyFromTo(From &from, To &to)
+	{
+		foreach<List, __copy__>()(from, to);
+	}
+
 	template<template<class>class W, class List, class tmp = Vlst<> >struct WrapFilter;
 	template<template<class>class W, class tmp, class Head, class ...Tail>struct WrapFilter<W, Vlst<Head, Tail...>, tmp>
 	{

@@ -24,7 +24,7 @@ namespace Data
 
 	struct InputData
 	{
-		static const unsigned long long buffSize = (unsigned long long)3 * 1024 * 1024 * 1024;
+		static const unsigned long long buffSize = 1111111111;// (unsigned long long)3 * 1024 * 1024 * 1024;
 		unsigned framesCount;
 		int strobesTickCount, offsetsTickCount;
 		static char *buffer;
