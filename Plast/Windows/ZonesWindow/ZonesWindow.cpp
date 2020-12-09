@@ -14,6 +14,7 @@
 #include "Windows/Viewers/NegThresh.hpp"
 #include "MessageText/status.h"
 #include "Windows/StoreParamsBase.hpp"
+#include "Compute/SetTresholds.hpp"
 
 LRESULT ZonesWindow::operator()(TCreate &l)
 {
@@ -112,7 +113,7 @@ void ZonesWindow::operator()(TGetMinMaxInfo &l)
 
 void ZonesWindow::operator()(TClose &l)
 {
-	bool bmedian     = TestX<MedianFiltreTable>(median);
+	bool bmedian     = TestX<MedianFiltreTable>(medianItems);
 	bool bfilter     = TestX<FiltersTable>(filter);
 	bool btreshItems = TestX<TresholdsTable>(treshItems);
 	bool bdeadZones  = TestX<DeadZonesTable>(deadZones);
@@ -131,7 +132,7 @@ void ZonesWindow::operator()(TClose &l)
 				CBase base(ParametersBase().name());
 				if (base.IsOpen())
 				{
-					if(bmedian    )  StoreBaseX<MedianFiltreTable>(base, median);
+					if(bmedian    )  StoreBaseX<MedianFiltreTable>(base, medianItems);
 					if(bfilter    )  StoreBaseX<FiltersTable>     (base, filter);
 					if(btreshItems)  StoreBaseX<TresholdsTable>   (base, treshItems);
 					if(bdeadZones )  StoreBaseX<DeadZonesTable>   (base, deadZones);
@@ -153,7 +154,7 @@ ZonesWindow::ZonesWindow()
 	, zoneViewer(viewers.get<ZoneViewer>())
 	, aScan(viewers.get<Sens>())
 {
-	VL::CopyFromTo(Singleton<MedianFiltreTable>::Instance().items, median);
+	VL::CopyFromTo(Singleton<MedianFiltreTable>::Instance().items, medianItems);
 	VL::CopyFromTo(Singleton<FiltersTable  >::Instance().items, filter	  );
 	VL::CopyFromTo(Singleton<TresholdsTable>::Instance().items, treshItems);
 	VL::CopyFromTo(Singleton<DeadZonesTable>::Instance().items, deadZones );
@@ -247,12 +248,12 @@ void ZonesWindow::UpdateZone()
 	for (unsigned i = xoffsStart; i < offsStart; i += inc)
 	{
 		compute.ComputeFrame(
-			(IDSPFlt &)computeFrame.filter
+			currentSensor
 			, &data.buffer[i]
 			, ldata, lstatus
 		);
 		unsigned z = i;
-		(medianFiltre.*medianProc)(ldata, lstatus, z);
+		(median.*medianProc)(ldata, lstatus, z);
 	}
 	
 	if (currentZone <= wholeStart || currentZone >= compute.zoneOffsetsIndex - 1)
@@ -262,12 +263,12 @@ void ZonesWindow::UpdateZone()
 			for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
 			{
 				compute.ComputeFrame(
-					(IDSPFlt &)computeFrame.filter
+					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
 				unsigned z = i;
-				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
+				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
 				zoneOffs[k] = z;
 				numbers[k] = *(unsigned *)&data.buffer[i];
@@ -282,12 +283,12 @@ void ZonesWindow::UpdateZone()
 			for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
 			{
 				compute.ComputeFrame(
-					(IDSPFlt &)computeFrame.filter
+					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
 				unsigned z = i;
-				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
+				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
 				zoneOffs[k] = z;
 				numbers[k] = *(unsigned *)&data.buffer[i];
@@ -295,12 +296,12 @@ void ZonesWindow::UpdateZone()
 			for (unsigned i = deadStart; i < offsStop; i += inc, ++k)
 			{
 				compute.ComputeFrame(
-					(IDSPFlt &)computeFrame.filter
+					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
 				unsigned z = i;
-				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
+				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = lstatus;
 				zoneOffs[k] = z;
 				numbers[k] = *(unsigned *)&data.buffer[i];
@@ -315,12 +316,12 @@ void ZonesWindow::UpdateZone()
 			for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
 			{
 				compute.ComputeFrame(
-					(IDSPFlt &)computeFrame.filter
+					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
 				unsigned z = i;
-				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
+				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = lstatus;
 				zoneOffs[k] = z;
 				numbers[k] = *(unsigned *)&data.buffer[i];
@@ -328,12 +329,12 @@ void ZonesWindow::UpdateZone()
 			for (unsigned i = deadStart; i < offsStop; i += inc, ++k)
 			{
 				compute.ComputeFrame(
-					(IDSPFlt &)computeFrame.filter
+					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
 				unsigned z = i;
-				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
+				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
 				zoneOffs[k] = z;
 				numbers[k] = *(unsigned *)&data.buffer[i];
@@ -344,12 +345,12 @@ void ZonesWindow::UpdateZone()
 			for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
 			{
 				compute.ComputeFrame(
-					(IDSPFlt &)computeFrame.filter
+					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
 				);
 				unsigned z = i;
-				zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
+				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
 				zoneOffs[k] = z;
 				numbers[k] = *(unsigned *)&data.buffer[i];
@@ -361,12 +362,12 @@ void ZonesWindow::UpdateZone()
 		for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
 		{
 			compute.ComputeFrame(
-				(IDSPFlt &)computeFrame.filter
+				currentSensor
 				, &data.buffer[i]
 				, ldata, lstatus
 			);
 			unsigned z = i;
-			zoneViewerData[k] = (medianFiltre.*medianProc)(ldata, lstatus, z);
+			zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 			zoneViewerStatus[k] = lstatus;
 			zoneOffs[k] = z;
 			numbers[k] = *(unsigned *)&data.buffer[i];
@@ -386,22 +387,22 @@ void ZonesWindow::UpdateAScan()
 	aScan.tchart.minAxesX = 0;
 	aScan.tchart.maxAxesX = compute.packetSize;
 
-	auto &t = treshItems;
-	computeFrame.threshAlarm = t.get<AlarmThresh>().value;
-	computeFrame.offsAlarmStart = int(t.get<AlarmThreshStart>().value * computeFrame.packetSize * 0.01);
-	computeFrame.offsAlarmStop = int(t.get<AlarmThreshStop>().value * computeFrame.packetSize * 0.01);
-	computeFrame.gainAlarmOffs = t.get<AlarmGainStart>().value;
-	computeFrame.gainAlarmDelta = (t.get<AlarmGainStop>().value - t.get<AlarmGainStart>().value)
-		/ (computeFrame.offsAlarmStop - computeFrame.offsAlarmStart);
-
-	computeFrame.threshReflection = t.get<BottomReflectionThresh>().value;
-	computeFrame.offsReflectionStart = int(t.get<BottomReflectionThreshStart>().value * computeFrame.packetSize * 0.01);
-	computeFrame.offsReflectionStop = int(t.get<BottomReflectionThreshStop>().value * computeFrame.packetSize * 0.01);
-	computeFrame.gainReflectionOffs = t.get<BottomReflectionGainStart>().value;
-	computeFrame.gainReflectionDelta = (t.get<BottomReflectionGainStop>().value - t.get<BottomReflectionGainStart>().value)
-		/ (computeFrame.offsReflectionStop - computeFrame.offsReflectionStart);
-	computeFrame.bottomReflectionOn = t.get<BottomReflectionOn>().value;
-
+	//auto &t = treshItems;
+	//computeFrame.threshAlarm = t.get<AlarmThresh>().value;
+	//computeFrame.offsAlarmStart = int(t.get<AlarmThreshStart>().value * computeFrame.packetSize * 0.01);
+	//computeFrame.offsAlarmStop = int(t.get<AlarmThreshStop>().value * computeFrame.packetSize * 0.01);
+	//computeFrame.gainAlarmOffs = t.get<AlarmGainStart>().value;
+	//computeFrame.gainAlarmDelta = (t.get<AlarmGainStop>().value - t.get<AlarmGainStart>().value)
+	//	/ (computeFrame.offsAlarmStop - computeFrame.offsAlarmStart);
+	//
+	//computeFrame.threshReflection = t.get<BottomReflectionThresh>().value;
+	//computeFrame.offsReflectionStart = int(t.get<BottomReflectionThreshStart>().value * computeFrame.packetSize * 0.01);
+	//computeFrame.offsReflectionStop = int(t.get<BottomReflectionThreshStop>().value * computeFrame.packetSize * 0.01);
+	//computeFrame.gainReflectionOffs = t.get<BottomReflectionGainStart>().value;
+	//computeFrame.gainReflectionDelta = (t.get<BottomReflectionGainStop>().value - t.get<BottomReflectionGainStart>().value)
+	//	/ (computeFrame.offsReflectionStop - computeFrame.offsReflectionStart);
+	//computeFrame.bottomReflectionOn = t.get<BottomReflectionOn>().value;
+	SetTresholds(computeFrame, treshItems);
 	computeFrame.Frame(currentSensor, zoneOffs[zoneViewer.currentX], aScan.data);
 	aScan.line.count = computeFrame.packetSize;
 	RepaintWindow(aScan.hWnd);
@@ -415,9 +416,10 @@ void ZonesWindow::SwitchBipolar(bool b)
 
 void ZonesWindow::UpdateMedian()
 {
-	medianProc = median.get<MedianFiltreON>().value
-		? &MedianFiltre::ValOffs : &MedianFiltre::noopOffs;
-	medianFiltre.InitWidth(median.get<MedianFiltreWidth>().value);
+	//medianProc = median.get<MedianFiltreON>().value
+	//	? &MedianFiltre::ValOffs : &MedianFiltre::noopOffs;
+	//medianFiltre.InitWidth(median.get<MedianFiltreWidth>().value);
+	//TODO XXX SetMedian(*this, medianItems);
 }
 
 template<class P>struct __set_thresh__<ZoneViewer, P>

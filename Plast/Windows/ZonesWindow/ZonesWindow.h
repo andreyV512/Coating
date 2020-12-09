@@ -21,7 +21,7 @@ public:
 	HWND hStatuisBar;
 	ZonesWindowToolBar toolBar;
 
-	MedianFiltreTable::TItems median;
+	MedianFiltreTable::TItems medianItems;
 	FiltersTable::TItems filter;
 	TresholdsTable::TItems treshItems;
 	DeadZonesTable::TItems deadZones;
@@ -53,7 +53,7 @@ public:
 	Sens &aScan;
 
 	double(MedianFiltre:: *medianProc)(double, char &, unsigned &);
-	MedianFiltre medianFiltre;
+	MedianFiltre median;
 	ComputeFrame computeFrame;
 
 	ZonesWindow();

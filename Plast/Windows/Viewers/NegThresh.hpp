@@ -34,17 +34,17 @@ template<class TreshItems, class Viewers>void SetTresh(TreshItems &treshItems, V
 {
 	auto &color = Singleton<ColorTable>::Instance().items;
 
-	__set_thresh_data__ data = {
-	   color.get< Clr<Defect>>().value
-	   , treshItems.get<AlarmThresh>().value
-	   , treshItems.get<AlarmThreshStart>().value
-	   , treshItems.get<AlarmThreshStop>().value
-	   , color.get< Clr<NoBottomReflection>>().value
-	   , treshItems.get<BottomReflectionThresh>().value
-	   , treshItems.get<BottomReflectionThreshStart>().value
-	   , treshItems.get<BottomReflectionThreshStop>().value
-	};
-	VL::foreach<typename VL::Inner<Viewers>::Result, __set_thresh__>()(viewers, data);
+	//TODO XXX__set_thresh_data__ data = {
+	//TODO XXX   color.get< Clr<Defect>>().value
+	//TODO XXX   , treshItems.get<AlarmThresh>().value
+	//TODO XXX   , treshItems.get<AlarmThreshStart>().value
+	//TODO XXX   , treshItems.get<AlarmThreshStop>().value
+	//TODO XXX   , color.get< Clr<NoBottomReflection>>().value
+	//TODO XXX   , treshItems.get<BottomReflectionThresh>().value
+	//TODO XXX   , treshItems.get<BottomReflectionThreshStart>().value
+	//TODO XXX   , treshItems.get<BottomReflectionThreshStop>().value
+	//TODO XXX};
+	//TODO XXXVL::foreach<typename VL::Inner<Viewers>::Result, __set_thresh__>()(viewers, data);
 }
 
 template<class A, class B>void __assignment_param__(A &a, B &b)

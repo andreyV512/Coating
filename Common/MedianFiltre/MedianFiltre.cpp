@@ -56,7 +56,7 @@ double MedianFiltre::Val(double d, char &s)
 	return buf[0];
 }
 
-double MedianFiltre::ValOffs(double d, char &s, unsigned &o)
+double MedianFiltre::Val(double d, char &s, unsigned &o)
 {
 	int index_ = index % width;
 	++index;
@@ -95,7 +95,7 @@ double MedianFiltre::noop(double value, char &)
 {
 	return value; 
 }
-double MedianFiltre::noopOffs(double value, char &, unsigned &)
+double MedianFiltre::noop(double value, char &, unsigned &)
 {
 	return value; 
 }

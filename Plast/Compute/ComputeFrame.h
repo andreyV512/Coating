@@ -15,13 +15,15 @@ public:
 	TresholdsTable::TItems treshItems;
 	unsigned &framesCount;
 	char *buffer;
-	unsigned offsAlarmStart, offsAlarmStop;
-	double gainAlarmOffs, gainAlarmDelta, threshAlarm;
+	unsigned offsAlarmStart[App::count_sensors], offsAlarmStop[App::count_sensors];
+	double gainAlarmOffs[App::count_sensors], gainAlarmDelta[App::count_sensors], threshAlarm[App::count_sensors];
 
-	unsigned offsReflectionStart, offsReflectionStop;
-	double gainReflectionOffs, gainReflectionDelta, threshReflection;
+	unsigned offsReflectionStart[App::count_sensors], offsReflectionStop[App::count_sensors];
+	double gainReflectionOffs[App::count_sensors]
+		, gainReflectionDelta[App::count_sensors]
+		, threshReflection[App::count_sensors];
 
-	bool bottomReflectionOn;
+	bool bottomReflectionOn[App::count_sensors];
 public:
 	ComputeFrame();
 	void UpdateFiltre();

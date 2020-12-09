@@ -26,7 +26,6 @@ private:
 	unsigned numberPackets, framesCount, strobesTickCount, offsetsTickCount;
 public:
 	unsigned zoneOffsetsIndex;
-private:
 	MedianFiltre median[App::count_sensors];
 	double(MedianFiltre:: *medianProc)(double, char &);
 public:
@@ -34,12 +33,16 @@ public:
 private:
 	Data::SensorData *sensorData[App::count_sensors];
 public:
-	unsigned offsAlarmStart, offsAlarmStop;
-	double gainAlarmOffs, gainAlarmDelta, threshAlarm;
+	unsigned offsAlarmStart[App::count_sensors], offsAlarmStop[App::count_sensors];
+	double gainAlarmOffs[App::count_sensors]
+		, gainAlarmDelta[App::count_sensors]
+		, threshAlarm[App::count_sensors];
 
-	unsigned offsReflectionStart, offsReflectionStop;
-	double gainReflectionOffs, gainReflectionDelta, threshReflection;
-	bool bottomReflectionOn;
+	unsigned offsReflectionStart[App::count_sensors], offsReflectionStop[App::count_sensors];
+	double gainReflectionOffs[App::count_sensors]
+		, gainReflectionDelta[App::count_sensors]
+		, threshReflection[App::count_sensors];
+	bool bottomReflectionOn[App::count_sensors];
 	unsigned wholeStart;
 public:
 	int wholeStop;
@@ -55,7 +58,8 @@ public:
 	bool Strobes();
 	void Zone(int zone, int sens);
 	void Zone(int sens, char *start, char *stop, double &data, char &status);
-	void ComputeFrame(IDSPFlt &f, char *d, double &value, char &status);
+	void ComputeFrame(int sens, char *d, double &value, char &status);
+	//void ComputeFrame(IDSPFlt &f, char *d, double &value, char &status);
 	void Update();
 	void Recalculation();
 };

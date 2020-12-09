@@ -76,46 +76,117 @@ struct UnitTable
 	const wchar_t *name() { return L"UnitTable"; }
 };
 
-DEFINE_PARAM(MedianFiltreWidth, int, 5)
-DEFINE_PARAM(MedianFiltreON, bool, true)
+struct MedianFiltreWidth{};
+struct MedianFiltreON	{};
+
+DEFINE_PARAM_Wrap_NUM(Num, MedianFiltreWidth, 0, int, 5)
+DEFINE_PARAM_Wrap_NUM(Num, MedianFiltreON, 0, bool, true)
+DEFINE_PARAM_Wrap_NUM(Num, MedianFiltreWidth, 1, int, 5)
+DEFINE_PARAM_Wrap_NUM(Num, MedianFiltreON, 1, bool, true)
+DEFINE_PARAM_Wrap_NUM(Num, MedianFiltreWidth, 2, int, 5)
+DEFINE_PARAM_Wrap_NUM(Num, MedianFiltreON   , 2, bool, true)
+
 struct MedianFiltreTable
 {
 	typedef Vlst<
-		MedianFiltreWidth
-		, MedianFiltreON
+		  Num<MedianFiltreWidth, 0>
+		, Num<MedianFiltreON, 0>
+		, Num<MedianFiltreWidth, 1>
+		, Num<MedianFiltreON, 1>
+		, Num<MedianFiltreWidth, 2>
+		, Num<MedianFiltreON   , 2>
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;
 	const wchar_t *name() { return L"MedianFiltreTable"; }
 };
 
-DEFINE_PARAM(AlarmThresh              , double, 50)
-DEFINE_PARAM(AlarmThreshStart         , double, 10)
-DEFINE_PARAM(AlarmThreshStop          , double, 80)
-DEFINE_PARAM(AlarmGainStart           , double, 1.0)
-DEFINE_PARAM(AlarmGainStop            , double, 1.0)
-DEFINE_PARAM(BottomReflectionThresh         , double, 15)
-DEFINE_PARAM(BottomReflectionThreshStart    , double, 80)
-DEFINE_PARAM(BottomReflectionThreshStop     , double, 100)
-DEFINE_PARAM(BottomReflectionGainStart, double, 1.0)
-DEFINE_PARAM(BottomReflectionGainStop , double, 1.0)
-DEFINE_PARAM(BottomReflectionOn, bool, true)
+struct AlarmThresh				  {};
+struct AlarmThreshStart           {};  
+struct AlarmThreshStop            {};  
+struct AlarmGainStart             {};  
+struct AlarmGainStop              {};  
+struct BottomReflectionThresh     {};  
+struct BottomReflectionThreshStart{};
+struct BottomReflectionThreshStop {};  
+struct BottomReflectionGainStart  {};  
+struct BottomReflectionGainStop   {};  
+struct BottomReflectionOn         {};
+
+DEFINE_PARAM_Wrap_NUM(Num, AlarmThresh, 0, double, 50)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmThreshStart, 0, double, 10)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmThreshStop, 0, double, 80)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmGainStart, 0, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmGainStop, 0, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionThresh, 0, double, 15)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionThreshStart, 0, double, 80)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionThreshStop, 0, double, 100)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionGainStart, 0, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionGainStop, 0, double, 1.0) 
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionOn, 0, bool, true)
+
+DEFINE_PARAM_Wrap_NUM(Num, AlarmThresh, 1, double, 50)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmThreshStart, 1, double, 10)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmThreshStop, 1, double, 80)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmGainStart, 1, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmGainStop, 1, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionThresh, 1, double, 15)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionThreshStart, 1, double, 80)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionThreshStop, 1, double, 100)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionGainStart, 1, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionGainStop, 1, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionOn, 1, bool, true)
+
+DEFINE_PARAM_Wrap_NUM(Num, AlarmThresh, 2, double, 50)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmThreshStart, 2, double, 10)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmThreshStop, 2, double, 80)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmGainStart, 2, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, AlarmGainStop, 2, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionThresh, 2, double, 15)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionThreshStart, 2, double, 80)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionThreshStop, 2, double, 100)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionGainStart, 2, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionGainStop, 2, double, 1.0)
+DEFINE_PARAM_Wrap_NUM(Num, BottomReflectionOn, 2, bool, true)
+
 DEFINE_PARAM(SoundSpeed, double, 3130)
 
 struct TresholdsTable
 {
 	typedef Vlst<
-		AlarmThresh
-		, AlarmThreshStart
-		, AlarmThreshStop
-		, AlarmGainStart
-		, AlarmGainStop
-		, BottomReflectionThresh
-		, BottomReflectionThreshStart
-		, BottomReflectionThreshStop
-		, BottomReflectionGainStart
-		, BottomReflectionGainStop
-		, BottomReflectionOn
+		  Num<AlarmThresh, 0>
+		, Num<AlarmThreshStart, 0>
+		, Num<AlarmThreshStop, 0>
+		, Num<AlarmGainStart, 0>
+		, Num<AlarmGainStop, 0>
+		, Num<BottomReflectionThresh, 0>
+		, Num<BottomReflectionThreshStart, 0>
+		, Num<BottomReflectionThreshStop, 0>
+		, Num<BottomReflectionGainStart, 0>
+		, Num<BottomReflectionGainStop, 0>
+		, Num<BottomReflectionOn, 0>
+		, Num<AlarmThresh, 1>
+		, Num<AlarmThreshStart, 1>
+		, Num<AlarmThreshStop, 1>
+		, Num<AlarmGainStart, 1>
+		, Num<AlarmGainStop, 1>
+		, Num<BottomReflectionThresh, 1>
+		, Num<BottomReflectionThreshStart, 1>
+		, Num<BottomReflectionThreshStop, 1>
+		, Num<BottomReflectionGainStart, 1>
+		, Num<BottomReflectionGainStop, 1>
+		, Num<BottomReflectionOn, 1>
+		, Num<AlarmThresh				 , 2>
+		, Num<AlarmThreshStart			 , 2>
+		, Num<AlarmThreshStop			 , 2>
+		, Num<AlarmGainStart			 , 2>
+		, Num<AlarmGainStop				 , 2>
+		, Num<BottomReflectionThresh	 , 2>
+		, Num<BottomReflectionThreshStart, 2>
+		, Num<BottomReflectionThreshStop , 2>
+		, Num<BottomReflectionGainStart	 , 2>
+		, Num<BottomReflectionGainStop	 , 2>
+		, Num<BottomReflectionOn		 , 2>
 		, SoundSpeed
 	> items_list;
 	typedef VL::Factory<items_list> TItems;

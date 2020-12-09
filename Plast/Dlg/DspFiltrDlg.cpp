@@ -6,6 +6,7 @@
 #include "Windows/ZonesWindow/ZonesWindow.h"
 #include "window_tool/Emptywindow.h"
 #include "Windows/AScanWindow/AScanWindow.h"
+#include "SensItem.hpp"
 ///*
 template<class List, int N>struct __orders__;
 template<int N, class Head, class ...Tail>struct __orders__<Vlst<Head, Tail...>, N>
@@ -40,24 +41,17 @@ template<int N>struct __orders_list__
 	typedef typename VL::Append<typename __orders__<FiltersTable::items_list, N>::Result, Num<CurrentFilter, N>>::Result Result;
 };
 
-template<class T>struct __current_filtre_param_data__
-{
-	T obj;
-	HWND h;
-	bool close;
-	typename T::TItems *pitems;
-	int currentSensor;
-};
-
-#define XMIN_EQUAL_VALUE(sub_type, value)template<int N>struct LessEqual<Num<sub_type, N>>\
-{typename Num<sub_type, N>::type_value operator()(){return value;}};
 
 
-#define XMAX_EQUAL_VALUE(sub_type, value)template<int N>struct LargenEqual<Num<sub_type, N>>\
-{typename Num<sub_type, N>::type_value operator()(){return value;}};
-
-#define XDO_NOT_CHECK(n)template<int N>struct __compare_param__<Vlst<>, Vlst<>, Num<n, N>>\
-{bool operator()(typename Num<n, N>::type_value &t){return true;}};
+//#define XMIN_EQUAL_VALUE(sub_type, value)template<int N>struct LessEqual<Num<sub_type, N>>\
+//{typename Num<sub_type, N>::type_value operator()(){return value;}};
+//
+//
+//#define XMAX_EQUAL_VALUE(sub_type, value)template<int N>struct LargenEqual<Num<sub_type, N>>\
+//{typename Num<sub_type, N>::type_value operator()(){return value;}};
+//
+//#define XDO_NOT_CHECK(n)template<int N>struct __compare_param__<Vlst<>, Vlst<>, Num<n, N>>\
+//{bool operator()(typename Num<n, N>::type_value &t){return true;}};
 
 XMIN_EQUAL_VALUE(Low<ChebI<Order>>, 1)
 XMAX_EQUAL_VALUE(Low<ChebI<Order>>, 10)
@@ -171,104 +165,8 @@ template<int N, class Dlg>struct __data_from_widget__<Dialog::DlgItem2<Num<Curre
 	}
 };
 ////////////////////////////////////////////////////////////////////////////
-DEFINE_PARAM(CurrentSensor, int, 0)
-PARAM_TITLE(CurrentSensor, L"Датчик")
-template<>struct FillComboboxList<CurrentSensor>
-{
-	void operator()(HWND h, CurrentSensor &t)
-	{
-		wchar_t buf[32];
-		for (int i = 0; i < App::count_sensors; ++i)
-		{
-			ComboBox_AddString(h, _itow(1 + i, buf, 10));
-		}
-	}
-};
-template<>struct CurrentValue<CurrentSensor>
-{
-	void operator()(HWND h, CurrentSensor &t)
-	{
-		ComboBox_SetCurSel(h, t.value);
-	}
-};
-
-template<>struct DlgSubItems<CurrentSensor, int> : ComboBoxSubItem<CurrentSensor> {};
-DO_NOT_CHECK(CurrentSensor)
-template<class Owner>struct Dialog::DlgItem2<CurrentSensor, Owner>
-{
-	typedef CurrentSensor T;
-	static const int DY = DlgSubItems<T, typename T::type_value>::DY;
-	HWND hWnd;
-	T value;
-	DlgItem2(Owner &o) 
-	{
-		value.value = o.additional->currentSensor;
-	}
-	void Init(HWND h, int &x, int &width, int &dy)
-	{
-		hWnd = DlgSubItems<T, typename T::type_value>().Init(h, x, width, dy, value);
-	}
-};
-
-template<class P>struct __command__<Dialog::NoButton<CurrentSensor>, P>
-{
-	typedef Dialog::NoButton<CurrentSensor> O;
-	bool operator()(O &o, P &p)
-	{
-		if (1 == p.command.isAcselerator)
-		{
-			Dialog::DlgItem2<CurrentSensor, typename P::Owner>(&item) = p.owner.items.get<Dialog::DlgItem2<CurrentSensor, typename P::Owner>>();
-			if (p.command.hControl == item.hWnd)
-			{
-				item.value.value = p.owner.additional->currentSensor = ComboBox_GetCurSel(item.hWnd);
-				p.owner.additional->close = false;
-				EndDialog(p.command.hwnd, FALSE);
-				return false;
-			}
-		}
-		return true;
-	}
-};
-
-template<class List, class Item>struct EraseItem;
-template<class Item, class Head, class ...Tail>struct EraseItem<Vlst<Head, Tail...>, Item>
-{
-	typedef typename VL::Append<Head, typename EraseItem<Vlst<Tail...>, Item>::Result>::Result Result;
-};
-template<class Item, class Param, template<class, class>class Wrap, class ...Tail>struct EraseItem<Vlst<Wrap<Item, Param>, Tail...>, Item>
-{
-	typedef typename EraseItem<Vlst<Tail...>, Item>::Result Result;
-};
-template<class Item>struct EraseItem<Vlst<>, Item>
-{
-	typedef Vlst<> Result;
-};
-
-template<class Base>struct __ok_table_btn__<Base, FiltersTable, typename Base::multy_row_table_list>
-{
-	template<class T>bool operator()(HWND h, T &t)
-	{
-		typedef FiltersTable Table;
-		typedef typename EraseItem<typename T::list, CurrentSensor>::Result list;
-		if (!VL::find<list, __test__>()(t.items, h))return false;
-		CBase base(Base().name());
-		if (base.IsOpen())
-		{
-			int id = CurrentId<ID<Table> >();
-			__update_data__<Table> _data(base);
-			VL::foreach<list, __ok_btn__>()(t.items, _data);
-			if (1 == CountId<ID<Table> >(base, id))
-			{
-				_data.update.Where().ID(id).Execute();
-			}
-			else
-			{
-				Insert<Base, Table, T>()(t, base);
-			}
-		}
-		return true;
-	}
-};
+template<class Base>struct __ok_table_btn__<Base, FiltersTable, typename Base::multy_row_table_list> 
+	: _tpl_ok_table_btn__<Base, FiltersTable, typename Base::multy_row_table_list> {};
 ////////////////////////////////////////////////////////////////////////////
 template<class List, int N, template<class>class F>struct EraseNum;
 template<int N, template<class>class F, class Head, class ...Tail>struct EraseNum<Vlst<Num<F<Head>, N>, Tail...>, N, F>
@@ -290,7 +188,7 @@ template<template<class>class X, template<class>class Y, class O, int N, class P
 {
 	bool operator()(P &p)
 	{
-		if (VL::IndexOf<typename __orders_list__<N>::Result, Num<X<Y<O>>, N>>::value == p.obj.items.get<Num<CurrentFilter, N>>().value)
+		if (VL::IndexOf<typename __orders_list__<N>::Result, Num<X<Y<O>>, N>>::value == p.table.items.get<Num<CurrentFilter, N>>().value)
 		{
 			typedef typename VL::Append<typename __filtr__<X, Y, FiltersTable::items_list, N>::Result, Num<CurrentFilter, N>>::Result _list;
 			typedef VL::Append<CurrentSensor, _list>::Result list;
@@ -302,11 +200,12 @@ template<template<class>class X, template<class>class Y, class O, int N, class P
 				, 550
 				, Vlst<OkBtn, CancelBtn, Dialog::NoButton<Num<CurrentFilter, N>>, Dialog::NoButton<CurrentSensor>>
 				, __current_filtre_param_data__<FiltersTable>
-			>(p.obj, &p).Do(p.h, buf))
+			>(p.table, &p).Do(p.h, buf))
 			{
 				typedef typename EraseNum<FiltersTable::items_list, N, X >::Result _list;
 				typedef VL::Append< Num<CurrentFilter, N>, _list>::Result list;
-				VL::CopyFromTo<list>(p.obj.items, *p.pitems);
+				//VL::CopyFromTo<list>(p.table.items, p.items);
+				p.Restore<list>();
 			}
 			return false;
 		}
@@ -319,7 +218,7 @@ template<int N, class P>struct __current_filtre_param__<Num<CurrentFilter, N>, P
 	typedef Num<CurrentFilter, N> O;
 	bool operator()(P &p)
 	{
-		if (VL::IndexOf<__orders_list__<N>::Result, O>::value == p.obj.items.get<O>().value)
+		if (VL::IndexOf<__orders_list__<N>::Result, O>::value == p.table.items.get<O>().value)
 		{
 			typedef VL::Append<CurrentSensor, O>::Result list;
 			p.close = true;
@@ -330,9 +229,9 @@ template<int N, class P>struct __current_filtre_param__<Num<CurrentFilter, N>, P
 				, 550
 				, Vlst<OkBtn, CancelBtn, Dialog::NoButton<O>, Dialog::NoButton<CurrentSensor>>
 				, __current_filtre_param_data__<FiltersTable>
-			>(p.obj, &p).Do(p.h, buf))
+			>(p.table, &p).Do(p.h, buf))
 			{
-				VL::CopyFromTo<Vlst<Num<CurrentFilter, N>>>(p.obj.items, *p.pitems);
+				p.Restore<Vlst<Num<CurrentFilter, N>>>();
 			}
 			return false;
 		}
@@ -356,15 +255,8 @@ template<class O, class P>struct __curr_sens__
 void DspFiltrDlg::Do(HWND h)
 {
 	static int currentSensor = 0;
-	__current_filtre_param_data__<FiltersTable> data = {
-		Singleton<FiltersTable>::Instance()
-		, h
-		, false
-		, &Singleton<FiltersTable>::Instance().items
-		, currentSensor
-	};
+	__current_filtre_param_data__<FiltersTable> data(h, Singleton<FiltersTable>::Instance().items, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens__>()(data);
-	currentSensor = data.currentSensor;
 }
 ///////////////////////////////////////////////////////////
 template<class O, class P>struct __Xcurrent_filtre_param__;
@@ -373,7 +265,7 @@ template<template<class>class X, template<class>class Y, class O, int N, class P
 {
 	bool operator()(P &p)
 	{
-		if (VL::IndexOf<typename __orders_list__<N>::Result, Num<X<Y<O>>, N>>::value == p.obj.items.get<Num<CurrentFilter, N>>().value)
+		if (VL::IndexOf<typename __orders_list__<N>::Result, Num<X<Y<O>>, N>>::value == p.table.items.get<Num<CurrentFilter, N>>().value)
 		{
 			typedef typename VL::Append<typename __filtr__<X, Y, FiltersTable::items_list, N>::Result, Num<CurrentFilter, N>>::Result _list;
 			typedef VL::Append<CurrentSensor, _list>::Result list;
@@ -385,11 +277,11 @@ template<template<class>class X, template<class>class Y, class O, int N, class P
 				, 550
 				, Vlst<NoStoreOkBtn, CancelBtn, Dialog::NoButton<Num<CurrentFilter, N>>, Dialog::NoButton<CurrentSensor>>
 				, __current_filtre_param_data__<FiltersTable>
-			>(p.obj, &p).Do(p.h, buf))
+			>(p.table, &p).Do(p.h, buf))
 			{
 				typedef typename EraseNum<FiltersTable::items_list, N, X >::Result _list;
 				typedef VL::Append< Num<CurrentFilter, N>, _list>::Result list;
-				VL::CopyFromTo<list>(p.obj.items, *p.pitems);
+				p.Restore<list>();
 			}
 			return false;
 		}
@@ -402,7 +294,7 @@ template<int N, class P>struct __Xcurrent_filtre_param__<Num<CurrentFilter, N>, 
 	typedef Num<CurrentFilter, N> O;
 	bool operator()(P &p)
 	{
-		if (VL::IndexOf<__orders_list__<N>::Result, O>::value == p.obj.items.get<O>().value)
+		if (VL::IndexOf<__orders_list__<N>::Result, O>::value == p.table.items.get<O>().value)
 		{
 			typedef VL::Append<CurrentSensor, O>::Result list;
 			p.close = true;
@@ -413,9 +305,9 @@ template<int N, class P>struct __Xcurrent_filtre_param__<Num<CurrentFilter, N>, 
 				, 550
 				, Vlst<NoStoreOkBtn, CancelBtn, Dialog::NoButton<O>, Dialog::NoButton<CurrentSensor>>
 				, __current_filtre_param_data__<FiltersTable>
-			>(p.obj, &p).Do(p.h, buf))
+			>(p.table, &p).Do(p.h, buf))
 			{
-				VL::CopyFromTo<Vlst<Num<CurrentFilter, N>>>(p.obj.items, *p.pitems);
+				p.Restore<Vlst<Num<CurrentFilter, N>>>();
 			}
 			return false;
 		}
@@ -436,18 +328,11 @@ template<class O, class P>struct __curr_sens_XX__
 	}
 };
 
+static int currentSensor = 0;
 void AScanDspFiltrDlg::Do(HWND h)
 {
-	FiltersTable table;
-	
 	AScanWindow *w = (AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-	VL::CopyFromTo(w->computeFrame.paramFlt, table.items);
-	__current_filtre_param_data__<FiltersTable> data = {
-		table
-		, h
-		, false
-		, &w->computeFrame.paramFlt
-	};
+	__current_filtre_param_data__<FiltersTable> data(h, w->computeFrame.paramFlt, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens_XX__>()(data);
 	w->computeFrame.UpdateFiltre();
 	RepaintWindow(w->hWnd);
@@ -455,22 +340,14 @@ void AScanDspFiltrDlg::Do(HWND h)
 
 void TstDspFiltrDlg::Do(HWND h)
 {
-	FiltersTable table;
-	
 	ZonesWindow *w = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-	VL::CopyFromTo(w->computeFrame.paramFlt, table.items);
-	__current_filtre_param_data__<FiltersTable> data = {
-		table
-		, h
-		, false
-		, &w->computeFrame.paramFlt
-	};
+	__current_filtre_param_data__<FiltersTable> data(h, w->computeFrame.paramFlt, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens_XX__>()(data);
 	w->computeFrame.UpdateFiltre();
 	RepaintWindow(w->hWnd);
 }
 
-#undef XMIN_EQUAL_VALUE
-#undef XMAX_EQUAL_VALUE
-#undef XDO_NOT_CHECK
+//#undef XMIN_EQUAL_VALUE
+//#undef XMAX_EQUAL_VALUE
+//#undef XDO_NOT_CHECK
 

@@ -69,11 +69,11 @@ void Compute::Start()
 	Wrap x(filter);
 	__init_filtre__()(x);
 
-	auto medianParams = Singleton<MedianFiltreTable>::Instance().items;
-	medianProc = medianParams.get<MedianFiltreON>().value ? &MedianFiltre::Val: &MedianFiltre::noop;
-	int width = medianParams.get<MedianFiltreWidth>().value;
-	for (int i = 0; i < dimention_of(median); ++i) median[i].InitWidth(width);
-
+	//auto medianParams = Singleton<MedianFiltreTable>::Instance().items;
+	//medianProc = medianParams.get<MedianFiltreON>().value ? &MedianFiltre::Val: &MedianFiltre::noop;
+	//int width = medianParams.get<MedianFiltreWidth>().value;
+	//for (int i = 0; i < dimention_of(median); ++i) median[i].InitWidth(width);
+	SetMedian(*this, Singleton<MedianFiltreTable>::Instance().items);
 	SetTresholds(*this, Singleton<TresholdsTable>::Instance().items);
 
 	auto &deadZones = Singleton<DeadZonesTable>::Instance().items;
@@ -236,7 +236,7 @@ void Compute::Zone(int zone, int sens)
 		{
 			double result;
 			char status;
-			ComputeFrame((IDSPFlt &)filter, &data.buffer[i + j * packetSize], result, status);
+			ComputeFrame(sens, &data.buffer[i + j * packetSize], result, status);
 			double t = (m.*medianProc)(result, status);
 			if (t > ldata[j])
 			{
@@ -260,7 +260,8 @@ void Compute::Zone(int sens, char *start, char *stop, double &result, char &stat
 	result = 0;
 	for (char *i = start; i < stop; i += inc)
 	{
-		ComputeFrame((IDSPFlt &)filter, i, result, status);
+		//ComputeFrame((IDSPFlt &)filter, i, result, status);
+		ComputeFrame(sens, i, result, status);
 		double t = (m.*medianProc)(result, status);
 		if (t > result)
 		{
@@ -270,47 +271,48 @@ void Compute::Zone(int sens, char *start, char *stop, double &result, char &stat
 	}
 }
 
-void Compute::ComputeFrame(IDSPFlt &f, char *d, double &value, char &status)
+void Compute::ComputeFrame(int sens, char *d, double &value, char &status)
 {
+	IDSPFlt &f = (IDSPFlt &)filter[sens];
 	f.Clean();
 	status = StatusData::norm;
 	value = 0;
 	unsigned i = 0;
-	for (; i < offsAlarmStart; ++i)
+	for (; i < offsAlarmStart[sens]; ++i)
 	{
 		f(d[i] * 100.0 / 128);
 	}
-	double gain = gainAlarmOffs;
-	for (; i < offsAlarmStop; ++i)
+	double gain = gainAlarmOffs[sens];
+	for (; i < offsAlarmStop[sens]; ++i)
 	{
 		double t = f(d[i] * 100.0 / 128);
 		t *= gain;
 		if(value < t) value = t;
-		if(t > threshAlarm)
+		if(t > threshAlarm[sens])
 		{
 			status = StatusData::defect;
 		}
-		gain += gainAlarmDelta;
+		gain += gainAlarmDelta[sens];
 	}
 
 	if (!bottomReflectionOn) return;
-	for (; i < offsReflectionStart; ++i)
+	for (; i < offsReflectionStart[sens]; ++i)
 	{
 		f(d[i] * 100.0 / 128);		
 	}
 
-	gain = gainReflectionOffs;
+	gain = gainReflectionOffs[sens];
 	bool refl = true;
-	for (; i < offsReflectionStop; ++i)
+	for (; i < offsReflectionStop[sens]; ++i)
 	{
 		double t = f(d[i] * 100.0 / 128);
 		t *= gain;
-		if (t > threshReflection)
+		if (t > threshReflection[sens])
 		{
 			refl = false;
 			break;
 		}
-		gain += gainReflectionDelta;
+		gain += gainReflectionDelta[sens];
 	}
 	if(refl)status = StatusData::Compute(status, StatusData::noBottomReflection);
 }

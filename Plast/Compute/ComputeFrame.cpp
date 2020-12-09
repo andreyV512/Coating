@@ -37,48 +37,42 @@ ComputeFrame::ComputeFrame()
 
 void ComputeFrame::UpdateFiltre()
 {
-	//if(VL::find<filters_list, __init_filtre_XX__>()(xz_type <0>(*this))) filter[0].Init<DSPFltDump>();
-	//if (VL::find<filters_list, __init_filtre_XX__>()(xz_type <1>(*this))) filter[1].Init<DSPFltDump>();
-	//if (VL::find<filters_list, __init_filtre_XX__>()(xz_type <2>(*this))) filter[2].Init<DSPFltDump>();
 	__init_filtre__()(*this);
 }
 
 void ComputeFrame::Frame(int sensor, unsigned offs_, double *data)
 {
-	//unsigned num = *(unsigned *)&buffer[offs_];
-	//dprint("frame num %d sens %d %d\n", num, num % 3, sensor);
-
 	auto &f = filter[sensor];
 	f->Clean();
 
 	unsigned offs = offs_;
 		unsigned i = 0;
-		for (; i < offsAlarmStart && offs < Data::InputData::buffSize; ++i, ++offs)
+		for (; i < offsAlarmStart[sensor] && offs < Data::InputData::buffSize; ++i, ++offs)
 		{
 			double t = 100.0 * buffer[offs];
 			data[i] = (*f)(t / 128);
 		}
-		double gain = gainAlarmOffs;
-		for (; i < offsAlarmStop && offs < Data::InputData::buffSize; ++i, ++offs)
+		double gain = gainAlarmOffs[sensor];
+		for (; i < offsAlarmStop[sensor] && offs < Data::InputData::buffSize; ++i, ++offs)
 		{
 			double t = gain * 100.0 * buffer[offs];
 			data[i] = (*f)(t / 128);
-			gain += gainAlarmDelta;
+			gain += gainAlarmDelta[sensor];
 		}
 
 		if (bottomReflectionOn)
 		{
-			for (; i < offsReflectionStart && offs < Data::InputData::buffSize; ++i, ++offs)
+			for (; i < offsReflectionStart[sensor] && offs < Data::InputData::buffSize; ++i, ++offs)
 			{
 				double t = 100.0 * buffer[offs];
 				data[i] = (*f)(t / 128);
 			}
-			gain = gainReflectionOffs;
-			for (; i < offsReflectionStop && offs < Data::InputData::buffSize; ++i, ++offs)
+			gain = gainReflectionOffs[sensor];
+			for (; i < offsReflectionStop[sensor] && offs < Data::InputData::buffSize; ++i, ++offs)
 			{
 				double t = gain * 100.0 * buffer[offs];
 				data[i] = (*f)(t / 128);
-				gain += gainReflectionDelta;
+				gain += gainReflectionDelta[sensor];
 			}
 		}
 		else

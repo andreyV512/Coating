@@ -504,6 +504,9 @@
     <ClInclude Include="Compute\InitFiltre.hpp">
       <Filter>Compute</Filter>
     </ClInclude>
+    <ClInclude Include="Dlg\SensItem.hpp">
+      <Filter>Dlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">

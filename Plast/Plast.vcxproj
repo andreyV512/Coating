@@ -272,6 +272,7 @@
     <ClInclude Include="Devices\LanDevice.h" />
     <ClInclude Include="Devices\LanParameters.h" />
     <ClInclude Include="Dlg\Dlg.h" />
+    <ClInclude Include="Dlg\SensItem.hpp" />
     <ClInclude Include="Plast.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
