@@ -11,9 +11,10 @@ DWORD WINAPI __emulator__(PVOID)
 	HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	int count = 0;
 	Emulator::iputBits = 0;
+	unsigned bit = Singleton<InputBitsTable>::Instance().items.get<iStrobe>().value;
 	while (!terminated)
 	{
-		switch (WaitForSingleObject(hEvent, 500))
+		switch (WaitForSingleObject(hEvent, 100))
 		{
 		case WAIT_TIMEOUT:
 			++count;
@@ -34,9 +35,16 @@ DWORD WINAPI __emulator__(PVOID)
 			}
 
 		}
-		if (count >= 10 && 0 == (count % 5))
+		if (count >= 10)
 		{
-			Emulator::iputBits ^= Singleton<InputBitsTable>::Instance().items.get<iStrobe>().value;
+			if (0 == (count % 5))
+			{
+				Emulator::iputBits |= bit;
+			}
+			else if (1 == (count % 5))
+			{
+				Emulator::iputBits &= ~bit;
+			}
 		}
 	}
 	return 0;

@@ -176,8 +176,8 @@ void ThreshDlg::Do(HWND h)
 	__current_filtre_param_data__<TresholdsTable> data(h, w.computeFrame.treshItems, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens_NoStoreOkBtn__>()(data);
 
-	w.SetThresh();
 	w.UpdateOptions();
+	w.SetThresh();
 	RepaintWindow(h);
 }
 
