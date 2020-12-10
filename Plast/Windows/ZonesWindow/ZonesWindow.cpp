@@ -56,6 +56,7 @@ void ZonesWindow::operator()(TDestroy &l)
 
 struct __move_window_data__
 {
+	ZonesWindow *owner;
 	int y, width, height, maxYHeight;
 };
 
@@ -75,6 +76,11 @@ template<class P>struct __move_window__<ZonesWindow::Sens, P>
 	typedef AScanViewer O;
 	void operator()(O &o, P &p)
 	{
+		if (p.owner->XinMM)
+		{
+			o.tchart.maxAxesX *= Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;
+			o.tchart.maxAxesX /= 2000.0 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value;
+		}
 		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, WORD(p.maxYHeight - p.y) };
 		SendMessage(MESSAGE(size));
 		MoveWindow(o.hWnd, 0, p.y, p.width, p.maxYHeight - p.y, TRUE);
@@ -93,7 +99,7 @@ void ZonesWindow::operator()(TSize &l)
 	GetClientRect(hStatuisBar, &st);
 	int height = l.Height - rt.bottom - st.bottom;
 	height /= 4;
-	__move_window_data__ data{ y, l.Width, height, l.Height - st.bottom};
+	__move_window_data__ data{this, y, l.Width, height, l.Height - st.bottom};
 	VL::foreach<viewers_list, __move_window__>()(viewers, data);
 }
 
@@ -143,6 +149,11 @@ void ZonesWindow::operator()(TClose &l)
 		}
 	}
 	DestroyWindow(l.hwnd);
+}
+
+void ZonesWindow::GainEnable(bool b)
+{
+	aScan.gainLine.enable = b;
 }
 
 ZonesWindow::ZonesWindow()
@@ -387,24 +398,19 @@ void ZonesWindow::UpdateAScan()
 	aScan.tchart.minAxesX = 0;
 	aScan.tchart.maxAxesX = compute.packetSize;
 
-	//auto &t = treshItems;
-	//computeFrame.threshAlarm = t.get<AlarmThresh>().value;
-	//computeFrame.offsAlarmStart = int(t.get<AlarmThreshStart>().value * computeFrame.packetSize * 0.01);
-	//computeFrame.offsAlarmStop = int(t.get<AlarmThreshStop>().value * computeFrame.packetSize * 0.01);
-	//computeFrame.gainAlarmOffs = t.get<AlarmGainStart>().value;
-	//computeFrame.gainAlarmDelta = (t.get<AlarmGainStop>().value - t.get<AlarmGainStart>().value)
-	//	/ (computeFrame.offsAlarmStop - computeFrame.offsAlarmStart);
-	//
-	//computeFrame.threshReflection = t.get<BottomReflectionThresh>().value;
-	//computeFrame.offsReflectionStart = int(t.get<BottomReflectionThreshStart>().value * computeFrame.packetSize * 0.01);
-	//computeFrame.offsReflectionStop = int(t.get<BottomReflectionThreshStop>().value * computeFrame.packetSize * 0.01);
-	//computeFrame.gainReflectionOffs = t.get<BottomReflectionGainStart>().value;
-	//computeFrame.gainReflectionDelta = (t.get<BottomReflectionGainStop>().value - t.get<BottomReflectionGainStart>().value)
-	//	/ (computeFrame.offsReflectionStop - computeFrame.offsReflectionStart);
-	//computeFrame.bottomReflectionOn = t.get<BottomReflectionOn>().value;
+	if (XinMM)
+	{
+		aScan.tchart.maxAxesX *= Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;
+		aScan.tchart.maxAxesX /= 2000.0 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value;
+	}
+
 	SetTresholds(computeFrame, treshItems);
 	computeFrame.Frame(currentSensor, zoneOffs[zoneViewer.currentX], aScan.data);
 	aScan.line.count = computeFrame.packetSize;
+
+	computeFrame.Gain(currentSensor, aScan.gain);
+	aScan.gainLine.count = computeFrame.packetSize;
+
 	RepaintWindow(aScan.hWnd);
 }
 
@@ -422,14 +428,28 @@ void ZonesWindow::UpdateMedian()
 	//TODO XXX SetMedian(*this, medianItems);
 }
 
-template<class P>struct __set_thresh__<ZoneViewer, P>
+template<int N, class T>struct ZonesWindow_SetThresh_Wrap: T
 {
-	void operator()(ZoneViewer &, P &) {}
+	static const int NUM = N;
+};
+
+template<class O, class P>struct __select_tresh_sens__
+{
+	bool operator()(P &p)
+	{
+		static const int i = O::value;
+		if (i == p.currentSensor)
+		{
+			VL::foreach<Vlst<ZonesWindow::Sens>, __set_thresh__>()(p.viewers, (ZonesWindow_SetThresh_Wrap<i, TresholdsTable::TItems> &)p.treshItems);
+			return false;
+		}
+		return true;
+	}
 };
 
 void ZonesWindow::SetThresh()
 {
-	SetTresh(treshItems, viewers);
+	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __select_tresh_sens__>()(*this);
 }
 
 bool ZonesWindow::Draw(TMouseMove &l, VGraphics &g)

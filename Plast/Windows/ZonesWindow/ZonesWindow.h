@@ -19,6 +19,7 @@ public:
 	int currentOffset;
 	HWND hWnd;
 	HWND hStatuisBar;
+	bool XinMM = true;
 	ZonesWindowToolBar toolBar;
 
 	MedianFiltreTable::TItems medianItems;
@@ -34,10 +35,15 @@ public:
 	public:
 		typedef AScanViewer Parent;
 		LineSeries &line;
+		Gain &gainLine;
 		double data[8154];
-		Sens() :line(tchart.items.get<Line>())
+		double gain[8154];
+		Sens() 
+			: line(tchart.items.get<LineSeries>())
+			, gainLine(tchart.items.get<Gain>())
 		{
 			line.data = data;
+			gainLine.data = gain;
 		}
 	};
 
@@ -55,6 +61,8 @@ public:
 	double(MedianFiltre:: *medianProc)(double, char &, unsigned &);
 	MedianFiltre median;
 	ComputeFrame computeFrame;
+
+	void GainEnable(bool);
 
 	ZonesWindow();
 

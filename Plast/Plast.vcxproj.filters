@@ -507,6 +507,9 @@
     <ClInclude Include="Dlg\SensItem.hpp">
       <Filter>Dlg</Filter>
     </ClInclude>
+    <ClInclude Include="Windows\Viewers\Gain.h">
+      <Filter>Windows\Viewers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -798,6 +801,9 @@
       <Filter>Windows\Viewers</Filter>
     </ClCompile>
     <ClCompile Include="Windows\Viewers\CommonSensorViewerLine.cpp">
+      <Filter>Windows\Viewers</Filter>
+    </ClCompile>
+    <ClCompile Include="Windows\Viewers\Gain.cpp">
       <Filter>Windows\Viewers</Filter>
     </ClCompile>
   </ItemGroup>

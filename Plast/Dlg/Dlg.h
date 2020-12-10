@@ -34,4 +34,6 @@
    DLG(SaveFileDlg)
    DLG(XinMMDlg)
    DLG(TestXinMMDlg)
+   DLG(GainDlg)
+   DLG(TestGainDlg)
 #undef DLG

@@ -1,50 +1,47 @@
 #pragma once
 
-struct __set_thresh_data__
-{
-	unsigned alThr_color;
-	double   alThr_value;
-	double      alThr_startOffs;
-	double      alThr_stopOffs;
-	unsigned btmRefThr_color;
-	double   btmRefThr_value;
-	double      btmRefThr_startOffs;
-	double      btmRefThr_stopOffs;
-};
-
 template<class O, class P>struct __set_thresh__
 {
+	void operator()(O &o, P &p)
+	{		
+		auto &alThr = o.tchart.items.get<AlThr>();
+		auto &btmRefThr = o.tchart.items.get<BtmRefThr>();
+		auto &color = Singleton<ColorTable>::Instance().items;
+
+		alThr.color = color.get< Clr<Defect>>().value;
+		alThr.value = p.get<Num<AlarmThresh, P::NUM>>().value;
+		alThr.startOffs = p.get<Num<AlarmThreshStart, P::NUM>>().value;
+		alThr.stopOffs = p.get<Num<AlarmThreshStop, P::NUM>>().value;
+		btmRefThr.color = color.get< Clr<NoBottomReflection>>().value;
+		btmRefThr.value = p.get<Num<BottomReflectionThresh, P::NUM>>().value;
+		btmRefThr.startOffs = p.get<Num<BottomReflectionThreshStart, P::NUM>>().value;
+		btmRefThr.stopOffs = p.get<Num<BottomReflectionThreshStop, P::NUM>>().value;
+	}
+};
+
+template<template<int>class Sens, int NUM, class P>struct __set_thresh__<Sens<NUM>, P>
+{
+	typedef Sens<NUM> O;
 	void operator()(O &o, P &p)
 	{
 		auto &alThr = o.tchart.items.get<AlThr>();
 		auto &btmRefThr = o.tchart.items.get<BtmRefThr>();
+		auto &color = Singleton<ColorTable>::Instance().items;
 
-		alThr.color = p.alThr_color;
-		alThr.value = p.alThr_value;
-		alThr.startOffs = p.alThr_startOffs;
-		alThr.stopOffs = p.alThr_stopOffs;
-		btmRefThr.color = p.btmRefThr_color;
-		btmRefThr.value = p.btmRefThr_value;
-		btmRefThr.startOffs = p.btmRefThr_startOffs;
-		btmRefThr.stopOffs = p.btmRefThr_stopOffs;
+		alThr.color = color.get< Clr<Defect>>().value;
+		alThr.value = p.get<Num<AlarmThresh, NUM>>().value;
+		alThr.startOffs = p.get<Num<AlarmThreshStart, NUM>>().value;
+		alThr.stopOffs = p.get<Num<AlarmThreshStop, NUM>>().value;
+		btmRefThr.color = color.get< Clr<NoBottomReflection>>().value;
+		btmRefThr.value = p.get<Num<BottomReflectionThresh, NUM>>().value;
+		btmRefThr.startOffs = p.get<Num<BottomReflectionThreshStart,NUM>>().value;
+		btmRefThr.stopOffs = p.get<Num<BottomReflectionThreshStop, NUM>>().value;
 	}
 };
 
 template<class TreshItems, class Viewers>void SetTresh(TreshItems &treshItems, Viewers &viewers)
 {
-	auto &color = Singleton<ColorTable>::Instance().items;
-
-	//TODO XXX__set_thresh_data__ data = {
-	//TODO XXX   color.get< Clr<Defect>>().value
-	//TODO XXX   , treshItems.get<AlarmThresh>().value
-	//TODO XXX   , treshItems.get<AlarmThreshStart>().value
-	//TODO XXX   , treshItems.get<AlarmThreshStop>().value
-	//TODO XXX   , color.get< Clr<NoBottomReflection>>().value
-	//TODO XXX   , treshItems.get<BottomReflectionThresh>().value
-	//TODO XXX   , treshItems.get<BottomReflectionThreshStart>().value
-	//TODO XXX   , treshItems.get<BottomReflectionThreshStop>().value
-	//TODO XXX};
-	//TODO XXXVL::foreach<typename VL::Inner<Viewers>::Result, __set_thresh__>()(viewers, data);
+	VL::foreach<typename VL::Inner<Viewers>::Result, __set_thresh__>()(viewers, treshItems);
 }
 
 template<class A, class B>void __assignment_param__(A &a, B &b)

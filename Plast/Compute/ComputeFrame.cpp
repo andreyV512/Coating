@@ -60,7 +60,7 @@ void ComputeFrame::Frame(int sensor, unsigned offs_, double *data)
 			gain += gainAlarmDelta[sensor];
 		}
 
-		if (bottomReflectionOn)
+		if (bottomReflectionOn[sensor])
 		{
 			for (; i < offsReflectionStart[sensor] && offs < Data::InputData::buffSize; ++i, ++offs)
 			{
@@ -92,4 +92,38 @@ void ComputeFrame::Frame(int sensor, unsigned offs_, double *data)
 			}
 		}
 	}
+}
+
+void ComputeFrame::Gain(int sensor, double *data)
+{
+	unsigned i = 0;
+	for (; i < offsAlarmStart[sensor]; ++i)
+	{
+		data[i] = 1;
+	}
+	double gain = gainAlarmOffs[sensor];
+	for (; i < offsAlarmStop[sensor]; ++i)
+	{
+		data[i] = gain;
+		gain += gainAlarmDelta[sensor];
+	}
+
+	if (bottomReflectionOn[sensor])
+	{
+		for (; i < offsReflectionStart[sensor]; ++i)
+		{
+			data[i] = 1;
+		}
+		gain = gainReflectionOffs[sensor];
+		for (; i < offsReflectionStop[sensor]; ++i)
+		{
+			data[i] = gain;
+			gain += gainReflectionDelta[sensor];
+		}
+	}
+	else
+		for (; i < packetSize; ++i)
+		{
+			data[i] = 1;
+		}
 }

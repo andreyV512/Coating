@@ -15,12 +15,12 @@ public:
 	{
 	public:
 		typedef AScanViewer Parent;
-		Line &line;
+		LineSeries &line;
 		Gain &gainLine;
 		double data[8154];
 		double gain[8154];
 		Sens()
-			: line(tchart.items.get<Line>())
+			: line(tchart.items.get<LineSeries>())
 			, gainLine(tchart.items.get<Gain>())
 		{
 			numSensor = N;
@@ -38,6 +38,8 @@ public:
 	TopLabelViewer topLabelViewer;
 	ComputeFrame computeFrame;
 	unsigned generatorBit;
+	void GainEnable(bool);
+
 	LRESULT operator()(TCreate &);
 	void operator()(TDestroy &);
 	void operator()(TSize &);

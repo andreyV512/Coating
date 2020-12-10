@@ -6,7 +6,7 @@
 AScanViewer::AScanViewer()
 	: tchart(backScreen)
 	, tcursor(tchart)
-	, data(tchart.items.get<Line>().data)
+	, data(tchart.items.get<LineSeries>().data)
 {
 	chart = &tchart;
 	cursor = &tcursor;

@@ -4,19 +4,7 @@
 #include "Graphics/Borders.h"
 #include "Data/Data.h"
 #include "Windows/Viewers/NegThresh.h"
-
-class Line : public LineSeries {public: Line(Chart &chart) : LineSeries(chart) {}};
-class Gain : public LineSeries
-{
-public:
-	Gain(Chart &chart)
-		: LineSeries(chart)
-	{
-		color = 0xffffff00;
-		dashStyle = DashStyleDot;
-		widthPen = 1;
-	}
-};
+#include "Windows/Viewers/Gain.h"
 
 class AScanViewer : public CommonSensorViewerLine
 {
@@ -26,12 +14,12 @@ public:
 		NoOffsetLeftAxes
 		, BottomAxesInt
 		, FixedGrid
-		, Line
-		, Gain
+		, LineSeries
 		, AlThr
 		, BtmRefThr
 		, Neg<AlThr>
 		, Neg<BtmRefThr>
+		, Gain
 	> > TChart;
 	TChart tchart;
 	Cursor tcursor;

@@ -205,7 +205,7 @@ void NoOffsetLeftAxes::Draw()
 	chart.deltaDigitY = deltaDigit;
 	chart.dY = deltaTick / deltaDigit;
 	chart.offsetGridX = leftOffset + deltaTick;
-	chart.offsetAxesLeft = leftOffset;
+	//chart.offsetAxesLeft = leftOffset;
 	while(bottom < offs)
 	{
 		offs -= deltaTick;

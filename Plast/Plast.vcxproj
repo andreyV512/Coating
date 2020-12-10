@@ -288,6 +288,7 @@
     <ClInclude Include="Windows\Viewers\AScanViewer\AScanViewer.h" />
     <ClInclude Include="Windows\Viewers\CommonSensorViewerBar.h" />
     <ClInclude Include="Windows\Viewers\CommonSensorViewerLine.h" />
+    <ClInclude Include="Windows\Viewers\Gain.h" />
     <ClInclude Include="Windows\Viewers\MainViewers\ResultViewer.h" />
     <ClInclude Include="Windows\Viewers\MainViewers\SensorViewer.h" />
     <ClInclude Include="Windows\Viewers\NegThresh.h" />
@@ -392,6 +393,7 @@
     <ClCompile Include="Windows\Viewers\AScanViewer\AScanViewer.cpp" />
     <ClCompile Include="Windows\Viewers\CommonSensorViewerBar.cpp" />
     <ClCompile Include="Windows\Viewers\CommonSensorViewerLine.cpp" />
+    <ClCompile Include="Windows\Viewers\Gain.cpp" />
     <ClCompile Include="Windows\Viewers\MainViewers\ResultViewer.cpp" />
     <ClCompile Include="Windows\Viewers\MainViewers\SensorViewer.cpp" />
     <ClCompile Include="Windows\Viewers\ZonesViewer\ZoneViewer.cpp" />

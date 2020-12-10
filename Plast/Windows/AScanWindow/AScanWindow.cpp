@@ -13,6 +13,19 @@
 #include "Windows/StoreParamsBase.hpp"
 #include "Compute/SetTresholds.hpp"
 
+template<class O, class P>struct __enable_gain__
+{
+	void operator()(O &o, P &p)
+	{
+		o.gainLine.enable = p;
+	}
+};
+
+void AScanWindow::GainEnable(bool b)
+{
+	VL::foreach<viewers_list, __enable_gain__>()(viewers, b);
+}
+
 LRESULT AScanWindow::operator()(TCreate &l)
 {
 	generatorBit = Singleton<OutputBitsTable>::Instance().items.get<oGenerator>().value;
@@ -185,10 +198,10 @@ template<int N, class P>struct __update_sens__gate__<AScanWindow::Sens<N>, P>
 	typedef AScanWindow::Sens<N> O;
 	void operator()(O &o, P &p)
 	{
-		auto &w = p.owner.viewers.get<O>();
-		p.owner.computeFrame.Frame(N, 0, w.gain);
-		w.gainLine.count = p.owner.computeFrame.packetSize;
-		RepaintWindow(w.hWnd);
+		//auto &w = p.owner.viewers.get<O>();
+		p.owner.computeFrame.Gain(N, o.gain);
+		o.gainLine.count = p.owner.computeFrame.packetSize;
+		RepaintWindow(o.hWnd);
 	}
 };
 
@@ -209,11 +222,6 @@ void AScanWindow::UpdateOptions()
 	computeFrame.UpdateFiltre();
 
 	//график корректировки усиления канала
-	char *b = computeFrame.buffer;
-	for (unsigned i = 0; i < computeFrame.packetSize; ++i)
-	 {
-		b[i] = 64;
-	}
 	__update_sens_data__ data(*this, 0);
 	VL::foreach<viewers_list, __update_sens__gate__>()(viewers, data);
 }

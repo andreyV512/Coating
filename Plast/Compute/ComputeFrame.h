@@ -28,5 +28,6 @@ public:
 	ComputeFrame();
 	void UpdateFiltre();
 	void Frame(int sensor, unsigned offs, double *data);
+	void Gain(int sensor, double *data);
 };
 
