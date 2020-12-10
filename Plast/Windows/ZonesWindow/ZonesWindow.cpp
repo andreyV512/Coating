@@ -392,6 +392,30 @@ void ZonesWindow::UpdateZone()
 	zoneViewer.sensor = 1 + currentSensor;
 	RepaintWindow(zoneViewer.hWnd);
 }
+struct __get_axes_Y_data__
+{
+	int sensor;
+	double value = 0.0;
+	TresholdsTable::TItems &data;
+	__get_axes_Y_data__(int sensor, TresholdsTable::TItems &data)
+		: sensor(sensor)
+		, data(data)
+	{}
+};
+
+template<class O, class P>struct __get_axes_Y__
+{
+	bool operator()(P &p)
+	{
+		static const int N = O::value;
+		if (N == p.sensor)
+		{
+			p.value = p.data.get<Num<AlarmGainStop, N>>().value;
+			return false;
+		}
+		return true;
+	}
+};
 
 void ZonesWindow::UpdateAScan()
 {
@@ -408,6 +432,9 @@ void ZonesWindow::UpdateAScan()
 	computeFrame.Frame(currentSensor, zoneOffs[zoneViewer.currentX], aScan.data);
 	aScan.line.count = computeFrame.packetSize;
 
+	__get_axes_Y_data__ data(currentSensor, treshItems);
+	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __get_axes_Y__>()(data);
+	aScan.gainLine.maxAxeY = 1.1 * data.value;
 	computeFrame.Gain(currentSensor, aScan.gain);
 	aScan.gainLine.count = computeFrame.packetSize;
 

@@ -167,11 +167,10 @@ template<int N, class P>struct __update_sens__<AScanWindow::Sens<N>, P>
 	typedef AScanWindow::Sens<N> O;
 	void operator()(O &o, P &p)
 	{
-		auto &w = p.owner.viewers.get<O>();
 		unsigned offs = p.offs + N * p.owner.computeFrame.packetSize;
-		p.owner.computeFrame.Frame(N, offs, w.data);
-		w.line.count = p.owner.computeFrame.packetSize;
-		RepaintWindow(w.hWnd);
+		p.owner.computeFrame.Frame(N, offs, o.data);
+		o.line.count = p.owner.computeFrame.packetSize;
+		RepaintWindow(o.hWnd);
 	}
 };
 
@@ -198,7 +197,7 @@ template<int N, class P>struct __update_sens__gate__<AScanWindow::Sens<N>, P>
 	typedef AScanWindow::Sens<N> O;
 	void operator()(O &o, P &p)
 	{
-		//auto &w = p.owner.viewers.get<O>();
+		o.gainLine.maxAxeY = 1.1 * p.owner.computeFrame.treshItems.get<Num<AlarmGainStop, N>>().value;
 		p.owner.computeFrame.Gain(N, o.gain);
 		o.gainLine.count = p.owner.computeFrame.packetSize;
 		RepaintWindow(o.hWnd);
