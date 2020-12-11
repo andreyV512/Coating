@@ -1,7 +1,7 @@
 #include "Device1730.h"
-#include "App/Config.h"
-#include "tools_debug\DebugMess.h"
+#include "tools_debug/DebugMess.h"
 #include "Compute/Emulator/Emulator.h"
+#include "Devices/1730Parameters.h"
 
 using namespace Automation::BDaq;
 
@@ -12,6 +12,13 @@ Device1730::Device1730()
 	, instantDiCtrl(NULL)
 {
 	InitializeCriticalSection(&cs);
+#ifdef EMULATOR
+	auto &bits = Singleton<InputBitsTable>::Instance().items;
+	maska = bits.get<iIn	>().value
+		    | bits.get<iOut	>().value
+		    | bits.get<iStrobe>().value;
+
+#endif
 }
 //------------------------------------------------------------------------------
 #ifndef DEBUG_ITEMS
@@ -75,6 +82,10 @@ unsigned Device1730::Read()
 {
 	unsigned input;
 	instantDiCtrl->Read(startPoint, 2, (BYTE *)&input);
+#ifdef EMULATOR
+	input &= ~maska;
+	input |= Emulator::iputBits;
+#endif
 	return input;
 }
 //--------------------------------------------------------------------------
