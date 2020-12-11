@@ -39,13 +39,28 @@ template<class Owner, class Tresh> void SetTresholds(Owner &o, Tresh &t)
 template<class T, class ...P>void set_median_proc(bool b, double(T:: *&res)(P...), double(T:: *t)(P...), double(T:: *f)(P...)) { res = b ? t : f; }
 template<class O, class P>struct __set_median__
 {
-	template<class T, class ...P>void set(bool b, double(T:: *&res)(P...), double(T:: *t)(P...), double(T:: *f)(P...)) { res = b ? t : f; }
 	void operator()(P &p)
 	{
 		static const int N = O::value;
 		set_median_proc(p.t.get<Num<MedianFiltreON, N>>().value, p.o.medianProc, &MedianFiltre::Val, &MedianFiltre::noop);
 		int width = p.t.get<Num<MedianFiltreWidth, N>>().value;
 		p.o.median[N].InitWidth(width);
+	}
+};
+
+template<class O, class P>struct __set_median_once__
+{
+	bool operator()(P &p)
+	{
+		static const int N = O::value;
+		if (N == p.sens)
+		{
+			set_median_proc(p.t.get<Num<MedianFiltreON, N>>().value, p.o.medianProc, &MedianFiltre::Val, &MedianFiltre::noop);
+			int width = p.t.get<Num<MedianFiltreWidth, N>>().value;
+			p.o.median.InitWidth(width);
+			return false;
+		}
+		return true;
 	}
 };
 

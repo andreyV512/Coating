@@ -39,7 +39,7 @@ namespace App
 	{
 		Performance::Init();
 		AppBase().Init();
-		//Singleton<Compute>::Instance().Start();
+		Singleton<Compute>::Instance().Start();
 
 		ProgrammDir pd;
 		wsprintf(pd.tail, L"\\..\\Store\\");
@@ -70,6 +70,7 @@ namespace App
 		StatusBar(App::operator_status_section, name);
 
 		StartKeyHook(&AppKeyHandler::KeyPressed);
+		Singleton<LogMessageToTopLabel>::Instance().Run();
 
 		if (!device1730.Init(Singleton<NamePlate1730ParametersTable>::Instance().items.get<NamePlate1730>().value))
 		{
@@ -100,7 +101,7 @@ namespace App
 		//Singleton <LanRead>::Instance();
 #endif
 
-		Singleton<LogMessageToTopLabel>::Instance().Run();
+		
 		Automat::Init();
 		
 #else

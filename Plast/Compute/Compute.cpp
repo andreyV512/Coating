@@ -24,7 +24,7 @@ Compute::Compute()
 	: data(Singleton<Data::InputData>::Instance())
 	, result(Singleton<Data::ResultData>::Instance())
 {
-	VL::foreach<VL::CreateNumList< Data::Sensor, 0, 2>::Result, __compute_set_data__>()(sensorData);
+	VL::foreach<VL::CreateNumList< Data::Sensor, 0, App::count_sensors - 1>::Result, __compute_set_data__>()(sensorData);
 	packetSize = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
 	numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 }
