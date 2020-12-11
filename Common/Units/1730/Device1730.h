@@ -1,7 +1,11 @@
 #pragma once
 #include "Inc/bdaqctrl.h" 
+#include "App/Config.h"
 class Device1730
 {
+#ifdef EMULATOR
+	unsigned maska;
+#endif
 	static const int startPoint = 0;
 	Automation::BDaq::InstantDoCtrl *instantDoCtrl;
 	Automation::BDaq::InstantDiCtrl *instantDiCtrl;
