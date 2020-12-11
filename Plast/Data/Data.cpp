@@ -118,13 +118,13 @@ namespace Data
 				start += 1000;
 			}
 
-
-			double delta = 4058.0 / InputData::buffSize;
-			for (unsigned i = 0; i < InputData::buffSize; i += 4058, ++k)
+			unsigned const paket = 986;
+			double delta = (double)paket / InputData::buffSize;
+			for (unsigned i = 0; i < InputData::buffSize; i += paket, ++k)
 			{
 				unsigned j = 4;
 				unsigned x = int(100.0 * delta * k);
-				for (; j < 4058; ++j) buffer[i + j] = x;
+				for (; j < paket; ++j) buffer[i + j] = x;
 				*(int *)&buffer[i] = k;
 			}
 
