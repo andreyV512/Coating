@@ -446,13 +446,17 @@ void ZonesWindow::SwitchBipolar(bool b)
 	VL::foreach<Vlst<Sens>, __switch_bipolar__>()(viewers, b);
 	computeFrame.bipolar = b;
 }
-
+template<class Owner, class Param>struct __param_median_filtre__
+{
+	Owner &o;
+	Param &t;
+	int sens;
+	__param_median_filtre__(Owner &o, Param &t, int sens) : o(o), t(t), sens(sens) {}
+};
 void ZonesWindow::UpdateMedian()
 {
-	//medianProc = median.get<MedianFiltreON>().value
-	//	? &MedianFiltre::ValOffs : &MedianFiltre::noopOffs;
-	//medianFiltre.InitWidth(median.get<MedianFiltreWidth>().value);
-	//TODO XXX SetMedian(*this, medianItems);
+	__param_median_filtre__<ZonesWindow, MedianFiltreTable::TItems> data(*this, medianItems, currentSensor);
+	VL::find<typename VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __set_median_once__>()(data);
 }
 
 template<int N, class T>struct ZonesWindow_SetThresh_Wrap: T
