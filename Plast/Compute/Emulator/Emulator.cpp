@@ -35,7 +35,7 @@ DWORD WINAPI __emulator__(PVOID)
 			}
 
 		}
-		if (count >= 10)
+		if (count >= 10 && count < 101)
 		{
 			if (0 == (count % 5))
 			{

@@ -6,11 +6,15 @@ class __init_filtre__
 	{
 		bool operator()(P &p)
 		{
-			if (VL::IndexOf<filters_list, O>::value == p.paramFlt.get<Num<CurrentFilter, P::NUM>>().value)
+			int type = p.paramFlt.get<Num<CurrentFilter, P::NUM>>().value;
+			int filters = VL::IndexOf<filters_list, O>::value;
+			
+			if (filters == type)
 			{
+				dprint("filters %d type %d num %d\n", filters, type, P::NUM);
 				p.filter[P::NUM].Init<O>();
 				SetupFiltre<O, P::NUM>()(
-					(O &)p.filter
+					(O &)p.filter[P::NUM]
 					, p.paramFlt
 					, p.frequency
 					);

@@ -4,6 +4,7 @@
 namespace Data { struct InputData; }
 class LanRead
 {
+	bool start;
 	int &numberPackets, &packetSize, bufSize;
 	HANDLE hStart, hStop, hExit, hReadPipe, hThread; 
 	Data::InputData &data;

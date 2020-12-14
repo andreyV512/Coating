@@ -282,6 +282,7 @@ template<template<class>class X, template<class>class Y, class O, int N, class P
 				typedef typename EraseNum<FiltersTable::items_list, N, X >::Result _list;
 				typedef VL::Append< Num<CurrentFilter, N>, _list>::Result list;
 				p.Restore<list>();
+				p.ok = true;
 			}
 			return false;
 		}
@@ -308,6 +309,7 @@ template<int N, class P>struct __Xcurrent_filtre_param__<Num<CurrentFilter, N>, 
 			>(p.table, &p).Do(p.h, buf))
 			{
 				p.Restore<Vlst<Num<CurrentFilter, N>>>();
+				p.ok = true;
 			}
 			return false;
 		}
@@ -334,7 +336,7 @@ void AScanDspFiltrDlg::Do(HWND h)
 	AScanWindow *w = (AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	__current_filtre_param_data__<FiltersTable> data(h, w->computeFrame.paramFlt, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens_XX__>()(data);
-	w->computeFrame.UpdateFiltre();
+	if (data.ok)w->computeFrame.UpdateFiltre();
 	RepaintWindow(w->hWnd);
 }
 
@@ -343,7 +345,7 @@ void TstDspFiltrDlg::Do(HWND h)
 	ZonesWindow *w = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	__current_filtre_param_data__<FiltersTable> data(h, w->computeFrame.paramFlt, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens_XX__>()(data);
-	w->computeFrame.UpdateFiltre();
+	if(data.ok)w->computeFrame.UpdateFiltre();
 	RepaintWindow(w->hWnd);
 }
 

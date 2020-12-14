@@ -5,6 +5,7 @@ template<class T>struct __current_filtre_param_data__
 	T table;
 	HWND h;
 	bool close;
+	bool ok;
 	typename T::TItems &items;
 	int &currentSensor;
 	__current_filtre_param_data__(HWND h, typename T::TItems &items, int &currentSensor)
@@ -12,6 +13,7 @@ template<class T>struct __current_filtre_param_data__
 		, close(false)
 		, items(items)
 		, currentSensor(currentSensor)
+		, ok(false)
 	{
 		VL::CopyFromTo(items, table.items);
 	}

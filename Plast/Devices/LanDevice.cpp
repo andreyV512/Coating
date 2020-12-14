@@ -77,10 +77,13 @@ void LanDevice::Stop()
 #endif
 
 CollectionData::CollectionData()
-	: device(Singleton<LanDevice>::Instance())
-	, generatorBit(Singleton<OutputBitsTable>::Instance().items.get<oGenerator>().value)
+	: generatorBit(Singleton<OutputBitsTable>::Instance().items.get<oGenerator>().value)
 {
-	device.Start();
+	//device.Start();
+	//Sleep(500);
+	//device1730.WriteOutput(generatorBit);
+	//dprint("START LAN\n");
+	Singleton<LanDevice>::Instance().Start();
 	Sleep(500);
 	device1730.WriteOutput(generatorBit);
 	dprint("START LAN\n");
@@ -89,7 +92,7 @@ CollectionData::CollectionData()
 CollectionData::~CollectionData()
 {
 	device1730.WriteOutput(0, generatorBit);
-	device.Stop();
+	Singleton<LanDevice>::Instance().Stop();
 	dprint("STOP LAN\n");
 }
 

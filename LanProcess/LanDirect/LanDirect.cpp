@@ -28,6 +28,7 @@ LanRead::LanRead()
 	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
 	, data(Singleton<Data::InputData>::Instance())
 	, hReadPipe(NULL)
+	, start(false)
 {
 	bufSize = packetSize * numberPackets * App::count_sensors;
 	Performance::Init();
@@ -108,26 +109,35 @@ void LanRead::Read()
 		DWORD ret = GetLastError();
 		dprint("Read from the pipe failed %d\n", ret);
 	}
-	unsigned t = i + bytesReaded;
-	if (t < data.buffSize) data.framesCount = t;
-
-	if (data.offsetsTickCount < dimention_of(data.offsetsTick))
+	if (bytesReaded > 0)
 	{
-		data.offsetsTick[data.offsetsTickCount] = Performance::Counter();
-		++data.offsetsTickCount;
+		unsigned t = i + bytesReaded;
+		if (t < data.buffSize) data.framesCount = t;
+		int x = data.framesCount / bytesReaded;
+		dprint("read frsmes %d\n", x);
+
+		if (data.offsetsTickCount < dimention_of(data.offsetsTick))
+		{
+			data.offsetsTick[data.offsetsTickCount] = Performance::Counter();
+			++data.offsetsTickCount;
+		}
 	}
 }
 
 void LanRead::Start()
 {
+	data.framesCount = 0;
 	SetEvent(hStart);
-	while(ResumeThread(hThread));
+	while(0 != ResumeThread(hThread));
 	dprint("LanRead::Start()\n");
+	start = true;
 }
 
 void LanRead::Stop()
 {
+	if (!start) return;
 	SetEvent(hStop);
 	SuspendThread(hThread);
 	dprint("LanRead::Stop()\n");
+	start = false;
 }

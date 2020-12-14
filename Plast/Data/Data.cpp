@@ -109,7 +109,7 @@ namespace Data
 			int k = 0;
 			
 
-			unsigned (&strobesTick)[100] = d.strobesTick;
+			unsigned (&strobesTick)[10000] = d.strobesTick;
 			d.strobesTickCount = 70;
 			unsigned start = 10000;
 			for (int i = 0; i < dimention_of(strobesTick); ++i)

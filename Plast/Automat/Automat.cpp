@@ -40,6 +40,7 @@ template<> struct Proc<iStrobe>
 		{
 			if (++data.strobesTickCount > dimention_of(data.strobesTick))  data.strobesTickCount = dimention_of(data.strobesTick) - 1;
 			data.strobesTick[data.strobesTickCount] = Performance::Counter();
+			dprint("strobe %d %d\n", data.strobesTickCount, data.strobesTick[data.strobesTickCount]);
 		}
 		pred = b;
 	}
@@ -111,6 +112,7 @@ namespace Automat
 				//TODO Bits<TstOn<iCU> >(); //проверка цепей управления
 				Log::Mess <LogMess::On_iIn>();
 				Bits<On<iIn>, Key<StopBtn>, Proc<iStrobe>>();
+				Singleton<Compute>::Instance().Start();
 				{
 					Log::Mess <LogMess::Collection>();
 

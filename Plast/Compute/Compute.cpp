@@ -90,8 +90,12 @@ void Compute::Start()
 #define MAX(a, b) a > b ? a: b
 #define MIN(a, b) a < b ? a: b
 
+
+int deugcount = 0;
+
 bool Compute::Strobes()
 {
+	dprint("%d ", deugcount++);
 	unsigned strobesStop = data.strobesTickCount;
 	if (strobesStop == strobesTickCount) return false;
 	//количество кадров в зоне
@@ -175,13 +179,13 @@ bool Compute::Strobes()
 		
 		for (int sens = 0; sens < App::count_sensors; ++sens)
 		{
-			Zone(sens
-				, &data.buffer[start + sens * packetSize]
-				, &data.buffer[stop + sens * packetSize]
-				, sensorData[sens]->data[i - 1]
-				, sensorData[sens]->status[i - 1]
-			);
-			sensorData[sens]->count = i;
+			//Zone(sens
+			//	, &data.buffer[start + sens * packetSize]
+			//	, &data.buffer[stop + sens * packetSize]
+			//	, sensorData[sens]->data[i - 1]
+			//	, sensorData[sens]->status[i - 1]
+			//);
+			//sensorData[sens]->count = i;
 		}
 	}
 
@@ -200,6 +204,7 @@ bool Compute::Strobes()
 	result.count = zoneOffsetsIndexStart - 1;
 
 	zoneOffsetsIndex = zoneOffsetsIndexStart - wholeStop - 1;
+	dprint("zones count %d\n", zoneOffsetsIndex);
 	return true;
 }
 

@@ -28,7 +28,7 @@ namespace Data
 		unsigned framesCount;
 		int strobesTickCount, offsetsTickCount;
 		static char *buffer;
-		unsigned strobesTick[100];
+		unsigned strobesTick[10000];
 		unsigned offsetsTick[12000];
 	};
 }

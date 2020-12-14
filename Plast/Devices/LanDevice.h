@@ -10,7 +10,7 @@ class LanDevice : public LanRead {};
 #endif
 class CollectionData
 {	
-	class LanDevice &device;
+//	class LanDevice &device;
 	const unsigned generatorBit;
 public:	
 	CollectionData();
