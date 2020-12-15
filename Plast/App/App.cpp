@@ -48,7 +48,7 @@ namespace App
 		Store::Init();
 
 #ifndef INNER_LAN
-		Singleton<LanDevice>::Instance().Update();
+		Singleton<LanDevice>::Instance().Update();// Reload();
 #endif
 		LanParametersTable &table = Singleton<LanParametersTable>::Instance();
 		VL::foreach<LanParametersTable::items_list, __params__>()(table.items);

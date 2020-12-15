@@ -16,5 +16,7 @@ public:
 	void Update();
 	void Start();
 	void Stop();
+
+	void Reload();
 };
 

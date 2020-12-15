@@ -65,6 +65,7 @@ void Compute::Start()
 	packetSize = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
 	numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
+	zoneOffsetsIndex = zoneOffsetsIndexStart = 0;
 
 	Wrap x(filter);
 	__init_filtre__()(x);
@@ -97,46 +98,54 @@ bool Compute::Strobes()
 {
 	dprint("%d ", deugcount++);
 	unsigned strobesStop = data.strobesTickCount;
-	if (strobesStop == strobesTickCount) return false;
+	if (strobesStop == strobesTickCount || zoneOffsetsIndex >= App::count_zones) return false;
 	//количество кадров в зоне
 	unsigned offsetsTickStop = data.offsetsTickCount;
 	unsigned offsetTickStart = offsetsTickCount;
-	unsigned zoneOffsetsIndexStart = zoneOffsetsIndex;
+	//int zoneOffsetsIndexStart = zoneOffsetsIndex;
 	for (unsigned i = strobesTickCount; i < strobesStop; ++i)
 	{
 		unsigned tickStrobes = data.strobesTick[i];
 		while (data.offsetsTick[offsetTickStart] < tickStrobes) ++offsetTickStart;
 		zoneOffsets[zoneOffsetsIndexStart] = offsetTickStart * packetSize * numberPackets;
-		++zoneOffsetsIndexStart;
+		if(zoneOffsetsIndexStart < dimention_of(zoneOffsets) - 1)++zoneOffsetsIndexStart;
 	}
+
+	if (zoneOffsetsIndexStart - (wholeStart + wholeStop + 1) < 0)
+	{
+		zoneOffsetsIndexStart = 0;
+		return false;
+	}
+
+	strobesTickCount = strobesStop;
 
 	const int inc = packetSize * App::count_sensors;
 
+	//TODO XXXif (zoneOffsetsIndex > 0)
+	//TODO XXX{
+	//TODO XXX	unsigned i = zoneOffsetsIndex;
+	//TODO XXX	unsigned start = zoneOffsets[i - 1];
+	//TODO XXX	start /= inc;
+	//TODO XXX	start *= inc;
+	//TODO XXX	int stop = start;
+	//TODO XXX	start -= 7 * inc;
+	//TODO XXX	if (start < 0) start = 0;
+	//TODO XXX
+	//TODO XXX	double ldata;
+	//TODO XXX	char lstatus;
+	//TODO XXX
+	//TODO XXX	for (int sens = 0; sens < App::count_sensors; ++sens)
+	//TODO XXX	{
+	//TODO XXX		Zone(sens
+	//TODO XXX			, &data.buffer[start + sens * packetSize]
+	//TODO XXX			, &data.buffer[stop + sens * packetSize]
+	//TODO XXX			, ldata
+	//TODO XXX			, lstatus
+	//TODO XXX		);
+	//TODO XXX	}
+	//TODO XXX}
 
-	if (zoneOffsetsIndex > 0)
-	{
-		unsigned i = zoneOffsetsIndex;
-		unsigned start = zoneOffsets[i - 1];
-		start /= inc;
-		start *= inc;
-		start -= 7 * inc;
-		int stop = start;
-
-		double ldata;
-		char lstatus;
-
-		for (int sens = 0; sens < App::count_sensors; ++sens)
-		{
-			Zone(sens
-				, &data.buffer[start + sens * packetSize]
-				, &data.buffer[stop + sens * packetSize]
-				, ldata
-				, lstatus
-			);
-		}
-	}
-
-	for (unsigned i = zoneOffsetsIndex; i < zoneOffsetsIndexStart; ++i)
+	for (int i = zoneOffsetsIndex; i < zoneOffsetsIndexStart && i < App::count_zones; ++i)
 	{
 		if (0 == i) continue;
 
@@ -149,7 +158,7 @@ bool Compute::Strobes()
 		stop /= inc;
 		stop *= inc;
 
-		unsigned borderStop = zoneOffsetsIndexStart - wholeStop - 1;
+		int borderStop = zoneOffsetsIndexStart - wholeStop - 1;
 
 		if (i <= 1 + wholeStart || i > borderStop)
 		{
@@ -177,19 +186,24 @@ bool Compute::Strobes()
 			}
 		}
 		
-		for (int sens = 0; sens < App::count_sensors; ++sens)
+		for (unsigned sens = 0; sens < App::count_sensors; ++sens)
 		{
-			//Zone(sens
-			//	, &data.buffer[start + sens * packetSize]
-			//	, &data.buffer[stop + sens * packetSize]
-			//	, sensorData[sens]->data[i - 1]
-			//	, sensorData[sens]->status[i - 1]
-			//);
-			//sensorData[sens]->count = i;
+			//TODO XXXZone(sens
+			//TODO XXX	, &data.buffer[start + sens * packetSize]
+			//TODO XXX	, &data.buffer[stop + sens * packetSize]
+			//TODO XXX	, sensorData[sens]->data[i - 1]
+			//TODO XXX	, sensorData[sens]->status[i - 1]
+			//TODO XXX);
+			dprint("sens %d  offs %d\n", sens, i);
+			sensorData[sens]->data[i - 1] = 5;
+			sensorData[sens]->status[i - 1] = 2;
+			sensorData[sens]->count = i;
 		}
 	}
 
-	for (unsigned i = zoneOffsetsIndex; i < zoneOffsetsIndexStart; ++i)
+	dprint("zoneOffsetsIndex %d  zoneOffsetsIndexStart %d\n", zoneOffsetsIndex, zoneOffsetsIndexStart);
+
+	for (int i = zoneOffsetsIndex; i < zoneOffsetsIndexStart; ++i)
 	{
 		result.status[i] = StatusData::Compute(
 			StatusData::Compute(sensorData[0]->status[i], sensorData[1]->status[i])
@@ -201,9 +215,11 @@ bool Compute::Strobes()
 		result.minData[i] = MIN(MIN(_0, _1), _2);
 		result.maxData[i] = MAX(MAX(_0, _1), _2);
 	}
+	
 	result.count = zoneOffsetsIndexStart - 1;
 
 	zoneOffsetsIndex = zoneOffsetsIndexStart - wholeStop - 1;
+//	if (zoneOffsetsIndex < 0) zoneOffsetsIndex = zoneOffsetsIndexStart;
 	dprint("zones count %d\n", zoneOffsetsIndex);
 	return true;
 }
@@ -332,7 +348,10 @@ void Compute::Recalculation()
 	Log::Mess <LogMess::Recalculation>();
 	MainWindow::EnableMenu(false);
 	AppKeyHandler::DisableAll();
+
 	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
+	zoneOffsetsIndex = zoneOffsetsIndexStart = 0;
+
 	QueueUserWorkItem(func<Compute, &Compute::__Recalculation__>, (LPVOID)this, WT_EXECUTEDEFAULT);
 }
 

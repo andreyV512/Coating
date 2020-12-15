@@ -2,6 +2,7 @@
 #include "App/App.h"
 #include "App/AppBase.h"
 #include "DlgTemplates/ParamDlgNew.h"
+#include "Devices/LanDevice.h"
 
 PARAM_TITLE(PacketSize, L"Размер пакета данных")
 PARAM_TITLE(Gain0, L"Усиление канала данных")
@@ -16,11 +17,11 @@ PARAM_TITLE(SyncInput, L"Вход синхронизации открыт")
 PARAM_TITLE(MeasurementInput, L"Измерительный вход открыт")
 PARAM_TITLE(SynchronizationEdge, L"Синхронизация по фронту")
 //.............................................................
-MIN_VALUE(SyncLevel, 1)
-MAX_VALUE(SyncLevel, 255)
+MIN_VALUE(SyncLevel, -128)
+MAX_VALUE(SyncLevel, 127)
 
-MIN_VALUE(StartDelay, -1)
-MAX_VALUE(StartDelay, 999)
+MIN_VALUE(StartDelay, 0)
+MAX_VALUE(StartDelay, 15)
 
 DO_NOT_CHECK(PacketSize)
 DO_NOT_CHECK(Gain0)
@@ -29,7 +30,7 @@ DO_NOT_CHECK(SyncGain)
 DO_NOT_CHECK(Frequency)
 
 MIN_VALUE(NumberPackets, 0)
-MAX_VALUE(NumberPackets, 1000000 / 986 / App::count_sensors)
+MAX_VALUE(NumberPackets, 500)//1000000 / 986 / App::count_sensors)
 
 //..................................................................
 template<>struct DlgSubItems<PacketSize, int> : ComboBoxSubItem<PacketSize> {};
@@ -151,5 +152,6 @@ void LanDlg::Do(HWND h)
 		Singleton<LanParametersTable>::Instance()
 	).Do(h, (wchar_t *)L"Настройка аналоговой платы"))
 	{
+		Singleton<LanDevice>::Instance().Reload();
 	}
 }

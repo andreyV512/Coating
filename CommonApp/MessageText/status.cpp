@@ -74,7 +74,9 @@ namespace StatusData
 {
 	unsigned char Compute(unsigned char s0, unsigned char s1)
 	{
-		return ZoneStatus::st[s0][s1];
+		static const int x = VL::Length<ZoneStatus::status_list>::value;
+		if(s0 < x && s1 < x) return ZoneStatus::st[s0][s1];
+		return VL::IndexOf<zone_status_list, DeadZone>::value;
 	}
 
 	void Text(unsigned char id, unsigned &color, const wchar_t *&txt)

@@ -123,6 +123,7 @@ namespace Automat
 					Bits<Off<iOut>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(20 * 1000);
 				}
 
+				Singleton<Compute>::Instance().Update();
 			Done();
 
 				Log::Mess <LogMess::CollectionDone>();

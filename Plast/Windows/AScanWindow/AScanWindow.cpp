@@ -177,7 +177,7 @@ template<int N, class P>struct __update_sens__<AScanWindow::Sens<N>, P>
 void AScanWindow::operator()(TTimer &l)
 {
 	unsigned offs = computeFrame.framesCount;
-	if (offs > computeFrame.packetSize * 5000) computeFrame.framesCount = 0;
+	if (offs > computeFrame.packetSize * 9000) computeFrame.framesCount = 0;
 	
 	offs -= computeFrame.packetSize * App::count_sensors;
 	if (offs < 0) offs = 0;

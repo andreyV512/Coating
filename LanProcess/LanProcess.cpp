@@ -64,17 +64,17 @@ void LanProcess::Confirm(unsigned)
 	while (currentFrameHead != currentFrameTail)
 	{
 		char *c = &data[bufSize * currentFrameTail];
-		int k = 0;
-		for (int i = 0; i < bufSize; i += packetSize, ++k)
+		//int k = 0;
+		for (int i = 0; i < bufSize; i += packetSize)//, ++k)
 		{
-			if (0 == (k % App::count_sensors))
-			{
-				char *x = &c[i];
-				for (int j = 0; j < packetSize; ++j)
-				{
-					x[j] = 64;
-				}
-			}
+			//if (0 == (k % App::count_sensors))
+			//{
+			//	char *x = &c[i];
+			//	for (int j = 0; j < packetSize; ++j)
+			//	{
+			//		x[j] = 64;
+			//	}
+			//}
 		}
 		if (!WriteFile(hWritePipe, c, bufSize, &bytesWritten, NULL))
 		{

@@ -26,16 +26,16 @@ DWORD WINAPI __emulator__(PVOID)
 			case 30:
 				Emulator::iputBits |= Singleton<InputBitsTable>::Instance().items.get<iOut>().value;
 				break;
-			case 70:
+			case 200:
 				Emulator::iputBits &= ~Singleton<InputBitsTable>::Instance().items.get<iIn>().value;
 				break;
-			case 100:
+			case 230:
 				Emulator::iputBits &= ~Singleton<InputBitsTable>::Instance().items.get<iOut>().value;
 				break;
 			}
 
 		}
-		if (count >= 10 && count < 101)
+		if (count >= 10 && count < 231)
 		{
 			if (0 == (count % 5))
 			{
