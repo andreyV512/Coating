@@ -2,7 +2,7 @@
 #include "Base/TablesDefine.h"
 DEFINE_PARAM(PacketSize, int, 986)
 DEFINE_PARAM(Gain0, int, 10)
-DEFINE_PARAM(SyncLevel, int, 30)
+DEFINE_PARAM(SyncLevel, double, 3)
 DEFINE_PARAM(SyncGain, int, 1)
 DEFINE_PARAM(StartDelay, int, 0)
 //----------------------------------------------------------------

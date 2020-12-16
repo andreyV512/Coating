@@ -163,11 +163,13 @@ void Lan::SetParams(RshInitMemory &p)
 #else 
 	p.startType = RshInitMemory::Program;
 #endif // !TEST_LAN10
-	p.controlSynchro = q(SynchronizationEdge) ? RshInitMemory::SlopeDecline : RshInitMemory::SlopeFront;
+	p.controlSynchro = q(SynchronizationEdge) ? RshInitMemory::SlopeFront: RshInitMemory::SlopeDecline;
 	p.bufferSize = q(PacketSize);
 	p.frequency = 1e6 * q(Frequency);
-	p.channels[0].control = RshChannel::Used;
-	if (!q(MeasurementInput))p.channels[0].control |= RshChannel::AC;
+	//p.channels[0].control = RshChannel::Used;
+	//if (!q(MeasurementInput))p.channels[0].control |= RshChannel::AC;
+	p.channels[0].control = q(MeasurementInput) ? RshChannel::DC : RshChannel::AC;
+	p.channels[0].control |= RshChannel::Used;
 	p.channels[0].gain = q(Gain0);
 
 	p.packetNumber = q(NumberPackets) * App::count_sensors;
