@@ -1,5 +1,6 @@
 #pragma once
 #include "MedianFiltre/MedianFiltre.h"
+#include "Compute/InitFiltre.hpp"
 
 template<class Owner, class Tresh>struct __set_tresholds_data__
 {
@@ -68,4 +69,42 @@ template<class Owner, class Tresh>void SetMedian(Owner &o, Tresh &t)
 {
 	__set_tresholds_data__<Owner, Tresh>data(o, t);
 	VL::foreach<typename VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __set_median__>()(data);
+}
+
+template<class Owner>void SetDeadZones(Owner &o, DeadZonesTable::TItems &deadZones)
+{
+	//auto &deadZones = Singleton<DeadZonesTable>::Instance().items;
+	int deadZoneStart = deadZones.get<DeadZoneStart>().value;
+	int deadZoneStop = deadZones.get<DeadZoneStop>().value;
+
+	o.wholeStart = deadZoneStart / App::size_zone_mm;
+	o.wholeStop = deadZoneStop / App::size_zone_mm;
+
+	o.fractionalStart = double(deadZoneStart % App::size_zone_mm) / App::size_zone_mm;
+	o.fractionalStop = double(deadZoneStop % App::size_zone_mm) / App::size_zone_mm;
+}
+
+struct __wrap_filters__
+{
+	Impl<IDSPFlt, 1032>(&filter)[App::count_sensors];
+	FiltersTable::TItems &paramFlt;
+	unsigned frequency;
+	__wrap_filters__(Impl<IDSPFlt, 1032>(&filter)[App::count_sensors], unsigned frequency, FiltersTable::TItems &paramFlt)
+		: filter(filter)
+		, paramFlt(paramFlt)
+		, frequency(frequency)//1000000 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value)
+	{}
+};
+
+template<class Owner>void SetFilters(Owner &o, FiltersTable::TItems &items)
+{
+	__wrap_filters__ x(o.filter, o.frequency, items);
+	__init_filtre__()(x);
+}
+
+template<class Owner>void SetLan(Owner &o, LanParametersTable::TItems &items)
+{
+	o.packetSize = items.get<PacketSize>().value;
+	o.numberPackets = items.get<NumberPackets>().value;
+	o.frequency = items.get<Frequency>().value;
 }

@@ -25,67 +25,37 @@ Compute::Compute()
 	, result(Singleton<Data::ResultData>::Instance())
 {
 	VL::foreach<VL::CreateNumList< Data::Sensor, 0, App::count_sensors - 1>::Result, __compute_set_data__>()(sensorData);
-	packetSize = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
-	numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
+	//packetSize = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
+	//numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 }
 
-//template<class O, class P>struct __init_filtre_X__
-//{
-//	bool operator()(P &p)
-//	{
-//		FiltersTable::TItems &items = Singleton<FiltersTable>::Instance().items;
-//		if (VL::IndexOf<filters_list, O>::value == items.get<Num<CurrentFilter, P::NUM>>().value)
-//		{
-//			p.Init<O>();
-//			SetupFiltre<O, P::NUM>()(
-//				(O &)p
-//				, items
-//				, 1000000 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value
-//				);			
-//			return false;
-//		}
-//		return true;
-//	}
-//};
 
-struct Wrap
-{
-	Impl<IDSPFlt, 1032> (&filter)[App::count_sensors];
-	FiltersTable::TItems &paramFlt;
-	unsigned frequency;
-	explicit Wrap(Impl<IDSPFlt, 1032>(&filter)[App::count_sensors])
-		: filter(filter)
-		, paramFlt(Singleton<FiltersTable>::Instance().items)
-		, frequency(1000000 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value)
-	{}
-};
 
 void Compute::Start()
 {
-	packetSize = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
-	numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
+	//packetSize = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
+	//numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
 	zoneOffsetsIndex = zoneOffsetsIndexStart = 0;
 
-	Wrap x(filter);
-	__init_filtre__()(x);
+	//Wrap x(filter, Singleton<FiltersTable>::Instance().items);
+	//__init_filtre__()(x);
+	SetLan(*this, Singleton<LanParametersTable>::Instance().items);
+	SetFilters(*this, Singleton<FiltersTable>::Instance().items);
 
-	//auto medianParams = Singleton<MedianFiltreTable>::Instance().items;
-	//medianProc = medianParams.get<MedianFiltreON>().value ? &MedianFiltre::Val: &MedianFiltre::noop;
-	//int width = medianParams.get<MedianFiltreWidth>().value;
-	//for (int i = 0; i < dimention_of(median); ++i) median[i].InitWidth(width);
 	SetMedian(*this, Singleton<MedianFiltreTable>::Instance().items);
 	SetTresholds(*this, Singleton<TresholdsTable>::Instance().items);
 
-	auto &deadZones = Singleton<DeadZonesTable>::Instance().items;
-	int deadZoneStart = deadZones.get<DeadZoneStart>().value;
-	int deadZoneStop = deadZones.get<DeadZoneStop>().value;
-
-	wholeStart = deadZoneStart / App::size_zone_mm;
-	wholeStop = deadZoneStop / App::size_zone_mm;
-
-	fractionalStart = double(deadZoneStart % App::size_zone_mm) / App::size_zone_mm;
-	fractionalStop = double(deadZoneStop % App::size_zone_mm) / App::size_zone_mm;
+	//auto &deadZones = Singleton<DeadZonesTable>::Instance().items;
+	//int deadZoneStart = deadZones.get<DeadZoneStart>().value;
+	//int deadZoneStop = deadZones.get<DeadZoneStop>().value;
+	//
+	//wholeStart = deadZoneStart / App::size_zone_mm;
+	//wholeStop = deadZoneStop / App::size_zone_mm;
+	//
+	//fractionalStart = double(deadZoneStart % App::size_zone_mm) / App::size_zone_mm;
+	//fractionalStop = double(deadZoneStop % App::size_zone_mm) / App::size_zone_mm;
+	SetDeadZones(*this, Singleton<DeadZonesTable>::Instance().items);
 }
 
 #define MAX(a, b) (a) > (b) ? (a): (b)
@@ -204,7 +174,7 @@ void Compute::Zone(int zone, int sens)
 	const int inc = packetSize * App::count_sensors;
 	int start = zoneOffsets[zone - 1];
 	int stop = zoneOffsets[zone - 0];
-	if (1 + wholeStart > (unsigned)zone) 
+	if (1 + wholeStart > zone) 
 	{
 		for (int i = 0; i < App::count_sensors; ++i)
 		{
