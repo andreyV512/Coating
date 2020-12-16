@@ -34,7 +34,7 @@ MAX_VALUE(NumberPackets, 500)//1000000 / 986 / App::count_sensors)
 
 //..................................................................
 template<>struct DlgSubItems<PacketSize, int> : ComboBoxSubItem<PacketSize> {};
-const int PacketSizeData[] = { 986, 2010, 4058, 8154 };
+const int PacketSizeData[] = {474, 986, 2010, 4058, 8154 };
 template<>struct FillComboboxList<PacketSize>
 {
 	void operator()(HWND h, PacketSize &t)
