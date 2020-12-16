@@ -247,7 +247,7 @@ void ZonesWindow::UpdateZone()
 		dprint("ERROR BUFFER OVERFLOY %d buffer size %d\n", offsStop, sizeof(data.buffer));
 	}
 
-	static const int leftOffs = 7;
+	static const int leftOffs = 50;
 	unsigned k = 0;
 	double ldata;
 	char lstatus;
@@ -490,4 +490,11 @@ bool ZonesWindow::Draw(TMouseMove &l, VGraphics &g)
 	UpdateAScan();
 	return b;
 }
+
+//MedianFiltreTable::TItems medianItems;
+//FiltersTable::TItems filter;
+//TresholdsTable::TItems treshItems;
+//DeadZonesTable::TItems deadZones;
+
+
 

@@ -6,6 +6,7 @@
 #include "PerformanceCounter/PerformanceCounter.h"
 #include "window_tool/RunExecute.h"
 #include "EventNames.h"
+#include "CommonApp.h"
 
 DWORD WINAPI LanRead::__proc__(PVOID p)
 {
@@ -147,7 +148,10 @@ void LanRead::Stop()
 
 void LanRead::Reload()
 {
-	SetEvent(hExit);
-	Sleep(1000);
+	if (CommonApp::TestProcessLan())
+	{
+		SetEvent(hExit);
+		Sleep(1000);
+	}
 	Update();
 }

@@ -1,6 +1,7 @@
 #include "CommonApp.h"
 #include <windows.h>
 #include "tools_debug/DebugMess.h"
+#include "../LanProcess/LanDirect/EventNames.h"
 namespace CommonApp
 {
 	const wchar_t *appName = L"aluminum bar 200409";
@@ -16,6 +17,15 @@ namespace CommonApp
 		bool b = ERROR_SUCCESS == ret || ERROR_ALREADY_EXISTS == ret;
 		if (b)CloseHandle(h);
 		dprint("TestAppRun GetLastError %d\n", ret);
+		return b;
+	}
+	bool TestProcessLan()
+	{
+		HANDLE h = OpenSemaphore(EVENT_ALL_ACCESS, TRUE, wSemaphore);
+		int ret = GetLastError();
+		bool b = ERROR_SUCCESS == ret || ERROR_ALREADY_EXISTS == ret;
+		if (b)CloseHandle(h);
+		dprint("TestProcessLan GetLastError %d\n", ret);
 		return b;
 	}
 };

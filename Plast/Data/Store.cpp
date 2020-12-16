@@ -41,7 +41,7 @@ void Store::Save(wchar_t *path)
 		fwrite(&data.strobesTickCount, sizeof(data.strobesTickCount), 1, f);
 		fwrite(&data.offsetsTickCount, sizeof(data.offsetsTickCount), 1, f);
 		
-		fwrite(&data.buffer, sizeof(char), data.framesCount, f);
+		fwrite(data.buffer, sizeof(char), data.framesCount, f);
 		fwrite(&data.strobesTick, sizeof(unsigned), data.strobesTickCount, f);
 		fwrite(&data.offsetsTick, sizeof(unsigned), data.offsetsTickCount, f);
 

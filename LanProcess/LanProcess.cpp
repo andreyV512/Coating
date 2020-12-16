@@ -15,7 +15,7 @@ class LanProcess
 public:
 	int &numberPackets, &packetSize, bufSize;
 public:
-	HANDLE hStart, hStop, hExit;
+	HANDLE hStart, hStop, hExit, hMutex;
 private:
 	HANDLE hWritePipe;
 public:
@@ -37,9 +37,9 @@ LanProcess::LanProcess(HANDLE hWritePipe)
 	hStart = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStart);
 	hStop = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStop);
 	hExit = OpenEvent(EVENT_ALL_ACCESS, TRUE, wExit);
+	CreateSemaphore(0, 0, 1, wSemaphore);
 	bufSize = packetSize * numberPackets * App::count_sensors;
 	data = new char[bufSize * maxFrames];
-
 }
 
 LanProcess::~LanProcess()
