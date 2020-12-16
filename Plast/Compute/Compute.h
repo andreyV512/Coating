@@ -21,9 +21,9 @@ class Compute
 	Data::InputData &data;
 	Data::ResultData &result;
 public:
-	unsigned packetSize;
+	unsigned packetSize, frequency, numberPackets;
 private:
-	unsigned numberPackets, framesCount, strobesTickCount, offsetsTickCount;
+	unsigned framesCount, strobesTickCount, offsetsTickCount;
 public:
 	int zoneOffsetsIndex, zoneOffsetsIndexStart;
 	MedianFiltre median[App::count_sensors];
@@ -46,9 +46,9 @@ public:
 	int wholeStart;
 public:
 	int wholeStop;
-private:
 	double fractionalStart, fractionalStop;
 	Impl<IDSPFlt, 1032> filter[App::count_sensors];
+private:
 	void __Update__();
 	void __Recalculation__();
 public:

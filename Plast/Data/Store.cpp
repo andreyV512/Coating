@@ -65,6 +65,16 @@ template<class O, class P>struct __load_all__
 		VL::foreach<typename O::items_list, __load__>()(o, p);
 	}
 };
+//FiltersTable, TresholdsTable, MedianFiltreTable, DeadZonesTable
+//template<class P>struct __load_all__<TresholdsTable, P>
+//{
+//	void operator()(P &p)
+//	{
+//		//typename O::TItems &o = Singleton<O>::Instance().items;
+//		auto &o = 
+//		VL::foreach<typename O::items_list, __load__>()(o, p);
+//	}
+//};
 
 void Load0(FILE *f)
 {
