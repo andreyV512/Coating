@@ -17,8 +17,8 @@ PARAM_TITLE(SyncInput, L"Вход синхронизации открыт")
 PARAM_TITLE(MeasurementInput, L"Измерительный вход открыт")
 PARAM_TITLE(SynchronizationEdge, L"Синхронизация по фронту")
 //.............................................................
-MIN_EQUAL_VALUE(SyncLevel, -128)
-MAX_EQUAL_VALUE(SyncLevel, 127)
+MIN_EQUAL_VALUE(SyncLevel, -5)
+MAX_EQUAL_VALUE(SyncLevel, 5)
 
 MIN_EQUAL_VALUE(StartDelay, 0)
 MAX_VALUE(StartDelay, 200)
