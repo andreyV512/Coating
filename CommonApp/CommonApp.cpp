@@ -15,16 +15,16 @@ namespace CommonApp
 		HANDLE h = OpenSemaphore(EVENT_ALL_ACCESS, TRUE, appName);
 		int ret = GetLastError();
 		bool b = ERROR_SUCCESS == ret || ERROR_ALREADY_EXISTS == ret;
-		if (b)CloseHandle(h);
+		if (0 != h)CloseHandle(h);
 		dprint("TestAppRun GetLastError %d\n", ret);
 		return b;
 	}
 	bool TestProcessLan()
 	{
-		HANDLE h = OpenSemaphore(EVENT_ALL_ACCESS, TRUE, wSemaphore);
+		HANDLE h = OpenEvent(EVENT_ALL_ACCESS, TRUE, wLanParams);
 		int ret = GetLastError();
 		bool b = ERROR_SUCCESS == ret || ERROR_ALREADY_EXISTS == ret;
-		if (b)CloseHandle(h);
+		if (0 != h)CloseHandle(h);
 		dprint("TestProcessLan GetLastError %d\n", ret);
 		return b;
 	}

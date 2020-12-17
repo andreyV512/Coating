@@ -34,15 +34,15 @@ MAX_VALUE(NumberPackets, 500)//1000000 / 986 / App::count_sensors)
 
 //..................................................................
 template<>struct DlgSubItems<PacketSize, int> : ComboBoxSubItem<PacketSize> {};
-const int PacketSizeData[] = {474, 986, 2010, 4058, 8154 };
+//const int PacketSizeData[] = {474, 986, 2010, 4058, 8154 };
 template<>struct FillComboboxList<PacketSize>
 {
 	void operator()(HWND h, PacketSize &t)
 	{
 		wchar_t buf[32];
-		for (int i = 0; i < dimention_of(PacketSizeData); ++i)
+		for (int i = 0; i < dimention_of(App::packet_size_buffer()); ++i)
 		{
-			ComboBox_AddString(h, _itow(PacketSizeData[i], buf, 10));
+			ComboBox_AddString(h, _itow(App::packet_size_buffer()[i], buf, 10));
 		}
 	}
 };
@@ -50,9 +50,9 @@ template<>struct CurrentValue<PacketSize>
 {
 	void operator()(HWND h, PacketSize &t)
 	{
-		for (int i = 0; i < dimention_of(PacketSizeData); ++i)
+		for (int i = 0; i < dimention_of(App::packet_size_buffer()); ++i)
 		{
-			if (PacketSizeData[i] == Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
+			if (App::packet_size_buffer()[i] == Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
 			{
 				ComboBox_SetCurSel(h, i);
 				break;

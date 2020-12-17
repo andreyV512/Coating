@@ -35,6 +35,12 @@ template<class O, class P>struct __params__
 
 namespace App
 {
+	unsigned(&packet_size_buffer())[6]
+	{
+		static unsigned arr[6] = {218, 474, 986, 2010, 4058, 8154 };
+		return arr;
+	}
+
 	void Init()
 	{
 		Performance::Init();

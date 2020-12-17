@@ -250,6 +250,7 @@
     <ClInclude Include="..\Common\window_tool\SelectTypeSizeList.h" />
     <ClInclude Include="..\Common\window_tool\TableIni.hpp" />
     <ClInclude Include="..\Common\window_tool\TEvent.h" />
+    <ClInclude Include="..\Common\window_tool\WindowsEventTemplate.hpp" />
     <ClInclude Include="..\Common\window_tool\WindowsPosition.h" />
     <ClInclude Include="..\Common\window_tool\Zip.h" />
     <ClInclude Include="..\LanProcess\LanDirect\EventNames.h" />

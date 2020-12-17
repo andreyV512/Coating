@@ -510,6 +510,9 @@
     <ClInclude Include="Windows\Viewers\Gain.h">
       <Filter>Windows\Viewers</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\window_tool\WindowsEventTemplate.hpp">
+      <Filter>Common\window_tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">

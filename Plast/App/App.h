@@ -8,6 +8,9 @@ namespace App
 	static const int size_zone_mm = 50;
 
 	static const int operator_status_section = 3;
+
+    unsigned (&packet_size_buffer())[6];
+
 	void Init();
 	void Destroy();
 	void TopLabel(wchar_t(&)[128]);

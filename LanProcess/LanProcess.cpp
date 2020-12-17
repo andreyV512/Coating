@@ -15,7 +15,7 @@ class LanProcess
 public:
 	int &numberPackets, &packetSize, bufSize;
 public:
-	HANDLE hStart, hStop, hExit, hMutex;
+	HANDLE hStart, hStop, hExit, hParams;
 private:
 	HANDLE hWritePipe;
 public:
@@ -25,6 +25,7 @@ public:
 	~LanProcess();
 	int Buff(char *&buf);
 	void Confirm(unsigned b);
+	void Params(Lan &l);
 };
 
 LanProcess::LanProcess(HANDLE hWritePipe)
@@ -37,7 +38,7 @@ LanProcess::LanProcess(HANDLE hWritePipe)
 	hStart = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStart);
 	hStop = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStop);
 	hExit = OpenEvent(EVENT_ALL_ACCESS, TRUE, wExit);
-	CreateSemaphore(0, 0, 1, wSemaphore);
+	hParams = CreateEvent(NULL, FALSE, FALSE, wLanParams);
 	bufSize = packetSize * numberPackets * App::count_sensors;
 	data = new char[bufSize * maxFrames];
 }
@@ -47,6 +48,7 @@ LanProcess::~LanProcess()
 	CloseHandle(hStart);
 	CloseHandle(hStop);
 	CloseHandle(hExit);
+	CloseHandle(hParams);
 	delete[] data;
 }
 
@@ -64,18 +66,7 @@ void LanProcess::Confirm(unsigned)
 	while (currentFrameHead != currentFrameTail)
 	{
 		char *c = &data[bufSize * currentFrameTail];
-		//int k = 0;
-		//for (int i = 0; i < bufSize; i += packetSize)//, ++k)
-		//{
-		//	//if (0 == (k % App::count_sensors))
-		//	//{
-		//	//	char *x = &c[i];
-		//	//	for (int j = 0; j < packetSize; ++j)
-		//	//	{
-		//	//		x[j] = 64;
-		//	//	}
-		//	//}
-		//}
+		
 		if (!WriteFile(hWritePipe, c, bufSize, &bytesWritten, NULL))
 		{
 			DWORD ret = GetLastError();
@@ -87,7 +78,29 @@ void LanProcess::Confirm(unsigned)
 	}
 }
 
+void LanProcess::Params(Lan &l)
+{
+	RSH_BUFFER_U32 buf;
+	l.device1->Get(RSH_GET_DEVICE_PACKET_LIST, &buf);
 
+	int len = buf.size();
+	dprint("len %d\n", len);
+	for (int i = 2, k = 0; i < 8 && i < len; ++i, ++k)
+	{
+		dprint("%d packet_size %d\n", k, buf.ptr[i]);
+	}
+	HWND h = FindWindow(L"MainWindowCoating", NULL);
+
+	if (NULL != h)
+	{
+		COPYDATASTRUCT ct;
+		ct.cbData = 6 * sizeof(int);
+		ct.dwData = ID_GET_PACKET_SIZE;
+		ct.lpData = &buf.ptr[2];
+		SendMessage(h, WM_COPYDATA, NULL, (LPARAM)&ct);
+		dprint("FIND WINDOW MainWindowCoating %x\n", h);
+	}
+}
 
 template<class O, class P>struct __params__
 {
@@ -177,17 +190,16 @@ int main(int argc, char **argv)
 		lan.hStart
 		, lan.hStop
 		, lan.hExit
+		, lan.hParams
 	};
 
 	while (true)
 	{
-		switch (WaitForMultipleObjects(3, h, FALSE, 200))
+		switch (WaitForMultipleObjects(4, h, FALSE, 200))
 		{
 		case 0 + WAIT_OBJECT_0:
-		{
 			dprint("LanProcess start\n");
 			l.Start();
-		}
 		break;
 		case 1 + WAIT_OBJECT_0:
 			dprint("LanProcess stop\n");
@@ -196,6 +208,10 @@ int main(int argc, char **argv)
 		case 2 + WAIT_OBJECT_0: 
 			dprint("LanProcess EXIT\n");
 			return 0;
+		case 3 + WAIT_OBJECT_0:
+			dprint("LanProcess Params\n");
+			lan.Params(l);
+			break;
 		}
 	}
 	return 0;

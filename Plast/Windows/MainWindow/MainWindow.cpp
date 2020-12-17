@@ -5,6 +5,7 @@
 #include "window_tool/Common.h"
 #include <CommCtrl.h>
 #include "window_tool/ItemIni.h"
+#include "../LanProcess/LanDirect/EventNames.h"
 
 LRESULT MainWindow::operator()(TCreate &l)
 {
@@ -119,6 +120,23 @@ void MainWindow::operator()(TClose &l)
 		{
 			DestroyWindow(l.hwnd);
 		}
+	}
+}
+
+void MainWindow::operator()(TCopyData &l)
+{
+	auto data = l.copyDataStruct;
+	unsigned *buf = (unsigned *)data->lpData;
+	switch (data->dwData)
+	{
+	case ID_GET_PACKET_SIZE:
+		if (NULL != buf)
+			for (int i = 0; i < 6; ++i)
+			{
+				App::packet_size_buffer()[i] = buf[i];
+				dprint("%d received packet_size %d\n", i, App::packet_size_buffer()[i]);
+			}
+		break;
 	}
 }
 

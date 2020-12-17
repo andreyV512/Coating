@@ -24,6 +24,18 @@ template<class O, class P>struct LanRead__params__
 	}
 };
 
+VOID CALLBACK WaitCallBack(PVOID param, BOOLEAN b)
+{
+	HANDLE h = OpenEvent(EVENT_ALL_ACCESS, TRUE, wLanParams);
+	if (0 != h)
+	{
+		SetEvent(h);
+		CloseHandle(h);
+		DeleteTimerQueueTimer(NULL, (HANDLE)param, NULL);
+		dprint("TIMER SEND MESSAGE\n");
+	}
+}
+
 LanRead::LanRead()
 	: numberPackets(Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value)
 	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
@@ -36,7 +48,6 @@ LanRead::LanRead()
 	hStart = CreateEvent(NULL, FALSE, FALSE, wStart);
 	hStop = CreateEvent(NULL, FALSE, FALSE, wStop);
 	hExit = CreateEvent(NULL, FALSE, FALSE, wExit);
-
 	
 	hThread = CreateThread(NULL, 0, __proc__, this, CREATE_SUSPENDED, NULL);
 }
@@ -93,6 +104,9 @@ void LanRead::Update()
 	}
 
 	CloseHandle(hInheritWritePipe);
+
+	HANDLE t = 0;
+	CreateTimerQueueTimer(&t, NULL, WaitCallBack, (PVOID)t, 3000, 0, WT_EXECUTEONLYONCE);
 }
 
 void LanRead::Read()

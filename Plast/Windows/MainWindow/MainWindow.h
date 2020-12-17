@@ -35,6 +35,7 @@ public:
 	void operator()(TCommand &);
 	void operator()(TGetMinMaxInfo &);
 	void operator()(TClose &);
+	void operator()(TCopyData &);
 
 	static void EnableMenu(bool);
 
