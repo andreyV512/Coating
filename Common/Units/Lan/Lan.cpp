@@ -157,13 +157,13 @@ unsigned Lan::Init(int numDevece, IRshDevice *&d, RshInitMemory &p)
 #define q(tpe)Singleton<LanParametersTable>::Instance().items.get<tpe>().value
 void Lan::SetParams(RshInitMemory &p)
 {
-	ZeroMemory(&p, sizeof(p));
 #ifndef TEST_LAN10
 	p.startType = RshInitMemory::External;
 #else 
 	p.startType = RshInitMemory::Program;
 #endif // !TEST_LAN10
 	p.controlSynchro = q(SynchronizationEdge) ? RshInitMemory::SlopeDecline : RshInitMemory::SlopeFront;
+	dprint("p.controlSynchro %d\n", p.controlSynchro);
 	p.bufferSize = q(PacketSize);
 	p.frequency = 1e6 * q(Frequency);
 	p.channels[0].control = RshChannel::Used;

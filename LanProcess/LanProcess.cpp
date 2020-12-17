@@ -65,17 +65,17 @@ void LanProcess::Confirm(unsigned)
 	{
 		char *c = &data[bufSize * currentFrameTail];
 		//int k = 0;
-		for (int i = 0; i < bufSize; i += packetSize)//, ++k)
-		{
-			//if (0 == (k % App::count_sensors))
-			//{
-			//	char *x = &c[i];
-			//	for (int j = 0; j < packetSize; ++j)
-			//	{
-			//		x[j] = 64;
-			//	}
-			//}
-		}
+		//for (int i = 0; i < bufSize; i += packetSize)//, ++k)
+		//{
+		//	//if (0 == (k % App::count_sensors))
+		//	//{
+		//	//	char *x = &c[i];
+		//	//	for (int j = 0; j < packetSize; ++j)
+		//	//	{
+		//	//		x[j] = 64;
+		//	//	}
+		//	//}
+		//}
 		if (!WriteFile(hWritePipe, c, bufSize, &bytesWritten, NULL))
 		{
 			DWORD ret = GetLastError();
@@ -138,9 +138,9 @@ void InitBase(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
-	dprint("START LAN<<<<<<<<<<");
+	dprint("START LAN<<<<<<<<<<\n");
 	if (!CommonApp::TestAppRun()) return 0;
-	dprint("START LAN>>>>>>>>>");
+	dprint("START LAN>>>>>>>>>\n");
 	InitBase(argc - 2, &argv[2]);
 
 	LanParametersTable &table = Singleton<LanParametersTable>::Instance();

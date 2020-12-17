@@ -79,10 +79,6 @@ void LanDevice::Stop()
 CollectionData::CollectionData()
 	: generatorBit(Singleton<OutputBitsTable>::Instance().items.get<oGenerator>().value)
 {
-	//device.Start();
-	//Sleep(500);
-	//device1730.WriteOutput(generatorBit);
-	//dprint("START LAN\n");
 	Singleton<LanDevice>::Instance().Start();
 	Sleep(500);
 	device1730.WriteOutput(generatorBit);

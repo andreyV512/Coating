@@ -15,7 +15,7 @@ class ZonesWindow
 {
 public:
 	int currentSensor;
-	unsigned currentZone;
+	int currentZone;
 	int currentOffset;
 	HWND hWnd;
 	HWND hStatuisBar;
