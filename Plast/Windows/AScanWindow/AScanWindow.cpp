@@ -225,8 +225,6 @@ void AScanWindow::UpdateOptions()
 	VL::foreach<viewers_list, __update_sens__gate__>()(viewers, data);
 }
 
-
-
 void AScanWindow::Stop()
 {
 	KillTimer(hWnd, idTimer);

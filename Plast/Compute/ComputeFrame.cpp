@@ -4,24 +4,6 @@
 #include "SetTresholds.hpp"
 #include "InitFiltre.hpp"
 
-//template<class O, class P>struct __init_filtre_XX__
-//{
-//	bool operator()(P &p)
-//	{
-//		if (VL::IndexOf<filters_list, O>::value == p.paramFlt.get<Num<CurrentFilter, P::NUM>>().value)
-//		{
-//			p.filter[P::NUM].Init<O>();
-//			SetupFiltre<O, P::NUM>()(
-//				(O &)p.filter
-//				, p.paramFlt
-//				, p.frequency
-//				);
-//			return false;
-//		}
-//		return true;
-//	}
-//};
-
 ComputeFrame::ComputeFrame()
 	: frequency(1000000 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value)
 	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
