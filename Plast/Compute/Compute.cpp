@@ -40,11 +40,11 @@ void Compute::Start()
 
 	//Wrap x(filter, Singleton<FiltersTable>::Instance().items);
 	//__init_filtre__()(x);
-	SetLan(*this, Singleton<LanParametersTable>::Instance().items);
-	SetFilters(*this, Singleton<FiltersTable>::Instance().items);
+	SetParam(*this, Singleton<LanParametersTable>::Instance().items);
+	SetParam(*this, Singleton<FiltersTable>::Instance().items);
 
-	SetMedian(*this, Singleton<MedianFiltreTable>::Instance().items);
-	SetTresholds(*this, Singleton<TresholdsTable>::Instance().items);
+	SetParam(*this, Singleton<MedianFiltreTable>::Instance().items);
+	SetParam(*this, Singleton<TresholdsTable>::Instance().items);
 
 	//auto &deadZones = Singleton<DeadZonesTable>::Instance().items;
 	//int deadZoneStart = deadZones.get<DeadZoneStart>().value;
@@ -55,7 +55,7 @@ void Compute::Start()
 	//
 	//fractionalStart = double(deadZoneStart % App::size_zone_mm) / App::size_zone_mm;
 	//fractionalStop = double(deadZoneStop % App::size_zone_mm) / App::size_zone_mm;
-	SetDeadZones(*this, Singleton<DeadZonesTable>::Instance().items);
+	SetParam(*this, Singleton<DeadZonesTable>::Instance().items);
 }
 
 #define MAX(a, b) (a) > (b) ? (a): (b)

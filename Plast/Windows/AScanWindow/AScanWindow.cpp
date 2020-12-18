@@ -217,7 +217,7 @@ void AScanWindow::Start()
 
 void AScanWindow::UpdateOptions()
 {
-	SetTresholds(computeFrame, computeFrame.treshItems);
+	SetParam(computeFrame, computeFrame.treshItems);
 	computeFrame.UpdateFiltre();
 
 	//график корректировки усиления канала

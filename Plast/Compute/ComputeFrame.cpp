@@ -14,7 +14,7 @@ ComputeFrame::ComputeFrame()
 	VL::CopyFromTo(Singleton<FiltersTable>::Instance().items, paramFlt);
 	UpdateFiltre();
 	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
-	SetTresholds(*this, treshItems);
+	SetParam(*this, treshItems);
 }
 
 void ComputeFrame::UpdateFiltre()

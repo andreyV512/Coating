@@ -209,7 +209,7 @@ void ZonesWindow::UpdateZone()
 	if (currentSensor < 0) currentSensor = App::count_sensors - 1;
 	else if (currentSensor >= App::count_sensors) currentSensor = 0;
 
-	const unsigned maxZone = compute.zoneOffsetsIndex + compute.wholeStop - 1;	 
+	const int maxZone = compute.zoneOffsetsIndex + compute.wholeStop - 1;	 
 
 	if (currentZone < 0) currentZone = maxZone;
 	else if (currentZone >= maxZone) currentZone = 0;
@@ -234,8 +234,8 @@ void ZonesWindow::UpdateZone()
 	int deadZoneStart = deadZones.get<DeadZoneStart>().value;
 	int deadZoneStop = deadZones.get<DeadZoneStop>().value;
 
-	unsigned wholeStart = deadZoneStart / App::size_zone_mm;
-	unsigned wholeStop = deadZoneStop / App::size_zone_mm;
+	int wholeStart = deadZoneStart / App::size_zone_mm;
+	int wholeStop = deadZoneStop / App::size_zone_mm;
 
 	double fractionalStart = double(deadZoneStart % App::size_zone_mm) / App::size_zone_mm;
 	double fractionalStop = double(deadZoneStop % App::size_zone_mm) / App::size_zone_mm;
@@ -428,7 +428,7 @@ void ZonesWindow::UpdateAScan()
 		aScan.tchart.maxAxesX /= 2000.0 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value;
 	}
 
-	SetTresholds(computeFrame, treshItems);
+	SetParam(computeFrame, treshItems);
 	computeFrame.Frame(currentSensor, zoneOffs[zoneViewer.currentX], aScan.data);
 	aScan.line.count = computeFrame.packetSize;
 

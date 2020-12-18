@@ -5,6 +5,8 @@
 #include "Data/Data.h"
 #include "Log/LogBuffer.h"
 #include "window_tool/Zip.h"
+#include "Compute/Compute.h"
+#include "Compute/SetTresholds.hpp"
 
 
 static const unsigned __magic__ = 0x0a130000;
@@ -26,6 +28,8 @@ template<class O, class P>struct __save_all__
 	}
 };
 
+typedef Vlst<LanParametersTable, PARAM_ID> __stored_params__;
+
 void Store::Save(wchar_t *path)
 {
 	FILE *f = _wfopen(path, L"wb");
@@ -33,7 +37,7 @@ void Store::Save(wchar_t *path)
 	{
 		unsigned magic = __magic__;
 		fwrite(&magic, sizeof(magic), 1, f);
-		VL::foreach<Vlst<PARAM_ID>, __save_all__>()(f);
+		VL::foreach<__stored_params__, __save_all__>()(f);
 
 		Data::InputData &data = Singleton<Data::InputData>::Instance();
 
@@ -61,8 +65,10 @@ template<class O, class P>struct __load_all__
 {
 	void operator()(P &p)
 	{
-		typename O::TItems &o = Singleton<O>::Instance().items;
-		VL::foreach<typename O::items_list, __load__>()(o, p);
+		//typename O::TItems &o = Singleton<O>::Instance().items;
+		typename O::TItems o;
+		VL::foreach<typename O::items_list, __load__>()(o, p.f);
+		SetParam(p.compute, o);
 	}
 };
 //FiltersTable, TresholdsTable, MedianFiltreTable, DeadZonesTable
@@ -76,10 +82,21 @@ template<class O, class P>struct __load_all__
 //	}
 //};
 
+struct __load_all_data__
+{
+	FILE *f;
+	Compute &compute;
+	__load_all_data__(FILE *f) 
+		: f(f)
+		, compute(Singleton<Compute>::Instance()) 
+	{}
+};
+
 void Load0(FILE *f)
 {
 	Log::Mess <LogMess::FileDownloading>();
-	VL::foreach<Vlst<PARAM_ID>, __load_all__>()(f);
+	__load_all_data__ load_data(f);
+	VL::foreach<__stored_params__, __load_all__>()(load_data);
 
 	Data::InputData &data = Singleton<Data::InputData>::Instance();
 
