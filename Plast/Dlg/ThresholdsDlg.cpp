@@ -6,6 +6,8 @@
 #include "window_tool/Emptywindow.h"
 #include "Windows/ZonesWindow/ZonesWindow.h"
 #include "SensItem.hpp"
+#include "Compute/SetTresholds.hpp"
+#include "Compute/Compute.h"
 
 template<int N>using GBThresh = Dialog::GroupBox<typename GB<Vlst<
 	AlarmThresh
@@ -114,6 +116,12 @@ template<class O, class P>struct __curr_sens_XXX__
 				typedef typename __sel_num__<TresholdsTable::items_list, N>::Result _list;
 				typedef typename VL::Append<SoundSpeed, _list>::Result list;
 				p.Restore<list>();
+
+				SetParam(
+					Singleton<Compute>::Instance()
+					, p.items
+				);
+
 				RepaintWindow<MainWindow>();
 			}
 			return false;
@@ -149,6 +157,12 @@ template<class O, class P>struct __curr_sens_NoStoreOkBtn__
 			{
 				typedef typename __sel_num__<TresholdsTable::items_list, N>::Result _list;
 				typedef typename VL::Append<SoundSpeed, _list>::Result list;
+
+				SetParam(
+					Singleton<Compute>::Instance()
+					, p.items
+				);
+
 				p.Restore<list>();
 			}
 			return false;
@@ -159,19 +173,6 @@ template<class O, class P>struct __curr_sens_NoStoreOkBtn__
 
 void ThreshDlg::Do(HWND h)
 {
-	//AScanWindow &w = *(AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-	//TresholdsTable t;
-	//VL::CopyFromTo(w.computeFrame.treshItems, t.items);
-	//if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection, SoundSpeed>, 300
-	//	, Vlst<NoStoreOkBtn, CancelBtn>
-	//>(t).Do(h, (wchar_t *)L"Пороги"))
-	//{
-	//	VL::CopyFromTo(t.items, w.computeFrame.treshItems);
-	//	w.SetThresh();
-	//	w.UpdateOptions();
-	//	RepaintWindow(h);
-	//}
-
 	AScanWindow &w = *(AScanWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	__current_filtre_param_data__<TresholdsTable> data(h, w.computeFrame.treshItems, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens_NoStoreOkBtn__>()(data);
@@ -183,18 +184,6 @@ void ThreshDlg::Do(HWND h)
 
 void TestThreshDlg::Do(HWND h)
 {
-	//ZonesWindow &w = *(ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-	//TresholdsTable t;
-	//VL::CopyFromTo(w.treshItems, t.items);
-	//if (Dialog::Templ<ParametersBase, TresholdsTable, Vlst<GBThresh, GBBottomReflection, SoundSpeed>, 300
-	//	, Vlst<NoStoreOkBtn, CancelBtn>
-	//>(t).Do(h, (wchar_t *)L"Пороги"))
-	//{
-	//	VL::CopyFromTo(t.items, w.treshItems);
-	//	w.SetThresh();
-	//	RepaintWindow(h);
-	//}
-
 	ZonesWindow &w = *(ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	__current_filtre_param_data__<TresholdsTable> data(h, w.treshItems, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens_NoStoreOkBtn__>()(data);

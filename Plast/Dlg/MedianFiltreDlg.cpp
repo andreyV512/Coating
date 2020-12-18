@@ -4,6 +4,8 @@
 #include "Windows/ZonesWindow/ZonesWindow.h"
 #include "window_tool/EmptyWindow.h"
 #include "SensItem.hpp"
+#include "Compute/SetTresholds.hpp"
+#include "Compute/Compute.h"
 
 XMIN_VALUE      (MedianFiltreWidth, 0)
 XMAX_EQUAL_VALUE(MedianFiltreWidth, 15)
@@ -50,6 +52,10 @@ void MedianFiltreDlg::Do(HWND h)
 		, 310
 	>(Singleton<MedianFiltreTable>::Instance()).Do(h, (wchar_t *)L"Медианные фильтры"))
 	{
+		SetParam(
+			Singleton<Compute>::Instance()
+			, Singleton<MedianFiltreTable>::Instance().items
+		);
 	}
 }
 
@@ -67,6 +73,12 @@ void TstMedianFiltreDlg::Do(HWND h)
 	{
 		VL::CopyFromTo(table.items, w->medianItems);
 		w->UpdateMedian();
+
+		SetParam(
+			Singleton<Compute>::Instance()
+			, table.items
+		);
+
 		RepaintWindow(w->hWnd);
 	}
 }

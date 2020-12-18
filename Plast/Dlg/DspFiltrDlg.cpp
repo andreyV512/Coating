@@ -7,6 +7,8 @@
 #include "window_tool/Emptywindow.h"
 #include "Windows/AScanWindow/AScanWindow.h"
 #include "SensItem.hpp"
+#include "Compute/SetTresholds.hpp"
+#include "Compute/Compute.h"
 ///*
 template<class List, int N>struct __orders__;
 template<int N, class Head, class ...Tail>struct __orders__<Vlst<Head, Tail...>, N>
@@ -40,18 +42,6 @@ template<int N>struct __orders_list__
 {
 	typedef typename VL::Append<typename __orders__<FiltersTable::items_list, N>::Result, Num<CurrentFilter, N>>::Result Result;
 };
-
-
-
-//#define XMIN_EQUAL_VALUE(sub_type, value)template<int N>struct LessEqual<Num<sub_type, N>>\
-//{typename Num<sub_type, N>::type_value operator()(){return value;}};
-//
-//
-//#define XMAX_EQUAL_VALUE(sub_type, value)template<int N>struct LargenEqual<Num<sub_type, N>>\
-//{typename Num<sub_type, N>::type_value operator()(){return value;}};
-//
-//#define XDO_NOT_CHECK(n)template<int N>struct __compare_param__<Vlst<>, Vlst<>, Num<n, N>>\
-//{bool operator()(typename Num<n, N>::type_value &t){return true;}};
 
 XMIN_EQUAL_VALUE(Low<ChebI<Order>>, 1)
 XMAX_EQUAL_VALUE(Low<ChebI<Order>>, 10)
@@ -204,8 +194,13 @@ template<template<class>class X, template<class>class Y, class O, int N, class P
 			{
 				typedef typename EraseNum<FiltersTable::items_list, N, X >::Result _list;
 				typedef VL::Append< Num<CurrentFilter, N>, _list>::Result list;
-				//VL::CopyFromTo<list>(p.table.items, p.items);
+				
 				p.Restore<list>();
+
+				SetParam(
+					Singleton<Compute>::Instance()
+					, p.items
+				);
 			}
 			return false;
 		}
@@ -232,6 +227,10 @@ template<int N, class P>struct __current_filtre_param__<Num<CurrentFilter, N>, P
 			>(p.table, &p).Do(p.h, buf))
 			{
 				p.Restore<Vlst<Num<CurrentFilter, N>>>();
+				SetParam(
+					Singleton<Compute>::Instance()
+					, p.items
+				);
 			}
 			return false;
 		}
@@ -283,6 +282,10 @@ template<template<class>class X, template<class>class Y, class O, int N, class P
 				typedef VL::Append< Num<CurrentFilter, N>, _list>::Result list;
 				p.Restore<list>();
 				p.ok = true;
+				SetParam(
+					Singleton<Compute>::Instance()
+					, p.items
+				);
 			}
 			return false;
 		}
@@ -310,6 +313,10 @@ template<int N, class P>struct __Xcurrent_filtre_param__<Num<CurrentFilter, N>, 
 			{
 				p.Restore<Vlst<Num<CurrentFilter, N>>>();
 				p.ok = true;
+				SetParam(
+					Singleton<Compute>::Instance()
+					, p.table.items
+				);
 			}
 			return false;
 		}
