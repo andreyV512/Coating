@@ -10,6 +10,7 @@
 #include "Windows/MainWindow/AppKeyHandler.h"
 #include "SetTresholds.hpp"
 #include "InitFiltre.hpp"
+#include "Data/StoreAllParam.h"
 
 template<class O, class P>struct __compute_set_data__;
 template<template<int>class W, int N, class P>struct __compute_set_data__<W<N>, P>
@@ -33,29 +34,15 @@ Compute::Compute()
 
 void Compute::Start()
 {
-	//packetSize = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
-	//numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
 	zoneOffsetsIndex = zoneOffsetsIndexStart = 0;
 
-	//Wrap x(filter, Singleton<FiltersTable>::Instance().items);
-	//__init_filtre__()(x);
 	SetParam(*this, Singleton<LanParametersTable>::Instance().items);
 	SetParam(*this, Singleton<FiltersTable>::Instance().items);
-
 	SetParam(*this, Singleton<MedianFiltreTable>::Instance().items);
 	SetParam(*this, Singleton<TresholdsTable>::Instance().items);
-
-	//auto &deadZones = Singleton<DeadZonesTable>::Instance().items;
-	//int deadZoneStart = deadZones.get<DeadZoneStart>().value;
-	//int deadZoneStop = deadZones.get<DeadZoneStop>().value;
-	//
-	//wholeStart = deadZoneStart / App::size_zone_mm;
-	//wholeStop = deadZoneStop / App::size_zone_mm;
-	//
-	//fractionalStart = double(deadZoneStart % App::size_zone_mm) / App::size_zone_mm;
-	//fractionalStop = double(deadZoneStop % App::size_zone_mm) / App::size_zone_mm;
 	SetParam(*this, Singleton<DeadZonesTable>::Instance().items);
+	Singleton< ALLPatrams>::Instance().SetParams();
 }
 
 #define MAX(a, b) (a) > (b) ? (a): (b)
@@ -291,6 +278,14 @@ void Compute::Recalculation()
 	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
 	zoneOffsetsIndex = zoneOffsetsIndexStart = 0;
 
+	auto &items = Singleton<ALLPatrams>::Instance().items;
+
+	SetParam(*this, items.get<VL::Factory<LanParametersTable::items_list>>());
+	SetParam(*this, items.get<VL::Factory<FiltersTable      ::items_list>>());
+	SetParam(*this, items.get<VL::Factory<MedianFiltreTable ::items_list>>());
+	SetParam(*this, items.get<VL::Factory<TresholdsTable    ::items_list>>());
+	SetParam(*this, items.get<VL::Factory<DeadZonesTable    ::items_list>>());
+
 	QueueUserWorkItem(func<Compute, &Compute::__Recalculation__>, (LPVOID)this, WT_EXECUTEDEFAULT);
 }
 
@@ -306,10 +301,23 @@ void Compute::__Recalculation__()
 {
 	if (Strobes())
 	{
+		auto &items = Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>();
+		dprint("1 start offset %x %f %f %f\n"
+			, Singleton<ALLPatrams>::Instance()
+			, items.get< Num<AlarmThreshStart, 0>>().value
+			, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
+			, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
+		);
 		RepaintWindow<MainWindow>();
 		MainWindow::EnableMenu(true);
 		AppKeyHandler::Stop();
 		Log::Mess <LogMess::RecalculationStop>();
+
+		dprint("2 start offset %f %f %f\n"
+			, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 0>>().value
+			, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
+			, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
+		);
 	}
 }
 

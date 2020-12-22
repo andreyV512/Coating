@@ -15,6 +15,7 @@
 #include "MessageText/status.h"
 #include "Windows/StoreParamsBase.hpp"
 #include "Compute/SetTresholds.hpp"
+#include "Data/StoreAllParam.h"
 
 LRESULT ZonesWindow::operator()(TCreate &l)
 {
@@ -40,7 +41,7 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 	zoneViewer.tchart.minAxesY = 0;
 	zoneViewer.tchart.maxAxesY = 100;
 
-	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
+	//VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
 	SetThresh();
 
 	UpdateZone();
@@ -156,6 +157,8 @@ void ZonesWindow::GainEnable(bool b)
 	aScan.gainLine.enable = b;
 }
 
+#define SET_ITEMS(table)Singleton<ALLPatrams>::Instance().items.get<VL::Factory<table::items_list>>()
+
 ZonesWindow::ZonesWindow()
 	: data(Singleton<Data::InputData>::Instance())
 	, compute(Singleton<Compute>::Instance())
@@ -164,16 +167,30 @@ ZonesWindow::ZonesWindow()
 	, currentOffset(0)
 	, zoneViewer(viewers.get<ZoneViewer>())
 	, aScan(viewers.get<Sens>())
+	//, medianItems(SET_ITEMS(MedianFiltreTable))
+	//, filter(SET_ITEMS(FiltersTable))
+	//, treshItems(SET_ITEMS(TresholdsTable))
+	//, deadZones(SET_ITEMS(DeadZonesTable))
 {
-	VL::CopyFromTo(Singleton<MedianFiltreTable>::Instance().items, medianItems);
-	VL::CopyFromTo(Singleton<FiltersTable  >::Instance().items, filter	  );
-	VL::CopyFromTo(Singleton<TresholdsTable>::Instance().items, treshItems);
-	VL::CopyFromTo(Singleton<DeadZonesTable>::Instance().items, deadZones );
+	auto &items = Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>();
+	dprint("3 start offset %x %f %f %f\n"
+		, (unsigned *) &Singleton<ALLPatrams>::Instance()
+		, items.get< Num<AlarmThreshStart, 0>>().value
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
+	);
 
 	UpdateMedian();
 
 	zoneViewer.tcursor.SetMouseMoveHandler(this, &ZonesWindow::Draw);
+
+	dprint("4 start offset %f %f %f\n"
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 0>>().value
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
+	);
 }
+#undef SET_ITEMS
 
 void ZonesWindow::LeftCursor(HWND h)
 {
@@ -490,11 +507,3 @@ bool ZonesWindow::Draw(TMouseMove &l, VGraphics &g)
 	UpdateAScan();
 	return b;
 }
-
-//MedianFiltreTable::TItems medianItems;
-//FiltersTable::TItems filter;
-//TresholdsTable::TItems treshItems;
-//DeadZonesTable::TItems deadZones;
-
-
-

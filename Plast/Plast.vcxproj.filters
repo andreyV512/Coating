@@ -492,9 +492,6 @@
     <ClInclude Include="..\LanProcess\LanDirect\EventNames.h">
       <Filter>LanDirect</Filter>
     </ClInclude>
-    <ClInclude Include="Compute\SetTresholds.hpp">
-      <Filter>Compute</Filter>
-    </ClInclude>
     <ClInclude Include="Windows\Viewers\CommonSensorViewerBar.h">
       <Filter>Windows\Viewers</Filter>
     </ClInclude>
@@ -512,6 +509,12 @@
     </ClInclude>
     <ClInclude Include="..\Common\window_tool\WindowsEventTemplate.hpp">
       <Filter>Common\window_tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Compute\SetTresholds.hpp">
+      <Filter>Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\StoreAllParam.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

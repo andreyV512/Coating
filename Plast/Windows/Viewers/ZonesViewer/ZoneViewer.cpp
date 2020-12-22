@@ -1,16 +1,28 @@
 ﻿#include "ZoneViewer.h"
 #include "templates/templates.hpp"
 #include "MessageText/status.h"
+#include "Data/StoreAllParam.h"
+#include "tools_debug/DebugMess.h"
 
 ZoneViewer::ZoneViewer()
 	: tchart(backScreen)
 	, tcursor(tchart)
 {
+	dprint("7 start offset %f %f %f\n"
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 0>>().value
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
+	);
 	chart = &tchart;
 	cursor = &tcursor;
 	tcursor.horizontalLine = false;
 	tchart.items.get<BarSeriesNoFixed>().SetColorBarHandler(this, &ZoneViewer::GetColorCell);
 	tcursor.SetMouseMoveHandler(this, &ZoneViewer::Draw);
+	dprint("8 start offset %f %f %f\n"
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 0>>().value
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
+		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
+	);
 }
 
 bool ZoneViewer::GetColorCell(int zone, double &data_, unsigned &color)

@@ -3,6 +3,8 @@
 #include "tools_debug/DebugMess.h"
 #include "SetTresholds.hpp"
 #include "InitFiltre.hpp"
+#include "Compute/SetTresholds.hpp"
+#include "Data/StoreAllParam.h"
 
 ComputeFrame::ComputeFrame()
 	: frequency(1000000 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value)
@@ -11,10 +13,23 @@ ComputeFrame::ComputeFrame()
 	, buffer(Singleton<Data::InputData>::Instance().buffer)
 	, bipolar(false)
 {
+	//auto &items = Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>();
+	//dprint("12 start offset %x %f %f %f\n"
+	//	, (unsigned *)&Singleton<ALLPatrams>::Instance()
+	//	, items.get< Num<AlarmThreshStart, 0>>().value
+	//	, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
+	//	, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
+	//);
 	VL::CopyFromTo(Singleton<FiltersTable>::Instance().items, paramFlt);
 	UpdateFiltre();
 	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
 	SetParam(*this, treshItems);
+	//dprint("13 start offset %x %f %f %f\n"
+	//	, (unsigned *)&Singleton<ALLPatrams>::Instance()
+	//	, items.get< Num<AlarmThreshStart, 0>>().value
+	//	, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
+	//	, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
+	//);
 }
 
 void ComputeFrame::UpdateFiltre()
