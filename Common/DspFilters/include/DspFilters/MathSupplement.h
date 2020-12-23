@@ -117,7 +117,7 @@ inline bool is_nan<complex_t> (complex_t v)
 //------------------------------------------------------------------------------
 
 /*
- * Hack to prevent denormals
+ * Xack to prevent denormals
  *
  */
 

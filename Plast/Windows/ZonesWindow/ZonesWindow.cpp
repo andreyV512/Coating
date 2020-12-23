@@ -480,7 +480,9 @@ template<class O, class P>struct __select_tresh_sens__
 
 void ZonesWindow::SetThresh()
 {
+	//TODO Настройка порогов доделать
 	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __select_tresh_sens__>()(*this);
+	SetParam(computeZone, treshItems);
 }
 
 bool ZonesWindow::Draw(TMouseMove &l, VGraphics &g)

@@ -201,7 +201,7 @@ void BandShelfBase::setup (int order,
                      m_digitalProto,
                      m_analogProto);
 
-  // HACK!
+  // XACK!
   m_digitalProto.setNormal (((centerFrequency/sampleRate) < 0.25) ? doublePi : 0, 1);
 
   Cascade::setLayout (m_digitalProto);

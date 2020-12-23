@@ -113,7 +113,7 @@ namespace Automat
 #ifdef EMULATOR
 				Emulator emulator;
 #endif
-				//TODO Bits<TstOn<iCU> >(); //проверка цепей управления
+				// Bits<TstOn<iCU> >(); //проверка цепей управления
 				Log::Mess <LogMess::On_iIn>();
 				Bits<On<iIn>, Key<StopBtn>, Proc<iStrobe>>();
 				Singleton<Compute>::Instance().Start();

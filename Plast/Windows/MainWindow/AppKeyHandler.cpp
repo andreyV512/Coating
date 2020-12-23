@@ -174,13 +174,13 @@ namespace AppKeyHandler
 	HANDLE handleTimer = INVALID_HANDLE_VALUE;
 	VOID CALLBACK WaitOrTimerCallback(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 	{
-		//TODO HWND h = FindWindow(WindowClass<TestSignalWindow>()(), 0);
-		//TODO if(NULL != h)
-		//TODO {
-		//TODO 	TestSignalWindow *w = (TestSignalWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-		//TODO 	SendMessage(w->toolBar.hWnd, TB_ENABLEBUTTON, TL::IntToType<IDB_Ok>::value, MAKELONG(TRUE, 0));
-		//TODO }
-		//TODO DeleteTimerQueueTimer(NULL, handleTimer, NULL);
+		// HWND h = FindWindow(WindowClass<TestSignalWindow>()(), 0);
+		// if(NULL != h)
+		// {
+		// 	TestSignalWindow *w = (TestSignalWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+		// 	SendMessage(w->toolBar.hWnd, TB_ENABLEBUTTON, TL::IntToType<IDB_Ok>::value, MAKELONG(TRUE, 0));
+		// }
+		// DeleteTimerQueueTimer(NULL, handleTimer, NULL);
 	}
 
 
@@ -191,18 +191,18 @@ namespace AppKeyHandler
 		{
 			if(__is_key__<O::value>::value == id)
 			{
-				//TODO HWND h = FindWindow(WindowClass<TestSignalWindow>()(), 0);
-				//TODO if(NULL != h)
-				//TODO {
-				//TODO 	//TODO TestSignalWindow *w = (TestSignalWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-				//TODO 	//TODO if(0 != SendMessage(w->toolBar.hWnd, TB_ISBUTTONENABLED, O::value, 0))
-				//TODO 	//TODO {
-				//TODO 	//TODO 	TCommand c(h, O::value, 0, w->toolBar.hWnd);
-				//TODO 	//TODO 	SendMessage(MESSAGE(c));
-				//TODO 	//TODO 	SendMessage(w->toolBar.hWnd, TB_ENABLEBUTTON, O::value, MAKELONG(FALSE, 0));
-				//TODO 	//TODO 	CreateTimerQueueTimer(&handleTimer, NULL, WaitOrTimerCallback, NULL, 3000, 0, WT_EXECUTEONLYONCE);
-				//TODO 	//TODO }
-				//TODO }
+				// HWND h = FindWindow(WindowClass<TestSignalWindow>()(), 0);
+				// if(NULL != h)
+				// {
+				// 	// TestSignalWindow *w = (TestSignalWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
+				// 	// if(0 != SendMessage(w->toolBar.hWnd, TB_ISBUTTONENABLED, O::value, 0))
+				// 	// {
+				// 	// 	TCommand c(h, O::value, 0, w->toolBar.hWnd);
+				// 	// 	SendMessage(MESSAGE(c));
+				// 	// 	SendMessage(w->toolBar.hWnd, TB_ENABLEBUTTON, O::value, MAKELONG(FALSE, 0));
+				// 	// 	CreateTimerQueueTimer(&handleTimer, NULL, WaitOrTimerCallback, NULL, 3000, 0, WT_EXECUTEONLYONCE);
+				// 	// }
+				// }
 				return false;
 			}
 			return true;

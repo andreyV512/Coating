@@ -1171,7 +1171,7 @@ template<typename Table>struct Delete
 	//	void operator()(O &o, P &p)
 	//	{
 	//		VARIANT v = p.Fields->GetItem(o.name())->GetValue();
-	//		//TODO o.value = *(O::type_value *)&v.punkVal;
+	//		//o.value = *(O::type_value *)&v.punkVal;
 	//	}
 	//};
 	bool Execute()
