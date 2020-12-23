@@ -428,7 +428,7 @@ void ZonesWindow::UpdateAScan()
 	aScan.gainLine.maxAxeY = 1.1 * data.value;
 	computeFrame.Gain(currentSensor, aScan.gain);
 	aScan.gainLine.count = computeFrame.packetSize;
-
+	aScan.chart->count = computeFrame.packetSize;
 	RepaintWindow(aScan.hWnd);
 }
 
