@@ -38,9 +38,13 @@ template<> struct Proc<iStrobe>
 		bool b = 0 != (p.bits & bit);
 		if (!pred && b)
 		{
-			if (++data.strobesTickCount > dimention_of(data.strobesTick))  data.strobesTickCount = dimention_of(data.strobesTick) - 1;
-			data.strobesTick[data.strobesTickCount] = Performance::Counter();
-			dprint("strobe %d %d\n", data.strobesTickCount, data.strobesTick[data.strobesTickCount]);
+			if (data.strobesTickCount < dimention_of(data.strobesTick) - 1)
+			{
+				//data.strobesTickCount = dimention_of(data.strobesTick) - 1;
+				data.strobesTick[data.strobesTickCount] = Performance::Counter();
+				++data.strobesTickCount;
+				//dprint("strobe %d %d\n", data.strobesTickCount, data.strobesTick[data.strobesTickCount]);
+			}
 		}
 		pred = b;
 	}
