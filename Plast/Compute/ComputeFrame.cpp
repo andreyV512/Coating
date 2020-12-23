@@ -7,29 +7,19 @@
 #include "Data/StoreAllParam.h"
 
 ComputeFrame::ComputeFrame()
-	: frequency(1000000 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value)
-	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
-	, framesCount(Singleton<Data::InputData>::Instance().framesCount)
+	: framesCount(Singleton<Data::InputData>::Instance().framesCount)
 	, buffer(Singleton<Data::InputData>::Instance().buffer)
 	, bipolar(false)
 {
-	//auto &items = Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>();
-	//dprint("12 start offset %x %f %f %f\n"
-	//	, (unsigned *)&Singleton<ALLPatrams>::Instance()
-	//	, items.get< Num<AlarmThreshStart, 0>>().value
-	//	, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
-	//	, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
-	//);
-	VL::CopyFromTo(Singleton<FiltersTable>::Instance().items, paramFlt);
+	ALLPatrams &all = Singleton<ALLPatrams>::Instance();
+
+	frequency = 1000000 * all.Items<LanParametersTable>().get<Frequency>().value;
+	packetSize = all.Items<LanParametersTable>().get<PacketSize>().value;
+
+	VL::CopyFromTo(all.Items<FiltersTable>(), paramFlt);
 	UpdateFiltre();
-	VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
+	VL::CopyFromTo(all.Items<TresholdsTable>(), treshItems);
 	SetParam(*this, treshItems);
-	//dprint("13 start offset %x %f %f %f\n"
-	//	, (unsigned *)&Singleton<ALLPatrams>::Instance()
-	//	, items.get< Num<AlarmThreshStart, 0>>().value
-	//	, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
-	//	, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
-	//);
 }
 
 void ComputeFrame::UpdateFiltre()

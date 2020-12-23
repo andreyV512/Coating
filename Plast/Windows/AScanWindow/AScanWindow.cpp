@@ -12,6 +12,7 @@
 #include "Windows/Viewers/NegThresh.hpp"
 #include "Windows/StoreParamsBase.hpp"
 #include "Compute/SetTresholds.hpp"
+#include "Data/StoreAllParam.h"
 
 template<class O, class P>struct __enable_gain__
 {
@@ -69,15 +70,19 @@ template<class O, class P>struct __move_window__
 {
 	void operator()(O &o, P &p)
 	{
-		unsigned count = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
+		ALLPatrams &all = Singleton<ALLPatrams>::Instance();
+		unsigned count =  all.Items<LanParametersTable>().get<PacketSize>().value;
+			//Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
 		o.tchart.maxAxesX = count;
 		o.tchart.count = count;
 		o.line.count = count;
 		o.gainLine.count = count;
 		if (p.scanWindow->XinMM)
 		{
-			o.tchart.maxAxesX *= Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;
-			o.tchart.maxAxesX /= 2000.0 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value;
+			o.tchart.maxAxesX *= all.Items<TresholdsTable>().get<SoundSpeed>().value;
+				//Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;
+			o.tchart.maxAxesX /= 2000.0 * all.Items<LanParametersTable>().get<Frequency>().value;
+				//Singleton<LanParametersTable>::Instance().items.get<Frequency>().value;
 		}
 		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, (WORD)p.height };
 		SendMessage(MESSAGE(size));

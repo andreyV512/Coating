@@ -38,8 +38,8 @@ public:
 	{
 		VL::CopyFromTo(t, items.get<T>());
 	}
-	template<class T>T &Items()
+	template<class T>typename T::TItems &Items()
 	{
-		return items.get<typename T::items_list>();
+		return items.get<typename T::TItems>();
 	}
 };

@@ -22,13 +22,14 @@ public:
 	bool XinMM = true;
 	ZonesWindowToolBar toolBar;
 
+	Compute &computeZone;
+	ComputeFrame computeFrame;
 	MedianFiltreTable::TItems medianItems;
-	FiltersTable::TItems filter;
-	TresholdsTable::TItems treshItems;
+	FiltersTable::TItems &filter;
+	TresholdsTable::TItems &treshItems;
 	DeadZonesTable::TItems deadZones;
 
 	Data::InputData &data;
-	Compute &compute;
 
 	class Sens : public AScanViewer
 	{
@@ -53,14 +54,13 @@ public:
 	double zoneViewerData[10240];
 	char zoneViewerStatus[10240];
 	unsigned zoneOffs[10240];
-	unsigned numbers[10240];
 
 	ZoneViewer &zoneViewer;
 	Sens &aScan;
 
 	double(MedianFiltre:: *medianProc)(double, char &, unsigned &);
 	MedianFiltre median;
-	ComputeFrame computeFrame;
+	
 
 	void GainEnable(bool);
 

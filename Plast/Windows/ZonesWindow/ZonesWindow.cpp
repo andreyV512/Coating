@@ -79,8 +79,9 @@ template<class P>struct __move_window__<ZonesWindow::Sens, P>
 	{
 		if (p.owner->XinMM)
 		{
-			o.tchart.maxAxesX *= Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;
-			o.tchart.maxAxesX /= 2000.0 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value;
+			ALLPatrams &all = Singleton<ALLPatrams>::Instance();
+			o.tchart.maxAxesX *= all.Items<TresholdsTable>().get<SoundSpeed>().value;
+			o.tchart.maxAxesX /= 2000.0 * all.Items<LanParametersTable>().get<Frequency>().value;
 		}
 		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, WORD(p.maxYHeight - p.y) };
 		SendMessage(MESSAGE(size));
@@ -161,34 +162,21 @@ void ZonesWindow::GainEnable(bool b)
 
 ZonesWindow::ZonesWindow()
 	: data(Singleton<Data::InputData>::Instance())
-	, compute(Singleton<Compute>::Instance())
+	, computeZone(Singleton<Compute>::Instance())
 	, currentSensor(0)
     , currentZone(0)
 	, currentOffset(0)
 	, zoneViewer(viewers.get<ZoneViewer>())
 	, aScan(viewers.get<Sens>())
+	, filter(computeFrame.paramFlt)
+	, treshItems(computeFrame.treshItems)
 	//, medianItems(SET_ITEMS(MedianFiltreTable))
 	//, filter(SET_ITEMS(FiltersTable))
 	//, treshItems(SET_ITEMS(TresholdsTable))
 	//, deadZones(SET_ITEMS(DeadZonesTable))
 {
-	auto &items = Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>();
-	dprint("3 start offset %x %f %f %f\n"
-		, (unsigned *) &Singleton<ALLPatrams>::Instance()
-		, items.get< Num<AlarmThreshStart, 0>>().value
-		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
-		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
-	);
-
 	UpdateMedian();
-
 	zoneViewer.tcursor.SetMouseMoveHandler(this, &ZonesWindow::Draw);
-
-	dprint("4 start offset %f %f %f\n"
-		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 0>>().value
-		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
-		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
-	);
 }
 #undef SET_ITEMS
 
@@ -221,30 +209,30 @@ void ZonesWindow::DownCursor(HWND h)
 
 void ZonesWindow::UpdateZone()
 {
-	const int inc = compute.packetSize * App::count_sensors;
+	const int inc = computeZone.packetSize * App::count_sensors;
 
 	if (currentSensor < 0) currentSensor = App::count_sensors - 1;
 	else if (currentSensor >= App::count_sensors) currentSensor = 0;
 
-	const int maxZone = compute.zoneOffsetsIndex + compute.wholeStop - 1;	 
+	const int maxZone = computeZone.zoneOffsetsIndex + computeZone.wholeStop - 1;
 
 	if (currentZone < 0) currentZone = maxZone;
 	else if (currentZone >= maxZone) currentZone = 0;
 
 	dprint("sensor %d zone %d\n", currentSensor, currentZone);
 
-	unsigned offsStart = compute.zoneOffsets[0 + currentZone];
-	unsigned offsStop = compute.zoneOffsets[1 + currentZone];
+	unsigned offsStart = computeZone.zoneOffsets[0 + currentZone];
+	unsigned offsStop = computeZone.zoneOffsets[1 + currentZone];
 
-	zoneViewer.tchart.minAxesX = (offsStart - compute.zoneOffsets[0]) / inc;
-	zoneViewer.tchart.maxAxesX = (offsStop - compute.zoneOffsets[0]) / inc;
+	zoneViewer.tchart.minAxesX = (offsStart - computeZone.zoneOffsets[0]) / inc;
+	zoneViewer.tchart.maxAxesX = (offsStop - computeZone.zoneOffsets[0]) / inc;
 
 	offsStart /= inc;
 	offsStart *= inc;
 	offsStop /= inc;
 	offsStop *= inc;
-	offsStart += currentSensor * compute.packetSize;
-	offsStop += currentSensor * compute.packetSize;
+	offsStart += currentSensor * computeZone.packetSize;
+	offsStop += currentSensor * computeZone.packetSize;
 
 	unsigned deadStart = offsStart;
 
@@ -259,23 +247,22 @@ void ZonesWindow::UpdateZone()
 
 	unsigned borderStop = data.framesCount - wholeStop - 1;
 
-	if (offsStop > sizeof(data.buffer))
+	if (offsStop > Data::InputData::buffSize)
 	{
-		dprint("ERROR BUFFER OVERFLOY %d buffer size %d\n", offsStop, sizeof(data.buffer));
+		dprint("ERROR BUFFER OVERFLOY %u buffer size %u\n", offsStop, Data::InputData::buffSize);
 	}
 
-	static const int leftOffs = 50;
+	static const int leftOffs = dimention_of(MedianFiltre::buf);
 	unsigned k = 0;
 	double ldata;
 	char lstatus;
 	
 	unsigned xoffsStart = offsStart - leftOffs * inc;
-	xoffsStart /= inc;
-	xoffsStart *= inc;
+	if (xoffsStart < 0) xoffsStart = offsStart;
 
 	for (unsigned i = xoffsStart; i < offsStart; i += inc)
 	{
-		compute.ComputeFrame(
+		computeZone.ComputeFrame(
 			currentSensor
 			, &data.buffer[i]
 			, ldata, lstatus
@@ -283,14 +270,14 @@ void ZonesWindow::UpdateZone()
 		unsigned z = i;
 		(median.*medianProc)(ldata, lstatus, z);
 	}
-	
-	if (currentZone <= wholeStart || currentZone >= compute.zoneOffsetsIndex - 1)
+
+	if (currentZone <= wholeStart || currentZone >= computeZone.zoneOffsetsIndex - 1)
 	{
 		if (currentZone < wholeStart)
 		{
 			for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
 			{
-				compute.ComputeFrame(
+				computeZone.ComputeFrame(
 					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
@@ -299,7 +286,6 @@ void ZonesWindow::UpdateZone()
 				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
 				zoneOffs[k] = z;
-				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 		}
 		else if (currentZone == wholeStart)
@@ -307,10 +293,10 @@ void ZonesWindow::UpdateZone()
 			deadStart += unsigned((offsStop - offsStart) * fractionalStart);
 			deadStart /= inc;
 			deadStart *= inc;
-			deadStart += currentSensor * compute.packetSize;
+			deadStart += currentSensor * computeZone.packetSize;
 			for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
 			{
-				compute.ComputeFrame(
+				computeZone.ComputeFrame(
 					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
@@ -319,11 +305,10 @@ void ZonesWindow::UpdateZone()
 				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
 				zoneOffs[k] = z;
-				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 			for (unsigned i = deadStart; i < offsStop; i += inc, ++k)
 			{
-				compute.ComputeFrame(
+				computeZone.ComputeFrame(
 					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
@@ -332,18 +317,17 @@ void ZonesWindow::UpdateZone()
 				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = lstatus;
 				zoneOffs[k] = z;
-				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 		}
-		else if (currentZone == compute.zoneOffsetsIndex - 1)
+		else if (currentZone == computeZone.zoneOffsetsIndex - 1)
 		{
 			deadStart += int((offsStop - offsStart) * (1.0 - fractionalStop));
 			deadStart /= inc;
 			deadStart *= inc;
-			deadStart += currentSensor * compute.packetSize;
+			deadStart += currentSensor * computeZone.packetSize;
 			for (unsigned i = offsStart; i < deadStart; i += inc, ++k)
 			{
-				compute.ComputeFrame(
+				computeZone.ComputeFrame(
 					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
@@ -352,11 +336,10 @@ void ZonesWindow::UpdateZone()
 				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = lstatus;
 				zoneOffs[k] = z;
-				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 			for (unsigned i = deadStart; i < offsStop; i += inc, ++k)
 			{
-				compute.ComputeFrame(
+				computeZone.ComputeFrame(
 					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
@@ -365,14 +348,13 @@ void ZonesWindow::UpdateZone()
 				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
 				zoneOffs[k] = z;
-				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 		}
 		else
 		{
 			for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
 			{
-				compute.ComputeFrame(
+				computeZone.ComputeFrame(
 					currentSensor
 					, &data.buffer[i]
 					, ldata, lstatus
@@ -381,7 +363,6 @@ void ZonesWindow::UpdateZone()
 				zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 				zoneViewerStatus[k] = VL::IndexOf<zone_status_list, DeadZone>::value;
 				zoneOffs[k] = z;
-				numbers[k] = *(unsigned *)&data.buffer[i];
 			}
 		}
 	}
@@ -389,7 +370,7 @@ void ZonesWindow::UpdateZone()
 	{
 		for (unsigned i = offsStart; i < offsStop; i += inc, ++k)
 		{
-			compute.ComputeFrame(
+			computeZone.ComputeFrame(
 				currentSensor
 				, &data.buffer[i]
 				, ldata, lstatus
@@ -398,7 +379,6 @@ void ZonesWindow::UpdateZone()
 			zoneViewerData[k] = (median.*medianProc)(ldata, lstatus, z);
 			zoneViewerStatus[k] = lstatus;
 			zoneOffs[k] = z;
-			numbers[k] = *(unsigned *)&data.buffer[i];
 		}
 	}
 
@@ -437,12 +417,15 @@ template<class O, class P>struct __get_axes_Y__
 void ZonesWindow::UpdateAScan()
 {
 	aScan.tchart.minAxesX = 0;
-	aScan.tchart.maxAxesX = compute.packetSize;
+	aScan.tchart.maxAxesX = computeZone.packetSize;
 
 	if (XinMM)
 	{
-		aScan.tchart.maxAxesX *= Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;
-		aScan.tchart.maxAxesX /= 2000.0 * Singleton<LanParametersTable>::Instance().items.get<Frequency>().value;
+		ALLPatrams &all = Singleton<ALLPatrams>::Instance();
+		aScan.tchart.maxAxesX *= all.Items<TresholdsTable>().get<SoundSpeed>().value;
+			//Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;
+		aScan.tchart.maxAxesX /= 2000.0 * all.Items<LanParametersTable>().get<Frequency>().value;
+			//Singleton<LanParametersTable>::Instance().items.get<Frequency>().value;
 	}
 
 	SetParam(computeFrame, treshItems);
@@ -503,7 +486,6 @@ void ZonesWindow::SetThresh()
 bool ZonesWindow::Draw(TMouseMove &l, VGraphics &g)
 {
 	bool b = zoneViewer.Draw(l, g);
-	dprint(" current %d number %d\n", zoneViewer.currentX, numbers[zoneViewer.currentX]);
 	UpdateAScan();
 	return b;
 }
