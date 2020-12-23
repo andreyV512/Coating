@@ -189,7 +189,8 @@ void TestThreshDlg::Do(HWND h)
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens_NoStoreOkBtn__>()(data);
 
 	w.SetThresh();
-	RepaintWindow(h);
+	w.UpdateZone();
+	w.UpdateAScan();
 }
 
 

@@ -75,10 +75,11 @@ void TstMedianFiltreDlg::Do(HWND h)
 		w->UpdateMedian();
 
 		SetParam(
-			Singleton<Compute>::Instance()
-			, table.items
+			//Singleton<Compute>::Instance()
+			w->computeZone
+			, w->medianItems
 		);
 
-		RepaintWindow(w->hWnd);
+		w->UpdateZone();
 	}
 }

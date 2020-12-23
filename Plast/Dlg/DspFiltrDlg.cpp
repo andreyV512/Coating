@@ -352,8 +352,13 @@ void TstDspFiltrDlg::Do(HWND h)
 	ZonesWindow *w = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
 	__current_filtre_param_data__<FiltersTable> data(h, w->computeFrame.paramFlt, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens_XX__>()(data);
-	if(data.ok)w->computeFrame.UpdateFiltre();
-	RepaintWindow(w->hWnd);
+	if (data.ok)
+	{
+		w->computeFrame.UpdateFiltre();
+		w->UpdateZone();
+		w->UpdateAScan();
+	}
+	//RepaintWindow(w->hWnd);
 }
 
 //#undef XMIN_EQUAL_VALUE

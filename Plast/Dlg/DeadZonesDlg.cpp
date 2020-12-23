@@ -46,6 +46,6 @@ void TestDeadZonesDlg::Do(HWND h)
 		);
 
 		w->UpdateMedian();
-		RepaintWindow(w->hWnd);
+		w->UpdateZone();
 	}
 }
