@@ -14,7 +14,6 @@ void EventDo(TCommand &m)
 			SendMessage(m.hControl, (UINT) TB_GETBUTTONINFO, m.id , (LPARAM)&button_info);
 			if(NULL != (void *)button_info.lParam)((void (__cdecl *)(HWND))(button_info.lParam))(m.hwnd);
 		}
-		//else if(TEventCommand *x = (TEventCommand *)GetWindowLongPtr(m.hControl, GWLP_USERDATA))
 		else if (TEvent *x = (TEvent *)GetWindowLongPtr(m.hControl, GWLP_USERDATA))
 		{
 			if(NULL != x)x->Do(m);
@@ -35,7 +34,6 @@ void EventDo(TCommand &m)
 
 LRESULT EventDo(TNotify &m)
 {
-	//TEventNotify *x = (TEventNotify *)GetWindowLongPtr(m.pnmh->hwndFrom, GWLP_USERDATA);
 	TEvent *x = (TEvent *)GetWindowLongPtr(m.pnmh->hwndFrom, GWLP_USERDATA);
 	if(NULL != x) return x->Do(m);
 	return 0;

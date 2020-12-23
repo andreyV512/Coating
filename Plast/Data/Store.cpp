@@ -7,8 +7,7 @@
 #include "window_tool/Zip.h"
 #include "Compute/Compute.h"
 #include "Compute/SetTresholds.hpp"
-#include "StoreAllParam.hpp"
-
+#include "StoreAllParam.h"
 
 static const unsigned __magic__ = 0x0a130000;
 
@@ -28,8 +27,6 @@ template<class O, class P>struct __save_all__
 		VL::foreach<typename O::items_list, __save__>()(o, p);
 	}
 };
-
-//typedef Vlst<LanParametersTable, PARAM_ID> __stored_params__;
 
 void Store::Save(wchar_t *path)
 {

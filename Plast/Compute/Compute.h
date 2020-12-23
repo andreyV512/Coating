@@ -59,7 +59,6 @@ public:
 	void Zone(int zone, int sens);
 	void Zone(int sens, char *start, char *stop, double &data, char &status);
 	void ComputeFrame(int sens, char *d, double &value, char &status);
-	//void ComputeFrame(IDSPFlt &f, char *d, double &value, char &status);
 	void Update();
 	void Recalculation();
 };
