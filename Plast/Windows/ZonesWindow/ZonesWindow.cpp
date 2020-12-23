@@ -6,9 +6,7 @@
 #include <CommCtrl.h>
 #include "window_tool/ItemIni.h"
 #include "DspFilters/DspFiltrParams.h"
-
 #include "DspFilters/ChebyshevFiltre.hpp"
-
 #include "window_tool/TableIni.hpp"
 #include "DspFilters/Filters.hpp"
 #include "Windows/Viewers/NegThresh.hpp"
@@ -41,7 +39,6 @@ LRESULT ZonesWindow::operator()(TCreate &l)
 	zoneViewer.tchart.minAxesY = 0;
 	zoneViewer.tchart.maxAxesY = 100;
 
-	//VL::CopyFromTo(Singleton< TresholdsTable>::Instance().items, treshItems);
 	SetThresh();
 
 	UpdateZone();
@@ -170,10 +167,6 @@ ZonesWindow::ZonesWindow()
 	, aScan(viewers.get<Sens>())
 	, filter(computeFrame.paramFlt)
 	, treshItems(computeFrame.treshItems)
-	//, medianItems(SET_ITEMS(MedianFiltreTable))
-	//, filter(SET_ITEMS(FiltersTable))
-	//, treshItems(SET_ITEMS(TresholdsTable))
-	//, deadZones(SET_ITEMS(DeadZonesTable))
 {
 	UpdateMedian();
 	zoneViewer.tcursor.SetMouseMoveHandler(this, &ZonesWindow::Draw);
@@ -423,9 +416,7 @@ void ZonesWindow::UpdateAScan()
 	{
 		ALLPatrams &all = Singleton<ALLPatrams>::Instance();
 		aScan.tchart.maxAxesX *= all.Items<TresholdsTable>().get<SoundSpeed>().value;
-			//Singleton<TresholdsTable>::Instance().items.get<SoundSpeed>().value;
 		aScan.tchart.maxAxesX /= 2000.0 * all.Items<LanParametersTable>().get<Frequency>().value;
-			//Singleton<LanParametersTable>::Instance().items.get<Frequency>().value;
 	}
 
 	SetParam(computeFrame, treshItems);
@@ -480,7 +471,6 @@ template<class O, class P>struct __select_tresh_sens__
 
 void ZonesWindow::SetThresh()
 {
-	//TODO Настройка порогов доделать
 	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __select_tresh_sens__>()(*this);
 	SetParam(computeZone, treshItems);
 }

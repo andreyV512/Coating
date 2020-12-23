@@ -105,5 +105,5 @@ template<class Owner>void SetParam(Owner &o, LanParametersTable::TItems &items)
 {
 	o.packetSize = items.get<PacketSize>().value;
 	o.numberPackets = items.get<NumberPackets>().value;
-	o.frequency = items.get<Frequency>().value;
+	o.frequency = 1000000 *  items.get<Frequency>().value;
 }

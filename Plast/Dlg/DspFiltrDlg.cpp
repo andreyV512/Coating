@@ -9,6 +9,7 @@
 #include "SensItem.hpp"
 #include "Compute/SetTresholds.hpp"
 #include "Compute/Compute.h"
+#include "Data/StoreAllParam.h"
 ///*
 template<class List, int N>struct __orders__;
 template<int N, class Head, class ...Tail>struct __orders__<Vlst<Head, Tail...>, N>
@@ -256,8 +257,9 @@ void DspFiltrDlg::Do(HWND h)
 	static int currentSensor = 0;
 	__current_filtre_param_data__<FiltersTable> data(h, Singleton<FiltersTable>::Instance().items, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens__>()(data);
+	Singleton<ALLPatrams>::Instance().SetParam(Singleton<FiltersTable>::Instance().items);
 }
-///////////////////////////////////////////////////////////
+
 template<class O, class P>struct __Xcurrent_filtre_param__;
 
 template<template<class>class X, template<class>class Y, class O, int N, class P>struct __Xcurrent_filtre_param__<Num<X<Y<O>>, N>, P>
@@ -344,7 +346,6 @@ void AScanDspFiltrDlg::Do(HWND h)
 	__current_filtre_param_data__<FiltersTable> data(h, w->computeFrame.paramFlt, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens_XX__>()(data);
 	if (data.ok)w->computeFrame.UpdateFiltre();
-	RepaintWindow(w->hWnd);
 }
 
 void TstDspFiltrDlg::Do(HWND h)
@@ -358,10 +359,4 @@ void TstDspFiltrDlg::Do(HWND h)
 		w->UpdateZone();
 		w->UpdateAScan();
 	}
-	//RepaintWindow(w->hWnd);
 }
-
-//#undef XMIN_EQUAL_VALUE
-//#undef XMAX_EQUAL_VALUE
-//#undef XDO_NOT_CHECK
-
