@@ -10,25 +10,12 @@ AScanViewer::AScanViewer()
 	, tcursor(tchart)
 	, data(tchart.items.get<LineSeries>().data)
 {
-	auto &items = Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>();
-	dprint("9 start offset %x %f %f %f\n"
-		, (unsigned *) &Singleton<ALLPatrams>::Instance()
-		, items.get< Num<AlarmThreshStart, 0>>().value
-		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
-		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
-	);
 	chart = &tchart;
 	cursor = &tcursor;
 	tcursor.horizontalLine = false;
 	chart->minAxesY = 0;
 	chart->maxAxesY = 100;
 	tcursor.SetMouseMoveHandler(this, &AScanViewer::Draw);
-	dprint("10 start offset %x %f %f %f\n"
-		, (unsigned *)&Singleton<ALLPatrams>::Instance()
-		, items.get< Num<AlarmThreshStart, 0>>().value
-		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 1>>().value
-		, Singleton<ALLPatrams>::Instance().items.get<VL::Factory<TresholdsTable::items_list>>().get< Num<AlarmThreshStart, 2>>().value
-	);
 }
 
 bool AScanViewer::Draw(TMouseMove &l, VGraphics &g)
