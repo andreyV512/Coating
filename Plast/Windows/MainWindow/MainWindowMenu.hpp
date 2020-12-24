@@ -132,7 +132,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Просмотр А-скан сигналов", AScanWindow)
 	MENU_ITEM(L"Просмотр сообщений", Message_)
 
-	struct __Zones : OpenTopWindow<ZonesWindow> {};
+	struct __Zones : OpenWindow<ZonesWindow> {};
 	MENU_ITEM(L"Просмотр результата по зонам", __Zones)
 	//------------------------------------
 	template<>struct TopMenu<MainTest>
