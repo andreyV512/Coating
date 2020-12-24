@@ -11,8 +11,8 @@ public:
 	unsigned packetSize;
 	bool bipolar;
 	Impl<IDSPFlt, 1032> filter[App::count_sensors];
-	FiltersTable::TItems paramFlt;
-	TresholdsTable::TItems treshItems;
+	FiltersTable::TItems &paramFlt;
+	TresholdsTable::TItems &treshItems;
 	unsigned &framesCount;
 	char *buffer;
 	unsigned offsAlarmStart[App::count_sensors], offsAlarmStop[App::count_sensors];

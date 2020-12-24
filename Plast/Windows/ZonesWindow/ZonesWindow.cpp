@@ -165,8 +165,10 @@ ZonesWindow::ZonesWindow()
 	, currentOffset(0)
 	, zoneViewer(viewers.get<ZoneViewer>())
 	, aScan(viewers.get<Sens>())
-	, filter(computeFrame.paramFlt)
-	, treshItems(computeFrame.treshItems)
+	, filter(Singleton<ALLPatrams>::Instance().Items<FiltersTable>())
+	, treshItems(Singleton<ALLPatrams>::Instance().Items<TresholdsTable>())
+	, medianItems(Singleton<ALLPatrams>::Instance().Items<MedianFiltreTable>())
+	, deadZones(Singleton<ALLPatrams>::Instance().Items<DeadZonesTable>())
 {
 	UpdateMedian();
 	zoneViewer.tcursor.SetMouseMoveHandler(this, &ZonesWindow::Draw);

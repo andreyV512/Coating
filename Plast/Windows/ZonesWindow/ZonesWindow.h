@@ -24,10 +24,10 @@ public:
 
 	Compute &computeZone;
 	ComputeFrame computeFrame;
-	MedianFiltreTable::TItems medianItems;
+	MedianFiltreTable::TItems &medianItems;
 	FiltersTable::TItems &filter;
 	TresholdsTable::TItems &treshItems;
-	DeadZonesTable::TItems deadZones;
+	DeadZonesTable::TItems &deadZones;
 
 	Data::InputData &data;
 
