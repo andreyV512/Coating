@@ -473,6 +473,7 @@ void ZonesWindow::SetThresh()
 {
 	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __select_tresh_sens__>()(*this);
 	SetParam(computeZone, treshItems);
+	SwitchBipolar(computeFrame.bipolar);
 }
 
 bool ZonesWindow::Draw(TMouseMove &l, VGraphics &g)
