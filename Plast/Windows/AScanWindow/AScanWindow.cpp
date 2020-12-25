@@ -155,6 +155,7 @@ void AScanWindow::operator()(TClose &l)
 void AScanWindow::SetThresh()
 {
 	SetTresh(computeFrame.treshItems, viewers);
+	SwitchBipolar(computeFrame.bipolar);
 }
 
 struct __update_sens_data__
