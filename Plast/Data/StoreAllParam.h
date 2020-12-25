@@ -38,10 +38,6 @@ public:
 	{
 		VL::CopyFromTo(t, items.get<T>());
 	}
-	//template<class T>typename T::TItems &Items()
-	//{
-	//	return items.get<typename T::TItems>();
-	//}
 };
 
 template<class List, class Table>void ALLPatramsUpdate()

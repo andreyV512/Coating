@@ -288,7 +288,6 @@ template<template<class>class X, template<class>class Y, class O, int N, class P
 					Singleton<Compute>::Instance()
 					, p.items
 				);
-			//	ALLPatramsUpdate<FiltersTable::items_list, FiltersTable>();
 			}
 			return false;
 		}
@@ -320,7 +319,6 @@ template<int N, class P>struct __Xcurrent_filtre_param__<Num<CurrentFilter, N>, 
 					Singleton<Compute>::Instance()
 					, p.table.items
 				);
-			//	ALLPatramsUpdate<FiltersTable::items_list, FiltersTable>();
 			}
 			return false;
 		}
