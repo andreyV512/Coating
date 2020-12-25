@@ -8,6 +8,7 @@
 #include "SensItem.hpp"
 #include "Compute/SetTresholds.hpp"
 #include "Compute/Compute.h"
+#include "Data/StoreAllParam.h"
 
 template<int N>using GBThresh = Dialog::GroupBox<typename GB<Vlst<
 	AlarmThresh
@@ -122,6 +123,8 @@ template<class O, class P>struct __curr_sens_XXX__
 					, p.items
 				);
 
+				ALLPatramsUpdate<TresholdsTable::items_list, TresholdsTable>();
+
 				RepaintWindow<MainWindow>();
 			}
 			return false;
@@ -163,7 +166,7 @@ template<class O, class P>struct __curr_sens_NoStoreOkBtn__
 					, p.items
 				);
 
-				p.Restore<list>();
+				p.Restore<list>();				
 			}
 			return false;
 		}

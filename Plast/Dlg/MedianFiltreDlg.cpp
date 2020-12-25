@@ -6,6 +6,7 @@
 #include "SensItem.hpp"
 #include "Compute/SetTresholds.hpp"
 #include "Compute/Compute.h"
+#include "Data/StoreAllParam.h"
 
 XMIN_VALUE      (MedianFiltreWidth, 0)
 XMAX_EQUAL_VALUE(MedianFiltreWidth, 15)
@@ -56,6 +57,8 @@ void MedianFiltreDlg::Do(HWND h)
 			Singleton<Compute>::Instance()
 			, Singleton<MedianFiltreTable>::Instance().items
 		);
+		ALLPatramsUpdate<MedianFiltreTable::items_list, MedianFiltreTable>();
+
 	}
 }
 
@@ -75,7 +78,6 @@ void TstMedianFiltreDlg::Do(HWND h)
 		w->UpdateMedian();
 
 		SetParam(
-			//Singleton<Compute>::Instance()
 			w->computeZone
 			, w->medianItems
 		);

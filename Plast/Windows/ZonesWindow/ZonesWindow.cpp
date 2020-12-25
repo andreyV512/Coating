@@ -76,9 +76,8 @@ template<class P>struct __move_window__<ZonesWindow::Sens, P>
 	{
 		if (p.owner->XinMM)
 		{
-			ALLPatrams &all = Singleton<ALLPatrams>::Instance();
-			o.tchart.maxAxesX *= all.Items<TresholdsTable>().get<SoundSpeed>().value;
-			o.tchart.maxAxesX /= 2000.0 * all.Items<LanParametersTable>().get<Frequency>().value;
+			o.tchart.maxAxesX *= ALLPatramsItems<TresholdsTable>().get<SoundSpeed>().value;
+			o.tchart.maxAxesX /= 2000.0 * ALLPatramsItems<LanParametersTable>().get<Frequency>().value;
 		}
 		TSize size{ o.hWnd, WM_SIZE, 0, (WORD)p.width, WORD(p.maxYHeight - p.y) };
 		SendMessage(MESSAGE(size));
@@ -165,10 +164,10 @@ ZonesWindow::ZonesWindow()
 	, currentOffset(0)
 	, zoneViewer(viewers.get<ZoneViewer>())
 	, aScan(viewers.get<Sens>())
-	, filter(Singleton<ALLPatrams>::Instance().Items<FiltersTable>())
-	, treshItems(Singleton<ALLPatrams>::Instance().Items<TresholdsTable>())
-	, medianItems(Singleton<ALLPatrams>::Instance().Items<MedianFiltreTable>())
-	, deadZones(Singleton<ALLPatrams>::Instance().Items<DeadZonesTable>())
+	, filter(ALLPatramsItems<FiltersTable>())
+	, treshItems(ALLPatramsItems<TresholdsTable>())
+	, medianItems(ALLPatramsItems<MedianFiltreTable>())
+	, deadZones(ALLPatramsItems<DeadZonesTable>())
 {
 	UpdateMedian();
 	zoneViewer.tcursor.SetMouseMoveHandler(this, &ZonesWindow::Draw);
@@ -416,9 +415,8 @@ void ZonesWindow::UpdateAScan()
 
 	if (XinMM)
 	{
-		ALLPatrams &all = Singleton<ALLPatrams>::Instance();
-		aScan.tchart.maxAxesX *= all.Items<TresholdsTable>().get<SoundSpeed>().value;
-		aScan.tchart.maxAxesX /= 2000.0 * all.Items<LanParametersTable>().get<Frequency>().value;
+		aScan.tchart.maxAxesX *= ALLPatramsItems<TresholdsTable>().get<SoundSpeed>().value;
+		aScan.tchart.maxAxesX /= 2000.0 * ALLPatramsItems<LanParametersTable>().get<Frequency>().value;
 	}
 
 	SetParam(computeFrame, treshItems);

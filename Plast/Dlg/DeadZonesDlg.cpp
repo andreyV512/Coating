@@ -5,6 +5,7 @@
 #include "window_tool/EmptyWindow.h"
 #include "Compute/SetTresholds.hpp"
 #include "Compute/Compute.h"
+#include "Data/StoreAllParam.h"
 
 MIN_EQUAL_VALUE(DeadZoneStart, 0)
 MAX_EQUAL_VALUE(DeadZoneStart, 500)
@@ -23,6 +24,7 @@ void DeadZonesDlg::Do(HWND h)
 			Singleton<Compute>::Instance()
 			, Singleton<DeadZonesTable>::Instance().items
 		);
+		ALLPatramsUpdate<DeadZonesTable::items_list, DeadZonesTable>();
 	}
 }
 

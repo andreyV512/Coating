@@ -7,16 +7,16 @@
 #include "Data/StoreAllParam.h"
 
 ComputeFrame::ComputeFrame()
-	: paramFlt(Singleton<ALLPatrams>::Instance().Items<FiltersTable>())
-	, treshItems(Singleton<ALLPatrams>::Instance().Items<TresholdsTable>())
+	: paramFlt(ALLPatramsItems<FiltersTable>())//Singleton<ALLPatrams>::Instance().Items<FiltersTable>())
+	, treshItems(ALLPatramsItems<TresholdsTable>())//Singleton<ALLPatrams>::Instance().Items<TresholdsTable>())
 	, framesCount(Singleton<Data::InputData>::Instance().framesCount)
 	, buffer(Singleton<Data::InputData>::Instance().buffer)
 	, bipolar(false)
 {
-	ALLPatrams &all = Singleton<ALLPatrams>::Instance();
+	//ALLPatrams &all = Singleton<ALLPatrams>::Instance();
 
-	frequency = 1000000 * all.Items<LanParametersTable>().get<Frequency>().value;
-	packetSize = all.Items<LanParametersTable>().get<PacketSize>().value;
+	frequency = 1000000 * ALLPatramsItems<LanParametersTable>().get<Frequency>().value;
+	packetSize = ALLPatramsItems<LanParametersTable>().get<PacketSize>().value;
 
 	//VL::CopyFromTo(all.Items<FiltersTable>(), paramFlt);
 	UpdateFiltre();

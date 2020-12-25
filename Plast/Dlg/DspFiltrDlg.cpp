@@ -257,7 +257,7 @@ void DspFiltrDlg::Do(HWND h)
 	static int currentSensor = 0;
 	__current_filtre_param_data__<FiltersTable> data(h, Singleton<FiltersTable>::Instance().items, currentSensor);
 	while (!data.close) VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __curr_sens__>()(data);
-	Singleton<ALLPatrams>::Instance().SetParam(Singleton<FiltersTable>::Instance().items);
+	if(data.ok)Singleton<ALLPatrams>::Instance().SetParam(Singleton<FiltersTable>::Instance().items);
 }
 
 template<class O, class P>struct __Xcurrent_filtre_param__;
@@ -288,6 +288,7 @@ template<template<class>class X, template<class>class Y, class O, int N, class P
 					Singleton<Compute>::Instance()
 					, p.items
 				);
+			//	ALLPatramsUpdate<FiltersTable::items_list, FiltersTable>();
 			}
 			return false;
 		}
@@ -319,6 +320,7 @@ template<int N, class P>struct __Xcurrent_filtre_param__<Num<CurrentFilter, N>, 
 					Singleton<Compute>::Instance()
 					, p.table.items
 				);
+			//	ALLPatramsUpdate<FiltersTable::items_list, FiltersTable>();
 			}
 			return false;
 		}

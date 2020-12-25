@@ -38,8 +38,22 @@ public:
 	{
 		VL::CopyFromTo(t, items.get<T>());
 	}
-	template<class T>typename T::TItems &Items()
-	{
-		return items.get<typename T::TItems>();
-	}
+	//template<class T>typename T::TItems &Items()
+	//{
+	//	return items.get<typename T::TItems>();
+	//}
 };
+
+template<class List, class Table>void ALLPatramsUpdate()
+{
+	auto &items = Singleton<ALLPatrams>::Instance().items.get<typename Table::TItems>();
+	VL::CopyFromTo<List>(
+		Singleton <Table>::Instance().items
+		, items
+		);
+}
+
+template<class Table>typename Table::TItems &ALLPatramsItems()
+{
+	return Singleton<ALLPatrams>::Instance().items.get<typename Table::TItems>();
+}
