@@ -12,7 +12,7 @@ void SaveDateFile::Do(HWND h)
 	wchar_t path[1024];
 	GetModuleFileName(0, path, dimention_of(path));
 	PathRemoveFileSpec(path);
-	int len = wcslen(path);
+	int len = (int)wcslen(path);
 	for(wchar_t *i = &path[len]; i != path; --i)
 	{
 		if('\\' == *i)
@@ -23,7 +23,7 @@ void SaveDateFile::Do(HWND h)
 	}
 	wcscat(path, L"\\ArchiveEvent\\");
 	CreateDirectory(path, NULL);
-	int length = wcslen(path);
+	int length = (int)wcslen(path);
 	time_t t = time(NULL);
 	tm *timeinfo = localtime (&t);
 	wsprintf(&path[length], L"%.2d%.2d%.2d%.2d%.2d%.2d.txt"
@@ -50,10 +50,10 @@ void SaveDateFile::Do(HWND h)
 			{
 				int tme = Log::IsRow(i + 1, d0) ? d->time - d0->time: 0;
 				wsprintf(c, L"%7d   ", tme);
-				int len = wcslen(c);
+				int len = (int)wcslen(c);
 				LogMess::FactoryMessages::Instance().Text(d->id, &c[len], d->value);	
 				wcscat(c, L"\n");
-				len = wcslen(c);
+				len = (int)wcslen(c);
 				//MultiByteToWideChar( CP_ACP, 0, c,  -1, w, 512);
 				DWORD dwBytesWritten = 0;
 				BOOL bErrorFlag = WriteFile( 

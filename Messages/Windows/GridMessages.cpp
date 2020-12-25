@@ -57,7 +57,7 @@ void GridMessages::SetDataToGrid(LV_DISPINFO *l)
 
 void GridMessages::SetColorToGrid(NMLVCUSTOMDRAW *l)
 {
-	int row = l->nmcd.dwItemSpec;
+	int row = (int)l->nmcd.dwItemSpec;
 	Log::TData *d = NULL;
 	if (Log::IsRow(row, d))
 	{

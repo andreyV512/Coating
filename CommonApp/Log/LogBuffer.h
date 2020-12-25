@@ -50,4 +50,8 @@ public:
 //DROP_MESSAGE(MessBit<On<oOperatorLampRed   >>)
 //DROP_MESSAGE(MessBit<On<oOperatorLampGreen >>)
 //DROP_MESSAGE(MessBit<On<oOperatorBuzzer    >>)
+
+DROP_MESSAGE(MessBit<On<iStrobe >>)
+DROP_MESSAGE(MessBit<Off<iStrobe>>)
+
 #undef DROP_MESSAGE
