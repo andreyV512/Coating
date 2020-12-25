@@ -62,14 +62,11 @@ namespace App
 		StatusData::UpdateColor();
 #if 1
 		MainWindow& w = Singleton<MainWindow>::Instance();
-		//ZonesWindow &w = Singleton<ZonesWindow>::Instance();
 		RECT r;
 		WindowPosition::Get<MainWindow>(r);
 
 		HWND h = WindowTemplate(&w, (wchar_t *)L"Control", r.left, r.top, r.right, r.bottom);
 		ShowWindow(h, SW_SHOWNORMAL);
-
-	//	w.EnableMenu(false);
 
 		wchar_t name[64];
 		CurrentOperatorName(name);
