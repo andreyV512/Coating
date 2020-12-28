@@ -42,12 +42,8 @@ void GridMessages::SetDataToGrid(LV_DISPINFO *l)
 		break;
 		case 1:
 		{
-			//char buf[1024];
 			wchar_t wbuf[1024];
 			bool b = LogMess::FactoryMessages::Instance().Text(d->id, wbuf, d->value);
-
-			//int len = 1 + strlen(buf);
-			//MultiByteToWideChar(1251, 0, buf, len, wbuf, len);
 			if(b)StringCchCopy(l->item.pszText, wcslen(wbuf) + 1, wbuf);
 		}
 		break;
