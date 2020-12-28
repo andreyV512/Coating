@@ -12,6 +12,8 @@ HEADER_TABLE(Color, 380, L"Сообщение")
 void GridMessages::Create(HWND h)
 {
 	tail = 0;
+	skip.push_back(19);
+	skip.push_back(27);
 	hWnd = GridDetail::CreateGrid(h, this);
 	typename GridDetail::SetGridHeader<Vlst<Group, Color>> x(hWnd);
 	GridDetail::SetRow(hWnd, 1024);
@@ -49,6 +51,7 @@ void GridMessages::SetDataToGrid(LV_DISPINFO *l)
 			wchar_t wbuf[1024];
 			bool b = LogMess::FactoryMessages::Instance().Text(d->id, wbuf, d->value);
 			if(b)StringCchCopy(l->item.pszText, wcslen(wbuf) + 1, wbuf);
+			dprint("id %d\n", d->id);
 		}
 		break;
 		}
