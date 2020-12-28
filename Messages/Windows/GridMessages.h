@@ -17,7 +17,8 @@ public:
 	void SetDataToGrid(LV_DISPINFO *);
 	void SetColorToGrid(NMLVCUSTOMDRAW *);
 	LRESULT Do(TNotify &) override;
-
+	void RClick(LPNMITEMACTIVATE);
+	
 	void Update();
 	void Clean();
 	void SetSkip(unsigned);
