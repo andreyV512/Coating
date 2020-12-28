@@ -21,6 +21,7 @@ namespace LogSpace{
 LONG Log::lastMessage = -1;
 struct Log_Inner
 {
+	std::vector<unsigned> skip;
 	HANDLE hMapFile;
 	LogSpace::TMapData *map;
 	bool IsRow(unsigned row, Log::TData *&d)
@@ -35,6 +36,24 @@ struct Log_Inner
 		}
 		return false;
 	}
+
+	bool IsRowTest(unsigned row, Log::TData *&d, unsigned &offset)
+	{
+		if (map->head - map->tail >= LogSpace::SizeBuffer) map->tail = map->head - LogSpace::SizeBuffer;
+		unsigned i = 0 == row ? map->head : offset;
+		for (; i >= map->tail; --i)
+		{
+			unsigned k = i % LogSpace::SizeBuffer;
+			d = &map->data[k];
+			if (skip.end() != std::find(skip.begin(), skip.end(), d->id))
+			{
+				offset = i;
+				return true;
+			}
+		}
+		return false;
+	}
+
 	void Get(unsigned i, Log::TData *&d)
 	{
 		d = &map->data[i % LogSpace::SizeBuffer];
@@ -112,6 +131,17 @@ bool Log::LastMessage(TData *&d)
 	 inner.Get(lastMessage, d);
  }
 
- void Log::SetSkip(int id)
+ void Log::SetSkip(unsigned id)
  {
+	 inner.skip.push_back(id);
+ }
+
+ void Log::CleanSkip()
+ {
+	 inner.skip.clear();
+ }
+
+ bool Log::IsRowTest(unsigned row, TData *&d, unsigned &offset)
+ {
+	 return inner.IsRowTest(row, d, offset);
  }
