@@ -61,9 +61,11 @@ void GridMessages::SetDataToGrid(LV_DISPINFO *l)
 void GridMessages::SetColorToGrid(NMLVCUSTOMDRAW *l)
 {
 	int row = (int)l->nmcd.dwItemSpec;
-	Log::TData *d = NULL;
-	if (Log::IsRow(row, d))
+	//Log::TData *d = NULL;
+	//if (Log::IsRow(row, d))
+	if (row < tail)
 	{
+		Log::TData *d = &buf[row];
 		LogMess::FactoryMessages::Instance().Color(d->id, (unsigned &)l->clrTextBk, (unsigned &)l->clrText);
 	}
 }
