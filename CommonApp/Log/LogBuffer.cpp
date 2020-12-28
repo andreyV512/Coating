@@ -41,7 +41,7 @@ struct Log_Inner
 	{
 		if (map->head - map->tail >= LogSpace::SizeBuffer) map->tail = map->head - LogSpace::SizeBuffer;
 		unsigned i = 0 == row ? map->head : offset;
-		for (; i >= map->tail; --i)
+		for (; i > map->tail; --i)
 		{
 			unsigned k = i % LogSpace::SizeBuffer;
 			d = &map->data[k];

@@ -14,21 +14,31 @@ void GridMessages::Create(HWND h)
 	hWnd = GridDetail::CreateGrid(h, this);
 	typename GridDetail::SetGridHeader<Vlst<Group, Color>> x(hWnd);
 	GridDetail::SetRow(hWnd, 1024);
+	offset = offsetNext = 0;
 }
 
 void GridMessages::SetDataToGrid(LV_DISPINFO *l)
 {
 	int col = l->item.iSubItem;
 	int row = l->item.iItem;
-	Log::TData *d = NULL;
-	if (Log::IsRow(row, d))
+	//Log::TData *d = NULL;
+//	bool b;
+//	while (b = Log::IsRowTest(row, d, offset));
+//	if(b)
+//	{
+	switch (col)
 	{
-		switch (col)
-		{
-		case 0:
+	case 0:
+	{
+		offset = offsetNext;
+		
+		while (isSelect = Log::IsRowTest(row, d, offset));
+		if (isSelect)
 		{
 			Log::TData *d0 = NULL;
-			if (Log::IsRow(row + 1, d0))
+			bool b;
+			while (b = Log::IsRowTest(row + 1, d0, offsetNext));
+			if (b)
 			{
 				wchar_t buf[32];
 				_itow(d->time - d0->time, buf, 10);
@@ -40,14 +50,17 @@ void GridMessages::SetDataToGrid(LV_DISPINFO *l)
 			}
 		}
 		break;
-		case 1:
+	case 1:
+	{
+		if (isSelect)
 		{
 			wchar_t wbuf[1024];
 			bool b = LogMess::FactoryMessages::Instance().Text(d->id, wbuf, d->value);
-			if(b)StringCchCopy(l->item.pszText, wcslen(wbuf) + 1, wbuf);
+			if (b)StringCchCopy(l->item.pszText, wcslen(wbuf) + 1, wbuf);
 		}
-		break;
-		}
+	}
+	break;
+	}
 	}
 }
 
