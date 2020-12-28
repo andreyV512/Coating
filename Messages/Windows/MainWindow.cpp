@@ -45,6 +45,7 @@ void MainWindow::operator()(TTimer &l)
 	{
 	case IDT_TIMER1:
 	{
+		grid.Update();
 		unsigned last = Log::LastMessageIndex();
 		if (lastIndex == last) break;
 		lastIndex = last;

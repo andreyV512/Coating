@@ -31,9 +31,7 @@ public:
 	static int LastMessageIndex();
 	static bool LastMessage(TData *&d);
 	static void TailMessage(TData *&d);
-	static void SetSkip(unsigned);
-	static void CleanSkip();
-	static bool IsRowTest(unsigned row, TData *&d, unsigned &offset);
+	static Log::TData *HeadTail(unsigned &head, unsigned &tail);
 };
 
 #define DROP_MESSAGE(N)template<>struct Log::Filter<N>{static const bool value = false;};
