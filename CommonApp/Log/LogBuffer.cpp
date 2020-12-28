@@ -2,6 +2,8 @@
 #include "LogBuffer.h"
 #include "tools_debug/DebugMess.h"
 #include "PerformanceCounter/PerformanceCounter.h"
+#include <vector>
+#include <algorithm>
 wchar_t name[] = L"Parallel hatch in log space ";
 
 #define d_mess
@@ -23,7 +25,7 @@ struct Log_Inner
 	LogSpace::TMapData *map;
 	bool IsRow(unsigned row, Log::TData *&d)
 	{
-		if(map->head - map->tail > LogSpace::SizeBuffer) map->tail = map->head - LogSpace::SizeBuffer;
+		if(map->head - map->tail >= LogSpace::SizeBuffer) map->tail = map->head - LogSpace::SizeBuffer;
 		if(map->head - map->tail > row)
 		{
 			unsigned i = map->head - row;
@@ -108,4 +110,8 @@ bool Log::LastMessage(TData *&d)
  void Log::TailMessage(TData *&d)
  {
 	 inner.Get(lastMessage, d);
+ }
+
+ void Log::SetSkip(int id)
+ {
  }

@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestStore", "tests\TestStor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rep4", "Rep4\Rep4.csproj", "{5CE49D38-7FA0-4AF6-B405-4C1BEB03E2FD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestMess", "tests\TestMess\TestMess.vcxproj", "{F08C74FE-4508-4B1F-8A97-7B05E57D013D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -213,6 +215,16 @@ Global
 		{5CE49D38-7FA0-4AF6-B405-4C1BEB03E2FD}.Release|x64.Build.0 = Release|Any CPU
 		{5CE49D38-7FA0-4AF6-B405-4C1BEB03E2FD}.Release|x86.ActiveCfg = Release|Any CPU
 		{5CE49D38-7FA0-4AF6-B405-4C1BEB03E2FD}.Release|x86.Build.0 = Release|Any CPU
+		{F08C74FE-4508-4B1F-8A97-7B05E57D013D}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{F08C74FE-4508-4B1F-8A97-7B05E57D013D}.Debug|x64.ActiveCfg = Debug|x64
+		{F08C74FE-4508-4B1F-8A97-7B05E57D013D}.Debug|x64.Build.0 = Debug|x64
+		{F08C74FE-4508-4B1F-8A97-7B05E57D013D}.Debug|x86.ActiveCfg = Debug|Win32
+		{F08C74FE-4508-4B1F-8A97-7B05E57D013D}.Debug|x86.Build.0 = Debug|Win32
+		{F08C74FE-4508-4B1F-8A97-7B05E57D013D}.Release|Any CPU.ActiveCfg = Release|Win32
+		{F08C74FE-4508-4B1F-8A97-7B05E57D013D}.Release|x64.ActiveCfg = Release|x64
+		{F08C74FE-4508-4B1F-8A97-7B05E57D013D}.Release|x64.Build.0 = Release|x64
+		{F08C74FE-4508-4B1F-8A97-7B05E57D013D}.Release|x86.ActiveCfg = Release|Win32
+		{F08C74FE-4508-4B1F-8A97-7B05E57D013D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
