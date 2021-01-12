@@ -22,4 +22,7 @@ public:
 	void Update();
 	void Clean();
 	void SetSkip(unsigned);
+	void FilterInit();
+	void FilterSkip(unsigned id);
+	void FilterClean();
 };
