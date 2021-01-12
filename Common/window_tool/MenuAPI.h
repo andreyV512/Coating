@@ -143,21 +143,40 @@ template<template<class, class>class P>struct NotNullList<Vlst<>, P>
 		return false;
 	}
 };
+template<class T>struct IsExistList
+{
+	template<class Z>static double tst(Z *, typename Z::list * = NULL);
+	template<class Z>static char tst(...);
+	static const bool  value = sizeof(double) == sizeof(tst<T>(NULL));
+};
+
+template<class O, class P, bool b>struct __sub_insert_menu__
+{
+	template<class Param>void operator()(Param &param, P &p)
+	{
+		VL::find<typename O::list, __insert_item_menu__>()(param);
+		p.m.fMask = MIIM_SUBMENU | MIIM_TYPE | MIIM_DATA | MIIM_ID | MIIM_STATE;
+		p.m.hSubMenu = param.h;
+	}
+};
+
+template<class O, class P>struct __sub_insert_menu__<O, P, false>
+{
+	template<class Param>void operator()(Param &, P &p)
+	{
+		p.m.fMask = MIIM_TYPE | MIIM_DATA | MIIM_ID | MIIM_STATE;
+		p.m.hSubMenu = NULL;
+	}
+};
+
 template<class O, class P>struct __insert_menu__
 {
 	bool operator()(P &p)
 	{	
 		Param param(CreatePopupMenu(), p.hWnd);
-		if(NotNullList<typename O::list, __insert_item_menu__>()(param))
-		{
-			p.m.fMask = MIIM_SUBMENU | MIIM_TYPE | MIIM_DATA | MIIM_ID | MIIM_STATE;
-			p.m.hSubMenu = param.h;
-		}
-		else
-		{
-			p.m.fMask = MIIM_TYPE | MIIM_DATA | MIIM_ID | MIIM_STATE;
-			p.m.hSubMenu = NULL;
-		}
+		
+		__sub_insert_menu__<O, P, IsExistList<O>::value>()(param, p);
+
 		p.m.dwTypeData = NameMenu<O>()(p.hWnd);	
 		p.m.dwItemData = (ULONG_PTR)Event<O>::Do;			
 		p.m.wID = p.m.dwItemData & 0xffff;
