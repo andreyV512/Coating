@@ -489,7 +489,7 @@ void LineSeries::Draw()
 		chart.g->SetClip(&Region(RectF(
 			REAL(chart.rect.left + chart.offsetAxesLeft + 3)
 			, REAL(chart.rect.top + chart.offsetAxesTop + 1)
-			, REAL((chart.rect.right - chart.offsetAxesRight) - (chart.rect.left + chart.offsetAxesLeft) - 10)
+			, REAL((chart.rect.right - chart.offsetAxesRight) - (chart.rect.left + chart.offsetAxesLeft) - 2)
 			, REAL((chart.rect.bottom - chart.offsetAxesBottom) - (chart.rect.top + chart.offsetAxesTop) - 2)
 		)),
 			CombineModeReplace
