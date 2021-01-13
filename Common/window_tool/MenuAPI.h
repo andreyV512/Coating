@@ -128,24 +128,12 @@ template<class S, class P>struct __insert_item_menu__<MenuItem<S>, P>
 		return false;
 	}
 };
-template<class O, template<class, class>class P>struct NotNullList
-{
-	template<class K>bool operator()(K &k)
-	{
-		VL::find<O, P>()(k);
-		return true;
-	}
-};
-template<template<class, class>class P>struct NotNullList<Vlst<>, P>
-{
-	template<class K>bool operator()(K &k)
-	{
-		return false;
-	}
-};
+
 template<class T>struct IsExistList
 {
-	template<class Z>static double tst(Z *, typename Z::list * = NULL);
+	template<class Z>struct Helper { typedef double Result; };
+	template<>struct Helper<Vlst<>> { typedef char Result; };
+	template<class Z>static typename Helper<typename Z::list>::Result tst(Z *);
 	template<class Z>static char tst(...);
 	static const bool  value = sizeof(double) == sizeof(tst<T>(NULL));
 };
@@ -154,7 +142,7 @@ template<class O, class P, bool b>struct __sub_insert_menu__
 {
 	template<class Param>void operator()(Param &param, P &p)
 	{
-		VL::find<typename O::list, __insert_item_menu__>()(param);
+		VL::find<typename O::list, __insert_item_menu__>() (param);
 		p.m.fMask = MIIM_SUBMENU | MIIM_TYPE | MIIM_DATA | MIIM_ID | MIIM_STATE;
 		p.m.hSubMenu = param.h;
 	}
