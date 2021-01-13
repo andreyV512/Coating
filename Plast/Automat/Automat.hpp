@@ -127,8 +127,6 @@ namespace Automat
 			}
 		}
 	};
-
-	
 	
 	template<class P>struct __test_bits_xxx__<iStrobe, P>
 	{
