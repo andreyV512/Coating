@@ -7,7 +7,30 @@
 #include "Log/LogBuffer.h"
 #include "Log/LogMessages.h"
 #include "Automat.h"
+#include "Data/Data.h"
 
+template<> struct Proc<iStrobe>
+{
+	static bool pred;
+	static unsigned count;
+	Data::InputData &data;
+	unsigned bit;
+	Proc();
+	template<class P>void operator()(P &p)
+	{
+		bool b = 0 != (p.bits & bit);
+		if (!pred && b)
+		{
+			if (data.strobesTickCount < dimention_of(data.strobesTick) - 1)
+			{
+				data.strobesTick[data.strobesTickCount] = Performance::Counter();
+				++data.strobesTickCount;
+				++count;
+			}
+		}
+		pred = b;
+	}
+};
 
 namespace Automat
 {
@@ -104,7 +127,27 @@ namespace Automat
 			}
 		}
 	};
+
 	
+	
+	template<class P>struct __test_bits_xxx__<iStrobe, P>
+	{
+		typedef iStrobe O;
+		void operator()(O &o, P &p)
+		{
+			if (0 != (o.value & p.changed))
+			{
+				if (0 != (o.value & p.bits))
+				{
+					Log::Mess<MessBit<On<O> > >(Proc<iStrobe>::count);
+				}
+				else
+				{
+					Log::Mess<MessBit<Off<O>>>(Proc<iStrobe>::count - 1);
+				}
+			}
+		}
+	};
 
 	template<class T>struct __test_bits__
 	{

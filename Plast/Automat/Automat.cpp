@@ -23,52 +23,10 @@ template<> struct Proc<Compute>
 	}
 };
 
-template<class O, class P>struct __test_bits_xxx__;
-template<class P>struct __test_bits_xxx__<iStrobe, P>
-{
-	typedef iStrobe O;
-	void operator()(O &o, P &p)
-	{
-		if (0 != (o.value & p.changed))
-		{
-			if (0 != (o.value & p.bits))
-			{
-				Log::Mess<MessBit<On<O> > >(Proc<iStrobe>::count);
-			}
-			else
-			{
-				Log::Mess<MessBit<Off<O>>>(Proc<iStrobe>::count);
-			}
-		}
-	}
-};
-
-template<> struct Proc<iStrobe>
-{
-	static bool pred;
-	static unsigned count;
-	Data::InputData &data;
-	unsigned bit;
-	Proc() 
-		: data(Singleton<Data::InputData>::Instance())
-		, bit(Singleton<InputBitsTable>::Instance().items.get<iStrobe>().value)
-	{}
-
-	template<class P>void operator()(P &p) 
-	{
-		bool b = 0 != (p.bits & bit);
-		if (!pred && b)
-		{
-			if (data.strobesTickCount < dimention_of(data.strobesTick) - 1)
-			{
-				data.strobesTick[data.strobesTickCount] = Performance::Counter();
-				++data.strobesTickCount;
-				++count;
-			}
-		}
-		pred = b;
-	}
-};
+Proc<iStrobe>::Proc()
+	: data(Singleton<Data::InputData>::Instance())
+	, bit(Singleton<InputBitsTable>::Instance().items.get<iStrobe>().value)
+{}
 bool Proc<iStrobe>::pred = false;
 unsigned Proc<iStrobe>::count = 0;
 
