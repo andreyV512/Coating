@@ -411,7 +411,7 @@ template<class O, class P>struct __get_axes_Y__
 void ZonesWindow::UpdateAScan()
 {
 	aScan.tchart.minAxesX = 0;
-	aScan.tchart.maxAxesX = computeZone.packetSize;
+	aScan.tchart.maxAxesX = computeZone.packetSize - 1;
 
 	if (XinMM)
 	{
