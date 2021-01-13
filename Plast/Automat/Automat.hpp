@@ -95,7 +95,7 @@ namespace Automat
 			{
 				if (0 != (o.value & p.bits))
 				{
-					 Log::Mess<MessBit<On<O> > >();
+					Log::Mess<MessBit<On<O> > >();
 				}
 				else
 				{
@@ -104,6 +104,7 @@ namespace Automat
 			}
 		}
 	};
+	
 
 	template<class T>struct __test_bits__
 	{

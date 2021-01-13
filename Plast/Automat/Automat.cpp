@@ -23,9 +23,30 @@ template<> struct Proc<Compute>
 	}
 };
 
+template<class O, class P>struct __test_bits_xxx__;
+template<class P>struct __test_bits_xxx__<iStrobe, P>
+{
+	typedef iStrobe O;
+	void operator()(O &o, P &p)
+	{
+		if (0 != (o.value & p.changed))
+		{
+			if (0 != (o.value & p.bits))
+			{
+				Log::Mess<MessBit<On<O> > >(Proc<iStrobe>::count);
+			}
+			else
+			{
+				Log::Mess<MessBit<Off<O>>>(Proc<iStrobe>::count);
+			}
+		}
+	}
+};
+
 template<> struct Proc<iStrobe>
 {
 	static bool pred;
+	static unsigned count;
 	Data::InputData &data;
 	unsigned bit;
 	Proc() 
@@ -40,16 +61,16 @@ template<> struct Proc<iStrobe>
 		{
 			if (data.strobesTickCount < dimention_of(data.strobesTick) - 1)
 			{
-				//data.strobesTickCount = dimention_of(data.strobesTick) - 1;
 				data.strobesTick[data.strobesTickCount] = Performance::Counter();
 				++data.strobesTickCount;
-				//dprint("strobe %d %d\n", data.strobesTickCount, data.strobesTick[data.strobesTickCount]);
+				++count;
 			}
 		}
 		pred = b;
 	}
 };
 bool Proc<iStrobe>::pred = false;
+unsigned Proc<iStrobe>::count = 0;
 
 namespace Automat
 {	
@@ -110,6 +131,7 @@ namespace Automat
 					startLoop = false;
 				}
 				Proc<iStrobe>::pred = false;
+				Proc<iStrobe>::count = 1;
 #ifdef EMULATOR
 				Emulator emulator;
 #endif
