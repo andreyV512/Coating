@@ -20,6 +20,7 @@ public:
 	void RClick(LPNMITEMACTIVATE);
 	
 	void Update();
+	void UpdateGrid();
 	void Clean();
 	void SetSkip(unsigned);
 	void FilterInit();

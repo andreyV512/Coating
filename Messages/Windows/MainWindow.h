@@ -2,7 +2,6 @@
 #include "window_tool/message.h"
 #include "Windows/GridMessages.h"
 
-
 class MainWindow
 {
 	static const int IDT_TIMER1 = 999;

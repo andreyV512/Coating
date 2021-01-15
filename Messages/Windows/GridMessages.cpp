@@ -127,20 +127,23 @@ void GridMessages::Update()
 	}
 }
 
-void GridMessages::Clean()
+void GridMessages::UpdateGrid()
 {
-	FilterClean();
 	head = 0;
 	Update();
 	GridDetail::UpdateGridCells(hWnd);
 }
 
+void GridMessages::Clean()
+{
+	FilterClean();
+	UpdateGrid();
+}
+
 void GridMessages::SetSkip(unsigned id)
 {
 	FilterSkip(buf[id].id);
-	head = 0;
-	Update();
-	GridDetail::UpdateGridCells(hWnd);
+	UpdateGrid();
 }
 
 static const wchar_t *__section__ = L"FILTER";

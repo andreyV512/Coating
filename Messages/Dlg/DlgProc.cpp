@@ -8,7 +8,6 @@
 
 void SaveDateFile::Do(HWND h)
 {
-	//KillTimer(h, MainWindow::IDT_TIMER1);
 	wchar_t path[1024];
 	GetModuleFileName(0, path, dimention_of(path));
 	PathRemoveFileSpec(path);
@@ -54,7 +53,6 @@ void SaveDateFile::Do(HWND h)
 				LogMess::FactoryMessages::Instance().Text(d->id, &c[len], d->value);	
 				wcscat(c, L"\n");
 				len = (int)wcslen(c);
-				//MultiByteToWideChar( CP_ACP, 0, c,  -1, w, 512);
 				DWORD dwBytesWritten = 0;
 				BOOL bErrorFlag = WriteFile( 
 					hFile,           // open file handle
@@ -74,8 +72,4 @@ void SaveDateFile::Do(HWND h)
 	wchar_t buf[1024];
 	wsprintf(buf, L"Данные сохранены в файле:\n%s", path);
 	MessageBox(h, buf, L"Сообщение", MB_ICONINFORMATION);
-	//SetTimer(h,             // хэндл главного окна
-	//	MainWindow::IDT_TIMER1,            // идентификатор таймера
-	//	1000,                 // интервал - 1 секунд
-	//	(TIMERPROC) NULL);     // процедуры таймера нет
 }

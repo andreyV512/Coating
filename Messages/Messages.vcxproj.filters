@@ -43,6 +43,9 @@
     <Filter Include="Common\Grid">
       <UniqueIdentifier>{64abfa65-5758-4c10-863e-2315f495cd75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DlgTemplates">
+      <UniqueIdentifier>{505797c2-4e30-47ef-a36d-86d09635def2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -111,6 +114,9 @@
     <ClInclude Include="Windows\GridMessages.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\DlgTemplates\ParamDlg.h">
+      <Filter>DlgTemplates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Messages.cpp">
@@ -157,6 +163,12 @@
     </ClCompile>
     <ClCompile Include="Windows\GridMessages.cpp">
       <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg\Tab.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\DlgTemplates\ParamDlg.cpp">
+      <Filter>DlgTemplates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

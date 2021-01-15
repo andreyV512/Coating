@@ -19,8 +19,10 @@ template<>struct TopMenu<MainFile>
 
 template<>struct TopMenu<MainOptionUnits>
 {
-	typedef Vlst<	
-		MenuItem<SaveCoordinateWindow>
+	typedef Vlst<
+		MenuItem<Tab>
+		, Separator<0>
+		, MenuItem<SaveCoordinateWindow>
 	> list;
 };
 
@@ -35,4 +37,6 @@ MENU_TEXT(L"Настройки", TopMenu<MainOptionUnits>)
 MENU_ITEM(L"Выход", MainExit)
 MENU_ITEM(L"Сохранить координаты окна", SaveCoordinateWindow)
 MENU_ITEM(L"Сохранить сообщения", SaveDateFile)
+
+MENU_ITEM(L"Сообщения", Tab)
 }
