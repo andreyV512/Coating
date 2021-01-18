@@ -191,16 +191,16 @@ void ZonesWindow::UpCursor(HWND h)
 {
 	--currentSensor;
 	UpdateZone();
-	UpdateAScan();
 	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __select_tresh_sens__>()(*this);
+	UpdateAScan();
 }
 
 void ZonesWindow::DownCursor(HWND h)
 {
 	++currentSensor;
 	UpdateZone();
-	UpdateAScan();
 	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __select_tresh_sens__>()(*this);
+	UpdateAScan();
 }
 
 void ZonesWindow::UpdateZone()
