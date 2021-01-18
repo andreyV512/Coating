@@ -189,7 +189,6 @@ namespace WET{
 		{
 			template<class T, T>struct Helper{};
 			template<class X, class Z>static double Is(X *, Helper<void(X::*)(Z &), &X::operator()> * = NULL);
-			template<class X, class Z>static double Is(X *, Helper<LRESULT(X:: *)(Z &), &X::operator()> * = NULL);
 			template<class X, class Z>static char Is(...);
 			bool operator()(P &p)
 			{

@@ -56,7 +56,6 @@ namespace Dialog
 		{
 			template<class T, T>struct Helper{};
 			template<class X, class Z>static double Is(X *, Helper<void(X::*)(Z &), &X::operator()> * = NULL);
-			template<class X, class Z>static double Is(X *, Helper<LRESULT(X::*)(Z &), &X::operator()> * = NULL);
 			template<class X, class Z>static char Is(...);
 			bool operator()(P &p)
 			{
@@ -81,13 +80,7 @@ namespace Dialog
 		T &obj;
 		LRESULT result;
 	public:
-		typedef typename TestNotNullType<
-			typename WET::ReTypeDelete<
-				typename WET::AddSubClass<T>::Result
-			>::Result
-			, T
-		>::Result list;
-
+		typedef typename WET::ReTypeDelete<list_0>::Result list;
 		EventHandler(TMessage &mess, T &obj)
 			: mess(mess)
 			, obj(obj)
