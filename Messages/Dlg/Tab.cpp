@@ -104,33 +104,49 @@ template<class List, int start, int stop>struct ShowItems
 	}
 };
 
-template<int ItemsOnPage, class List>struct ShowPage
+//template<int ItemsOnPage, class List>struct ShowPage
+//{
+//	static const int count = VL::Length<List>::value;
+//	static const int count_pages = count / ItemsOnPage + (0 != count % ItemsOnPage);
+//	template<class Items>struct __data__
+//	{
+//		Items *items;
+//		int page;
+//	};
+//	template<class O, class P>struct __page__
+//	{
+//		bool operator()(P &p)
+//		{
+//			if (O::value == p.page)
+//			{
+//				ShowItems<List, O::value * ItemsOnPage, (1 + O::value) * ItemsOnPage>()(*p.items);
+//				return false;
+//			}
+//			return true;
+//		}
+//	};
+//	template<class Items>void operator()(Items &items, int page)
+//	{
+//		__data__<Items> data{ &items, page };
+//		VL::find<typename VL::CreateNumList<VL::IntToType, 0, count_pages - 1>::Result, __page__>()(data);
+//	}
+//};
+
+template<class Head, class ...Tail>Head(&homogeneous_data(VL::Factory<Vlst<Head, Tail...>> &items))[1 + sizeof...(Tail)]
 {
-	static const int count = VL::Length<List>::value;
-	static const int count_pages = count / ItemsOnPage + (0 != count % ItemsOnPage);
-	template<class Items>struct __data__
+	return (Head(&)[1 + sizeof...(Tail)])items;
+}
+
+template<int ItemsOnPage, class Items>void ShowPage(Items &items, int page)
+{
+	auto d = homogeneous_data(items);
+	int start = page * ItemsOnPage;
+	int stop = (1 + page) * ItemsOnPage;
+	for (int i = 0; i < VL::Length<VL::Inner<Items>::Result>::value; ++i)
 	{
-		Items *items;
-		int page;
-	};
-	template<class O, class P>struct __page__
-	{
-		bool operator()(P &p)
-		{
-			if (O::value == p.page)
-			{
-				ShowItems<List, O::value * ItemsOnPage, (1 + O::value) * ItemsOnPage>()(*p.items);
-				return false;
-			}
-			return true;
-		}
-	};
-	template<class Items>void operator()(Items &items, int page)
-	{
-		__data__<Items> data{ &items, page };
-		VL::find<typename VL::CreateNumList<VL::IntToType, 0, count_pages - 1>::Result, __page__>()(data);
+		ShowWindow(d[i].hWnd, i >= start && i < stop ? SW_SHOW : SW_HIDE);
 	}
-};
+}
 
 template<class T, class Owner>class xxDlgItem : public TEvent
 {
@@ -216,9 +232,11 @@ template<
 		tie.iImage = -1;
 		tie.pszText = txt;
 
-		typedef ShowPage<ItemsOnPage, Self::original_list> show_page;
+		//typedef ShowPage<ItemsOnPage, Self::original_list> show_page;
+		const int count = VL::Length<Self::original_list>::value;
+		const int count_pages = count / ItemsOnPage + (0 != count % ItemsOnPage);
 
-		for (int i = 0; i < show_page::count_pages; ++i)
+		for (int i = 0; i < count_pages; ++i)
 		{
 			_itow(1 + i, txt, 10);
 			if (-1 == TabCtrl_InsertItem(hwndTab, i, &tie) )
@@ -229,7 +247,8 @@ template<
 
 		__create_pages_data__ pages_data{e.hwnd, 0, xOffs, height, width - 30, height, 0};
 		VL::foreach<Self::original_list, __create_pages__>()(this->items, pages_data);
-		show_page()(this->items, 0);
+		//show_page()(this->items, 0);
+		ShowPage<ItemsOnPage>(this->items, 0);
 
 		height = pages_data.maxHeight;
 
@@ -275,7 +294,8 @@ template<
 		case TCN_SELCHANGE:
 		{
 			int iPage = TabCtrl_GetCurSel(e.pnmh->hwndFrom);
-			ShowPage<ItemsOnPage, Self::original_list>()(this->items, iPage);
+			//ShowPage<ItemsOnPage, Self::original_list>()(this->items, iPage);
+			ShowPage<ItemsOnPage>(this->items, iPage);
 			break;
 		}
 		}
