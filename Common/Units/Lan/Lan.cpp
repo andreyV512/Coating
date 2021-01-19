@@ -89,7 +89,7 @@ struct Tbuf: RshBaseType
 
 void Lan::Frame(IRshDevice *d)
 {
-	RSH_U32 waitTime = 10000;
+	RSH_U32 waitTime = 3000;
 	
 	while (!terminate)
 	{
