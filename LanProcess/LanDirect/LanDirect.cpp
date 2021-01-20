@@ -132,7 +132,6 @@ void LanRead::Read()
 		unsigned t = i + bytesReaded;
 		if (t < data.buffSize) data.framesCount = t;
 		int x = data.framesCount / bytesReaded;
-		//dprint("read frsmes %d\n", x);
 
 		if (data.offsetsTickCount < dimention_of(data.offsetsTick))
 		{
