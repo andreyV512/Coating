@@ -10,9 +10,9 @@
 
 class LanProcess
 {
-	static const int maxFrames = 128;
+	static const int maxFrames = 32;
 public:
-	int currentFrameHead, currentFrameTail;
+	unsigned currentFrameHead, currentFrameTail;
 public:
 	int &numberPackets, &packetSize, bufSize;
 public:
@@ -41,6 +41,7 @@ LanProcess::LanProcess(HANDLE hWritePipe)
 	hExit = OpenEvent(EVENT_ALL_ACCESS, TRUE, wExit);
 	hParams = CreateEvent(NULL, FALSE, FALSE, wLanParams);
 	bufSize = packetSize * numberPackets * App::count_sensors;
+	dprint("lan packetSize %d numberPackets %d App::count_sensors %d\n", packetSize, numberPackets, App::count_sensors);
 	data = new char[bufSize * maxFrames];
 }
 
@@ -55,16 +56,15 @@ LanProcess::~LanProcess()
 
 int LanProcess::Buff(char *&buf)
 {
-	buf = &data[bufSize * currentFrameHead];
+	buf = &data[bufSize * (currentFrameHead % maxFrames)];
 	++currentFrameHead;
-	//currentFrameHead %= maxFrames;
 	return bufSize;
 }
 
 void LanProcess::Confirm(unsigned)
 {
 	DWORD bytesWritten;
-	while (currentFrameHead > currentFrameTail)
+	while (currentFrameHead > currentFrameTail + 1)
 	{
 		char *c = &data[bufSize * (currentFrameTail % maxFrames)];
 		
@@ -75,7 +75,6 @@ void LanProcess::Confirm(unsigned)
 			SetEvent(hExit);
 		}
 		++currentFrameTail;
-		//currentFrameTail %= maxFrames;
 	}
 }
 
