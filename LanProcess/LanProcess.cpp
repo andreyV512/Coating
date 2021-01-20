@@ -10,7 +10,8 @@
 
 class LanProcess
 {
-	static const int maxFrames = 16;
+	static const int maxFrames = 128;
+public:
 	int currentFrameHead, currentFrameTail;
 public:
 	int &numberPackets, &packetSize, bufSize;
@@ -56,16 +57,16 @@ int LanProcess::Buff(char *&buf)
 {
 	buf = &data[bufSize * currentFrameHead];
 	++currentFrameHead;
-	currentFrameHead %= maxFrames;
+	//currentFrameHead %= maxFrames;
 	return bufSize;
 }
 
 void LanProcess::Confirm(unsigned)
 {
 	DWORD bytesWritten;
-	while (currentFrameHead != currentFrameTail)
+	while (currentFrameHead > currentFrameTail)
 	{
-		char *c = &data[bufSize * currentFrameTail];
+		char *c = &data[bufSize * (currentFrameTail % maxFrames)];
 		
 		if (!WriteFile(hWritePipe, c, bufSize, &bytesWritten, NULL))
 		{
@@ -74,7 +75,7 @@ void LanProcess::Confirm(unsigned)
 			SetEvent(hExit);
 		}
 		++currentFrameTail;
-		currentFrameTail %= maxFrames;
+		//currentFrameTail %= maxFrames;
 	}
 }
 
@@ -199,6 +200,7 @@ int main(int argc, char **argv)
 		{
 		case 0 + WAIT_OBJECT_0:
 			dprint("LanProcess start\n");
+			lan.currentFrameHead = lan.currentFrameTail = 0;
 			l.Start();
 		break;
 		case 1 + WAIT_OBJECT_0:
