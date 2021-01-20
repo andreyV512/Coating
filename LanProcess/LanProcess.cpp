@@ -89,8 +89,8 @@ void LanProcess::Params(Lan &l)
 	{
 		dprint("%d packet_size %d\n", k, buf.ptr[i]);
 	}
-	HWND h = FindWindow(L"MainWindowCoating", NULL);
 
+	HWND h = FindWindow(L"MainWindowCoating", NULL);
 	if (NULL != h)
 	{
 		COPYDATASTRUCT ct;

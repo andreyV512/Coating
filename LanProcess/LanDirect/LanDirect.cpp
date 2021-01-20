@@ -7,6 +7,7 @@
 #include "window_tool/RunExecute.h"
 #include "EventNames.h"
 #include "CommonApp.h"
+#include "Automat/Automat.h"
 
 DWORD WINAPI LanRead::__proc__(PVOID p)
 {
@@ -123,6 +124,8 @@ void LanRead::Read()
 	{
 		DWORD ret = GetLastError();
 		dprint("Read from the pipe failed %d\n", ret);
+		Automat::Stop();
+		Stop();
 	}
 	if (bytesReaded > 0)
 	{
@@ -153,7 +156,7 @@ void LanRead::Start()
 
 void LanRead::Stop()
 {
-	if (!start) return;
+//	if (!start) return;
 	SetEvent(hStop);
 	SuspendThread(hThread);
 	dprint("LanRead::Stop()\n");

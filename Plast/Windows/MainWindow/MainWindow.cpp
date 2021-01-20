@@ -6,6 +6,7 @@
 #include <CommCtrl.h>
 #include "window_tool/ItemIni.h"
 #include "../LanProcess/LanDirect/EventNames.h"
+#include "Automat/Automat.h"
 
 LRESULT MainWindow::operator()(TCreate &l)
 {
@@ -130,6 +131,7 @@ void MainWindow::operator()(TCopyData &l)
 	switch (data->dwData)
 	{
 	case ID_GET_PACKET_SIZE:
+		//передает из программы сбора размер пакетов(считанные из платы драйвером)
 		if (NULL != buf)
 			for (int i = 0; i < 6; ++i)
 			{
@@ -137,7 +139,17 @@ void MainWindow::operator()(TCopyData &l)
 				dprint("%d received packet_size %d\n", i, App::packet_size_buffer()[i]);
 			}
 		break;
+	case ID_NO_DATA_COLLECTION_FROM_LAN_BOARD:
+		if (NULL != buf)
+		{
+			Automat::Stop();
+			wchar_t mess[1024];
+			wsprintf(mess, L"Нет сбора данных с платы LAn10M8PCI(%d)", *buf);
+			MessageBox(l.hwnd, mess, L"Ошибка!!!", MB_ICONEXCLAMATION);
+		}
+		break;
 	}
+
 }
 
 namespace {

@@ -3,6 +3,7 @@
 #include "App/App.h"
 #include "App/Config.h"
 #include "tools_debug/DebugMess.h"
+#include "../LanProcess/LanDirect/EventNames.h"
 
 const char *BoardName = "LAn10M8PCI";
 
@@ -93,7 +94,6 @@ void Lan::Frame(IRshDevice *d)
 	
 	while (!terminate)
 	{
-	//	EnterCriticalSection(&cs);
 		S32 st = d->Start();
 		if (RSH_API_SUCCESS == st)
 		{
@@ -109,18 +109,28 @@ void Lan::Frame(IRshDevice *d)
 				st = d->GetData(&buf);
 				if (RSH_API_SUCCESS == st)
 				{
-					//(obj->*confirmPtr)((unsigned)buf.m_size);
 					SetEvent(hEventSend);
 				}
 			}
 		}
-		//LeaveCriticalSection(&cs);
 		if (RSH_API_SUCCESS != st)
 		{
 			wchar_t m[256];
 			Err(st, m);
 			int num = d == device1 ? 1 : 2;
 			dprint("%d %S\n", num, m);
+
+			HWND h = FindWindow(L"MainWindowCoating", NULL);
+			if (NULL != h)
+			{
+				COPYDATASTRUCT ct;
+				ct.cbData = sizeof(int);
+				ct.dwData = ID_NO_DATA_COLLECTION_FROM_LAN_BOARD;
+				ct.lpData = &num;
+				SendMessage(h, WM_COPYDATA, NULL, (LPARAM)&ct);
+				dprint("FIND WINDOW MainWindowCoating %x\n", h);
+			}
+			//Stop();
 		}
 		
 	}
