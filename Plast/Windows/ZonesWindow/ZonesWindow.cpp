@@ -190,6 +190,7 @@ template<class O, class P>struct __select_tresh_sens__;
 void ZonesWindow::UpCursor(HWND h)
 {
 	--currentSensor;
+	UpdateMedian();
 	UpdateZone();
 	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __select_tresh_sens__>()(*this);
 	UpdateAScan();
@@ -198,6 +199,7 @@ void ZonesWindow::UpCursor(HWND h)
 void ZonesWindow::DownCursor(HWND h)
 {
 	++currentSensor;
+	UpdateMedian();
 	UpdateZone();
 	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __select_tresh_sens__>()(*this);
 	UpdateAScan();
@@ -214,8 +216,6 @@ void ZonesWindow::UpdateZone()
 
 	if (currentZone < 0) currentZone = maxZone;
 	else if (currentZone >= maxZone) currentZone = 0;
-
-	dprint("sensor %d zone %d\n", currentSensor, currentZone);
 
 	unsigned offsStart = computeZone.zoneOffsets[0 + currentZone];
 	unsigned offsStop = computeZone.zoneOffsets[1 + currentZone];
