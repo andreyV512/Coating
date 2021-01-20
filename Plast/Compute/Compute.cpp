@@ -203,7 +203,7 @@ void Compute::Zone(int zone, int sens)
 void Compute::Zone(int sens, char *start, char *stop, double &result, char &status)
 {
 	const int inc = packetSize * App::count_sensors;
-	auto m = median[sens];
+	auto &m = median[sens];
 	result = 0;
 	status = StatusData::norm;
 	char tstatus;
