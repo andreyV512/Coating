@@ -49,11 +49,11 @@ void Compute::Start()
 #define MIN(a, b) (a) < (b) ? (a): (b)
 
 
-int deugcount = 0;
+//int deugcount = 0;
 
 bool Compute::Strobes()
 {
-	dprint(" st %d ", deugcount++);
+	//dprint(" st %d ", deugcount++);
 	unsigned strobesStop = data.strobesTickCount;
 	if (strobesStop == strobesTickCount || zoneOffsetsIndex >= App::count_zones) return false;
 	//количество кадров в зоне
@@ -205,15 +205,17 @@ void Compute::Zone(int sens, char *start, char *stop, double &result, char &stat
 	const int inc = packetSize * App::count_sensors;
 	auto m = median[sens];
 	result = 0;
+	status = StatusData::norm;
+	char tstatus;
+	double t;
 	for (char *i = start; i < stop; i += inc)
 	{
-		//ComputeFrame((IDSPFlt &)filter, i, result, status);
-		ComputeFrame(sens, i, result, status);
-		double t = (m.*medianProc)(result, status);
+		ComputeFrame(sens, i, t, tstatus);
+		t = (m.*medianProc)(t, tstatus);
 		if (t > result)
 		{
-			result = t;
-			status = status;
+			result = t;	
+			status = StatusData::Compute(status, tstatus);
 		}
 	}
 }
@@ -233,6 +235,7 @@ void Compute::ComputeFrame(int sens, char *d, double &value, char &status)
 	for (; i < offsAlarmStop[sens]; ++i)
 	{
 		double t = f(d[i] * 100.0 / 128);
+		if (t < 0) t = -t;
 		t *= gain;
 		if(value < t) value = t;
 		if(t > threshAlarm[sens])
@@ -253,6 +256,7 @@ void Compute::ComputeFrame(int sens, char *d, double &value, char &status)
 	for (; i < offsReflectionStop[sens]; ++i)
 	{
 		double t = f(d[i] * 100.0 / 128);
+		if (t < 0) t = -t;
 		t *= gain;
 		if (t > threshReflection[sens])
 		{
