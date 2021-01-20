@@ -53,7 +53,7 @@ int deugcount = 0;
 
 bool Compute::Strobes()
 {
-	dprint("%d ", deugcount++);
+	dprint(" st %d ", deugcount++);
 	unsigned strobesStop = data.strobesTickCount;
 	if (strobesStop == strobesTickCount || zoneOffsetsIndex >= App::count_zones) return false;
 	//количество кадров в зоне
