@@ -111,6 +111,7 @@ namespace App
 		//DspFiltrDlg::Do(0);
 		OpenTopWindow<ZonesWindow>::Do(NULL);
 #endif
+		SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
 	}
 
 	void Destroy()

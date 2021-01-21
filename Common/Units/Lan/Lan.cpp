@@ -33,8 +33,11 @@ Lan::Lan()
 	, device2(NULL)
 {
 	InitializeCriticalSection(&cs);
+	SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
 	hTresh1 = CreateThread(NULL, 0, __frame1__, this, CREATE_SUSPENDED, NULL);
 	hTresh2 = CreateThread(NULL, 0, __frame2__, this, CREATE_SUSPENDED, NULL);
+	if (0 != hTresh1)SetThreadPriority(hTresh1, THREAD_PRIORITY_HIGHEST);
+	if (0 != hTresh2)SetThreadPriority(hTresh2, THREAD_PRIORITY_HIGHEST);
 	hTreshSend = CreateThread(NULL, 0, __send__, this, 0, NULL);
 	hEventSend = CreateEvent(NULL, FALSE, FALSE, NULL);
 }
@@ -130,7 +133,6 @@ void Lan::Frame(IRshDevice *d)
 				SendMessage(h, WM_COPYDATA, NULL, (LPARAM)&ct);
 				dprint("FIND WINDOW MainWindowCoating %x\n", h);
 			}
-			//Stop();
 		}
 		
 	}

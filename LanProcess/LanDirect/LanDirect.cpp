@@ -42,7 +42,6 @@ LanRead::LanRead()
 	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
 	, data(Singleton<Data::InputData>::Instance())
 	, hReadPipe(NULL)
-	, start(false)
 {
 	bufSize = packetSize * numberPackets * App::count_sensors;
 	Performance::Init();
@@ -50,7 +49,8 @@ LanRead::LanRead()
 	hStop = CreateEvent(NULL, FALSE, FALSE, wStop);
 	hExit = CreateEvent(NULL, FALSE, FALSE, wExit);
 	
-	hThread = CreateThread(NULL, 0, __proc__, this, CREATE_SUSPENDED, NULL);
+	hThread = CreateThread(NULL, 0, __proc__, this, CREATE_SUSPENDED, NULL); 
+	if(0 != hThread)SetThreadPriority(hThread, THREAD_PRIORITY_HIGHEST);
 }
 
 LanRead::~LanRead()
@@ -112,32 +112,33 @@ void LanRead::Update()
 
 void LanRead::Read()
 {
-	unsigned i = data.framesCount;
-	DWORD bytesReaded;
-	if (!ReadFile(
+	DWORD bytesReaded = 0;
+	if (ReadFile(
 		hReadPipe
-		, &data.buffer[i]
+		, &data.buffer[data.framesCount]
 		, bufSize
 		, &bytesReaded
 		, NULL
 	))
 	{
+		if (bytesReaded > 0)
+		{
+			unsigned t = data.framesCount + bytesReaded;
+			if (t < data.buffSize) data.framesCount = t;
+
+			if (data.offsetsTickCount < dimention_of(data.offsetsTick))
+			{
+				data.offsetsTick[data.offsetsTickCount] = Performance::Counter();
+				++data.offsetsTickCount;
+			}
+		}
+	}
+	else
+	{
 		DWORD ret = GetLastError();
 		dprint("Read from the pipe failed %d\n", ret);
 		Automat::Stop();
 		Stop();
-	}
-	if (bytesReaded > 0)
-	{
-		unsigned t = i + bytesReaded;
-		if (t < data.buffSize) data.framesCount = t;
-		int x = data.framesCount / bytesReaded;
-
-		if (data.offsetsTickCount < dimention_of(data.offsetsTick))
-		{
-			data.offsetsTick[data.offsetsTickCount] = Performance::Counter();
-			++data.offsetsTickCount;
-		}
 	}
 }
 
@@ -150,16 +151,13 @@ void LanRead::Start()
 	SetEvent(hStart);
 	while(0 != ResumeThread(hThread));
 	dprint("LanRead::Start()\n");
-	start = true;
 }
 
 void LanRead::Stop()
 {
-//	if (!start) return;
 	SetEvent(hStop);
 	SuspendThread(hThread);
 	dprint("LanRead::Stop()\n");
-	start = false;
 }
 
 void LanRead::Reload()
