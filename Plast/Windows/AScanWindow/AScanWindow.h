@@ -10,6 +10,7 @@
 class AScanWindow
 {
 	UINT_PTR idTimer;
+	bool destroy = false;
 public: 
 	template<int N>class Sens : public AScanViewer
 	{
@@ -28,7 +29,6 @@ public:
 			gainLine.data = gain;
 		}
 	};
-	
 	typedef Vlst<Sens<0>, Sens<1>, Sens<2> >viewers_list;
 	VL::Factory< viewers_list> viewers;
 	HWND hWnd;

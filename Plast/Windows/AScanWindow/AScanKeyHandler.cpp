@@ -106,4 +106,14 @@ namespace AScanKeyHandler
 			>::Result
 		>()();
 	}
+	void Disable()
+	{
+		__btn__<
+			__all_button_OnOff__<
+			button_list
+			, Vlst<>
+			, On, Off
+			>::Result
+		>()();
+	}
 }

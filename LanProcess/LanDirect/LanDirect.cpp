@@ -144,6 +144,8 @@ void LanRead::Read()
 
 void LanRead::Start()
 {
+	if (start)return;
+	start = true;
 	data.framesCount = 0;
 	data.offsetsTickCount = 0;
 	data.strobesTickCount = 0;
@@ -155,6 +157,8 @@ void LanRead::Start()
 
 void LanRead::Stop()
 {
+	if (!start)return;
+	start = false;
 	SetEvent(hStop);
 	SuspendThread(hThread);
 	dprint("LanRead::Stop()\n");

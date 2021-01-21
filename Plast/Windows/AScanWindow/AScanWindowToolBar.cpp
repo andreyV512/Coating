@@ -53,5 +53,5 @@ void AScanWindowToolBar::Size()
 
 const int AScanWindowToolBar::Width()
 {
-	return __tool_bar_width__<tool_button_list>::value;;
+	return __tool_bar_width__<tool_button_list>::value;
 }

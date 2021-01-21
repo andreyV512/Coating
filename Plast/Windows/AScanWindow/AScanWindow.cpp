@@ -122,9 +122,17 @@ void AScanWindow::operator()(TGetMinMaxInfo &l)
 	}
 }
 
+HANDLE handleTimer = INVALID_HANDLE_VALUE;
 void AScanWindow::operator()(TClose &l)
 {
-	KillTimer(l.hwnd, idTimer);
+	if (INVALID_HANDLE_VALUE != handleTimer) 
+	{
+		HANDLE x = handleTimer;
+		handleTimer = INVALID_HANDLE_VALUE;
+		DeleteTimerQueueTimer(NULL, x, NULL);
+	}
+	destroy = true;
+	//KillTimer(l.hwnd, idTimer);
 	bool tresh = TestX<TresholdsTable>(computeFrame.treshItems);
 	bool flt   = TestX<FiltersTable>(computeFrame.paramFlt);
 
@@ -213,7 +221,7 @@ void AScanWindow::Start()
 	AScanKeyHandler::Run();
 	
 	Singleton<LanDevice>::Instance().Start();
-	Sleep(500);
+	Sleep(1500);
 	device1730.WriteOutput(generatorBit);
 }
 
@@ -227,10 +235,21 @@ void AScanWindow::UpdateOptions()
 	VL::foreach<viewers_list, __update_sens__gate__>()(viewers, data);
 }
 
+VOID CALLBACK AScanWindow_WaitOrTimerCallback(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
+{
+	if (INVALID_HANDLE_VALUE == handleTimer)return;
+	AScanKeyHandler::Stop();
+	DeleteTimerQueueTimer(NULL, handleTimer, NULL);
+	handleTimer = INVALID_HANDLE_VALUE;
+}
+
 void AScanWindow::Stop()
 {
 	KillTimer(hWnd, idTimer);
-	AScanKeyHandler::Stop();
+//	AScanKeyHandler::Stop();
+	AScanKeyHandler::Disable();
+
 	device1730.WriteOutput(0, generatorBit);
 	Singleton<LanDevice>::Instance().Stop();
+	if(!destroy)CreateTimerQueueTimer(&handleTimer, NULL, AScanWindow_WaitOrTimerCallback, NULL, 2000, 0, WT_EXECUTEONLYONCE);
 }

@@ -112,7 +112,7 @@ namespace Automat
 
 				Log::Mess <LogMess::CollectionDone>();
 				dprint("loop\n");
-				Sleep(5000);
+				Sleep(2000);
 			}
 			catch (TimeOutExteption)
 			{
