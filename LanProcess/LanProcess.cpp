@@ -64,7 +64,7 @@ int LanProcess::Buff(char *&buf)
 void LanProcess::Confirm(unsigned)
 {
 	DWORD bytesWritten;
-	while (currentFrameHead > currentFrameTail + 1)
+	while (currentFrameHead > currentFrameTail)
 	{
 		char *c = &data[bufSize * (currentFrameTail % maxFrames)];
 		
