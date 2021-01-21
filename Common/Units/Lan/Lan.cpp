@@ -100,9 +100,9 @@ void Lan::Frame(IRshDevice *d)
 		S32 st = d->Start();
 		if (RSH_API_SUCCESS == st)
 		{
-			EnterCriticalSection(&cs);
+		//	EnterCriticalSection(&cs);
 			st = d->Get(RSH_GET_WAIT_BUFFER_READY_EVENT, &waitTime);
-			LeaveCriticalSection(&cs);
+		//	LeaveCriticalSection(&cs);
 			d->Stop();
 			if (RSH_API_SUCCESS == st)
 			{
