@@ -45,7 +45,7 @@ bool SensorViewer::Draw(TMouseMove &l, VGraphics &g)
 		if (VL::IndexOf<zone_status_list, DeadZone>::value != ds)
 		{
 			Wchar_from<double, 1> Y(data.data[x]);
-			wsprintf(label.buffer, L"<ff>зона %d Y %s <%6x>%s                  <%6x>."
+			wsprintf(label.buffer, L"<ff>зона %d Y %s <%6x>%s                                              <%6x>."
 				, 1 + x
 				, Y()
 				, color

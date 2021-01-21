@@ -22,73 +22,29 @@ struct CenterFrequency;
 struct WidthFrequency;
 struct CurrentFilter {};
 
-//DEFINE_PARAM(CurrentFilter, int, 0)
 
-//DEFINE_PARAM_WRAP2(Low, ChebI, Order, int, 3)
-//DEFINE_PARAM_WRAP2(Low, ChebI, CutoffFrequency, int, 50)
-//DEFINE_PARAM_WRAP2(Low, ChebI, Ripple, double, 0.1)
-//
-//DEFINE_PARAM_WRAP2(High, ChebI, Order, int, 3)
-//DEFINE_PARAM_WRAP2(High, ChebI, CutoffFrequency, int, 50)
-//DEFINE_PARAM_WRAP2(High, ChebI, Ripple, double, 0.1)
-//
-//DEFINE_PARAM_WRAP2(BandPass, ChebI, Order, int, 3)
-//DEFINE_PARAM_WRAP2(BandPass, ChebI, CenterFrequency, int, 50)
-//DEFINE_PARAM_WRAP2(BandPass, ChebI, WidthFrequency, double, 10)
-//DEFINE_PARAM_WRAP2(BandPass, ChebI, Ripple, double, 0.1)
-//
-//DEFINE_PARAM_WRAP2(BandStop, ChebI, Order, int, 3)
-//DEFINE_PARAM_WRAP2(BandStop, ChebI, CenterFrequency, int, 50)
-//
-//DEFINE_PARAM_WRAP2(BandStop, ChebI, WidthFrequency, double, 10)
-//DEFINE_PARAM_WRAP2(BandStop, ChebI, Ripple, double, 0.1)
-DEFINE_PARAM_Wrap_NUM(Num, CurrentFilter, 0, int, 0)
-DEFINE_PARAM_Wrap_NUM3(Num, Low, ChebI, Order, 0, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, Low, ChebI, CutoffFrequency, 0, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, Low, ChebI, Ripple, 0, double, 0.1)
-DEFINE_PARAM_Wrap_NUM3(Num, High, ChebI, Order, 0, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, High, ChebI, CutoffFrequency, 0, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, High, ChebI, Ripple, 0, double, 0.1)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, Order, 0, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, CenterFrequency, 0, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, WidthFrequency, 0, double, 10)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, Ripple, 0, double, 0.1)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, Order, 0, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, CenterFrequency, 0, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, WidthFrequency, 0, double, 10)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, Ripple, 0, double, 0.1)
+#define ANALOG(N)																   \
+DEFINE_PARAM_Wrap_NUM (Num, CurrentFilter,                    N, int, 0)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, Low,      ChebI, Order,           N, int, 3)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, Low,      ChebI, CutoffFrequency, N, int, 50)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, Low,      ChebI, Ripple,          N, double, 0.1)	   \
+DEFINE_PARAM_Wrap_NUM3(Num, High,     ChebI, Order,           N, int, 3)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, High,     ChebI, CutoffFrequency, N, int, 50)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, High,     ChebI, Ripple,          N, double, 0.1)	   \
+DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, Order,           N, int, 3)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, CenterFrequency, N, int, 50)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, WidthFrequency,  N, int, 10)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, Ripple,          N, double, 0.1)	   \
+DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, Order,           N, int, 3)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, CenterFrequency, N, int, 50)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, WidthFrequency,  N, int, 10)		   \
+DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, Ripple,          N, double, 0.1)	   
 
-DEFINE_PARAM_Wrap_NUM (Num, CurrentFilter,                    1, int, 0)
-DEFINE_PARAM_Wrap_NUM3(Num, Low,      ChebI, Order,           1, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, Low,      ChebI, CutoffFrequency, 1, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, Low,      ChebI, Ripple,          1, double, 0.1)
-DEFINE_PARAM_Wrap_NUM3(Num, High,     ChebI, Order,           1, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, High,     ChebI, CutoffFrequency, 1, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, High,     ChebI, Ripple,          1, double, 0.1)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, Order,           1, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, CenterFrequency, 1, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, WidthFrequency,  1, double, 10)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, Ripple,          1, double, 0.1)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, Order,           1, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, CenterFrequency, 1, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, WidthFrequency,  1, double, 10)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, Ripple,          1, double, 0.1)
+ANALOG(0)
+ANALOG(1)
+ANALOG(2)
 
-DEFINE_PARAM_Wrap_NUM(Num, CurrentFilter, 2, int, 0)
-DEFINE_PARAM_Wrap_NUM3(Num, Low, ChebI, Order, 2, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, Low, ChebI, CutoffFrequency, 2, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, Low, ChebI, Ripple, 2, double, 0.1)
-DEFINE_PARAM_Wrap_NUM3(Num, High, ChebI, Order, 2, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, High, ChebI, CutoffFrequency, 2, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, High, ChebI, Ripple, 2, double, 0.1)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, Order, 2, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, CenterFrequency, 2, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, WidthFrequency, 2, double, 10)
-DEFINE_PARAM_Wrap_NUM3(Num, BandPass, ChebI, Ripple, 2, double, 0.1)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, Order, 2, int, 3)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, CenterFrequency, 2, int, 50)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, WidthFrequency, 2, double, 10)
-DEFINE_PARAM_Wrap_NUM3(Num, BandStop, ChebI, Ripple, 2, double, 0.1)
+#undef ANALOG
 
 struct FiltersTable
 {

@@ -155,7 +155,7 @@ bool Compute::Strobes()
 
 void Compute::Zone(int zone, int sens)
 {
-	auto m = median[sens];
+	auto &m = median[sens];
 	double ldata[App::count_sensors] = {};
 	char lstatus[App::count_sensors] = {};
 	const int inc = packetSize * App::count_sensors;

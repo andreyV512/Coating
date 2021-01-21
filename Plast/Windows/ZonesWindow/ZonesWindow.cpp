@@ -190,6 +190,7 @@ template<class O, class P>struct __select_tresh_sens__;
 void ZonesWindow::UpCursor(HWND h)
 {
 	--currentSensor;
+	currentSensor %= App::count_sensors;
 	UpdateMedian();
 	UpdateZone();
 	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __select_tresh_sens__>()(*this);
@@ -199,6 +200,7 @@ void ZonesWindow::UpCursor(HWND h)
 void ZonesWindow::DownCursor(HWND h)
 {
 	++currentSensor;
+	currentSensor %= App::count_sensors;
 	UpdateMedian();
 	UpdateZone();
 	VL::find<VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __select_tresh_sens__>()(*this);
