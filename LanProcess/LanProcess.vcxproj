@@ -151,6 +151,7 @@
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp" />
     <ClCompile Include="..\Common\Units\Lan\include\RshApi.cpp" />
     <ClCompile Include="..\Common\Units\Lan\Lan.cpp" />
+    <ClCompile Include="..\Common\Units\Lan\LanN.cpp" />
     <ClCompile Include="..\Common\window_tool\RunExecute.cpp" />
     <ClCompile Include="..\Plast\App\AppBase.cpp" />
     <ClCompile Include="LanDirect\EventNames.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />
     <ClInclude Include="..\Common\Units\Lan\include\RshApi.h" />
     <ClInclude Include="..\Common\Units\Lan\Lan.h" />
+    <ClInclude Include="..\Common\Units\Lan\LanN.h" />
     <ClInclude Include="..\Common\window_tool\RunExecute.h" />
     <ClInclude Include="..\Plast\App\AppBase.h" />
     <ClInclude Include="LanDirect\EventNames.h" />

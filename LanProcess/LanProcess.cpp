@@ -1,5 +1,6 @@
 ﻿#include <windows.h>
 #include "Units/Lan/Lan.h"
+#include "Units/Lan/LanN.h"
 #include "App/AppBase.h"
 #include "App/App.h"
 #include "LanDirect/LanDirect.h"
@@ -10,39 +11,23 @@
 
 class LanProcess
 {
-	static const int maxFrames = 32;
 public:
-	unsigned currentFrameHead, currentFrameTail;
+	static inline HANDLE hWritePipe;
+	static inline HANDLE hExit;
+	HANDLE hStart, hStop, hParams;
 public:
-	int &numberPackets, &packetSize, bufSize;
-public:
-	HANDLE hStart, hStop, hExit, hParams;
-private:
-	HANDLE hWritePipe;
-public:
-	char *data;
-public:
-	LanProcess(HANDLE hWritePipe);
+	LanProcess();
 	~LanProcess();
-	int Buff(char *&buf);
-	void Confirm(unsigned b);
-	void Params(Lan &l);
+	static void SendData(char *);
+	void Params(LanN &l);
 };
 
-LanProcess::LanProcess(HANDLE hWritePipe)
-	: numberPackets(Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value)
-	, packetSize(Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value)
-	, hWritePipe(hWritePipe)
-	, currentFrameHead(0)
-	, currentFrameTail(0)
+LanProcess::LanProcess()
 {
 	hStart = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStart);
 	hStop = OpenEvent(EVENT_ALL_ACCESS, TRUE, wStop);
 	hExit = OpenEvent(EVENT_ALL_ACCESS, TRUE, wExit);
 	hParams = CreateEvent(NULL, FALSE, FALSE, wLanParams);
-	bufSize = packetSize * numberPackets * App::count_sensors;
-	dprint("lan packetSize %d numberPackets %d App::count_sensors %d\n", packetSize, numberPackets, App::count_sensors);
-	data = new char[bufSize * maxFrames];
 }
 
 LanProcess::~LanProcess()
@@ -51,37 +36,29 @@ LanProcess::~LanProcess()
 	CloseHandle(hStop);
 	CloseHandle(hExit);
 	CloseHandle(hParams);
-	delete[] data;
 }
 
-int LanProcess::Buff(char *&buf)
-{
-	buf = &data[bufSize * (currentFrameHead % maxFrames)];
-	++currentFrameHead;
-	return bufSize;
-}
-
-void LanProcess::Confirm(unsigned)
+DWORD WINAPI ThreadProc(LPVOID data)
 {
 	DWORD bytesWritten;
-	while (currentFrameHead > currentFrameTail)
+	if (!WriteFile(LanProcess::hWritePipe, data, LanN::bufSize, &bytesWritten, NULL))
 	{
-		char *c = &data[bufSize * (currentFrameTail % maxFrames)];
-		
-		if (!WriteFile(hWritePipe, c, bufSize, &bytesWritten, NULL))
-		{
-			DWORD ret = GetLastError();
-			dprint("client WriteFalted %d\n", ret);
-			SetEvent(hExit);
-		}
-		++currentFrameTail;
+		DWORD ret = GetLastError();
+		dprint("client WriteFalted %d\n", ret);
+		SetEvent(LanProcess::hExit);
 	}
+	return 0;
 }
 
-void LanProcess::Params(Lan &l)
+void LanProcess::SendData(char *data)
+{
+	QueueUserWorkItem(ThreadProc, data, WT_EXECUTEDEFAULT);
+}
+
+void LanProcess::Params(LanN &l)
 {
 	RSH_BUFFER_U32 buf;
-	l.device1->Get(RSH_GET_DEVICE_PACKET_LIST, &buf);
+	l.device->Get(RSH_GET_DEVICE_PACKET_LIST, &buf);
 
 	int len = buf.size();
 	dprint("len %d\n", len);
@@ -139,18 +116,18 @@ template<class O, class P>struct __set_params__
 	}
 };
 
-void InitBase(int argc, char **argv)
+void InitBase(int argc, char **argv, LanParametersTable::TItems &items)
 {
-	LanParametersTable &table = Singleton<LanParametersTable>::Instance();
 	for (int i = 0; i < argc; ++i)
 	{
 		__set_params_data__ data(argv[i]);
-		VL::find<LanParametersTable::items_list, __set_params__>()(table.items, data);
+		VL::find<LanParametersTable::items_list, __set_params__>()(items, data);
 	}
 }
 
 int main(int argc, char **argv)
 {
+#if 0
 	dprint("START LAN<<<<<<<<<<\n");
 	if (!CommonApp::TestAppRun()) return 0;
 	dprint("START LAN>>>>>>>>>\n");
@@ -215,5 +192,61 @@ int main(int argc, char **argv)
 			break;
 		}
 	}
+#else
+	if (!CommonApp::TestAppRun()) return 0;
+
+	LanParametersTable::TItems items;
+	InitBase(argc - 2, &argv[2], items);
+	VL::foreach<LanParametersTable::items_list, __params__>()(items);
+
+	RshInitMemory p{};
+
+	LanN::SetParams(p, items);
+
+	RshDllClient client;
+	LanN unit1, unit2;
+
+	if (RSH_API_SUCCESS != unit1.Init(1, p, client)) return 0;
+	if (RSH_API_SUCCESS != unit2.Init(2, p, client)) return 0;
+
+	LanProcess::hWritePipe = (HANDLE)atoi(argv[1]);
+	dprint("HANDLE %d\n", LanProcess::hWritePipe);
+
+	unit1.ptr = LanProcess::SendData;
+	unit2.ptr = LanProcess::SendData;
+
+	LanProcess lan;
+	HANDLE h[] = {
+		lan.hStart
+		, lan.hStop
+		, lan.hExit
+		, lan.hParams
+	};
+
+	while (true)
+	{
+		switch (WaitForMultipleObjects(4, h, FALSE, 200))
+		{
+		case 0 + WAIT_OBJECT_0:
+			dprint("LanProcess start\n");
+			unit1.Start();
+			unit2.Start();
+			break;
+		case 1 + WAIT_OBJECT_0:
+			dprint("LanProcess stop\n");
+			unit1.Stop();
+			unit2.Stop();
+			break;
+		case 2 + WAIT_OBJECT_0:
+			dprint("LanProcess EXIT\n");
+			return 0;
+		case 3 + WAIT_OBJECT_0:
+			dprint("LanProcess Params\n");
+			lan.Params(unit1);
+			break;
+		}
+	}
+
+#endif
 	return 0;
 }

@@ -66,6 +66,9 @@
     <ClCompile Include="LanDirect\EventNames.cpp">
       <Filter>LanDirect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Common\Units\Lan\LanN.cpp">
+      <Filter>Common\Lan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\Units\Lan\Lan.h">
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="LanDirect\EventNames.h">
       <Filter>LanDirect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\Lan\LanN.h">
+      <Filter>Common\Lan</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
