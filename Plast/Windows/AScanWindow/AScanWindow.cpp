@@ -128,6 +128,7 @@ void AScanWindow::operator()(TClose &l)
 	if (INVALID_HANDLE_VALUE != handleTimer) 
 	{
 		DeleteTimerQueueTimer(NULL, handleTimer, NULL);
+		handleTimer = INVALID_HANDLE_VALUE;
 	}
 	destroy = true;
 	bool tresh = TestX<TresholdsTable>(computeFrame.treshItems);
