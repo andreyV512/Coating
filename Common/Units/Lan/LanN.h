@@ -19,7 +19,6 @@ private:
 	static inline HANDLE hExit;
 	static DWORD WINAPI __frame__(PVOID);
 	static DWORD WINAPI __write_file__(LPVOID data);
-	static void SendData(char *data);
 public:
 	~LanN();
 	static void SetParams(RshInitMemory &, LanParametersTable::TItems &);

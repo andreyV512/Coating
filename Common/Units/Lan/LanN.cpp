@@ -16,8 +16,6 @@ struct RshCharType : RshBaseType
 	{}
 };
 
-//int LanN::bufSize = 0;
-
 DWORD __stdcall LanN::__frame__(PVOID p)
 {
 	((LanN *)p)->Frame();
@@ -124,7 +122,8 @@ void LanN::Frame()
 				++counter;
 				RshCharType buf(addr, bufSize);
 				st = device->GetData(&buf);
-				if (RSH_API_SUCCESS == st) SendData(addr);
+				if (RSH_API_SUCCESS == st) 
+					QueueUserWorkItem(__write_file__, addr, WT_EXECUTEDEFAULT);
 			}
 		}
 		if (RSH_API_SUCCESS != st)
@@ -157,9 +156,4 @@ DWORD WINAPI LanN::__write_file__(LPVOID data)
 		SetEvent(hExit);
 	}
 	return 0;
-}
-
-void LanN::SendData(char *data)
-{
-	QueueUserWorkItem(__write_file__, data, WT_EXECUTEDEFAULT);
 }
