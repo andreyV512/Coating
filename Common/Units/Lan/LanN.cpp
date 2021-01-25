@@ -63,7 +63,7 @@ void LanN::SetParams(RshInitMemory &p, LanParametersTable::TItems &items)
 }
 #undef q
 
-U32 LanN::Init(int num, RshInitMemory &p, RshDllClient &client)
+U32 LanN::Init(int num, RshInitMemory &p, RshDllClient &client, HANDLE writePipe, HANDLE exit)
 {
 	numberUnit = num;
 
@@ -90,6 +90,8 @@ U32 LanN::Init(int num, RshInitMemory &p, RshDllClient &client)
 	}
 
 	bufSize = p.bufferSize * p.packetNumber;
+	hWritePipe = writePipe;
+	hExit = exit;
 	return st;
 }
 
@@ -122,10 +124,7 @@ void LanN::Frame()
 				++counter;
 				RshCharType buf(addr, bufSize);
 				st = device->GetData(&buf);
-				if (RSH_API_SUCCESS == st)
-				{
-					(*ptr)(addr);
-				}
+				if (RSH_API_SUCCESS == st) SendData(addr);
 			}
 		}
 		if (RSH_API_SUCCESS != st)
@@ -146,4 +145,21 @@ void LanN::Frame()
 			}
 		}
 	}
+}
+
+DWORD WINAPI LanN::__write_file__(LPVOID data)
+{
+	DWORD bytesWritten;
+	if (!WriteFile(hWritePipe, data, bufSize, &bytesWritten, NULL))
+	{
+		DWORD ret = GetLastError();
+		dprint("client WriteFalted %d\n", ret);
+		SetEvent(hExit);
+	}
+	return 0;
+}
+
+void LanN::SendData(char *data)
+{
+	QueueUserWorkItem(__write_file__, data, WT_EXECUTEDEFAULT);
 }
