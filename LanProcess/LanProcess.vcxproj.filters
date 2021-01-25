@@ -42,9 +42,6 @@
     <ClCompile Include="LanProcess.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\Common\Units\Lan\Lan.cpp">
-      <Filter>Common\Lan</Filter>
-    </ClCompile>
     <ClCompile Include="..\Common\Units\Lan\include\RshApi.cpp">
       <Filter>Common\Lan\include</Filter>
     </ClCompile>
@@ -71,9 +68,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Common\Units\Lan\Lan.h">
-      <Filter>Common\Lan</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\Units\Lan\include\RshApi.h">
       <Filter>Common\Lan\include</Filter>
     </ClInclude>

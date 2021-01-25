@@ -137,6 +137,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Common;$(SolutionDir)CommonApp;$(SolutionDir)Common\DspFilters\include;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,7 +151,6 @@
     <ClCompile Include="..\Common\PerformanceCounter\PerformanceCounter.cpp" />
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp" />
     <ClCompile Include="..\Common\Units\Lan\include\RshApi.cpp" />
-    <ClCompile Include="..\Common\Units\Lan\Lan.cpp" />
     <ClCompile Include="..\Common\Units\Lan\LanN.cpp" />
     <ClCompile Include="..\Common\window_tool\RunExecute.cpp" />
     <ClCompile Include="..\Plast\App\AppBase.cpp" />
@@ -162,7 +162,6 @@
     <ClInclude Include="..\Common\PerformanceCounter\PerformanceCounter.h" />
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />
     <ClInclude Include="..\Common\Units\Lan\include\RshApi.h" />
-    <ClInclude Include="..\Common\Units\Lan\Lan.h" />
     <ClInclude Include="..\Common\Units\Lan\LanN.h" />
     <ClInclude Include="..\Common\window_tool\RunExecute.h" />
     <ClInclude Include="..\Plast\App\AppBase.h" />

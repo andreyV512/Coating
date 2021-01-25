@@ -90,6 +90,9 @@ U32 LanN::Init(int num, RshInitMemory &p, RshDllClient &client)
 	}
 
 	bufSize = p.bufferSize * p.packetNumber;
+	dprint("~~~~~~~~~~~~ buffSize %d\n", bufSize);
+	hThread = CreateThread(NULL, 0, __frame__, this, CREATE_SUSPENDED, NULL);
+	if (0 != hThread)SetThreadPriority(hThread, THREAD_PRIORITY_HIGHEST);
 	return st;
 }
 
@@ -108,7 +111,6 @@ void LanN::Frame()
 	RSH_U32 waitTime = 3000;
 	unsigned counter = 0;
 	data = new char[bufSize * maxFrames];
-
 	while (true)
 	{
 		S32 st = device->Start();
