@@ -113,7 +113,6 @@ void LanRead::Update()
 void LanRead::Read()
 {
 	DWORD bytesReaded = 0;
-	dprint("read \n");
 	if (ReadFile(
 		hReadPipe
 		, &data.buffer[data.framesCount]
