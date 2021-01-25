@@ -15,10 +15,10 @@ struct MedianFiltre
 	
 	void Clear();
 	
-	double Val(double d, char &s);
+	double Val(double d);
 	double Val(double d, char &s, unsigned &o);
 
-	double noop(double value, char &);// {return value; }
+	double noop(double value);// {return value; }
 	double noop(double value, char &, unsigned &);// { return value; }
 };
 

@@ -28,7 +28,7 @@ public:
 	int zoneOffsetsIndex, zoneOffsetsIndexStart;
 	MedianFiltre median[App::count_sensors];
 	ChMedFlt median_stat[App::count_sensors];
-	double(MedianFiltre:: *medianProc)(double, char &);
+	double(MedianFiltre:: *medianProc)(double);
 	char(ChMedFlt:: *medianProc_stat)(char);
 public:
 	unsigned zoneOffsets[1 + App::count_zones];
@@ -58,7 +58,7 @@ public:
 	Compute();
 	void Start();
 	bool Strobes();
-	void Zone(int zone, int sens);
+//	void Zone(int zone, int sens);
 	void Zone(int sens, char *start, char *stop, double &data, char &status);
 	void ComputeFrame(int sens, char *d, double &value, char &status);
 	void Update();

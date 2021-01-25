@@ -24,7 +24,7 @@ void MedianFiltre::Clear()
 	memset(buf, 0, sizeof(buf));
 }
 
-double MedianFiltre::Val(double d, char &s)
+double MedianFiltre::Val(double d)
 {
 	int index_ = index % width;
 	++index;
@@ -33,7 +33,6 @@ double MedianFiltre::Val(double d, char &s)
 	
 	int cnt = 0;
 	buf[index_] = d;
-	status[index_] = s;
 
 	for(int i = 0; i < width - 1; ++i)
 	{
@@ -48,11 +47,9 @@ double MedianFiltre::Val(double d, char &s)
 	{
 		if (medianIndex == ind[i])
 		{
-			s = status[i];
 			return buf[i];
 		}
 	}
-	s = status[0];
 	return buf[0];
 }
 
@@ -91,7 +88,7 @@ double MedianFiltre::Val(double d, char &s, unsigned &o)
 	return buf[0];
 }
 
-double MedianFiltre::noop(double value, char &)
+double MedianFiltre::noop(double value)
 {
 	return value; 
 }

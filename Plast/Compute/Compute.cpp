@@ -153,6 +153,7 @@ bool Compute::Strobes()
 #undef MAX
 #undef MIN
 
+/*
 void Compute::Zone(int zone, int sens)
 {
 	auto &m = median[sens];
@@ -184,7 +185,7 @@ void Compute::Zone(int zone, int sens)
 			double result;
 			char status;
 			ComputeFrame(sens, &data.buffer[i + j * packetSize], result, status);
-			double t = (m.*medianProc)(result, status);
+			double t = (m.*medianProc)(result);
 			if (t > ldata[j])
 			{
 				ldata[j] = t;
@@ -204,7 +205,7 @@ void Compute::Zone(int zone, int sens)
 		sensorData[i]->count = zone;
 	}
 }
-
+*/
 void Compute::Zone(int sens, char *start, char *stop, double &result, char &status)
 {
 	const int inc = packetSize * App::count_sensors;
@@ -217,7 +218,7 @@ void Compute::Zone(int sens, char *start, char *stop, double &result, char &stat
 	for (char *i = start; i < stop; i += inc)
 	{
 		ComputeFrame(sens, i, t, tstatus);
-		t = (m.*medianProc)(t, tstatus);
+		t = (m.*medianProc)(t);
 		if (t > result)	result = t;
 		tstatus = (s.*medianProc_stat)(tstatus);
 		status = StatusData::Compute(status, tstatus);
