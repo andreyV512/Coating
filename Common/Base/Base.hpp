@@ -16,7 +16,7 @@ static wchar_t *const mdbRead = (wchar_t *)L".mdb;Mode=Read;Persist Security Inf
 class Initialize
 {
 public:
-	Initialize(){auto _ = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);}
+	Initialize(){auto _ = CoInitializeEx(NULL, COINIT_MULTITHREADED);}
 	~Initialize(){CoUninitialize();}
 };
 //------------------------------------------------------------------------------------------
