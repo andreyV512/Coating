@@ -95,7 +95,64 @@ double MedianFiltre::noop(double value, char &)
 {
 	return value; 
 }
+
 double MedianFiltre::noop(double value, char &, unsigned &)
 {
 	return value; 
+}
+
+ChMedFlt::ChMedFlt()
+{
+	width = 0;
+	index = 0;
+	medianIndex = 0;
+	memset(buf, 0, sizeof(buf));
+}
+
+void ChMedFlt::InitWidth(int width_)
+{
+	width_ |= 1;
+	width_ &= 0xf;
+	width = width_;
+	index = width_;
+	medianIndex = width_ / 2;
+}
+
+void ChMedFlt::Clear()
+{
+	memset(buf, 0, sizeof(buf));
+}
+
+char ChMedFlt::Val(char d)
+{
+	int index_ = index % width;
+	++index;
+
+	memset(ind, 0, width * sizeof(int));
+
+	int cnt = 0;
+	buf[index_] = d;
+
+	for (int i = 0; i < width - 1; ++i)
+	{
+		for (int j = i + 1; j < width; ++j)
+		{
+			if (buf[i] >= buf[j]) ++ind[i];
+			else if (buf[i] < buf[j]) ++ind[j];
+		}
+	}
+
+	for (int i = 0; i < width; ++i)
+	{
+		if (medianIndex == ind[i])
+		{
+			return buf[i];
+		}
+	}
+	return buf[0];
+}
+
+char ChMedFlt::noop(char)
+{
+	return 0;
 }

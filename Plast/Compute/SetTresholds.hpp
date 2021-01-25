@@ -37,15 +37,18 @@ template<class Owner> void SetParam(Owner &o, TresholdsTable::TItems &t)
 	VL::foreach<typename VL::CreateNumList<VL::IntToType, 0, App::count_sensors - 1>::Result, __set_tresholds__>()(data);
 }
 
-template<class T, class ...P>void set_median_proc(bool b, double(T:: *&res)(P...), double(T:: *t)(P...), double(T:: *f)(P...)) { res = b ? t : f; }
+template<class T, class Ret, class ...P>void set_median_proc(bool b, Ret(T:: *&res)(P...), Ret(T:: *t)(P...), Ret(T:: *f)(P...)) { res = b ? t : f; }
 template<class O, class P>struct __set_median__
 {
 	void operator()(P &p)
 	{
 		static const int N = O::value;
-		set_median_proc(p.t.get<Num<MedianFiltreON, N>>().value, p.o.medianProc, &MedianFiltre::Val, &MedianFiltre::noop);
+		bool b = p.t.get<Num<MedianFiltreON, N>>().value;
+		set_median_proc(b, p.o.medianProc, &MedianFiltre::Val, &MedianFiltre::noop);
+		set_median_proc(b, p.o.medianProc_stat, &ChMedFlt::Val, &ChMedFlt::noop);
 		int width = p.t.get<Num<MedianFiltreWidth, N>>().value;
 		p.o.median[N].InitWidth(width);
+		p.o.median_stat[N].InitWidth(width);
 	}
 };
 

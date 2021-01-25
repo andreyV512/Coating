@@ -188,7 +188,12 @@ void Compute::Zone(int zone, int sens)
 			if (t > ldata[j])
 			{
 				ldata[j] = t;
-				lstatus[j] = status;
+				//lstatus[j] = status;
+				lstatus[j] = StatusData::Compute(lstatus[j], status);
+			}
+			else if (StatusData::noBottomReflection == status)
+			{
+				lstatus[j] = StatusData::Compute(lstatus[j], status);
 			}
 		}
 	}
@@ -204,6 +209,7 @@ void Compute::Zone(int sens, char *start, char *stop, double &result, char &stat
 {
 	const int inc = packetSize * App::count_sensors;
 	auto &m = median[sens];
+	auto &s = median_stat[sens];
 	result = 0;
 	status = StatusData::norm;
 	char tstatus;
@@ -212,11 +218,9 @@ void Compute::Zone(int sens, char *start, char *stop, double &result, char &stat
 	{
 		ComputeFrame(sens, i, t, tstatus);
 		t = (m.*medianProc)(t, tstatus);
-		if (t > result)
-		{
-			result = t;	
-			status = StatusData::Compute(status, tstatus);
-		}
+		if (t > result)	result = t;
+		tstatus = (s.*medianProc_stat)(tstatus);
+		status = StatusData::Compute(status, tstatus);
 	}
 }
 

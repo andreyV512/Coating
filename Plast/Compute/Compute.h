@@ -27,7 +27,9 @@ private:
 public:
 	int zoneOffsetsIndex, zoneOffsetsIndexStart;
 	MedianFiltre median[App::count_sensors];
+	ChMedFlt median_stat[App::count_sensors];
 	double(MedianFiltre:: *medianProc)(double, char &);
+	char(ChMedFlt:: *medianProc_stat)(char);
 public:
 	unsigned zoneOffsets[1 + App::count_zones];
 private:
