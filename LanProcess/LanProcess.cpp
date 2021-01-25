@@ -206,16 +206,12 @@ int main(int argc, char **argv)
 	RshDllClient client;
 	LanN unit1, unit2;
 
-	if (RSH_API_SUCCESS != unit1.Init(1, p, client)) return 0;
-	if (RSH_API_SUCCESS != unit2.Init(2, p, client)) return 0;
-
-	LanProcess::hWritePipe = (HANDLE)atoi(argv[1]);
-	dprint("HANDLE %d\n", LanProcess::hWritePipe);
-
-	unit1.ptr = LanProcess::SendData;
-	unit2.ptr = LanProcess::SendData;
-
+	HANDLE hWritePipe = (HANDLE)atoi(argv[1]);
+	dprint("HANDLE %d\n", hWritePipe);
 	LanProcess lan;
+	if (RSH_API_SUCCESS != unit1.Init(1, p, client, hWritePipe, lan.hExit)) return 0;
+	if (RSH_API_SUCCESS != unit2.Init(2, p, client, hWritePipe, lan.hExit)) return 0;
+
 	HANDLE h[] = {
 		lan.hStart
 		, lan.hStop
