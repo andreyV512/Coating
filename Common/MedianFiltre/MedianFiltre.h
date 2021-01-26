@@ -17,9 +17,10 @@ struct MedianFiltre
 	
 	double Val(double d);
 	double Val(double d, char &s, unsigned &o);
+	double Stat(double d, char &s, unsigned &o);
 
-	double noop(double value);// {return value; }
-	double noop(double value, char &, unsigned &);// { return value; }
+	double noop(double value);
+	double noop(double value, char &, unsigned &);
 };
 
 struct ChMedFlt

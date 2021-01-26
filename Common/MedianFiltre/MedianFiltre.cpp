@@ -88,6 +88,41 @@ double MedianFiltre::Val(double d, char &s, unsigned &o)
 	return buf[0];
 }
 
+double MedianFiltre::Stat(double d, char &s, unsigned &o)
+{
+	int index_ = index % width;
+	++index;
+
+	memset(ind, 0, width * sizeof(int));
+
+	int cnt = 0;
+	buf[index_] = d;
+	status[index_] = s;
+	offs[index_] = o;
+
+	for (int i = 0; i < width - 1; ++i)
+	{
+		for (int j = i + 1; j < width; ++j)
+		{
+			if (status[i] >= status[j]) ++ind[i];
+			else if (status[i] < status[j]) ++ind[j];
+		}
+	}
+
+	for (int i = 0; i < width; ++i)
+	{
+		if (medianIndex == ind[i])
+		{
+			s = status[i];
+			o = offs[i];
+			return buf[i];
+		}
+	}
+	s = status[0];
+	o = offs[0];
+	return buf[0];
+}
+
 double MedianFiltre::noop(double value)
 {
 	return value; 
