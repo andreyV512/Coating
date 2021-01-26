@@ -20,6 +20,7 @@ public:
 	HWND hWnd;
 	HWND hStatuisBar;
 	bool XinMM = true;
+	bool amplFilt = true;
 	ZonesWindowToolBar toolBar;
 
 	Compute &computeZone;

@@ -59,7 +59,14 @@ template<class O, class P>struct __set_median_once__
 		static const int N = O::value;
 		if (N == p.sens)
 		{
-			set_median_proc(p.t.get<Num<MedianFiltreON, N>>().value, p.o.medianProc, &MedianFiltre::Val, &MedianFiltre::noop);
+			if (p.o.amplFilt)
+			{
+				set_median_proc(p.t.get<Num<MedianFiltreON, N>>().value, p.o.medianProc, &MedianFiltre::Val, &MedianFiltre::noop);
+			}
+			else
+			{
+				set_median_proc(p.t.get<Num<MedianFiltreON, N>>().value, p.o.medianProc, &MedianFiltre::Stat, &MedianFiltre::noop);
+			}
 			int width = p.t.get<Num<MedianFiltreWidth, N>>().value;
 			p.o.median.InitWidth(width);
 			return false;
