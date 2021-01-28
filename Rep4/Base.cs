@@ -36,7 +36,12 @@ namespace Rep4
         {
             get
             {
-                return Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "\\BACK";
+                string path = Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]) + "\\BACK";
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                return path;
             }
         }
 
