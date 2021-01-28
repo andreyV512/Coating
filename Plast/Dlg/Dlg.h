@@ -36,4 +36,7 @@
    DLG(TestXinMMDlg)
    DLG(GainDlg)
    DLG(TestGainDlg)
+
+   DLG(FiltreAmplDlg)
+   DLG(FiltreStatDlg)
 #undef DLG

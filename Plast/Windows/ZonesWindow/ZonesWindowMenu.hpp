@@ -37,6 +37,9 @@ namespace ZonesWindowMenu
 	struct XinMM__ : TestXinMMDlg {};
 	struct Gain__ : TestGainDlg {};
 
+	struct FiltreAmpl : FiltreAmplDlg {};
+	struct FiltreStat : FiltreStatDlg {};
+
 	MENU_ITEM(L"Неизмеряемые зоны", DeadZones)
 	MENU_ITEM(L"Аналоговый фильтр", DspFiltr)
 	MENU_ITEM(L"Медианный фильтр", MedianFltr)
@@ -45,7 +48,11 @@ namespace ZonesWindowMenu
 	MENU_ITEM(L"Ось Х в мм.", XinMM__);
 	MENU_ITEM(L"График усиления", Gain__);
 
+	MENU_ITEM(L"Фильтр по амплитуде", FiltreAmpl);
+	MENU_ITEM(L"Фильтр по статусу", FiltreStat);
+
 	template<>struct EnableMenuInit<MenuItem<XinMM__>>{int operator()(HWND){return MFS_CHECKED;}};
+	template<>struct EnableMenuInit<MenuItem<FiltreAmpl>> { int operator()(HWND) { return MFS_CHECKED; } };
 
 	template<>struct TopMenu<MainOptionTypeSize>
 	{
@@ -58,6 +65,9 @@ namespace ZonesWindowMenu
 			, MenuItem<BiPolar>
 			, MenuItem<XinMM__>
 			, MenuItem<Gain__>
+			, Separator<1>
+			, MenuItem<FiltreAmpl>
+			, MenuItem<FiltreStat>
 		> list;
 	};
 

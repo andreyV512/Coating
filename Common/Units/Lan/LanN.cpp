@@ -90,6 +90,7 @@ U32 LanN::Init(int num, RshInitMemory &p, RshDllClient &client, HANDLE writePipe
 	bufSize = p.bufferSize * p.packetNumber;
 	hWritePipe = writePipe;
 	hExit = exit;
+	hThread = CreateThread(NULL, 0, __frame__, this, CREATE_SUSPENDED, NULL);
 	if (0 != hThread)SetThreadPriority(hThread, THREAD_PRIORITY_HIGHEST);
 	return st;
 }
@@ -122,8 +123,10 @@ void LanN::Frame()
 				++counter;
 				RshCharType buf(addr, bufSize);
 				st = device->GetData(&buf);
-				if (RSH_API_SUCCESS == st) 
+				if (RSH_API_SUCCESS == st)
+				{
 					QueueUserWorkItem(__write_file__, addr, WT_EXECUTEDEFAULT);
+				}
 			}
 		}
 		if (RSH_API_SUCCESS != st)

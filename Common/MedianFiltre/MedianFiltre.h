@@ -15,8 +15,28 @@ struct MedianFiltre
 	
 	void Clear();
 	
-	double Val(double d, char &s);
+	double Val(double d);
 	double Val(double d, char &s, unsigned &o);
-	double noop(double value, char &);// {return value; }
-	double noop(double value, char &, unsigned &);// { return value; }
+	double Stat(double d, char &s, unsigned &o);
+
+	double noop(double value);
+	double noop(double value, char &, unsigned &);
+};
+
+struct ChMedFlt
+{
+	int index;
+	int width;
+	int medianIndex;
+	char buf[16];
+	//unsigned offs[16];
+	int ind[16];
+	ChMedFlt();
+
+	void InitWidth(int width_);
+
+	void Clear();
+	char Val(char);
+
+	char noop(char);
 };
