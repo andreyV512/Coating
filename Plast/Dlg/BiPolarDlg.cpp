@@ -52,25 +52,22 @@ void TestGainDlg::Do(HWND h)
 	w->GainEnable(b);
 	RepaintWindow(h);
 }
-
-void FiltreAmplDlg::Do(HWND h)
+void flt_dlg(bool b, HWND h)
 {
 	ZonesWindow *w = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-	CheckMenu<MenuItem<ZonesWindowMenu::FiltreAmpl>>(h, true);
-	CheckMenu<MenuItem<ZonesWindowMenu::FiltreStat>>(h, false);
-	w->amplFilt = true;
+	CheckMenu<MenuItem<ZonesWindowMenu::FiltreAmpl>>(h, b);
+	CheckMenu<MenuItem<ZonesWindowMenu::FiltreStat>>(h, !b);
+	w->amplFilt = b;
 	w->UpdateMedian();
 	w->UpdateZone();
 	w->UpdateAScan();
 }
+void FiltreAmplDlg::Do(HWND h)
+{
+	flt_dlg(true, h);
+}
 
 void FiltreStatDlg::Do(HWND h)
 {
-	ZonesWindow *w = (ZonesWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-	CheckMenu<MenuItem<ZonesWindowMenu::FiltreAmpl>>(h, false);
-	CheckMenu<MenuItem<ZonesWindowMenu::FiltreStat>>(h, true);
-	w->amplFilt = false;
-	w->UpdateMedian();
-	w->UpdateZone();
-	w->UpdateAScan();
+	flt_dlg(false, h);
 }
