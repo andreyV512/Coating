@@ -43,6 +43,7 @@ namespace App
 
 	void Init()
 	{
+		unsigned start = GetTickCount();
 		Performance::Init();
 		AppBase().Init();
 		Singleton<Compute>::Instance().Start();
@@ -74,6 +75,9 @@ namespace App
 
 		StartKeyHook(&AppKeyHandler::KeyPressed);
 		Singleton<LogMessageToTopLabel>::Instance().Run();
+
+		unsigned stop = GetTickCount();
+		dprint("time load %d\n", stop - start);
 
 		if (!device1730.Init(Singleton<NamePlate1730ParametersTable>::Instance().items.get<NamePlate1730>().value))
 		{
