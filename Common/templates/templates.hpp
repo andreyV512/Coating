@@ -200,7 +200,7 @@ template<typename, int N = 5>struct Wchar_from;
 
 template<>struct Wchar_from<int>
 {
-	wchar_t buf[_CVTBUFSIZE];
+	wchar_t buf[_CVTBUFSIZE] = {};
 	Wchar_from(){}
 	Wchar_from(int data)
 	{
@@ -233,7 +233,7 @@ template<int N>struct Wchar_from<Holder<N>>
 };
 template<>struct Wchar_from<unsigned>
 {
-	wchar_t buf[_CVTBUFSIZE];
+	wchar_t buf[_CVTBUFSIZE] = {};
 	Wchar_from(){}
 	Wchar_from(unsigned data)
 	{
