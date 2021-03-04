@@ -14,8 +14,7 @@ goto :EOF
 :Gen
 echo #pragma once > Version.h
 set /p file=<NumVer.txt
-chcp 65001
-echo #define VERSION() L"Cáîðêà %file%">> Version.h
+echo #define VERSION() L"CÐ±Ð¾Ñ€ÐºÐ° %file%">> Version.h
 goto :EOF
 
 
