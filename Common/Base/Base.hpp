@@ -1,17 +1,14 @@
 #pragma once
-#pragma warning( disable : 4146 )
 #import "c:\program files\common files\system\ado\msado15.dll" rename("EOF", "EndOfFile")
 #import "c:\program files\common files\system\ado\msadox.dll" 
-namespace
-{
+
 #if defined _M_IX86
-static wchar_t *const udl = (wchar_t *)L"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=";
+static const wchar_t *udl = L"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=";
 #else
-	static wchar_t *const udl = (wchar_t *)L"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
+	static const wchar_t *udl = L"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
 #endif
-static wchar_t *const mdb = (wchar_t *)L".mdb;Mode=ReadWrite;Persist Security Info=False";
-static wchar_t *const mdbRead = (wchar_t *)L".mdb;Mode=Read;Persist Security Info=False";
-}
+static const wchar_t *mdb = L".mdb;Mode=ReadWrite;Persist Security Info=False";
+static const wchar_t *mdbRead = L".mdb;Mode=Read;Persist Security Info=False";
 //------------------------------------------------------------------------------------------
 class Initialize
 {
