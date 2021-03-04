@@ -95,10 +95,10 @@ template<class Owner>void SetParam(Owner &o, DeadZonesTable::TItems &deadZones)
 
 struct __wrap_filters__
 {
-	Impl<IDSPFlt, 1032>(&filter)[App::count_sensors];
+	Impl<DSPFltDump, 1032>(&filter)[App::count_sensors];
 	FiltersTable::TItems &paramFlt;
 	unsigned frequency;
-	__wrap_filters__(Impl<IDSPFlt, 1032>(&filter)[App::count_sensors], unsigned frequency, FiltersTable::TItems &paramFlt)
+	__wrap_filters__(Impl<DSPFltDump, 1032>(&filter)[App::count_sensors], unsigned frequency, FiltersTable::TItems &paramFlt)
 		: filter(filter)
 		, paramFlt(paramFlt)
 		, frequency(frequency)

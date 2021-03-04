@@ -49,7 +49,7 @@ public:
 public:
 	int wholeStop;
 	double fractionalStart, fractionalStop;
-	Impl<IDSPFlt, 1032> filter[App::count_sensors];
+	Impl<DSPFltDump, 1032> filter[App::count_sensors];
 private:
 	void __Update__();
 	void __Recalculation__();

@@ -10,7 +10,7 @@ public:
 	unsigned frequency;
 	unsigned packetSize;
 	bool bipolar;
-	Impl<IDSPFlt, 1032> filter[App::count_sensors];
+	Impl<DSPFltDump, 1032> filter[App::count_sensors];
 	FiltersTable::TItems &paramFlt;
 	TresholdsTable::TItems &treshItems;
 	unsigned &framesCount;

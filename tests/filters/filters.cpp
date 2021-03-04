@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include "DspFilters/Filters.hpp"
 #include "DspFilters/DspFiltrParams.h"
+//#include "App/AppBase.h"
 
 int main()
 {
@@ -9,9 +10,9 @@ int main()
 	VL::Factory<filters_list> filters;
 	
 	FiltersTable params;
-	params.items.get<CurrentFilter>().value = 5;
+	params.items.get<Num<CurrentFilter, 0>>().value = 5;
 
-	IDSPFlt *proc = NULL;
+	DSPFltDump *proc = NULL;
 	__init_filtre_data__ data(proc, params.items);
 	VL::foreach<filters_list, __init_filtre__>()(filters, data);
 

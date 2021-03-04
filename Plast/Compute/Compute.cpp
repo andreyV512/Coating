@@ -26,8 +26,6 @@ Compute::Compute()
 	, result(Singleton<Data::ResultData>::Instance())
 {
 	VL::foreach<VL::CreateNumList< Data::Sensor, 0, App::count_sensors - 1>::Result, __compute_set_data__>()(sensorData);
-	//packetSize = Singleton<LanParametersTable>::Instance().items.get<PacketSize>().value;
-	//numberPackets = Singleton<LanParametersTable>::Instance().items.get<NumberPackets>().value;
 }
 
 
@@ -48,12 +46,8 @@ void Compute::Start()
 #define MAX(a, b) (a) > (b) ? (a): (b)
 #define MIN(a, b) (a) < (b) ? (a): (b)
 
-
-//int deugcount = 0;
-
 bool Compute::Strobes()
 {
-	//dprint(" st %d ", deugcount++);
 	unsigned strobesStop = data.strobesTickCount;
 	if (strobesStop == strobesTickCount || zoneOffsetsIndex >= App::count_zones) return false;
 	//количество кадров в зоне
@@ -130,7 +124,7 @@ bool Compute::Strobes()
 		}
 	}
 
-	for (int i = zoneOffsetsIndex; i < zoneOffsetsIndexStart; ++i)
+	for (int i = zoneOffsetsIndex; i < zoneOffsetsIndexStart && i < App::count_zones; ++i)
 	{
 		result.status[i] = StatusData::Compute(
 			StatusData::Compute(sensorData[0]->status[i], sensorData[1]->status[i])
@@ -153,59 +147,6 @@ bool Compute::Strobes()
 #undef MAX
 #undef MIN
 
-/*
-void Compute::Zone(int zone, int sens)
-{
-	auto &m = median[sens];
-	double ldata[App::count_sensors] = {};
-	char lstatus[App::count_sensors] = {};
-	const int inc = packetSize * App::count_sensors;
-	int start = zoneOffsets[zone - 1];
-	int stop = zoneOffsets[zone - 0];
-	if (1 + wholeStart > zone) 
-	{
-		for (int i = 0; i < App::count_sensors; ++i)
-		{
-			sensorData[i]->data[zone - 1] = 80;
-			sensorData[i]->status[zone - 1] = VL::IndexOf<zone_status_list, DeadZone>::value;
-			sensorData[i]->count = zone;
-		}
-		return;
-	}
-	else if (2 + wholeStart == zone)
-	{
-		start += int((stop - start) * fractionalStart);
-		start /= inc;
-		start *= inc;
-	}
-	for (int i = start; i < stop; i += inc)
-	{
-		for (int j = 0; j < App::count_sensors; ++j)
-		{
-			double result;
-			char status;
-			ComputeFrame(sens, &data.buffer[i + j * packetSize], result, status);
-			double t = (m.*medianProc)(result);
-			if (t > ldata[j])
-			{
-				ldata[j] = t;
-				//lstatus[j] = status;
-				lstatus[j] = StatusData::Compute(lstatus[j], status);
-			}
-			else if (StatusData::noBottomReflection == status)
-			{
-				lstatus[j] = StatusData::Compute(lstatus[j], status);
-			}
-		}
-	}
-	for (int i = 0; i < App::count_sensors; ++i)
-	{
-		sensorData[i]->data[zone - 1] = ldata[i];
-		sensorData[i]->status[zone - 1] = lstatus[i];
-		sensorData[i]->count = zone;
-	}
-}
-*/
 void Compute::Zone(int sens, char *start, char *stop, double &result, char &status)
 {
 	const int inc = packetSize * App::count_sensors;
@@ -227,7 +168,7 @@ void Compute::Zone(int sens, char *start, char *stop, double &result, char &stat
 
 void Compute::ComputeFrame(int sens, char *d, double &value, char &status)
 {
-	IDSPFlt &f = (IDSPFlt &)filter[sens];
+	DSPFltDump &f = (DSPFltDump &)filter[sens];
 	f.Clean();
 	status = StatusData::norm;
 	value = 0;
