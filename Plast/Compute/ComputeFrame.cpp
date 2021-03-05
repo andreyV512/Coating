@@ -27,7 +27,7 @@ void ComputeFrame::UpdateFiltre()
 
 void ComputeFrame::Frame(int sensor, unsigned offs_, double *data)
 {
-	auto &f = filter[sensor];
+	IDSPFlt *f = filter[sensor];
 	f->Clean();
 
 	unsigned offs = offs_;
