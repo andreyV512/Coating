@@ -28,8 +28,6 @@ Compute::Compute()
 	VL::foreach<VL::CreateNumList< Data::Sensor, 0, App::count_sensors - 1>::Result, __compute_set_data__>()(sensorData);
 }
 
-
-
 void Compute::Start()
 {
 	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;

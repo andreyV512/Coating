@@ -23,31 +23,28 @@ template<int MaxOrder>struct DSPFltType<BandStop, ChebI, MaxOrder>
 	typedef Dsp::ChebyshevI::BandStop<MaxOrder> Result;
 };
 
-template<class T>class IDSPFlt
+class IDSPFlt
 {
 public:
-	double operator()(double value) { return ((T *)this)->state.process(value, ((T *)this)->filtre); }
-	void Clean() { ((T *)this)->state.Clean(((T *)this)->filtre); }
+	virtual double operator()(double value) = 0;
+	virtual void Clean() = 0;
 };
 
-class DSPFltDump: public IDSPFlt<DSPFltDump>
+class DSPFltDump: public IDSPFlt
 {
 public:
-	struct Filtre{} filtre;
-	struct State 
-	{
-		double process(double value, Filtre) { return value; }
-		void Clean(Filtre) {}
-	} state;
+	double operator()(double value)override { return value; }
+	void Clean()override { }
 };
 
-template<template<class>class TypeFiltre, template<class>class SubTypeFiltre, int MaxOrder = 5>class DSPFlt
-	: public IDSPFlt<DSPFlt<TypeFiltre, SubTypeFiltre, MaxOrder>>
+template<template<class>class TypeFiltre, template<class>class SubTypeFiltre, int MaxOrder = 5>class DSPFlt: public IDSPFlt
 {
 public:
 	typedef typename DSPFltType<TypeFiltre,SubTypeFiltre, MaxOrder>::Result T;
 	T filtre;
 	typename  T::template State<Dsp::DirectFormI> state;
+	double operator()(double value) override { return state.process(value, filtre); }
+	void Clean() override  { state.Clean(filtre); }
 };
 
 template<class T, int N>struct SetupFiltre;

@@ -1,10 +1,5 @@
 #pragma once
 
-//template<int N, typename T>constexpr int dimention_of(T(&)[N])
-//{
-//	return N;
-//}
-
 template<class T, int N>char(&__length_array_of_T_type_same_as_length_array_of_char__(T(&)[N]))[N];
 #define dimention_of(x) sizeof(__length_array_of_T_type_same_as_length_array_of_char__(x))
 

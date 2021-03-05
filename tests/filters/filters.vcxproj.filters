@@ -22,6 +22,9 @@
     <Filter Include="DspFilters\source">
       <UniqueIdentifier>{09956843-f8f2-40f7-b1d1-2237c02abded}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tools_debug">
+      <UniqueIdentifier>{d676b7d0-ca46-4777-8b39-cd41f89cf154}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="filters.cpp">
@@ -77,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Common\DspFilters\source\State.cpp">
       <Filter>DspFilters\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\tools_debug\DebugMess.cpp">
+      <Filter>tools_debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Common\DspFilters\include\DspFilters\Utilities.h">
       <Filter>DspFilters\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\tools_debug\DebugMess.h">
+      <Filter>tools_debug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

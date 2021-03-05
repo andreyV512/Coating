@@ -1,4 +1,6 @@
 #pragma once
+#include "DspFilters/Filters.hpp"
+#include "tools_debug/DebugMess.h"
 
 class __init_filtre__
 {
