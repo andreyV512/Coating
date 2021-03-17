@@ -35,23 +35,25 @@
             // 
             this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.progressBar.Location = new System.Drawing.Point(0, 0);
+            this.progressBar.MarqueeAnimationSpeed = 10;
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(239, 17);
+            this.progressBar.Size = new System.Drawing.Size(239, 18);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar.TabIndex = 0;
+            this.progressBar.UseWaitCursor = true;
             // 
             // WaitForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(239, 17);
+            this.ClientSize = new System.Drawing.Size(239, 18);
             this.Controls.Add(this.progressBar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "WaitForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "WaitForm";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.WaitForm_Load);
             this.ResumeLayout(false);
 
         }

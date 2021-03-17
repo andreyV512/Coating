@@ -37,10 +37,12 @@
             this.miBase = new System.Windows.Forms.ToolStripMenuItem();
             this.miSaveClear = new System.Windows.Forms.ToolStripMenuItem();
             this.miOpenBase = new System.Windows.Forms.ToolStripMenuItem();
+            this.miOpenCurrentBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -92,7 +94,7 @@
             // operatorsToolStripMenuItem
             // 
             this.operatorsToolStripMenuItem.Name = "operatorsToolStripMenuItem";
-            this.operatorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.operatorsToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.operatorsToolStripMenuItem.Text = "Операторы";
             this.operatorsToolStripMenuItem.Click += new System.EventHandler(this.miOperators_Click);
             // 
@@ -100,7 +102,9 @@
             // 
             this.miBase.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miSaveClear,
-            this.miOpenBase});
+            this.miOpenBase,
+            this.toolStripMenuItem1,
+            this.miOpenCurrentBaseToolStripMenuItem});
             this.miBase.Name = "miBase";
             this.miBase.Size = new System.Drawing.Size(43, 20);
             this.miBase.Text = "База";
@@ -108,16 +112,23 @@
             // miSaveClear
             // 
             this.miSaveClear.Name = "miSaveClear";
-            this.miSaveClear.Size = new System.Drawing.Size(196, 22);
+            this.miSaveClear.Size = new System.Drawing.Size(257, 22);
             this.miSaveClear.Text = "Сохранить и очистить";
             this.miSaveClear.Click += new System.EventHandler(this.miSaveClear_Click);
             // 
             // miOpenBase
             // 
             this.miOpenBase.Name = "miOpenBase";
-            this.miOpenBase.Size = new System.Drawing.Size(196, 22);
-            this.miOpenBase.Text = "Открыть базу";
+            this.miOpenBase.Size = new System.Drawing.Size(257, 22);
+            this.miOpenBase.Text = "Открыть заархивированную базу";
             this.miOpenBase.Click += new System.EventHandler(this.miOpenBase_Click);
+            // 
+            // открытьТекущуюБазуToolStripMenuItem
+            // 
+            this.miOpenCurrentBaseToolStripMenuItem.Name = "miOpenCurrentBaseToolStripMenuItem";
+            this.miOpenCurrentBaseToolStripMenuItem.Size = new System.Drawing.Size(257, 22);
+            this.miOpenCurrentBaseToolStripMenuItem.Text = "Открыть текущую базу";
+            this.miOpenCurrentBaseToolStripMenuItem.Click += new System.EventHandler(this.miOpenCurrentBaseToolStripMenuItem_Click);
             // 
             // statusStrip
             // 
@@ -139,6 +150,11 @@
             // 
             this.statusLabel2.Name = "statusLabel2";
             this.statusLabel2.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(254, 6);
             // 
             // fmUser
             // 
@@ -175,6 +191,8 @@
         private System.Windows.Forms.ToolStripStatusLabel statusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel2;
         private System.Windows.Forms.ToolStripMenuItem operatorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem miOpenCurrentBaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
     }
 }
 

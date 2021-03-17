@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using System.Threading;
-using System.Windows;
 using System.Threading.Tasks;
 
 namespace Rep4
@@ -21,26 +19,20 @@ namespace Rep4
 
         private async void miOperators_Click(object sender, EventArgs e)
         {
-            var w = new WaitForm();
-            w.Show(this);
-
-            var (list, param) = await User.QueryAsync();
-            reportViewerUser.Viewer(@".\ReportUser.rdlc", "dataSetUser", list, param);
-
-            w.Close();
+            using (new WaitForm(this))
+            {
+                var (list, param) = await User.QueryAsync();
+                reportViewerUser.Viewer(@".\ReportUser.rdlc", "dataSetUser", list, param);
+            }
         }
 
         private async void miSaveClear_Click(object sender, EventArgs e)
         {
-            var w = new WaitForm();
-            w.Show(this);
-
-            await Task.Run(() => {
-                new Base().BackUp();
-            });
-
-            miSaveClear.Enabled = false;
-            w.Close();
+            using (new WaitForm(this))
+            {
+                await Task.Run(() =>{new Base().BackUp();});
+                miSaveClear.Enabled = false;
+            }
         }
 
         private async void miOpenBase_Click(object sender, EventArgs e)
@@ -51,20 +43,23 @@ namespace Rep4
             openFileDialog.Filter = "bak files (*.bak)|*.bak|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                var w = new WaitForm();
-                w.Show(this);
+                using (new WaitForm(this))
+                {
+                    statusLabel1.Text = Path.GetFileName(openFileDialog.FileName);
+                    miSaveClear.Enabled = false;
+                    Text = "Архив";
 
-                statusLabel1.Text = Path.GetFileName(openFileDialog.FileName);
-                miSaveClear.Enabled = false;
-                Text = "Архив";
-
-                await Task.Run(() => {
-                    b.OpenBase(openFileDialog.FileName);
-                });
-
-                w.Close();
+                    await Task.Run(() =>{b.OpenBase(openFileDialog.FileName);});
+                }
             }
-            
         }
-    }
+
+        private void miOpenCurrentBaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Base.ConnectionStringOpenCurrentBase();
+            statusLabel1.Text = "";
+            Text = "База";
+            reportViewerUser.Clear();
+        }
+}
 }

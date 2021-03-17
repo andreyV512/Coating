@@ -2,8 +2,6 @@
 using System;
 using System.IO;
 using System.Data;
-using System.Linq.Expressions;
-using System.Threading;
 
 namespace Rep4
 {
@@ -47,11 +45,8 @@ namespace Rep4
 
         public bool IsOpen => null != conn && ConnectionState.Open == conn.State;
 
-        public void Close()
-        {
-            if (IsOpen) conn.Close();
-        }
-
+        public void Close(){if (IsOpen) conn.Close();}
+       
         public void BackUp()
         {
             if(Open)
@@ -107,7 +102,6 @@ namespace Rep4
                     cmd.Parameters.Add(new OleDbParameter("@file_name", fileName));
 
                     cmd.ExecuteNonQuery();
-
                 }
 
                 connectionString = @"Provider = SQLOLEDB.1; Integrated Security = SSPI; 
@@ -116,6 +110,13 @@ namespace Rep4
 
                 Close(); 
             }
+        }
+
+        public static void ConnectionStringOpenCurrentBase()
+        {
+            connectionString = @"Provider = SQLOLEDB.1; Integrated Security = SSPI; 
+                            Persist Security Info = False; Initial Catalog = StoreBase;
+                            Data Source = (local)";
         }
     }
 }

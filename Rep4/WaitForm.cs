@@ -8,40 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using System.Windows.Interop;
-using System.Threading;
 
 namespace Rep4
 {
     public partial class WaitForm : Form
     {
-        private const int GWL_STYLE = -16; //WPF's Message code for Title Bar's Style 
-        private const int WS_SYSMENU = 0x80000; //WPF's Message code for System Menu
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-        [DllImport("user32.dll")]
-        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-        public WaitForm()
+        public WaitForm(Form form)
         {
             InitializeComponent();
-        }
-
-        private async void WaitForm_Load(object sender, EventArgs e)
-        {
-            Location = new System.Drawing.Point(Owner.Location.X + (Owner.Width - Width) / 2, Owner.Location.Y + (Owner.Height - Height) / 2);
-            SetWindowLong(this.Handle, GWL_STYLE, GetWindowLong(this.Handle, 0));
-          
-            int val = 0;
-            int dv = 10;
-            while (true) 
-            {
-                val += dv;
-                if (val > progressBar.Maximum - 20) dv = -10;
-                else if (val < progressBar.Minimum + 20) dv = 10;
-                progressBar.Value = val;
-                await Task.Delay(10);
-            }
+            Location = new Point(form.Location.X + (form.Width - Width) / 2
+               , form.Location.Y + (form.Height - Height) / 2);
+            Show(form);
         }
     }
 }

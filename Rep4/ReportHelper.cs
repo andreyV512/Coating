@@ -20,12 +20,11 @@ namespace Rep4
             lr.Refresh();
             r.RefreshReport();
         }
-
+       
         public static void Row<T>(this IList<T> l, OleDbDataReader o) where T : new()
         {
             var t = new T();
             foreach (var i in typeof(T).GetProperties()) i.SetValue(t, o[i.Name]);
-            //return t;
             l.Add(t);
         }
     }
