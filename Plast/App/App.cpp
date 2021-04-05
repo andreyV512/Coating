@@ -52,7 +52,7 @@ namespace App
 		wsprintf(pd.tail, L"\\..\\Store\\");
 		CreateDirectory(pd.path, NULL);
 
-		Store::Init();
+	///	Store::Init();
 
 #ifndef INNER_LAN
 		Singleton<LanDevice>::Instance().Reload();
