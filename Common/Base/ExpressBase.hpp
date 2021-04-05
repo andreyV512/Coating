@@ -2,7 +2,7 @@
 #include "Base.hpp"
 
 namespace{
-static const wchar_t *connStr = L"Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;Data Source=(local);Initial Catalog=%s;";
+static const wchar_t *connStr   = L"Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;Data Source=(local);Initial Catalog=%s;";
 static const wchar_t *createStr = L"Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;Data Source=(local)";
 }
 
