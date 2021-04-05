@@ -37,7 +37,7 @@ template<class P>struct __data_from_widget__<Dialog::DlgItem2<P, TInputBitDlg>, 
 	{
 		wchar_t buf[128];
 		GetWindowText(o.hWnd, buf, dimention_of(buf));
-		return 1 << (Wchar_to<unsigned>()(buf));
+		return (Wchar_to<unsigned>()(buf));
 	}
 };
 
@@ -47,6 +47,7 @@ void InputBitDlg::Do(HWND h)
 	VL::foreach<InputBitsTable::items_list, __unshift__>()(par.items, Singleton<InputBitsTable>::Instance().items);
 	if(TInputBitDlg(par).Do(h, (wchar_t *)L"Смещение входных портов"))
 	{
+		VL::CopyFromTo(par.items, Singleton<InputBitsTable>::Instance().items);
 	}
 }
 
@@ -67,6 +68,7 @@ void OutputBitDlg::Do(HWND h)
 	VL::foreach<OutputBitsTable::items_list, __unshift__>()(par.items, Singleton<OutputBitsTable>::Instance().items);
 	if(TOutputBitDlg(par).Do(h, (wchar_t *)L"Смещение выходных портов"))
 	{
+		VL::CopyFromTo(par.items, Singleton<OutputBitsTable>::Instance().items);
 	}
 }
 
