@@ -52,7 +52,7 @@ public:
 		    conn->Execute(buf, NULL, ADODB::adExecuteNoRecords); 
 		}		
 	}
-	CExpressBase(const wchar_t *connectionStringUDL, int wait = 60)
+	CExpressBase(const wchar_t* connectionStringUDL, int wait = 60)
 	{
 		wchar_t buf[1024];
 		wsprintf(buf, L"File Name=%s", connectionStringUDL);
@@ -61,18 +61,6 @@ public:
 			conn.CreateInstance(__uuidof(ADODB::Connection));
 			conn->CommandTimeout = wait;
 			conn->Open(buf, L"", L"", ADODB::adConnectUnspecified);
-		}
-		catch (...) {}
-	}
-	CExpressBase(const char *connectionStringUDL, int wait = 60)
-	{
-		char buf[1024];
-		sprintf_s(buf, "File Name=%s", connectionStringUDL);
-		try
-		{
-			conn.CreateInstance(__uuidof(ADODB::Connection));
-			conn->CommandTimeout = wait;
-			conn->Open(buf, "", "", ADODB::adConnectUnspecified);
 		}
 		catch (...) {}
 	}
