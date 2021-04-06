@@ -108,7 +108,7 @@ namespace Automat
 				}
 
 				Singleton<Compute>::Instance().Update();
-			Done();
+			    Done();
 
 				Log::Mess <LogMess::CollectionDone>();
 				dprint("loop\n");
