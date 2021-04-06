@@ -201,7 +201,7 @@ int main(int argc, char **argv)
 
 	RshInitMemory p{};
 
-	LanN::SetParams(p, items);
+	
 
 	RshDllClient client;
 	LanN unit1, unit2;
@@ -209,7 +209,9 @@ int main(int argc, char **argv)
 	HANDLE hWritePipe = (HANDLE)atoi(argv[1]);
 	dprint("HANDLE %d\n", hWritePipe);
 	LanProcess lan;
+	LanN::SetParams(p, items);
 	if (RSH_API_SUCCESS != unit1.Init(1, p, client, hWritePipe, lan.hExit)) return 0;
+	LanN::SetParams(p, items);
 	if (RSH_API_SUCCESS != unit2.Init(2, p, client, hWritePipe, lan.hExit)) return 0;
 
 	HANDLE h[] = {

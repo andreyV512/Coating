@@ -14,6 +14,7 @@
 class ZonesWindow
 {
 public:
+	static const int zones_count = 16 * 1024;
 	int currentSensor;
 	int currentZone;
 	int currentOffset;
@@ -52,9 +53,9 @@ public:
 	typedef Vlst<ZoneViewer, Sens>viewers_list;
 	VL::Factory< viewers_list> viewers;
 
-	double zoneViewerData[10240];
-	char zoneViewerStatus[10240];
-	unsigned zoneOffs[10240];
+	double zoneViewerData[zones_count];
+	char zoneViewerStatus[zones_count];
+	unsigned zoneOffs[zones_count];
 
 	ZoneViewer &zoneViewer;
 	Sens &aScan;

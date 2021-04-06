@@ -38,32 +38,34 @@ void Compute::Start()
 	SetParam(*this, Singleton<MedianFiltreTable>::Instance().items);
 	SetParam(*this, Singleton<TresholdsTable>::Instance().items);
 	SetParam(*this, Singleton<DeadZonesTable>::Instance().items);
-	Singleton< ALLPatrams>::Instance().SetParams();
+	Singleton< ALLPatrams>::Instance().SetParams();                           
+	memset(data.offsetsTick, 0, sizeof(data.offsetsTick));
+	memset(data.strobesTick, 0, sizeof(data.strobesTick));
 }
 
 #define MAX(a, b) (a) > (b) ? (a): (b)
-#define MIN(a, b) (a) < (b) ? (a): (b)
+#define MIN(a, b) (a) < (b) ? (a): (b)                                   
 
-bool Compute::Strobes()
+bool Compute::Strobes()                      
 {
 	unsigned strobesStop = data.strobesTickCount;
 	if (strobesStop == strobesTickCount || zoneOffsetsIndex >= App::count_zones) return false;
-	//количество кадров в зоне
+	//количество кадров в зоне                                          
 	unsigned offsetsTickStop = data.offsetsTickCount;
 	unsigned offsetTickStart = offsetsTickCount;
-	for (unsigned i = strobesTickCount; i < strobesStop; ++i)
+	for (unsigned i = strobesTickCount; i < strobesStop; ++i)                     
 	{
 		unsigned tickStrobes = data.strobesTick[i];
-		while (data.offsetsTick[offsetTickStart] < tickStrobes) ++offsetTickStart;
+		while (0 != data.offsetsTick[offsetTickStart] && data.offsetsTick[offsetTickStart] < tickStrobes) ++offsetTickStart;
 		zoneOffsets[zoneOffsetsIndexStart] = offsetTickStart * packetSize * numberPackets;
 		if(zoneOffsetsIndexStart < dimention_of(zoneOffsets) - 1)++zoneOffsetsIndexStart;
-	}
+	}                 
 
 	if (zoneOffsetsIndexStart - (wholeStart + wholeStop + 1) < 0)
 	{
 		zoneOffsetsIndexStart = 0;
 		return false;
-	}
+	}                                          
 
 	strobesTickCount = strobesStop;
 
