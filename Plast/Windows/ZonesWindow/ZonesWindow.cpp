@@ -255,8 +255,12 @@ void ZonesWindow::UpdateZone()
 	double ldata;
 	char lstatus;
 	
-	unsigned xoffsStart = offsStart - leftOffs * inc;
-	if (xoffsStart < 0) xoffsStart = offsStart;
+	int xoffsStart = offsStart - leftOffs * inc;
+	if (xoffsStart < 0)
+	{
+		xoffsStart = 0;//offsStart;
+		median.Clear();
+	}
 
 	for (unsigned i = xoffsStart; i < offsStart; i += inc)
 	{
