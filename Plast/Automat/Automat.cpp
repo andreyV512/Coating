@@ -96,11 +96,13 @@ namespace Automat
 				// Bits<TstOn<iCU> >(); //проверка цепей управления
 				Log::Mess <LogMess::On_iIn>();
 				Bits<On<iIn>, Key<StopBtn>, Proc<iStrobe>>();
-				Singleton<Compute>::Instance().Start();
+				////Singleton<Compute>::Instance().Start();
 				{
 					Log::Mess <LogMess::Collection>();
 
 					CollectionData collection; 
+					Singleton<Compute>::Instance().Start();
+
 
 					Bits<On<iOut>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(120 * 1000);
 					Bits<Off<iIn>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(120 * 1000);

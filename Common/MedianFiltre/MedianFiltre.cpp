@@ -22,6 +22,7 @@ void MedianFiltre::InitWidth(int width_)
 void MedianFiltre::Clear()
 {
 	memset(buf, 0, sizeof(buf));
+	memset(offs, 0, sizeof(offs));
 }
 
 double MedianFiltre::Val(double d)

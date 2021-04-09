@@ -134,7 +134,7 @@ bool Compute::Strobes()
 		}
 	}
 
-	for (int i = zoneOffsetsIndex; i < zoneOffsetsIndexStart && i < App::count_zones; ++i)
+	for (int i = 0; i < zoneOffsetsIndexStart && i < App::count_zones; ++i)
 	{
 		result.status[i] = StatusData::Compute(
 			StatusData::Compute(sensorData[0]->status[i], sensorData[1]->status[i])

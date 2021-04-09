@@ -80,7 +80,7 @@ CollectionData::CollectionData()
 	: generatorBit(Singleton<OutputBitsTable>::Instance().items.get<oGenerator>().value)
 {
 	Singleton<LanDevice>::Instance().Start();
-	Sleep(500);
+	Sleep(1000);
 	device1730.WriteOutput(generatorBit);
 	dprint("START LAN\n");
 }
