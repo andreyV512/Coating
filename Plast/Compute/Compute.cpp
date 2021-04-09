@@ -57,7 +57,17 @@ bool Compute::Strobes()
 	{
 		unsigned tickStrobes = data.strobesTick[i];
 		while (0 != data.offsetsTick[offsetTickStart] && data.offsetsTick[offsetTickStart] < tickStrobes) ++offsetTickStart;
-		zoneOffsets[zoneOffsetsIndexStart] = offsetTickStart * packetSize * numberPackets;
+
+		double __offsetTickStart = offsetTickStart;
+		if (0 != data.offsetsTick[offsetTickStart] && data.offsetsTick[offsetTickStart] > tickStrobes)
+		{
+			unsigned time = data.offsetsTick[offsetTickStart] - data.offsetsTick[offsetTickStart - 1];
+			unsigned rem = data.offsetsTick[offsetTickStart] - tickStrobes;
+			double dt = (double)rem / time;
+			__offsetTickStart -= dt;
+		}
+
+		zoneOffsets[zoneOffsetsIndexStart] = unsigned(__offsetTickStart * packetSize * numberPackets);
 		if(zoneOffsetsIndexStart < dimention_of(zoneOffsets) - 1)++zoneOffsetsIndexStart;
 	}                 
 
