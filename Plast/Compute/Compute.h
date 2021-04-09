@@ -25,7 +25,7 @@ public:
 private:
 	unsigned framesCount, strobesTickCount, offsetsTickCount;
 public:
-	int zoneOffsetsIndex, zoneOffsetsIndexStart, zoneOffsetsIndexAll;
+	int zoneOffsetsIndex, zoneOffsetsIndexStart;
 	MedianFiltre median[App::count_sensors];
 	ChMedFlt median_stat[App::count_sensors];
 	double(MedianFiltre:: *medianProc)(double);
