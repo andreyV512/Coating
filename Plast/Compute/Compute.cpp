@@ -30,7 +30,7 @@ Compute::Compute()
 
 void Compute::Start()
 {
-	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
+	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = zoneOffsetsIndexAll = 0;
 	zoneOffsetsIndex = zoneOffsetsIndexStart = 0;
 
 	SetParam(*this, Singleton<LanParametersTable>::Instance().items);
@@ -59,7 +59,7 @@ bool Compute::Strobes()
 		while (0 != data.offsetsTick[offsetTickStart] && data.offsetsTick[offsetTickStart] < tickStrobes) ++offsetTickStart;
 
 		double __offsetTickStart = offsetTickStart;
-		if (0 != data.offsetsTick[offsetTickStart] && data.offsetsTick[offsetTickStart] > tickStrobes)
+		if (offsetTickStart > 0 && 0 != data.offsetsTick[offsetTickStart] && data.offsetsTick[offsetTickStart] > tickStrobes)
 		{
 			unsigned time = data.offsetsTick[offsetTickStart] - data.offsetsTick[offsetTickStart - 1];
 			unsigned rem = data.offsetsTick[offsetTickStart] - tickStrobes;
@@ -134,7 +134,7 @@ bool Compute::Strobes()
 		}
 	}
 
-	for (int i = 0; i < zoneOffsetsIndexStart && i < App::count_zones; ++i)
+	for (int i = zoneOffsetsIndexAll; i < zoneOffsetsIndexStart && i < App::count_zones; ++i)
 	{
 		result.status[i] = StatusData::Compute(
 			StatusData::Compute(sensorData[0]->status[i], sensorData[1]->status[i])
@@ -148,7 +148,7 @@ bool Compute::Strobes()
 		result.maxData[i] = MAX(MAX(_0, _1), _2);
 	}
 	
-	result.count = zoneOffsetsIndexStart - 1;
+	zoneOffsetsIndexAll = result.count = zoneOffsetsIndexStart - 1;
 
 	zoneOffsetsIndex = zoneOffsetsIndexStart - wholeStop - 1;
 	return true;
