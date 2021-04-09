@@ -4,7 +4,8 @@
 
 class LanN
 {
-	static const int maxFrames = 4;
+	static const int maxFrames = 128;
+	int counter;
 public:
 	static inline int bufSize;
 private:

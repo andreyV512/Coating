@@ -38,6 +38,7 @@ void LanN::Err(U32 err, wchar_t(&str)[256])
 LanN::~LanN()
 {
 	TerminateThread(hThread, 0);
+	dprint("Lan destroy\n");
 }
 
 #define q(tpe)items.get<tpe>().value
@@ -60,7 +61,6 @@ void LanN::SetParams(RshInitMemory &p, LanParametersTable::TItems &items)
 	p.startDelay = q(StartDelay);
 }
 #undef q
-
 U32 LanN::Init(int num, RshInitMemory &p, RshDllClient &client, HANDLE writePipe, HANDLE exit)
 {
 	numberUnit = num;
@@ -92,11 +92,14 @@ U32 LanN::Init(int num, RshInitMemory &p, RshDllClient &client, HANDLE writePipe
 	hExit = exit;
 	hThread = CreateThread(NULL, 0, __frame__, this, CREATE_SUSPENDED, NULL);
 	if (0 != hThread)SetThreadPriority(hThread, THREAD_PRIORITY_HIGHEST);
+	data = new char[bufSize * maxFrames];
 	return st;
 }
 
 void LanN::Start()
 {
+	counter = 0;
+	ZeroMemory(data, bufSize * maxFrames);
 	while (!ResumeThread(hThread));
 }
 
@@ -107,14 +110,12 @@ void LanN::Stop()
 
 void LanN::Frame() 
 {
-	RSH_U32 waitTime = 3000;
-	unsigned counter = 0;
-	data = new char[bufSize * maxFrames];
 	while (true)
 	{
 		S32 st = device->Start();
 		if (RSH_API_SUCCESS == st)
 		{
+			RSH_U32 waitTime = 3000;
 			st = device->Get(RSH_GET_WAIT_BUFFER_READY_EVENT, &waitTime);
 			device->Stop();
 			if (RSH_API_SUCCESS == st)
@@ -125,7 +126,12 @@ void LanN::Frame()
 				st = device->GetData(&buf);
 				if (RSH_API_SUCCESS == st)
 				{
+					//dprint("num %d\n", numberUnit);
 					QueueUserWorkItem(__write_file__, addr, WT_EXECUTEDEFAULT);
+				}
+				else
+				{
+					dprint("ERR FRAME num %d\n", numberUnit);
 				}
 			}
 		}
