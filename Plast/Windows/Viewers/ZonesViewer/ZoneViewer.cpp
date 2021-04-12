@@ -28,9 +28,11 @@ bool ZoneViewer::GetColorCell(int zone, double &data_, unsigned &color)
 
 bool ZoneViewer::Draw(TMouseMove &l, VGraphics &g)
 {
+	int currentY = 0;
+	chart->CoordCell(l.x, l.y, currentX, currentY);
 	int x = currentX;
-
 	bool drawZones = x < count;
+
 	if (drawZones)
 	{
 		unsigned color = 0xff;
