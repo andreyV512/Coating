@@ -96,6 +96,7 @@ namespace Data
 	} x;
 	*/
 	char *InputData::buffer = new char[Data::InputData::buffSize] ;
+	/*
 	struct Init					 
 	{
 
@@ -140,5 +141,6 @@ namespace Data
 			
 		}
 	} init;
+	*/
 }
 
