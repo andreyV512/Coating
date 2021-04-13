@@ -31,10 +31,16 @@ bool AScanViewer::Draw(TMouseMove &l, VGraphics &g)
 	label.buffer[0] = '\0';
 	if (drawZones)
 	{
-		wsprintf(label.buffer, L"<ff>смещение %d  толщина %s мм уровень %s                    <%6x>."
+		wsprintf(label.buffer, L"<ff>смещение %d  толщина %s мм уровень %s<%6x>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 			, x
 			, thick()
 			, val()
+			, BACK_GROUND
+		);
+	}
+	else
+	{
+		wsprintf(label.buffer, L"<%6x>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 			, BACK_GROUND
 		);
 	}

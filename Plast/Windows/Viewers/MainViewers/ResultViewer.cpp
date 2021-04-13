@@ -80,7 +80,7 @@ bool ResultViewer::Draw(TMouseMove &l, VGraphics &g)
 		{
 			Wchar_from<double, 1> Y(data.minData[x]);
 			Wchar_from<double, 1> YY(data.maxData[x]);
-			wsprintf(label.buffer, L"<ff>зона %d мин.%s мах.%s<%6x>%s                   <%6x>."
+			wsprintf(label.buffer, L"<ff>зона %d мин.%s мах.%s<%6x>%s<%6x>xxxxxxxxxxxxxxxxxxxx"
 				, 1 + x
 				, Y()
 				, YY()
@@ -91,13 +91,19 @@ bool ResultViewer::Draw(TMouseMove &l, VGraphics &g)
 		}
 		else
 		{
-			wsprintf(label.buffer, L"<ff>зона %d <%6x>%s                           <%6x>."
+			wsprintf(label.buffer, L"<ff>зона %d <%6x>%s<%6x>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 				, 1 + x
 				, color
 				, s
 				, BACK_GROUND
 			);
 		}
+	}
+	else
+	{
+		wsprintf(label.buffer, L"<%6x>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+			, BACK_GROUND
+		);
 	}
 	label.Draw(g());
 	return drawZones;
