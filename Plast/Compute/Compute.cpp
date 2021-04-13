@@ -41,6 +41,11 @@ void Compute::Start()
 	Singleton< ALLPatrams>::Instance().SetParams();                           
 	memset(data.offsetsTick, 0, sizeof(data.offsetsTick));
 	memset(data.strobesTick, 0, sizeof(data.strobesTick));
+	for (int i = 0; i < App::count_sensors; ++i)
+	{
+		median[i].Clear();
+		median_stat[i].Clear();
+	}
 }
 
 #define MAX(a, b) (a) > (b) ? (a): (b)
@@ -237,8 +242,14 @@ void Compute::Recalculation()
 	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
 	zoneOffsetsIndex = zoneOffsetsIndexStart = 0;
 
-	auto &items = Singleton<ALLPatrams>::Instance().items;
+	for (int i = 0; i < App::count_sensors; ++i)
+	{
+		median[i].Clear();
+		median_stat[i].Clear();
+	}
 
+	auto &items = Singleton<ALLPatrams>::Instance().items;
+	
 	SetParam(*this, items.get<VL::Factory<LanParametersTable::items_list>>());
 	SetParam(*this, items.get<VL::Factory<FiltersTable      ::items_list>>());
 	SetParam(*this, items.get<VL::Factory<MedianFiltreTable ::items_list>>());
