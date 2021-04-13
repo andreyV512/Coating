@@ -16,6 +16,7 @@ template<class O, class P>struct __save__
 	void operator()(O &o, P &f)
 	{
 		fwrite(&o.value, sizeof(o.value), 1, f);
+		//dprint("save %S\n", Wchar_from<O::type_value>(o.value)());
 	}
 };
 
@@ -23,7 +24,8 @@ template<class O, class P>struct __save_all__
 {
 	void operator()(P &p)
 	{
-		typename O::TItems &o = Singleton<O>::Instance().items;
+		//typename O::TItems &o = Singleton<O>::Instance().items;
+		typename O::TItems& o = Singleton<ALLPatrams>::Instance().items.get<VL::Factory<typename O::items_list>>();
 		VL::foreach<typename O::items_list, __save__>()(o, p);
 	}
 };
@@ -47,7 +49,15 @@ void Store::Save(wchar_t *path)
 		fwrite(&data.strobesTick, sizeof(unsigned), data.strobesTickCount, f);
 		fwrite(&data.offsetsTick, sizeof(unsigned), data.offsetsTickCount, f);
 
+		//dprint("Save framesCount %d\n", data.framesCount);
+		//dprint("Save strobesTickCount %d\n", data.strobesTickCount);
+		//dprint("Save offsetsTickCount %d\n", data.offsetsTickCount);
+		//dprint("Save buffer %d\n", data.buffer[0]);
+		//dprint("Save strobesTick %d\n", data.strobesTick[0]);
+		//dprint("Save offsetsTick %d\n", data.offsetsTick[0]);
+
 		fclose(f);
+		Zip::ZipCurentDir(path);
 	}
 }
 
@@ -56,6 +66,7 @@ template<class O, class P>struct __load__
 	void operator()(O &o, P &p)
 	{
 		fread(&o.value, sizeof(o.value), 1, p);
+		//dprint("read %S\n", Wchar_from<O::type_value>(o.value)());
 	}
 };
 
@@ -94,6 +105,14 @@ void Load0(FILE *f)
 	fread(data.buffer, sizeof(char), data.framesCount, f);
 	fread(data.strobesTick, sizeof(unsigned), data.strobesTickCount, f);
 	fread(data.offsetsTick, sizeof(unsigned), data.offsetsTickCount, f);
+
+	//dprint("Load0 framesCount %d\n", data.framesCount);
+	//dprint("Load0 strobesTickCount %d\n", data.strobesTickCount);
+	//dprint("Load0 offsetsTickCount %d\n", data.offsetsTickCount);
+	//dprint("Load0 buffer %d\n", data.buffer[0]);
+	//dprint("Load0 strobesTick %d\n", data.strobesTick[0]);
+	//dprint("Load0 offsetsTick %d\n", data.offsetsTick[0]);
+
 	fclose(f);
 }
 
@@ -125,8 +144,6 @@ bool Store::Load(wchar_t *path)
 
 void Store::Archive(COleDateTime &tme)
 {
-	
-
 	StoreTable::TItems &st = Singleton<StoreTable>::Instance().items;
 
 	if (st.get<StoreFileOn>().value)
