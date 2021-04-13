@@ -201,8 +201,6 @@ int main(int argc, char **argv)
 
 	RshInitMemory p{};
 
-	
-
 	RshDllClient client;
 	LanN unit1, unit2;
 
