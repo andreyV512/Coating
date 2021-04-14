@@ -63,4 +63,5 @@ public:
 	void ComputeFrame(int sens, char *d, double &value, char &status);
 	void Update();
 	void Recalculation();
+	void RecalculationWithParam();
 };

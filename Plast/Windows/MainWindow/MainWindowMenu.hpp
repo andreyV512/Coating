@@ -12,6 +12,7 @@ namespace MainWindowMenu
 	struct LoadDateFile : OpenFileDlg {};
 	struct SaveDateFile : SaveFileDlg {};
 	struct Compute__ { static void Do(HWND h) { Singleton<Compute>::Instance().Recalculation(); } };
+	struct ComputeWithParam__ { static void Do(HWND h) { Singleton<Compute>::Instance().RecalculationWithParam(); } };
 
 	struct Exit
 	{
@@ -25,6 +26,7 @@ namespace MainWindowMenu
 	MENU_ITEM(L"Загрузить данные", LoadDateFile)
 	MENU_ITEM(L"Сохранить данные", SaveDateFile)
 	MENU_ITEM(L"Перерасчёт", Compute__)
+	MENU_ITEM(L"Перерасчёт с параметрами типоразмера", ComputeWithParam__)
 	MENU_ITEM(L"Выход", Exit)
 	//------------------------------------
 	template<>struct TopMenu<MainFile>
@@ -33,6 +35,7 @@ namespace MainWindowMenu
 			MenuItem<LoadDateFile>
 			, MenuItem<SaveDateFile>
 			, MenuItem<Compute__>
+			, MenuItem<ComputeWithParam__>
 			, Separator<0>
 			, MenuItem<Exit>
 		> list;

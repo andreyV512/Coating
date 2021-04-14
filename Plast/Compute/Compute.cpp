@@ -259,6 +259,31 @@ void Compute::Recalculation()
 	QueueUserWorkItem(func<Compute, &Compute::__Recalculation__>, (LPVOID)this, WT_EXECUTEDEFAULT);
 }
 
+void Compute::RecalculationWithParam()
+{
+	Log::Mess <LogMess::Recalculation>();
+	MainWindow::EnableMenu(false);
+	AppKeyHandler::DisableAll();
+
+	framesCount = strobesTickCount = offsetsTickCount = zoneOffsetsIndex = 0;
+	zoneOffsetsIndex = zoneOffsetsIndexStart = 0;
+
+	for (int i = 0; i < App::count_sensors; ++i)
+	{
+		median[i].Clear();
+		median_stat[i].Clear();
+	}
+
+	SetParam(*this, Singleton<LanParametersTable>::Instance().items);
+	SetParam(*this, Singleton<FiltersTable>::Instance().items);
+	SetParam(*this, Singleton<MedianFiltreTable>::Instance().items);
+	SetParam(*this, Singleton<TresholdsTable>::Instance().items);
+	SetParam(*this, Singleton<DeadZonesTable>::Instance().items);
+	
+	QueueUserWorkItem(func<Compute, &Compute::__Recalculation__>, (LPVOID)this, WT_EXECUTEDEFAULT);
+	
+}
+
 void Compute::__Update__()
 {
 	if (Strobes())
