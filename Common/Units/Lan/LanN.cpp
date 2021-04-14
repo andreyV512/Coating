@@ -135,7 +135,7 @@ void LanN::Frame()
 				}
 			}
 		}
-		if (RSH_API_SUCCESS != st)
+		else
 		{
 			wchar_t m[256];
 			Err(st, m);

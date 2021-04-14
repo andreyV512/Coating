@@ -43,6 +43,11 @@ DWORD __stdcall OpenFileDlg_Do(LPVOID p)
 		Singleton<Compute>::Instance().Recalculation();
 		Zip::ZipCurentDir(path);
 	}
+	else
+	{
+		MainWindow::EnableMenu(true);
+		AppKeyHandler::Stop();
+	}
 	delete (store_path *)p;
 	return 0;
 }
