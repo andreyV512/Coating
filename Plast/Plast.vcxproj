@@ -232,6 +232,7 @@
     <ClInclude Include="..\Common\MedianFiltre\MedianFiltre.h" />
     <ClInclude Include="..\Common\PerformanceCounter\PerformanceCounter.h" />
     <ClInclude Include="..\Common\templates\impl.hpp" />
+    <ClInclude Include="..\Common\templates\regexp.h" />
     <ClInclude Include="..\Common\templates\templates.hpp" />
     <ClInclude Include="..\Common\templates\typelist.hpp" />
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />
@@ -340,6 +341,7 @@
     <ClCompile Include="..\Common\Grid\GridWindow.cpp" />
     <ClCompile Include="..\Common\MedianFiltre\MedianFiltre.cpp" />
     <ClCompile Include="..\Common\PerformanceCounter\PerformanceCounter.cpp" />
+    <ClCompile Include="..\Common\templates\regexp.cpp" />
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp" />
     <ClCompile Include="..\Common\Units\1730\Device1730.cpp" />
     <ClCompile Include="..\Common\window_tool\CheckBox.cpp" />

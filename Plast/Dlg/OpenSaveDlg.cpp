@@ -11,6 +11,7 @@
 #include "Log/LogBuffer.h"
 #include "Log/LogMessages.h"
 #include "tools_debug/DebugMess.h"
+#include "regexp.h"
 
 struct store_path
 {
@@ -42,11 +43,13 @@ DWORD __stdcall OpenFileDlg_Do(LPVOID p)
 	{
 		Singleton<Compute>::Instance().Recalculation();
 		Zip::ZipCurentDir(path);
+		if(reqexp::GetFileNameFromPath(path, 1 + (int)wcslen(path)))App::StatusBar(App::first_section, path);
 	}
 	else
 	{
 		MainWindow::EnableMenu(true);
 		AppKeyHandler::Stop();
+		App::StatusBar(App::first_section, L"");
 	}
 	delete (store_path *)p;
 	return 0;

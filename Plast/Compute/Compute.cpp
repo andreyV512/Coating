@@ -46,6 +46,7 @@ void Compute::Start()
 		median[i].Clear();
 		median_stat[i].Clear();
 	}
+	App::StatusBar(App::first_section, L"");
 }
 
 #define MAX(a, b) (a) > (b) ? (a): (b)

@@ -507,6 +507,9 @@
     <ClInclude Include="Data\StoreAllParam.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\templates\regexp.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -796,6 +799,9 @@
     </ClCompile>
     <ClCompile Include="Windows\Viewers\Gain.cpp">
       <Filter>Windows\Viewers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\templates\regexp.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
