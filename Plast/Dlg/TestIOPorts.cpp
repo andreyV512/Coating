@@ -49,11 +49,18 @@ namespace TestIOPortsN
 		PARAM_TITLE(InpStat<iOut >, L"Труба на выходе")
 		PARAM_TITLE(InpStat<iStrobe >, L"Строб")
 
+		//PARAM_TITLE(InpStat<iAdditionalBit0 >, L"Название")
+		//PARAM_TITLE(InpStat<iAdditionalBit1 >, L"Название")
+		//PARAM_TITLE(InpStat<iAdditionalBit2 >, L"Название")
+
 		typedef GROUP_BOX(
 		InpStat<iCU     >
 		, InpStat<iIn >
 		, InpStat<iOut >
 		, InpStat<iStrobe >
+			//, InpStat<iAdditionalBit0 >
+			//, InpStat<iAdditionalBit1 >
+			//, InpStat<iAdditionalBit2 >
 		) GBInput;
 	PARAM_TITLE(GBInput , L"Вход")
 
@@ -66,6 +73,10 @@ namespace TestIOPortsN
 		, OutStat<oSupply  >
 		, OutStat<oMark >
 		, OutStat<oGenerator >
+
+			//, OutStat<oAdditionalBit0 >
+			//, OutStat<oAdditionalBit1 >
+			//, OutStat<oAdditionalBit2 >
 		) GBOutput;
 		PARAM_TITLE(GBOutput, L"Выход")
 
@@ -73,6 +84,10 @@ namespace TestIOPortsN
 		PARAM_TITLE(OutStat<oSupply  >, L"Сигнал \"Подвод\"")
 		PARAM_TITLE(OutStat<oMark >, L"Сигнал \"Отметка\"")
 		PARAM_TITLE(OutStat<oGenerator >, L"Сигнал \"Генератор\"")
+
+			//PARAM_TITLE(OnpStat<oAdditionalBit0 >, L"Название")
+			//PARAM_TITLE(OnpStat<oAdditionalBit1 >, L"Название")
+			//PARAM_TITLE(OnpStat<oAdditionalBit2 >, L"Название")
 
 		typedef Vlst<
 		GBOutput

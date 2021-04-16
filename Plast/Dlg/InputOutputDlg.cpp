@@ -28,6 +28,15 @@ Param(oAutomat, L"Автомат")
 Param(oSupply , L"Подвод")
 Param(oMark     , L"Отметка")
 Param(oGenerator, L"Генератор")
+
+//Param(iAdditionalBit0, L"название бита")
+//Param(iAdditionalBit0, L"название бита")
+//Param(iAdditionalBit0, L"название бита")
+//
+//Param(oAdditionalBit0, L"название бита")
+//Param(oAdditionalBit0, L"название бита")
+//Param(oAdditionalBit0, L"название бита")
+
 #undef Param
 
 typedef Dialog::Templ<ParametersBase, InputBitsTable, InputBitsTable::items_list, 350> TInputBitDlg;

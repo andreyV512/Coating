@@ -108,6 +108,22 @@ namespace LogMess
 	MESS_BIT(On<iOut >, void, L"Включен сигнал \"Труба на выходе\"", red, white);
 	MESS_BIT(On<iStrobe >, int, L"Включен сигнал \"Строб\"", red, white);
 
+	//MESS_BIT(On<iAdditionalBit0 >, int, L"Включен сигнал \"назвать\"", red, white);
+	//MESS_BIT(On<iAdditionalBit1 >, int, L"Включен сигнал \"назвать\"", red, white);
+	//MESS_BIT(On<iAdditionalBit2 >, int, L"Включен сигнал \"назвать\"", red, white);
+
+	//MESS_BIT(Off<iAdditionalBit0 >, int, L"Отключен сигнал \"назвать\"", blue, white);
+	//MESS_BIT(Off<iAdditionalBit1 >, int, L"Отключен сигнал \"назвать\"", blue, white);
+	//MESS_BIT(Off<iAdditionalBit2 >, int, L"Отключен сигнал \"назвать\"", blue, white);
+
+	//MESS_BIT(On<oAdditionalBit0 >, int, L"Включен сигнал \"назвать\"", blue, white);
+	//MESS_BIT(On<oAdditionalBit1 >, int, L"Включен сигнал \"назвать\"", blue, white);
+	//MESS_BIT(On<oAdditionalBit2 >, int, L"Включен сигнал \"назвать\"", blue, white);
+
+	//MESS_BIT(Off<oAdditionalBit0 >, int, L"Отключен сигнал \"назвать\"", blue, white);
+	//MESS_BIT(Off<oAdditionalBit1 >, int, L"Отключен сигнал \"назвать\"", blue, white);
+	//MESS_BIT(Off<oAdditionalBit2 >, int, L"Отключен сигнал \"назвать\"", blue, white);
+
 	MESS_BIT(On<oAutomat>, void, L"On<oAutomat>", red, white);
 	MESS_BIT(On<oSupply >, void, L"On<oSupply >", red, white);
 	MESS_BIT(On<oMark>, void, "Включен сигнал \"Отметка\"", red, white);

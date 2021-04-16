@@ -76,7 +76,7 @@ namespace Automat
 		{
 			try
 			{
-				device1730.Write(0);
+				device1730.Write(0);	  //очистка выходных бит 1730
 				if (startLoop)
 				{
 					App::IsRun() = false;
@@ -93,24 +93,37 @@ namespace Automat
 #ifdef EMULATOR
 				Emulator emulator;
 #endif
-				// Bits<TstOn<iCU> >(); //проверка цепей управления
-				Log::Mess <LogMess::On_iIn>();
-				Bits<On<iIn>, Key<StopBtn>, Proc<iStrobe>>();
-				////Singleton<Compute>::Instance().Start();
+				Bits<TstOn<iCU> >(); //проверка цепей управления (если iCU = 0 - выход из цикла )
+				Log::Mess <LogMess::On_iIn>();	   //вывод сообщения
+				Bits<On<iIn>, Key<StopBtn>, Proc<iStrobe>>(); //ожидает пока iIn = 0, выход из цикла кнопке стоп, записывает время появления строба
 				{
-					Log::Mess <LogMess::Collection>();
+					Log::Mess <LogMess::Collection>(); //вывод сообщения - сбор данных
 
-					CollectionData collection; 
-					Singleton<Compute>::Instance().Start();
+					CollectionData collection; //сбор кадров платой Lan10
+					Singleton<Compute>::Instance().Start();//начало расчёта собранных данных
 
-
+					/*
+					* ждёт пока iOut = 0, выход из цикла по кнопке "Стоп", расчёт собранных кадров,
+					* записывает время появления строба, если время превышено 120 сек - выход по ошибке
+					* вывод на экран собранных зон
+					*/
 					Bits<On<iOut>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(120 * 1000);
+					/*
+					* ждёт пока iIn = 1, выход из цикла по кнопке "Стоп", расчёт собранных кадров,
+					* записывает время появления строба, если время превышено 120 сек - выход по ошибке
+					* вывод на экран собранных зон
+					*/
 					Bits<Off<iIn>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(120 * 1000);
+					/*
+					* ждёт пока iOut = 1, выход из цикла по кнопке "Стоп", расчёт собранных кадров,
+					* записывает время появления строба, если время превышено 20 сек - выход по ошибке
+					* вывод на экран собранных зон
+					*/
 					Bits<Off<iOut>, Key<StopBtn>, Proc<Compute>, Proc<iStrobe>>(20 * 1000);
 				}
 
-				Singleton<Compute>::Instance().Update();
-			    Done();
+				Singleton<Compute>::Instance().Update();  //вывод на экран собранных зон
+			    Done();	//сохранение в базе данных результата контроля, сохранение первичного сигнала в файле
 
 				Log::Mess <LogMess::CollectionDone>();
 				dprint("loop\n");
@@ -118,11 +131,13 @@ namespace Automat
 			}
 			catch (TimeOutExteption)
 			{
+				//выход по превышению времени ожидания
 				Log::Mess<LogMess::TimeOutExteption>();
 				startLoop = true;
 			}
 			catch (AlarmBitsExteption)
 			{
+				//выход по авари
 			//	Log::Mess<LogMess::AlarmBitsExteption>();
 				startLoop = true;
 			}
