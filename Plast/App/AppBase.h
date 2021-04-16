@@ -12,13 +12,13 @@ struct Norm {};
 struct NoBottomReflection {};
 struct Defect {};
 struct DeadZone {};
-struct SensorOff {};
+//struct SensorOff {};
 
 DEFINE_PARAM_WRAP(Clr, Norm              , unsigned, 0xff00ff00)
 DEFINE_PARAM_WRAP(Clr, Defect			 , unsigned, 0xffff0000)
 DEFINE_PARAM_WRAP(Clr, NoBottomReflection, unsigned, 0xff4286f4)
 DEFINE_PARAM_WRAP(Clr, DeadZone			 , unsigned, 0xff939393)
-DEFINE_PARAM_WRAP(Clr, SensorOff         , unsigned, 0xff939393)
+//DEFINE_PARAM_WRAP(Clr, SensorOff         , unsigned, 0xff939393)
 DEFINE_PARAM_WRAP_LIST(Clr, unsigned, 0xffffff00, NoBottomReflection, Defect)
 
 struct ColorTable
@@ -28,7 +28,7 @@ struct ColorTable
 		, Clr<Defect			>
 		, Clr<NoBottomReflection>
 		, Clr<DeadZone			>
-		, Clr<SensorOff			>
+		//, Clr<SensorOff			>
 		, Clr<NoBottomReflection, Defect>		
 	> items_list;
 	typedef VL::Factory<items_list> TItems;

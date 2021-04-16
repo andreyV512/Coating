@@ -2,11 +2,11 @@
 #include "templates/typelist.hpp"
 #include "App/AppBase.h"
 
-typedef Vlst<Norm, NoBottomReflection, Defect, DeadZone, SensorOff > zone_status_list;
+typedef Vlst<Norm, NoBottomReflection, Defect, DeadZone/*, SensorOff*/ > zone_status_list;
 
 typedef Vlst<
-	Vlst<SensorOff, Norm, NoBottomReflection, Defect, DeadZone>
-	, Vlst<Norm, NoBottomReflection, Defect, DeadZone>
+	//Vlst<SensorOff, Norm, NoBottomReflection, Defect, DeadZone>
+     Vlst<Norm, NoBottomReflection, Defect, DeadZone>
 	, Vlst<NoBottomReflection, DeadZone>
 	, Vlst<Defect, DeadZone>
 > __skip_list__;
