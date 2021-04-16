@@ -333,7 +333,7 @@ template<class T>struct DlgSubItems<T, bool>
 	{
 		HWND hWnd = CreateWindow(L"button", ParamTitle<T>()()
 				,  WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | WS_TABSTOP
-				, x, dy, width - 15, 15, h, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
+				, x, dy, width - 2 * x - 30, 15, h, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
 				);
 		Button_SetCheck(hWnd, t.value ? BST_CHECKED : BST_UNCHECKED);
 		dy += DY;
@@ -348,7 +348,7 @@ template<class T>struct DlgItemsRadio
 		{
 			HWND hWnd = CreateWindow(L"button", ParamTitle<T>()()
 				,  WS_CHILD | WS_VISIBLE | BS_RADIOBUTTON
-				, x, dy, width - 15, 15, h, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
+				, x, dy, width - 2 * x - 30, 15, h, NULL, (HINSTANCE)::GetModuleHandle(NULL), NULL
 				);
 			Button_SetCheck(hWnd, t.value ? BST_CHECKED : BST_UNCHECKED);
 			dy += DY;

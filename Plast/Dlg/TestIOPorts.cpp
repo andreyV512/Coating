@@ -238,15 +238,15 @@ LRESULT TestIOWindow::operator()(TCreate &l)
 	lastBitsOutput = ~device1730.ReadOutput();
 	lastIsRun = !App::IsRun();
 
-	int width = 280;
+	int width = 290;
 	int height = 15;
-	int xOffs = 5;
+	int xOffs = 15;
 
-	HWND h = GroupBoxWindow((wchar_t *)L"", 3, 5, 565, 208, l.hwnd);
+	HWND h = GroupBoxWindow((wchar_t *)L"", 5, 5, 563, 135, l.hwnd);
 
 	Dialog::__table_data__X<VL::Factory<list_input0>> data_inp(h, xOffs, width, height, items_input0);
 	VL::foreach<original_list_input0, Dialog::__init__X>()(data_inp);
-	width = 280;
+	width = 290;
 	height = 15;
 	xOffs = 290;
 	Dialog::__table_data__X<VL::Factory<list_output0>> data_out(h, xOffs, width, height, items_output0);
@@ -314,7 +314,7 @@ void TestIOPorts::Do(HWND)
 		RECT r;
 		WindowPosition::Get<TestIOWindow>(r);
 		const int width = 590;
-		const int height = 160;
+		const int height = 190;
 		h = WindowTemplate(
 			new TestIOWindow
 			, (wchar_t *)L"Порты ввода-вывода"
