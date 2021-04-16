@@ -508,7 +508,7 @@
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\templates\regexp.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Common\templates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -801,7 +801,7 @@
       <Filter>Windows\Viewers</Filter>
     </ClCompile>
     <ClCompile Include="..\Common\templates\regexp.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Common\templates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
