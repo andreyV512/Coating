@@ -71,7 +71,7 @@ namespace App
 
 		wchar_t name[64];
 		CurrentOperatorName(name);
-		StatusBar(App::operator_status_section, name);
+	//	StatusBar(App::operator_status_section, name);
 
 		StartKeyHook(&AppKeyHandler::KeyPressed);
 		Singleton<LogMessageToTopLabel>::Instance().Run();

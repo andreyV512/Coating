@@ -120,8 +120,8 @@ DO_NOT_CHECK(n<__VA_ARGS__>)\
 PARAM_TITLE(n<__VA_ARGS__>, txt)
 
 	DLG_SUB(Clr<Norm>, L"Норма")
-		DLG_SUB(Clr<DeadZone>, L"Мёртвая зона")
-		DLG_SUB(Clr<SensorOff >, L"Датчик отключен")
+		DLG_SUB(Clr<DeadZone>, L"Неизмеряемая зона")
+		//DLG_SUB(Clr<SensorOff >, L"Датчик отключен")
 		DLG_SUB(Clr<Defect   >, L"Дефект")
 		DLG_SUB(Clr<NoBottomReflection>, L"Нет донного отражения")
 		DLG_SUB_LIST(Clr, L"Брак, нет донного отражения", NoBottomReflection, Defect)
