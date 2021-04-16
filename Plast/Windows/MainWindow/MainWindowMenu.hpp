@@ -119,7 +119,7 @@ namespace MainWindowMenu
 		typedef Vlst<
 			SubMenu<DiscretePlate>
 			, MenuItem<__LanDlg>
-			, MenuItem<__Unit>
+			//, MenuItem<__Unit>
 			, MenuItem<Color>
 			, MenuItem<StoreFiles>
 		> list;
