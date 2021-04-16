@@ -84,19 +84,14 @@ namespace LogMess
 
 	MESS(ProgramClosed, void, L"Программа закрыта", red, yellow)
 
-	MESS(ExitMeshuringCycle, void, L"Оператор вышел из цикла", red, yellow)
+	MESS(ExitMeshuringCycle, void, L"Оператор вышел из цикла", red, yellow)						 
 	MESS(ExitTubeInZoneSensors, void, L"Труба в рабочей зоне установки", red, yellow)
-
-	MESS(DataCollectionDEF, void, L"сбор данных", blue, white)
 
 	MESS(Alarm502, int, L"Ошибка платы L502  ", red, yellow)
 
 	MESS(DataCollectionCompleted, void, L"Цикл сбора данных закончен", green, white)
 
-	MESS(Copt, int, L"Сорт", green, white)
 	MESS(Brak, void, L"Брак", red, yellow)
-
-	MESS(ErrorSpline, void, L"Ошибка сплайн", red, yellow)
 
 	MESS(StopBtn, void, L"Оператор вышел из цикла", blue, white)
 	MESS(On_iIn, void, L"Ожидание прутка", blue, white)
@@ -124,8 +119,8 @@ namespace LogMess
 	//MESS_BIT(Off<oAdditionalBit1 >, int, L"Отключен сигнал \"назвать\"", blue, white);
 	//MESS_BIT(Off<oAdditionalBit2 >, int, L"Отключен сигнал \"назвать\"", blue, white);
 
-	MESS_BIT(On<oAutomat>, void, L"On<oAutomat>", red, white);
-	MESS_BIT(On<oSupply >, void, L"On<oSupply >", red, white);
+	MESS_BIT(On<oAutomat>, void, L"Включен сигнал \"Автомат\"", red, white);
+	MESS_BIT(On<oSupply >, void, L"Включен сигнал \"Подвод\"", red, white);
 	MESS_BIT(On<oMark>, void, "Включен сигнал \"Отметка\"", red, white);
 	MESS_BIT(On<oGenerator>, void, "Включен сигнал \"Генератор\"", red, white);
 
@@ -135,7 +130,7 @@ namespace LogMess
 	MESS_BIT(Off<iStrobe >, int, L"Отключен сигнал \"Строб\"", blue, white);
 
 	MESS_BIT(Off<oAutomat>, void, L"Отключен сигнал \"Автомат\"", blue, white);
-	MESS_BIT(Off<oSupply >, void, L"Off<oSupply >", blue, white);
+	MESS_BIT(Off<oSupply >, void, L"Отключен сигнал \"Подвод\"", blue, white);
 	MESS_BIT(Off<oMark>, void, L"Отключен сигнал \"Отметка\"", blue, white);
 	MESS_BIT(Off<oGenerator>, void, L"Отключен сигнал \"Генератор\"", blue, white);
 
@@ -193,8 +188,6 @@ namespace LogMess
 //
 //	//ERR_BITS(red, "Нет сигнала \"ЦЕПИ УПРАВЛЕНИЯ\"", On<iCU>)
 //#undef ERR_BITS
-
-	MESS(BaseLengthError, void, L"Необходимо уменьшить параметр \"Базовое расстояние\"", red, yellow)
 
 	MESS(Recalculation, void, L"Расчёт", blue, white)
 	MESS(RecalculationStop, void, L"Расчёт завершён", blue, white)
