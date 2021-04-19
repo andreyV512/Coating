@@ -93,7 +93,7 @@ namespace Automat
 #ifdef EMULATOR
 				Emulator emulator;
 #endif
-				Bits<TstOn<iCU> >(); //проверка цепей управления (если iCU = 0 - выход из цикла )
+				//Bits<TstOn<iCU> >(); //проверка цепей управления (если iCU = 0 - выход из цикла )
 				Log::Mess <LogMess::On_iIn>();	   //вывод сообщения
 				Bits<On<iIn>, Key<StopBtn>, Proc<iStrobe>>(); //ожидает пока iIn = 0, выход из цикла кнопке стоп, записывает время появления строба
 				{
