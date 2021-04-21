@@ -102,7 +102,10 @@ namespace MainWindowMenu
 		>::Result list;
 	};
 
+	struct ComPort__ : ComPortDlg {};
+
 	MENU_ITEM(L"Настройка аналоговой платы", __LanDlg)
+	MENU_ITEM(L"Настройка ком-порта", ComPort__)
 
 	MENU_TEXT(L"Дискретная плата", SubMenu<DiscretePlate>)
 	MENU_ITEM(L"Входные порты", DiscretePlateInputs)
@@ -119,7 +122,7 @@ namespace MainWindowMenu
 		typedef Vlst<
 			SubMenu<DiscretePlate>
 			, MenuItem<__LanDlg>
-			//, MenuItem<__Unit>
+			, MenuItem<ComPort__>
 			, MenuItem<Color>
 			, MenuItem<StoreFiles>
 		> list;

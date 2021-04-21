@@ -803,6 +803,9 @@
     <ClCompile Include="..\Common\templates\regexp.cpp">
       <Filter>Common\templates</Filter>
     </ClCompile>
+    <ClCompile Include="Dlg\ComPortDlg.cpp">
+      <Filter>Dlg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Common\Resource\Resource.rc">

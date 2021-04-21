@@ -39,4 +39,7 @@
 
    DLG(FiltreAmplDlg)
    DLG(FiltreStatDlg)
+
+   DLG(ComPortDlg)
+
 #undef DLG

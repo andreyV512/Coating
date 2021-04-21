@@ -63,6 +63,23 @@ struct StoreTable
 	const wchar_t *name() { return L"StoreTable"; }
 };
 
+DEFINE_PARAM(ComPortAddr, int, 1)
+DEFINE_PARAM(BaudRate, int, 9600)
+DEFINE_PARAM(Parity, int, NOPARITY)
+DEFINE_PARAM(StopBits, int, ONESTOPBIT)
+struct ComPortTable
+{
+	typedef Vlst<
+		ComPortAddr
+		, BaudRate
+		, Parity
+		, StopBits
+	> items_list;
+	typedef VL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t* name() { return L"ComPortTable"; }
+};
+
 DEFINE_PARAM(OffsetSensorBegMM, int, 20)
 DEFINE_PARAM(OffsetSensorEndMM, int, 20)
 struct UnitTable
@@ -254,6 +271,7 @@ struct ParametersBase
 		, LanParametersTable
 		, UnitTable
 		, StoreTable
+		, ComPortTable
 	> one_row_table_list;
 
 	typedef VL::Append<

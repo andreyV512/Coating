@@ -374,6 +374,7 @@
     <ClCompile Include="Dlg\AScanWindowDlg.cpp" />
     <ClCompile Include="Dlg\BiPolarDlg.cpp" />
     <ClCompile Include="Dlg\ColorDlg.cpp" />
+    <ClCompile Include="Dlg\ComPortDlg.cpp" />
     <ClCompile Include="Dlg\DeadZonesDlg.cpp" />
     <ClCompile Include="Dlg\DspFiltrDlg.cpp" />
     <ClCompile Include="Dlg\InputOutputDlg.cpp" />
