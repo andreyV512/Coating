@@ -28,7 +28,7 @@ void PrintBuf(char* buf, int len)
 {
     for (int i = 0; i < len; ++i)
     {
-        dprint("%c", buf[i]);
+        dprint("%d%d.", buf[i] >> 4, buf[i] & 0xf);
     }
     dprint("\n");
 }
