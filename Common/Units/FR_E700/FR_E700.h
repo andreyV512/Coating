@@ -8,6 +8,7 @@ namespace FR_E700
 	static const int status_check_request_failed = 4;
 	static const int ABC_bit_off = 5;
 	static const int inverter_ok = 6;
+	static const int start_query = 7;
 	enum class WriteState
 	{
 		none  = 0
@@ -21,7 +22,7 @@ namespace FR_E700
 		, MRS = 1 << 7
 	};
 
-	WriteState operator|(WriteState l, WriteState r)
+	inline WriteState operator|(WriteState l, WriteState r)
 	{
 		return WriteState((unsigned)l | (unsigned)r);
 	}

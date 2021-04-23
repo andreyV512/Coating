@@ -24,6 +24,8 @@ short Sum(char* d, int len)
     return ToShort(res);
 }
 
+ComPortHandler noopComPortHandler;
+
 void FR_E700::Reset::Send()
 {
     char buf[] = {ENQ, 0, 0, 'F', 'D', timeout, '9', '9', '6', '6' , 0, 0, CR};
@@ -46,6 +48,8 @@ void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
             {
                 //TODO RESET INVERTER OK Запрос на сброс инвертара прошёл успешно
                 status = inverter_ok;
+                dprint("inverter_ok\n");
+                port.SetReceiveHandler(&noopComPortHandler);
                 return;
             }
             else if(ENQ == input[0])
@@ -53,6 +57,7 @@ void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
                //TODO ERROR Инвертор выслал ошибку
                 dprint("%x  %d\n", input[3], input[3]);
                 status = input[3];
+                dprint("%d %x\n", status, status);
             }
         }
         loopCount = maxLoopCount;
@@ -65,6 +70,8 @@ void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
             {
             //TODO EXIT ERROR RECEIVE COM PORT  Запрос на сброс инвертора не сработал
                 status = inverter_reset_request_did_not_work;
+                dprint("inverter_reset_request_did_not_work\n");
+                port.SetReceiveHandler(&noopComPortHandler);
                 return;
             }
             currentTime = GetTickCount() + delay;
@@ -75,7 +82,7 @@ void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
 
 void FR_E700::Reset::Init()
 {
-    status = inverter_ok;
+    status = start_query;
     delay = 300;
     loopCount = maxLoopCount;
     currentTime = GetTickCount() + delay;
@@ -109,13 +116,15 @@ void FR_E700::SetFrequency::operator()(unsigned char(&input)[1024], int len)
             {
                 //TODO RESET INVERTER OK Запрос на установку частоты вращения прошёл успешно
                 status = inverter_ok;
+                dprint("inverter_ok\n");
+                port.SetReceiveHandler(&noopComPortHandler);
                 return;
             }
             else if (ENQ == input[0])
             {
                 //TODO ERROR Инвертор выслал ошибку
-                dprint("%x  %d\n", input[3], input[3]);
                 status = input[3];
+                dprint("%x  %d\n", status, status);
             }
         }
         loopCount = maxLoopCount;
@@ -128,6 +137,8 @@ void FR_E700::SetFrequency::operator()(unsigned char(&input)[1024], int len)
             {
                 //TODO EXIT ERROR RECEIVE COM PORT  Запрос на установку частоты вращения не сработал
                 status = speed_​​setting_request_did_not_work;
+                dprint("speed_​​setting_request_did_not_work\n");
+                port.SetReceiveHandler(&noopComPortHandler);
                 return;
             }
             currentTime = GetTickCount() + delay;
@@ -138,7 +149,7 @@ void FR_E700::SetFrequency::operator()(unsigned char(&input)[1024], int len)
 
 void FR_E700::SetFrequency::Init()
 {
-    status = inverter_ok;
+    status = start_query;
     delay = 300;
     loopCount = maxLoopCount;
     currentTime = GetTickCount() + delay;
@@ -169,13 +180,16 @@ void FR_E700::SetState::operator()(unsigned char(&input)[1024], int len)
             {
                 //TODO RESET INVERTER OK Запрос на установку состояния прошёл успешно
                 status = inverter_ok;
+                dprint("inverter_ok\n");
+                port.SetReceiveHandler(&noopComPortHandler);
                 return;
             }
             else if (ENQ == input[0])
             {
                 //TODO ERROR Инвертор выслал ошибку
-                dprint("%x  %d\n", input[3], input[3]);
+                
                 status = input[3];
+                dprint("%x  %d\n", status, status);
             }
         }
         loopCount = maxLoopCount;
@@ -188,6 +202,8 @@ void FR_E700::SetState::operator()(unsigned char(&input)[1024], int len)
             {
                 //TODO EXIT ERROR RECEIVE COM PORT  Запрос на установку состояния не сработал
                 status = request_to_set_the_state_did_not_work;
+                dprint("request_to_set_the_state_did_not_work\n");
+                port.SetReceiveHandler(&noopComPortHandler);
                 return;
             }
             currentTime = GetTickCount() + delay;
@@ -198,7 +214,7 @@ void FR_E700::SetState::operator()(unsigned char(&input)[1024], int len)
 
 void FR_E700::SetState::Init(WriteState state)
 {
-    status = inverter_ok;
+    status = start_query;
     this->state = state;
     delay = 300;
     loopCount = maxLoopCount;
@@ -228,7 +244,6 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
             if (STX == input[0])
             {
                 //TODO RESET INVERTER OK Запрос на установку состояния прошёл успешно
-                //SetEvent(hOk);
                 short sum = Sum((char *)&input[1], 5);
                 if (sum == *(short*)&input[6])
                 {
@@ -238,6 +253,8 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
                         if (--loopCount < 0)
                         {
                             status = ABC_bit_off;
+                            dprint("ABC_bit_off\n");
+                            port.SetReceiveHandler(&noopComPortHandler);
                             return;
                         }
                     }
@@ -266,6 +283,8 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
             {
                 //TODO EXIT ERROR RECEIVE COM PORT  Запрос на проверку состояния не сработал
                 status = status_check_request_failed;
+                dprint("status_check_request_failed\n");
+                port.SetReceiveHandler(&noopComPortHandler);
                 return;
             }
             currentTime = GetTickCount() + delay;
@@ -276,7 +295,7 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
 
 void FR_E700::GetState::Init()
 {
-    status = inverter_ok;
+    status = start_query;
     delay = 1000;
     loopCount = maxLoopCount;
     currentTime = GetTickCount() + delay;
