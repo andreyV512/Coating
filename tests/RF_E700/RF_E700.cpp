@@ -91,7 +91,10 @@ template<class P>struct PrintParam<StopBits, P>
 int main()
 {
     auto& comParam = Singleton<ComPortTable>::Instance().items;
-    //comParam.get<ComPortAddr>().value = 9;
+    comParam.get<ComPortAddr>().value = 3;
+	comParam.get<StopBits>().value = TWOSTOPBITS;
+	comParam.get<Parity>().value = EVENPARITY;
+	comParam.get<BaudRate>().value = 9600;
     dprint("-------------------------\n");
     VL::foreach<ComPortTable::items_list, PrintParam>()(comParam);
     
@@ -107,7 +110,7 @@ int main()
         dprint("r");
         Sleep(100);
     }
-
+/*
     FR_E700::SetFrequency sf;
     sf.Init();
     while (ComPortHandler::status == FR_E700::start_query)
@@ -140,6 +143,7 @@ int main()
         dprint("ss");
         Sleep(100);
     }
+	*/
     dprint(".............................. stop test ............................");
     getchar();
 }
