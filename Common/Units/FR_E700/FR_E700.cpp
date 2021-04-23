@@ -6,7 +6,7 @@
 short ToShort(char d)
 {
     const char *c = "0123456789ABCDEF";
-    return (c[d >> 4] << 8) | c[d & 0xf];
+    return (c[d >> 4] | (c[d & 0xf] << 8));
 }
 
 char LetterToBits(char l)
@@ -24,13 +24,23 @@ short Sum(char* d, int len)
     return ToShort(res);
 }
 
+void PrintBuf(char* buf, int len)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        dprint("%c", buf[i]);
+    }
+    dprint("\n");
+}
+
 ComPortHandler noopComPortHandler;
 
 void FR_E700::Reset::Send()
 {
     char buf[] = {ENQ, 0, 0, 'F', 'D', timeout, '9', '9', '6', '6' , 0, 0, CR};
     *(short*)&buf[1] = ToShort(abonent);
-    *(short*)&buf[sizeof(buf) - 3] = Sum(&buf[1], sizeof(buf) - 4);
+    short t = *(short*)&buf[sizeof(buf) - 3] = Sum(&buf[1], sizeof(buf) - 4);
+    PrintBuf(buf, sizeof(buf));
     port.Write((unsigned char *)buf, (int)sizeof(buf));
 }
 

@@ -70,7 +70,7 @@ namespace FR_E700
 
 	class SetFrequency : public ComPortHandler
 	{
-		static const int maxLoopCount = 3;
+		static const int maxLoopCount = 2;
 		ComPort& port;
 		int delay;
 		int loopCount;

@@ -95,6 +95,7 @@ int main()
 	comParam.get<StopBits>().value = TWOSTOPBITS;
 	comParam.get<Parity>().value = EVENPARITY;
 	comParam.get<BaudRate>().value = 9600;
+    comParam.get<Abonent>().value = 0;
     dprint("-------------------------\n");
     VL::foreach<ComPortTable::items_list, PrintParam>()(comParam);
     
