@@ -130,6 +130,12 @@
     <Filter Include="Automat\Emulator">
       <UniqueIdentifier>{51a2bc37-0579-443d-acf3-621fcbc8ab63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Units\ComPort">
+      <UniqueIdentifier>{97b0d381-992d-4d23-9c0e-99e61e9b1068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Units\FR_E700">
+      <UniqueIdentifier>{192c22be-048b-4a52-a7e2-158167b6a405}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -510,6 +516,12 @@
     <ClInclude Include="..\Common\templates\regexp.h">
       <Filter>Common\templates</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\Units\ComPort\ComPort.h">
+      <Filter>Common\Units\ComPort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Units\FR_E700\FR_E700.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -805,6 +817,12 @@
     </ClCompile>
     <ClCompile Include="Dlg\ComPortDlg.cpp">
       <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Units\ComPort\ComPort.cpp">
+      <Filter>Common\Units\ComPort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Units\FR_E700\FR_E700.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿#include "Dlg.h"
-#include "DlgTemplates\ParamDlgNew.h"
+#include "DlgTemplates/ParamDlgNew.h"
+#include "Units/FR_E700/FR_E700.h"
 
 template<int N>struct BaudRateX;
 #define BAUDRATE(n)template<>struct BaudRateX<n>\
@@ -200,21 +201,30 @@ PARAM_TITLE(ComPortAddr, L"Адрес ком-порта")
 PARAM_TITLE(BaudRate, L"Скорость")
 PARAM_TITLE(Parity, L"Чётность")
 PARAM_TITLE(StopBits, L"Количество бит стоп")
+PARAM_TITLE(Abonent, L"Абонент")
+PARAM_TITLE(InverterFrequency, L"Частота вращения")
 
 DO_NOT_CHECK(ComPortAddr)
 DO_NOT_CHECK(BaudRate)
 DO_NOT_CHECK(Parity)
 DO_NOT_CHECK(StopBits)
+DO_NOT_CHECK(Abonent)
+
+MIN_EQUAL_VALUE(InverterFrequency, 0)
+MAX_EQUAL_VALUE(InverterFrequency, 400)
 
 template<>struct DlgSubItems<ComPortAddr, int> : UpDownSubItem<ComPortAddr> {};
 template<>struct DlgSubItems<BaudRate, int> : ComboBoxSubItem<BaudRate> {};
 template<>struct DlgSubItems<Parity, int> : ComboBoxSubItem<Parity> {};
 template<>struct DlgSubItems<StopBits, int> : ComboBoxSubItem<StopBits> {};
 
+template<>struct DlgSubItems<Abonent, int> : UpDownSubItem<Abonent, 1, 32> {};
+
 
 void ComPortDlg::Do(HWND h)
 {
-	if (Dialog::Templ < ParametersBase, ComPortTable>(Singleton<ComPortTable>::Instance()).Do(h, (wchar_t*)L"Настройки ком-порта"))
+	if (Dialog::Templ < ParametersBase, ComPortTable>(Singleton<ComPortTable>::Instance()).Do(h, (wchar_t*)L"Настройки инвертора"))
 	{
+		FR_E700::UpdateComPort();
 	}
 }

@@ -238,6 +238,8 @@
     <ClInclude Include="..\Common\tools_debug\DebugMess.h" />
     <ClInclude Include="..\Common\Units\1730\Device1730.h" />
     <ClInclude Include="..\Common\Units\1730\inc\bdaqctrl.h" />
+    <ClInclude Include="..\Common\Units\ComPort\ComPort.h" />
+    <ClInclude Include="..\Common\Units\FR_E700\FR_E700.h" />
     <ClInclude Include="..\Common\window_tool\CheckBox.h" />
     <ClInclude Include="..\Common\window_tool\DlgFiles.h" />
     <ClInclude Include="..\Common\window_tool\Emptywindow.h" />
@@ -344,6 +346,8 @@
     <ClCompile Include="..\Common\templates\regexp.cpp" />
     <ClCompile Include="..\Common\tools_debug\DebugMess.cpp" />
     <ClCompile Include="..\Common\Units\1730\Device1730.cpp" />
+    <ClCompile Include="..\Common\Units\ComPort\ComPort.cpp" />
+    <ClCompile Include="..\Common\Units\FR_E700\FR_E700.cpp" />
     <ClCompile Include="..\Common\window_tool\CheckBox.cpp" />
     <ClCompile Include="..\Common\window_tool\DlgFiles.cpp" />
     <ClCompile Include="..\Common\window_tool\EmptyWindow.cpp" />

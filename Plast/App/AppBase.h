@@ -67,6 +67,8 @@ DEFINE_PARAM(ComPortAddr, int, 1)
 DEFINE_PARAM(BaudRate, int, 9600)
 DEFINE_PARAM(Parity, int, NOPARITY)
 DEFINE_PARAM(StopBits, int, ONESTOPBIT)
+DEFINE_PARAM(Abonent, int, 2)
+DEFINE_PARAM(InverterFrequency, int, 120)
 struct ComPortTable
 {
 	typedef Vlst<
@@ -74,6 +76,8 @@ struct ComPortTable
 		, BaudRate
 		, Parity
 		, StopBits
+		, Abonent
+		, InverterFrequency
 	> items_list;
 	typedef VL::Factory<items_list> TItems;
 	TItems items;
