@@ -6,7 +6,7 @@
 short ToShort(char d)
 {
     const char *c = "0123456789ABCDEF";
-    return (c[d >> 4] | (c[d & 0xf] << 8));
+    return (c[(d >> 4) & 0xf] | (c[d & 0xf] << 8));
 }
 char ToHex(char i)
 {
@@ -33,7 +33,7 @@ void PrintBuf(char* buf, int len)
 {
     for (int i = 0; i < len; ++i)
     {
-        dprint("%x%x.", buf[i] >> 4, buf[i] & 0xf);
+        dprint("%X%X.", (buf[i] >> 4)&0xf, buf[i] & 0xf);
     }
     dprint("\n");
 }
