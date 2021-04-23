@@ -50,8 +50,10 @@ FR_E700::Reset::Reset()
 
 void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
 {
+    dprint(".");
     if (len > 0)
     {
+        dprint(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         if (ToShort(abonent) == *(short*)&input[1])
         {
             if (ACK == input[0])
