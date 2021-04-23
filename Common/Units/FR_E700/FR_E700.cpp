@@ -284,10 +284,11 @@ void FR_E700::GetState::Init()
     Send();
 }
 
-void FR_E700::Init()
+bool FR_E700::Init()
 {
-    UpdateComPort();
+    bool b = UpdateComPort();
     ComPortHandler::status = inverter_ok;
+    return b;
 }
 
 void FR_E700::Destroy()
@@ -295,17 +296,18 @@ void FR_E700::Destroy()
     Singleton<ComPort>::Instance().~ComPort();
 }
 
-void FR_E700::UpdateComPort()
+bool FR_E700::UpdateComPort()
 {
     auto &params = Singleton<ComPortTable>::Instance().items;
     auto &port = Singleton<ComPort>::Instance();
+    ComPortHandler::abonent = params.get<Abonent>().value;
     port.Close();
-    port.Open(
+    return port.Open(
         params.get<ComPortAddr>().value
         , params.get<BaudRate>().value
         , params.get<Parity>().value
         , params.get<StopBits>().value
     );
 
-    ComPortHandler::abonent = params.get<Abonent>().value;
+    
 }

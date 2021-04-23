@@ -520,7 +520,7 @@
       <Filter>Common\Units\ComPort</Filter>
     </ClInclude>
     <ClInclude Include="..\Common\Units\FR_E700\FR_E700.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Common\Units\FR_E700</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -822,7 +822,7 @@
       <Filter>Common\Units\ComPort</Filter>
     </ClCompile>
     <ClCompile Include="..\Common\Units\FR_E700\FR_E700.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Common\Units\FR_E700</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

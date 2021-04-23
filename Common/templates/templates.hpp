@@ -12,6 +12,7 @@ template<>class ClassAssept<TRUE>{};
 
 //////////////////////////////////////////////////////////////////////////////////
 #pragma warning(disable : 4996)
+#pragma warning(disable : 26495)
 template<int COUNT = 128>struct Holder
 {
 	typedef wchar_t TBufer[COUNT];

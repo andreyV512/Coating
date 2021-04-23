@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="FR_E700">
+      <UniqueIdentifier>{2e0d5426-a9f1-4f98-953f-50a29c2c14e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ComPort">
+      <UniqueIdentifier>{3160134c-47e1-4706-a8fd-c4c11d5cc08a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools_debug">
+      <UniqueIdentifier>{b047ffac-9b0c-4ddc-a090-da541d8f703e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="RF_E700.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Units\FR_E700\FR_E700.cpp">
+      <Filter>FR_E700</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\Units\ComPort\ComPort.cpp">
+      <Filter>ComPort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Common\tools_debug\DebugMess.cpp">
+      <Filter>tools_debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plast\App\AppBase.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Common\Units\FR_E700\FR_E700.h">
+      <Filter>FR_E700</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\Units\ComPort\ComPort.h">
+      <Filter>ComPort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Common\tools_debug\DebugMess.h">
+      <Filter>tools_debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plast\App\AppBase.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -20,6 +20,12 @@ namespace FR_E700
 		, RT  = 1 << 6
 		, MRS = 1 << 7
 	};
+
+	WriteState operator|(WriteState l, WriteState r)
+	{
+		return WriteState((unsigned)l | (unsigned)r);
+	}
+
 	enum class ReadState
 	{
 		none     = 0
@@ -43,9 +49,9 @@ namespace FR_E700
 
 	static const char timeout = '9';
 
-	void Init();
+	bool Init();
 	void Destroy();
-	void UpdateComPort();
+	bool UpdateComPort();
 
 	class Reset : public ComPortHandler
 	{
