@@ -8,6 +8,11 @@ short ToShort(char d)
     const char *c = "0123456789ABCDEF";
     return (c[d >> 4] | (c[d & 0xf] << 8));
 }
+char ToHex(char i)
+{
+    const char* c = "0123456789ABCDEF";
+    return c[i];
+}
 
 char LetterToBits(char l)
 {
@@ -28,7 +33,7 @@ void PrintBuf(char* buf, int len)
 {
     for (int i = 0; i < len; ++i)
     {
-        dprint("%d%d.", buf[i] >> 4, buf[i] & 0xf);
+        dprint("%x%x.", buf[i] >> 4, buf[i] & 0xf);
     }
     dprint("\n");
 }

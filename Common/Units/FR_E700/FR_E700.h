@@ -48,7 +48,7 @@ namespace FR_E700
 	static const char CR  = 0x0D;
 	static const char NAK = 0x15;
 
-	static const char timeout = '9';
+	static const char timeout = '0';
 
 	bool Init();
 	void Destroy();
