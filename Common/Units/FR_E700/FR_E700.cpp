@@ -63,7 +63,6 @@ void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
     dprint(".");
     if (len > 0)
     {
-        dprint(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         if (ToShort(abonent) == *(short*)&input[1])
         {
             if (ACK == input[0])
@@ -82,6 +81,7 @@ void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
                 //status = input[3];
                 //dprint("%d %x\n", status, status);
                 PrintBuf((char*)input, len);
+                port.SetReceiveHandler(&noopComPortHandler);
             }
         }
         loopCount = maxLoopCount;
@@ -370,10 +370,8 @@ FR_E700::Mode::Mode()
 
 void FR_E700::Mode::operator()(unsigned char(&input)[1024], int len)
 {
-    dprint(".");
     if (len > 0)
     {
-        dprint(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         if (ToShort(abonent) == *(short*)&input[1])
         {
             if (ACK == input[0])
@@ -381,16 +379,17 @@ void FR_E700::Mode::operator()(unsigned char(&input)[1024], int len)
                 //TODO RESET INVERTER OK Запрос на сброс инвертара прошёл успешно
                 status = inverter_ok;
                 dprint("inverter_ok\n");
+                PrintBuf((char*)input, len);
                 port.SetReceiveHandler(&noopComPortHandler);
                 return;
             }
-            else if (ENQ == input[0])
-            {
-                //TODO ERROR Инвертор выслал ошибку
-                dprint("%x  %d\n", input[3], input[3]);
-                status = input[3];
-                dprint("%d %x\n", status, status);
-            }
+			else if (ENQ == input[0])
+			{
+				//TODO ERROR Инвертор выслал ошибку
+				status = input[3];
+				PrintBuf((char*)input, len);
+				port.SetReceiveHandler(&noopComPortHandler);
+			}
         }
         loopCount = maxLoopCount;
     }

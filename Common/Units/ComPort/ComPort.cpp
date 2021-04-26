@@ -138,43 +138,40 @@ void ComPort::SetReceiveHandler(ComPortHandler *comPortHandler)
 void ComPort::Do()
 {	
 	DWORD mask = 0;
+
 	while(true)
 	{
-		dprint("c");
-		SetCommMask(hCom, EV_RXCHAR);
+		//if (!SetCommMask(hCom, EV_RXCHAR))
+		//{
+		//	dprint("ERR SetCommMask\n");
+		//}
 		WaitCommEvent(hCom, &mask, &inputOverlapped);
-		switch(WaitForSingleObject(inputOverlapped.hEvent, 50))
+		switch(WaitForSingleObject(inputOverlapped.hEvent, 30))
 		{
 		case WAIT_OBJECT_0:
 			{
-				if(mask & EV_RXCHAR)
+			if (mask & EV_RXCHAR)
+			{
+				DWORD toRead;
+				int count = sizeof(input) - current;
+				if (count <= 0)
 				{
-					DWORD toRead;
-					int count = sizeof(input) - current;
-					if(count <= 0)
-					{
-						current = 0;
-						count = sizeof(input);
-					}
-					if (ReadFile(hCom, &input[current], count, &toRead, &inputOverlapped))
-					{
-						GetOverlappedResult(hCom, &inputOverlapped, &toRead, TRUE);
-						if (toRead > 0)
-						{
-							current += toRead;
-						}
-					}
+					current = 0;
+					count = sizeof(input);
 				}
+				//	Sleep(100);
+				BOOL b = ReadFile(hCom, &input[current], count, &toRead, &inputOverlapped);
+				dprint("ReadFile %d\n", b);
+				GetOverlappedResult(hCom, &inputOverlapped, &toRead, TRUE);
+				if (toRead > 0)
+				{
+					current += toRead;
+				}
+			}
 			}
 			break;
 		case WAIT_TIMEOUT:
 			{
-				//if(current > 0)
-				//{
-			    //    void(*t)(ComPort&, unsigned char(&)[1024], int) = ptrStopProc;
-				//	if(NULL != t)(*t)(*this, input, current);
-				//	current = 0;
-				//}
 				ComPortHandler *t = comPortHandler;
 			    if(NULL != t) (*t)(input, current);
 			}
