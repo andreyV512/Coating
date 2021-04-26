@@ -97,6 +97,7 @@ int main()
 	comParam.get<Parity>().value = EVENPARITY;
 	comParam.get<BaudRate>().value = 9600;
     comParam.get<Abonent>().value = 1;
+    comParam.get<InverterFrequency>().value = 38;
     dprint("-------------------------\n");
     VL::foreach<ComPortTable::items_list, PrintParam>()(comParam);
     
