@@ -91,7 +91,7 @@ template<class P>struct PrintParam<StopBits, P>
 int main()
 {
     auto& comParam = Singleton<ComPortTable>::Instance().items;
-    comParam.get<ComPortAddr>().value = 2;
+    comParam.get<ComPortAddr>().value = 3;
 	comParam.get<StopBits>().value = TWOSTOPBITS;
 	//comParam.get<Parity>().value = NOPARITY;
 	comParam.get<Parity>().value = EVENPARITY;
@@ -104,15 +104,16 @@ int main()
     const char* mess_com_port = com_port_open ? "Open" : "Closed";
     dprint("%s\n", mess_com_port);
 
+	dprint("mode\n");
     FR_E700::Mode m;
     m.Init();
 
     while (ComPortHandler::status == FR_E700::start_query)
     {
-        dprint("r");
+        dprint("m");
         Sleep(100);
     }
-/*
+	dprint("reset\n");
     FR_E700::Reset r;
     r.Init();
 
@@ -121,7 +122,8 @@ int main()
         dprint("r");
         Sleep(100);
     }
-/*
+
+	dprint("set frequency\n");
     FR_E700::SetFrequency sf;
     sf.Init();
     while (ComPortHandler::status == FR_E700::start_query)
@@ -129,7 +131,7 @@ int main()
         dprint("sf");
         Sleep(100);
     }
-
+	dprint("set state\n");
     FR_E700::SetState ss;
     ss.Init(FR_E700::WriteState::STF | FR_E700::WriteState::RH);
     while (ComPortHandler::status == FR_E700::start_query)
@@ -137,7 +139,7 @@ int main()
         dprint("ss");
         Sleep(100);
     }
-
+/*
     FR_E700::GetState gs;
     gs.Init();
     while (ComPortHandler::status == FR_E700::start_query)

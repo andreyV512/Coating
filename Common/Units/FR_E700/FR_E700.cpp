@@ -120,6 +120,7 @@ void FR_E700::SetFrequency::Send()
     *(short*)&buf[6] = ToShort(frequency >> 8);
     *(short*)&buf[8] = ToShort(frequency & 0xff);
     *(short*)&buf[sizeof(buf) - 3] = Sum(&buf[1], sizeof(buf) - 4);
+	PrintBuf(buf, sizeof(buf));
     port.Write((unsigned char*)buf, (int)sizeof(buf));
 }
 
@@ -139,13 +140,15 @@ void FR_E700::SetFrequency::operator()(unsigned char(&input)[1024], int len)
                 status = inverter_ok;
                 dprint("inverter_ok\n");
                 port.SetReceiveHandler(&noopComPortHandler);
+				PrintBuf((char *)input, len);
                 return;
             }
             else if (ENQ == input[0])
             {
                 //TODO ERROR Инвертор выслал ошибку
                 status = input[3];
-                dprint("%x  %d\n", status, status);
+				port.SetReceiveHandler(&noopComPortHandler);
+				PrintBuf((char*)input, len);
             }
         }
         loopCount = maxLoopCount;
@@ -171,7 +174,7 @@ void FR_E700::SetFrequency::operator()(unsigned char(&input)[1024], int len)
 void FR_E700::SetFrequency::Init()
 {
     status = start_query;
-    delay = 300;
+    delay = 1000;
     loopCount = maxLoopCount;
     currentTime = GetTickCount() + delay;
     port.SetReceiveHandler(this);
@@ -184,6 +187,7 @@ void FR_E700::SetState::Send()
     *(short*)&buf[1] = ToShort(abonent);
     *(short*)&buf[6] = ToShort((char)state);
     *(short*)&buf[sizeof(buf) - 3] = Sum(&buf[1], sizeof(buf) - 4);
+	PrintBuf(buf, sizeof(buf));
     port.Write((unsigned char*)buf, (int)sizeof(buf));
 }
 
@@ -202,15 +206,15 @@ void FR_E700::SetState::operator()(unsigned char(&input)[1024], int len)
                 //TODO RESET INVERTER OK Запрос на установку состояния прошёл успешно
                 status = inverter_ok;
                 dprint("inverter_ok\n");
+				PrintBuf((char *)input, len);
                 port.SetReceiveHandler(&noopComPortHandler);
                 return;
             }
             else if (ENQ == input[0])
             {
                 //TODO ERROR Инвертор выслал ошибку
-                
                 status = input[3];
-                dprint("%x  %d\n", status, status);
+				PrintBuf((char*)input, len);
             }
         }
         loopCount = maxLoopCount;
