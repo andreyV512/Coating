@@ -6,7 +6,7 @@ namespace FR_E700
 	static const int speed_​​setting_request_did_not_work = 2;
 	static const int request_to_set_the_state_did_not_work = 3;
 	static const int status_check_request_failed = 4;
-	static const int ABC_bit_off = 5;
+	static const int ABC_bit_ON = 5;
 	static const int inverter_ok = 6;
 	static const int start_query = 7;
 	static const int inverter_mode_did_not_work = 8;

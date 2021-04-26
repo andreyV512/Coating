@@ -93,7 +93,6 @@ int main()
     auto& comParam = Singleton<ComPortTable>::Instance().items;
     comParam.get<ComPortAddr>().value = 3;
 	comParam.get<StopBits>().value = TWOSTOPBITS;
-	//comParam.get<Parity>().value = NOPARITY;
 	comParam.get<Parity>().value = EVENPARITY;
 	comParam.get<BaudRate>().value = 9600;
     comParam.get<Abonent>().value = 1;
@@ -146,12 +145,7 @@ int main()
 	dprint("get state\n");
     FR_E700::GetState gs;
     gs.Init();
-    //while (ComPortHandler::status == FR_E700::start_query)
-    //{
-    //    dprint("gs");
-    //    Sleep(5000);
-    //}
-
+   
     Sleep(5000);
 	dprint("set state    0000000000000000\n");
     ss.Init(FR_E700::WriteState::none);

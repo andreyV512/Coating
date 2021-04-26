@@ -274,24 +274,19 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
                 if (sum == *(short*)&input[6])
                 {
                     char bits = (LetterToBits(input[3]) << 4) | LetterToBits(input[4]);
-                    if (0 == (bits & (char)ReadState::ABS))
+                    if (0 != (bits & (char)ReadState::ABS))
                     {
                         if (--loopCount < 0)
                         {
-                            status = ABC_bit_off;
-                            dprint("ABC_bit_off\n");
+                            status = ABC_bit_ON;
+                            dprint("ABC_bit_ON\n");
                             port.SetReceiveHandler(&noopComPortHandler);
                             return;
                         }
                     }
-					dprint("ABC_bit_ON\n");
 					PrintBuf((char *)input, len);
-                    Sleep(500);
-                    Send();
-                }
-                else
-                {
-                    dprint("sum  %x  %x\n", sum, *(short*)&input[6]);
+                  //  Sleep(500);
+                  //  Send();
                 }
             }
             else if (ENQ == input[0])
@@ -301,7 +296,7 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
                 status = input[3];
             }
         }
-        loopCount = maxLoopCount;
+        loopCount = 2 * maxLoopCount;
     }
     else
     {
@@ -324,8 +319,8 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
 void FR_E700::GetState::Init()
 {
     status = start_query;
-    delay = 5000;
-    loopCount = maxLoopCount;
+    delay = 3000;
+    loopCount = 2 * maxLoopCount;
     currentTime = GetTickCount() + delay;
     port.SetReceiveHandler(this);
     Send();
