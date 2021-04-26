@@ -253,6 +253,7 @@ void FR_E700::GetState::Send()
     char buf[] = { ENQ, 0, 0, '7', 'A', timeout, 0, 0, CR };
     *(short*)&buf[1] = ToShort(abonent);
     *(short*)&buf[sizeof(buf) - 3] = Sum(&buf[1], sizeof(buf) - 4);
+	PrintBuf(buf, sizeof(buf));
     port.Write((unsigned char*)buf, (int)sizeof(buf));
 }
 
@@ -268,8 +269,8 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
         {
             if (STX == input[0])
             {
-                //TODO RESET INVERTER OK Запрос на установку состояния прошёл успешно
-                short sum = Sum((char *)&input[1], 5);
+				PrintBuf((char *)input, len);
+                short sum = Sum((char *)&input[1], 4);
                 if (sum == *(short*)&input[6])
                 {
                     char bits = (LetterToBits(input[3]) << 4) | LetterToBits(input[4]);
@@ -283,7 +284,9 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
                             return;
                         }
                     }
-                    Sleep(delay);
+					dprint("ABC_bit_ON\n");
+					PrintBuf((char *)input, len);
+                    Sleep(500);
                     Send();
                 }
                 else
@@ -321,7 +324,7 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
 void FR_E700::GetState::Init()
 {
     status = start_query;
-    delay = 1000;
+    delay = 5000;
     loopCount = maxLoopCount;
     currentTime = GetTickCount() + delay;
     port.SetReceiveHandler(this);

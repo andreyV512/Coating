@@ -97,7 +97,7 @@ int main()
 	comParam.get<Parity>().value = EVENPARITY;
 	comParam.get<BaudRate>().value = 9600;
     comParam.get<Abonent>().value = 1;
-    comParam.get<InverterFrequency>().value = 38;
+    comParam.get<InverterFrequency>().value = 31;
     dprint("-------------------------\n");
     VL::foreach<ComPortTable::items_list, PrintParam>()(comParam);
     
@@ -114,6 +114,7 @@ int main()
         dprint("m");
         Sleep(100);
     }
+	Sleep(1000);
 	dprint("reset\n");
     FR_E700::Reset r;
     r.Init();
@@ -123,7 +124,7 @@ int main()
         dprint("r");
         Sleep(100);
     }
-
+	Sleep(1000);
 	dprint("set frequency\n");
     FR_E700::SetFrequency sf;
     sf.Init();
@@ -132,6 +133,7 @@ int main()
         dprint("sf");
         Sleep(100);
     }
+	Sleep(1000);
 	dprint("set state\n");
     FR_E700::SetState ss;
     ss.Init(FR_E700::WriteState::STF | FR_E700::WriteState::RH);
@@ -140,24 +142,32 @@ int main()
         dprint("ss");
         Sleep(100);
     }
-/*
+	Sleep(1000);
+	dprint("get state\n");
     FR_E700::GetState gs;
     gs.Init();
-    while (ComPortHandler::status == FR_E700::start_query)
-    {
-        dprint("gs");
-        Sleep(5000);
-    }
+    //while (ComPortHandler::status == FR_E700::start_query)
+    //{
+    //    dprint("gs");
+    //    Sleep(5000);
+    //}
 
-    Sleep(20000);
-
+    Sleep(5000);
+	dprint("set state    0000000000000000\n");
     ss.Init(FR_E700::WriteState::none);
     while (ComPortHandler::status == FR_E700::start_query)
     {
-        dprint("ss");
-        Sleep(100);
+        dprint(".");
+        Sleep(1000);
     }
-	*/
+	Sleep(1000);
+	ss.Init(FR_E700::WriteState::none);
+	while (ComPortHandler::status == FR_E700::start_query)
+	{
+		dprint(".");
+		Sleep(1000);
+	}
+	
     dprint(".............................. stop test ............................");
     getchar();
 }
