@@ -9,6 +9,7 @@ namespace FR_E700
 	static const int ABC_bit_off = 5;
 	static const int inverter_ok = 6;
 	static const int start_query = 7;
+	static const int inverter_mode_did_not_work = 8;
 	enum class WriteState
 	{
 		none  = 0
@@ -53,6 +54,20 @@ namespace FR_E700
 	bool Init();
 	void Destroy();
 	bool UpdateComPort();
+
+	class Mode : public ComPortHandler
+	{
+		static const int maxLoopCount = 3;
+		ComPort& port;
+		int delay;
+		int loopCount;
+		unsigned currentTime;
+		void Send();
+	public:
+		Mode();
+		void operator()(unsigned char(&input)[1024], int) override;
+		void Init();
+	};
 
 	class Reset : public ComPortHandler
 	{
