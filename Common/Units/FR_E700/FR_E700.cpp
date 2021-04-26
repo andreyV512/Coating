@@ -100,7 +100,7 @@ void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
 void FR_E700::Reset::Init()
 {
     status = start_query;
-    delay = 300;
+    delay = 1000;
     loopCount = maxLoopCount;
     currentTime = GetTickCount() + delay;
     port.SetReceiveHandler(this);
