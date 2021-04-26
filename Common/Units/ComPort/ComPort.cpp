@@ -141,6 +141,7 @@ void ComPort::Do()
 	while(true)
 	{
 		dprint("c");
+		SetCommMask(hCom, EV_RXCHAR);
 		WaitCommEvent(hCom, &mask, &inputOverlapped);
 		switch(WaitForSingleObject(inputOverlapped.hEvent, 50))
 		{
