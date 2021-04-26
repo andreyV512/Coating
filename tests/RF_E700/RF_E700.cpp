@@ -104,6 +104,15 @@ int main()
     const char* mess_com_port = com_port_open ? "Open" : "Closed";
     dprint("%s\n", mess_com_port);
 
+    FR_E700::Mode m;
+    m.Init();
+
+    while (ComPortHandler::status == FR_E700::start_query)
+    {
+        dprint("r");
+        Sleep(100);
+    }
+/*
     FR_E700::Reset r;
     r.Init();
 
