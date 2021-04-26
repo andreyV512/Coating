@@ -31,10 +31,10 @@ short Sum(char* d, int len)
 
 void PrintBuf(char* buf, int len)
 {
-    char buffer[1024];
-    int size = 1024 / 3;
+    static const int size = 3 * 1024;
+    char buffer[size];
     char* c = buffer;
-    if (len > size) len = size;
+    if (len > size / 3) len = size / 3;
     for (int i = 0; i < len; ++i)
     {
         sprintf(c, "%X%X.", (buf[i] >> 4)&0xf, buf[i] & 0xf);
@@ -71,15 +71,17 @@ void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
                 //TODO RESET INVERTER OK Запрос на сброс инвертара прошёл успешно
                 status = inverter_ok;
                 dprint("inverter_ok\n");
+                PrintBuf((char*)input, len);
                 port.SetReceiveHandler(&noopComPortHandler);
                 return;
             }
             else if(ENQ == input[0])
             {
                //TODO ERROR Инвертор выслал ошибку
-                dprint("%x  %d\n", input[3], input[3]);
-                status = input[3];
-                dprint("%d %x\n", status, status);
+                //dprint("%x  %d\n", input[3], input[3]);
+                //status = input[3];
+                //dprint("%d %x\n", status, status);
+                PrintBuf((char*)input, len);
             }
         }
         loopCount = maxLoopCount;
