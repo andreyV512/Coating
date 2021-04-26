@@ -140,8 +140,9 @@ void ComPort::Do()
 	DWORD mask = 0;
 	while(true)
 	{
+		dprint("c");
 		WaitCommEvent(hCom, &mask, &inputOverlapped);
-		switch(WaitForSingleObject(inputOverlapped.hEvent, 10))
+		switch(WaitForSingleObject(inputOverlapped.hEvent, 50))
 		{
 		case WAIT_OBJECT_0:
 			{

@@ -31,11 +31,16 @@ short Sum(char* d, int len)
 
 void PrintBuf(char* buf, int len)
 {
+    char buffer[1024];
+    int size = 1024 / 3;
+    char* c = buffer;
+    if (len > size) len = size;
     for (int i = 0; i < len; ++i)
     {
-        dprint("%X%X.", (buf[i] >> 4)&0xf, buf[i] & 0xf);
+        sprintf(c, "%X%X.", (buf[i] >> 4)&0xf, buf[i] & 0xf);
+        c += strlen(c);
     }
-    dprint("\n");
+    dprint("%s\n", buffer);
 }
 
 ComPortHandler noopComPortHandler;
