@@ -60,7 +60,6 @@ FR_E700::Reset::Reset()
 
 void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
 {
-    dprint(".");
     if (len > 0)
     {
         if (ToShort(abonent) == *(short*)&input[1])
@@ -77,9 +76,7 @@ void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
             else if(ENQ == input[0])
             {
                //TODO ERROR Инвертор выслал ошибку
-                //dprint("%x  %d\n", input[3], input[3]);
-                //status = input[3];
-                //dprint("%d %x\n", status, status);
+                status = input[3];
                 PrintBuf((char*)input, len);
                 port.SetReceiveHandler(&noopComPortHandler);
             }
@@ -107,7 +104,7 @@ void FR_E700::Reset::operator()(unsigned char(&input)[1024], int len)
 void FR_E700::Reset::Init()
 {
     status = start_query;
-    delay = 300;
+    delay = 1000;
     loopCount = maxLoopCount;
     currentTime = GetTickCount() + delay;
     port.SetReceiveHandler(this);

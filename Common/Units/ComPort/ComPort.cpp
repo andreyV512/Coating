@@ -141,10 +141,6 @@ void ComPort::Do()
 
 	while(true)
 	{
-		//if (!SetCommMask(hCom, EV_RXCHAR))
-		//{
-		//	dprint("ERR SetCommMask\n");
-		//}
 		WaitCommEvent(hCom, &mask, &inputOverlapped);
 		switch(WaitForSingleObject(inputOverlapped.hEvent, 30))
 		{
@@ -159,9 +155,7 @@ void ComPort::Do()
 					current = 0;
 					count = sizeof(input);
 				}
-				//	Sleep(100);
-				BOOL b = ReadFile(hCom, &input[current], count, &toRead, &inputOverlapped);
-				dprint("ReadFile %d\n", b);
+				(BOOL)ReadFile(hCom, &input[current], count, &toRead, &inputOverlapped);
 				GetOverlappedResult(hCom, &inputOverlapped, &toRead, TRUE);
 				if (toRead > 0)
 				{
