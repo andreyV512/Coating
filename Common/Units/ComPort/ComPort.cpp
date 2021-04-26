@@ -140,15 +140,19 @@ void ComPort::Do()
 	DWORD mask = 0;
 	while(true)
 	{
-		
+		if (!SetCommMask(hCom, EV_RXCHAR))
+		{
+			dprint("ERR SetCommMask\n");
+		}
 		WaitCommEvent(hCom, &mask, &inputOverlapped);
-		switch(WaitForSingleObject(inputOverlapped.hEvent, 50))
+		switch(WaitForSingleObject(inputOverlapped.hEvent, 30))
 		{
 		case WAIT_OBJECT_0:
 			{
 			dprint("c");
 				if(mask & EV_RXCHAR)
 				{
+					dprint("m");
 					DWORD toRead;
 					int count = sizeof(input) - current;
 					if(count <= 0)
@@ -156,11 +160,14 @@ void ComPort::Do()
 						current = 0;
 						count = sizeof(input);
 					}
+					dprint("count %d\n", count);
 					if (ReadFile(hCom, &input[current], count, &toRead, &inputOverlapped))
 					{
+						dprint("o");
 						GetOverlappedResult(hCom, &inputOverlapped, &toRead, TRUE);
 						if (toRead > 0)
 						{
+							dprint("w");
 							current += toRead;
 						}
 					}

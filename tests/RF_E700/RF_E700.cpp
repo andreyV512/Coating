@@ -93,9 +93,10 @@ int main()
     auto& comParam = Singleton<ComPortTable>::Instance().items;
     comParam.get<ComPortAddr>().value = 3;
 	comParam.get<StopBits>().value = TWOSTOPBITS;
-	comParam.get<Parity>().value = NOPARITY;
+	//comParam.get<Parity>().value = NOPARITY;
+	comParam.get<Parity>().value = EVENPARITY;
 	comParam.get<BaudRate>().value = 9600;
-    comParam.get<Abonent>().value = 0;
+    comParam.get<Abonent>().value = 1;
     dprint("-------------------------\n");
     VL::foreach<ComPortTable::items_list, PrintParam>()(comParam);
     
