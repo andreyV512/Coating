@@ -6,6 +6,7 @@
 #include "tools_debug/DebugMess.h"
 #include "templates/templates.hpp"
 #include "Units/FR_E700/FR_E700.h"
+#include "Automat/Invert.h"
 
 template<int >struct ParityX;
 #define PARITY(n)template<>struct ParityX<n>\
@@ -103,7 +104,7 @@ int main()
     bool com_port_open = FR_E700::Init();
     const char* mess_com_port = com_port_open ? "Open" : "Closed";
     dprint("%s\n", mess_com_port);
-
+#if 0
 	dprint("mode\n");
     FR_E700::Mode m;
     m.Init();
@@ -169,7 +170,16 @@ int main()
 		dprint(".");
 		Sleep(1000);
 	}
-	
+#endif
+
+    //Invert::Init();
+    //
+    //for (int i = 0; i < 10000; ++i)
+    //{
+    //    Invert::Start();
+    //    Sleep(10);
+    //}
+
     dprint(".............................. stop test ............................");
     getchar();
 }

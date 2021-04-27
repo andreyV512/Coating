@@ -522,6 +522,9 @@
     <ClInclude Include="..\Common\Units\FR_E700\FR_E700.h">
       <Filter>Common\Units\FR_E700</Filter>
     </ClInclude>
+    <ClInclude Include="Automat\Invert.h">
+      <Filter>Automat\Auto</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Plast.cpp">
@@ -823,6 +826,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\Units\FR_E700\FR_E700.cpp">
       <Filter>Common\Units\FR_E700</Filter>
+    </ClCompile>
+    <ClCompile Include="Automat\Invert.cpp">
+      <Filter>Automat\Auto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

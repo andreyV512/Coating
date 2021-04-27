@@ -26,9 +26,9 @@ void Automat::Done()
 	}
 	if (saveResult)
 	{
-		//COleDateTime tme = COleDateTime::GetCurrentTime();
+		COleDateTime tme = COleDateTime::GetCurrentTime();
 		//Store::Archive(tme);
-		//Store::Result(tme);
+		Store::Result(tme);
 	}
 
 	auto &deb = Singleton<Data::InputData>::Instance();

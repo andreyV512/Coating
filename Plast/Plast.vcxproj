@@ -266,6 +266,7 @@
     <ClInclude Include="Automat\AdditionalAutomat.h" />
     <ClInclude Include="Automat\Automat.h" />
     <ClInclude Include="Automat\Automat.hpp" />
+    <ClInclude Include="Automat\Invert.h" />
     <ClInclude Include="Compute\Compute.h" />
     <ClInclude Include="Compute\ComputeFrame.h" />
     <ClInclude Include="Compute\Emulator\Emulator.h" />
@@ -367,6 +368,7 @@
     <ClCompile Include="App\AppBase.cpp" />
     <ClCompile Include="Automat\AdditionalAutomat.cpp" />
     <ClCompile Include="Automat\Automat.cpp" />
+    <ClCompile Include="Automat\Invert.cpp" />
     <ClCompile Include="Compute\Compute.cpp" />
     <ClCompile Include="Compute\ComputeFrame.cpp" />
     <ClCompile Include="Compute\Emulator\Emulator.cpp" />

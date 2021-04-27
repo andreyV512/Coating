@@ -285,8 +285,6 @@ void FR_E700::GetState::operator()(unsigned char(&input)[1024], int len)
                         }
                     }
 					PrintBuf((char *)input, len);
-                  //  Sleep(500);
-                  //  Send();
                 }
             }
             else if (ENQ == input[0])

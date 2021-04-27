@@ -11,6 +11,7 @@ namespace FR_E700
 	static const int start_query = 7;
 	static const int inverter_mode_did_not_work = 8;
 	static const int get_frequency_did_not_work = 9;
+	static const int max_alarm = 10;
 	enum class WriteState
 	{
 		none  = 0
