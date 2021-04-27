@@ -117,20 +117,28 @@ int main()
 	dprint("reset\n");
     FR_E700::Reset r;
     r.Init();
-
     while (ComPortHandler::status == FR_E700::start_query)
     {
         dprint("r");
         Sleep(100);
     }
+    dprint("get frequency\n");
+    FR_E700::GetFrequency gf;
+    gf.Init();
+    while (ComPortHandler::status == FR_E700::start_query)
+    {
+        dprint("gf");
+        Sleep(100);
+    }
+    dprint("frequency %d\n", gf.frequency);
 	Sleep(1000);
 	dprint("set frequency\n");
-    FR_E700::SetFrequency sf;
+    FR_E700::SetFrequency &sf = Singleton<FR_E700::SetFrequency>::Instance();
     sf.Init();
     while (ComPortHandler::status == FR_E700::start_query)
     {
         dprint("sf");
-        Sleep(100);
+        Sleep(1000);
     }
 	Sleep(1000);
 	dprint("set state\n");

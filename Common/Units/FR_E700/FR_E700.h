@@ -10,6 +10,7 @@ namespace FR_E700
 	static const int inverter_ok = 6;
 	static const int start_query = 7;
 	static const int inverter_mode_did_not_work = 8;
+	static const int get_frequency_did_not_work = 9;
 	enum class WriteState
 	{
 		none  = 0
@@ -97,6 +98,21 @@ namespace FR_E700
 		void Init();
 	};
 
+	class GetFrequency : public ComPortHandler
+	{
+		static const int maxLoopCount = 2;
+		ComPort& port;
+		int delay;
+		int loopCount;
+		unsigned currentTime;
+		void Send();
+	public:
+		int frequency;
+		GetFrequency();
+		void operator()(unsigned char(&input)[1024], int) override;
+		void Init();
+	};
+
 	class SetState : public ComPortHandler
 	{
 		static const int maxLoopCount = 3;
@@ -114,7 +130,7 @@ namespace FR_E700
 
 	class GetState : public ComPortHandler
 	{
-		static const int maxLoopCount = 3;
+		static const int maxLoopCount = 7;
 		ComPort& port;
 		int delay;
 		int loopCount;
