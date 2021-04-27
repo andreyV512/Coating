@@ -113,7 +113,7 @@ int main()
         dprint("m");
         Sleep(100);
     }
-	Sleep(1000);
+
 	dprint("reset\n");
     FR_E700::Reset r;
     r.Init();
@@ -131,7 +131,7 @@ int main()
         Sleep(100);
     }
     dprint("frequency %d\n", gf.frequency);
-	Sleep(1000);
+	
 	dprint("set frequency\n");
     FR_E700::SetFrequency &sf = Singleton<FR_E700::SetFrequency>::Instance();
     sf.Init();
@@ -140,16 +140,16 @@ int main()
         dprint("sf");
         Sleep(1000);
     }
-	Sleep(1000);
+	
 	dprint("set state\n");
     FR_E700::SetState ss;
     ss.Init(FR_E700::WriteState::STF | FR_E700::WriteState::RH);
     while (ComPortHandler::status == FR_E700::start_query)
     {
         dprint("ss");
-        Sleep(100);
+        Sleep(1000);
     }
-	Sleep(1000);
+	
 	dprint("get state\n");
     FR_E700::GetState gs;
     gs.Init();
@@ -162,7 +162,7 @@ int main()
         dprint(".");
         Sleep(1000);
     }
-	Sleep(1000);
+
 	ss.Init(FR_E700::WriteState::none);
 	while (ComPortHandler::status == FR_E700::start_query)
 	{

@@ -18,7 +18,7 @@ char LetterToBits(char l)
 {
     if (l >= '0' && l <= '9') return l - '0';
     l = toupper(l);
-    if (l >= 'A' && l <= 'F') return l - 'A';
+    if (l >= 'A' && l <= 'F') return l - 'A' + 10;
     return 0;
 }
 
@@ -442,10 +442,13 @@ void FR_E700::GetFrequency::operator()(unsigned char(&input)[1024], int len)
                 short sum = Sum((char*)&input[1], 6);
                 if (sum == *(short*)&input[8])
                 {
-                    frequency = LetterToBits(input[3]) << 12
-                        | LetterToBits(input[4]) << 8
-                        | LetterToBits(input[5]) << 4
-                        | LetterToBits(input[6]);
+					for (int i = 3; i <= 6; ++i)
+					{
+						frequency <<= 4;
+						frequency += LetterToBits(input[i]);
+					}
+
+					frequency /= 100;
                     status = inverter_ok;
                     dprint("inverter_ok\n");
                     PrintBuf((char*)input, len);
